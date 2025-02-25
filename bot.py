@@ -1,78 +1,129 @@
-import json
-import logging
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo
-from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackContext
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Popup Form</title>
+    <style>
+        /* Popup form styling */
+        .popup {
+            display: block;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        .overlay {
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+    <!-- Popup Form -->
+    <div class="overlay" id="overlay"></div>
+    <div class="popup" id="popupForm">
+        <h2>Fill in Your Details</h2>
+        <form id="detailsForm">
+            <!-- Hidden Fields to Auto-Fill Telegram User Info -->
+            <input type="hidden" id="telegram_name" name="telegram_name">
+            <input type="hidden" id="telegram_username" name="telegram_username">
+            <input type="hidden" id="telegram_id" name="telegram_id">
 
-# ✅ Bot Token and Admin ID
-BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg"
-ADMIN_ID = 8101143576  # Replace with your Telegram ID
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" required><br><br>
 
-# ✅ Enable logging
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+            <label for="number">Number:</label>
+            <input type="number" id="number" name="number" required><br><br>
 
-# ✅ Start Command - Sends a Button to Open the Web Form
-async def start(update: Update, context: CallbackContext):
-    keyboard = [
-        [InlineKeyboardButton("📝 Fill Form", web_app=WebAppInfo(url="https://botdepoy.github.io/NewTelegrambot/form.html"))]
-    ]
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    
-    await update.message.reply_text(
-        "Click below to fill the form inside Telegram WebApp:",
-        reply_markup=reply_markup
-    )
+            <button type="submit">Submit</button>
+            <button type="button" onclick="closeForm()">Close</button>
+        </form>
+    </div>
 
-# ✅ Handle Form Submission from Web App
-async def receive_form(update: Update, context: CallbackContext):
-    try:
-        if update.message and update.message.web_app_data:
-            form_data_json = update.message.web_app_data.data
-            form_data = json.loads(form_data_json)
+    <script>
+        // Close the popup form
+        function closeForm() {
+            document.getElementById('popupForm').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
 
-            # ✅ Extract Form Details
-            user_info = update.effective_user
-            user_id = user_info.id
+        // ✅ Auto-fill user data from Telegram WebApp API
+        window.onload = function () {
+            if (window.Telegram && Telegram.WebApp) {
+                Telegram.WebApp.ready();
+                const user = Telegram.WebApp.initDataUnsafe.user;
 
-            # ✅ Ensure all fields are present
-            name = form_data.get('telegram_name', 'N/A')
-            username = form_data.get('telegram_username', 'N/A')
-            telegram_id = form_data.get('telegram_id', 'N/A')
-            date = form_data.get('date', 'N/A')
-            number = form_data.get('number', 'N/A')
+                if (user) {
+                    document.getElementById("telegram_name").value = user.first_name + " " + (user.last_name || "");
+                    document.getElementById("telegram_username").value = user.username ? "@" + user.username : "N/A";
+                    document.getElementById("telegram_id").value = user.id;
 
-            # ✅ Format Message to Send
-            formatted_data = (
-                f"📋 **New Form Submission:**\n\n"
-                f"👤 *Name:* {name}\n"
-                f"🆔 *ID:* {telegram_id}\n"
-                f"🔹 *Username:* {username}\n"
-                f"📅 *Date:* {date}\n"
-                f"📞 *Contact:* {number}"
-            )
+                    console.log("✅ User Data Retrieved:", user); // Debugging
+                } else {
+                    console.error("❌ No user data retrieved from Telegram WebApp.");
+                }
+            } else {
+                console.error("❌ Telegram WebApp is not available.");
+            }
+        };
 
-            # ✅ Send Form Data to Admin
-            await context.bot.send_message(chat_id=ADMIN_ID, text=formatted_data, parse_mode="Markdown")
+        // ✅ Handle form submission
+        document.getElementById('detailsForm').addEventListener('submit', function(event) {
+            event.preventDefault();
 
-            # ✅ Confirm Submission to User
-            await update.message.reply_text("✅ Your form has been submitted successfully!")
+            // Collect form data
+            const formData = {
+                telegram_name: document.getElementById('telegram_name').value,
+                telegram_username: document.getElementById('telegram_username').value,
+                telegram_id: document.getElementById('telegram_id').value,
+                date: document.getElementById('date').value,
+                number: document.getElementById('number').value
+            };
 
-        else:
-            await update.message.reply_text("⚠️ No data received. Please try again.")
+            console.log("✅ Collected Form Data:", formData); // Debugging
 
-    except Exception as e:
-        logging.error(f"❌ Error processing form data: {e}")
-        await update.message.reply_text("❌ Submission failed. Please try again.")
+            // ✅ Send data to Telegram
+            sendToTelegram(formData);
+            closeForm();
+        });
 
-# ✅ Main Function to Run the Bot
-def main():
-    application = Application.builder().token(BOT_TOKEN).build()
+        // ✅ Function to send data to Telegram
+        function sendToTelegram(formData) {
+            const botToken = '7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg';
+            const chatId = '8101143576'; // Your Telegram ID to receive the form data
+            const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
 
-    # ✅ Handlers
-    application.add_handler(CommandHandler("start", start))
-    application.add_handler(MessageHandler(filters.StatusUpdate.WEB_APP_DATA, receive_form))
+            // ✅ Format the message properly
+            const message = `📩 *New Form Submission:*\n
+💠 *Name:* ${formData.telegram_name}
+🆔 *ID:* ${formData.telegram_id}
+🔷 *Username:* ${formData.telegram_username}
+📅 *Date:* ${formData.date}
+📞 *Number:* ${formData.number}`;
 
-    # ✅ Start Polling
-    application.run_polling()
+            console.log("🚀 Sending Message:", message); // Debugging
 
-if __name__ == "__main__":
-    main()
+            // Send data to Telegram Bot
+            fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chat_id: chatId, text: message, parse_mode: "Markdown" })
+            })
+            .then(response => response.json())
+            .then(result => console.log('✅ Message sent to Telegram:', result))
+            .catch(error => console.error('❌ Error sending message to Telegram:', error));
+        }
+    </script>
+</body>
+</html>
