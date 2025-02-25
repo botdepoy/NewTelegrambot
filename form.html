@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Service Form</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script> <!-- ✅ Required for Telegram WebApp -->
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -38,10 +39,10 @@
 
     <script>
         let tg = window.Telegram.WebApp;
-        tg.expand(); // Expands the WebApp to full screen
+        tg.expand(); // Expands WebApp to full screen
 
         document.getElementById("serviceForm").addEventListener("submit", function(event) {
-            event.preventDefault();
+            event.preventDefault(); // Prevents form reload
 
             let formData = {
                 service_type: document.getElementById("service_type").value,
@@ -51,7 +52,6 @@
 
             console.log("Sending Data:", formData);  // ✅ Debugging Log
 
-            // Check if Telegram WebApp is available
             if (tg && tg.sendData) {
                 tg.sendData(JSON.stringify(formData));  // ✅ Sends data back to the bot
                 tg.close();  // ✅ Closes the WebApp
