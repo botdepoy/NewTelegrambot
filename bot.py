@@ -63,8 +63,8 @@ def broadcast_message(context: CallbackContext, text: str, photo: str = None, bu
 def main():
     application = Application.builder().token(BOT_TOKEN).build()
     application.add_handler(CommandHandler("start", start))
-    application.add_handler(CommandHandler("broadcast", lambda update, context: broadcast_message(context, "📢 这是一个全局通知！", "images/announcement.jpg", [[InlineKeyboardButton("🔗 访问链接", url="https://example.com")]])))
-    application.add_handler(CommandHandler("update_broadcast", lambda update, context: update_broadcast(context, "📢 这是一个更新后的消息！", None, [[InlineKeyboardButton("🔗 新链接", url="https://example.com/new")]])))
+    application.add_handler(CommandHandler("broadcast", lambda update, context: broadcast_message(context, "📢 这是一个全局通知！", "images/image.jpg", [[InlineKeyboardButton("🔗 hi", url="https://example.com")]])))
+    application.add_handler(CommandHandler("update_broadcast", lambda update, context: update_broadcast(context, "📢 这是一个更新后的消息！", "images/noimage.jpg", [[InlineKeyboardButton("🔗 update", url="https://example.com/new")]])))
     application.add_handler(CommandHandler("delete_broadcast", delete_broadcast))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_menu))
     application.run_polling()
