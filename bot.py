@@ -22,7 +22,7 @@ MENU = [
 
 # Response data for menu selections
 RESPONSE_DATA = {
-          "✈ 落地接机": {
+        "✈ 落地接机": {
         "photo": "images/接机.jpg",
         "caption": "🌟 欢迎加入【后勤接机】群 🌟\n\n✅ 请核对信息，如有更改，请联系客服！",
         "buttons": [[InlineKeyboardButton("🧑🏻‍💻 在线客服", url="https://t.me/HQBGSKF"), InlineKeyboardButton("✈ 接机频道", url="https://t.me/+pqM959ERihBkYTc9")]]
@@ -59,6 +59,7 @@ RESPONSE_DATA = {
     }
 }
 
+# Load and save user data
 def load_users():
     try:
         with open(USER_DB, "r") as f:
@@ -70,37 +71,107 @@ def save_users(users):
     with open(USER_DB, "w") as f:
         json.dump(users, f)
 
-def start(update: Update, context: CallbackContext):
+# Start command
+async def start(update: Update, context: CallbackContext):
     user_id = update.message.chat_id
     users = load_users()
     if user_id not in users:
         users.append(user_id)
         save_users(users)
     reply_markup = ReplyKeyboardMarkup(MENU, resize_keyboard=True)
-    update.message.reply_text("📌 请选择一个选项:", reply_markup=reply_markup)
+    await update.message.reply_text("📌 请选择一个选项:", reply_markup=reply_markup)
 
-def broadcast_message(context: CallbackContext, text: str, photo: str = None, buttons: list = None):
+# Handle menu selection
+async def handle_menu(update: Update, context: CallbackContext):
+    text = update.message.text
+    if text in RESPONSE_DATA:
+        data = RESPONSE_DATA[text]
+        buttons = data.get("buttons", [])
+        reply_markup = InlineKeyboardMarkup(buttons) if buttons else None
+        if "photo" in data:
+            await update.message.reply_photo(photo=open(data["photo"], "rb"), caption=data["caption"], reply_markup=reply_markup)
+        else:
+            await update.message.reply_text(data["caption"], reply_markup=reply_markup)
+    else:
+        await update.message.reply_text(f"✅ 你选择了: {text}")
+
+# Send a broadcast message
+async def broadcast_message(update: Update, context: CallbackContext):
+    text = "📢 这是一个全局通知！"
+    photo = "images/image.jpg"
+    buttons = [[InlineKeyboardButton("🔗 hi", url="https://example.com")]]
+
     users = load_users()
     sent_messages = {}
     for user_id in users:
         try:
             if photo:
-                message = context.bot.send_photo(user_id, photo=open(photo, "rb"), caption=text, reply_markup=InlineKeyboardMarkup(buttons) if buttons else None)
+                message = await context.bot.send_photo(user_id, photo=open(photo, "rb"), caption=text, reply_markup=InlineKeyboardMarkup(buttons) if buttons else None)
             else:
-                message = context.bot.send_message(user_id, text, reply_markup=InlineKeyboardMarkup(buttons) if buttons else None)
+                message = await context.bot.send_message(user_id, text, reply_markup=InlineKeyboardMarkup(buttons) if buttons else None)
             sent_messages[user_id] = message.message_id
         except Exception as e:
             print(f"Failed to send message to {user_id}: {e}")
     with open(MESSAGE_DB, "w") as f:
         json.dump(sent_messages, f)
 
+# Update a broadcast message
+async def update_broadcast(update: Update, context: CallbackContext):
+    text = "📢 这是一个更新后的消息！"
+    photo = "images/noimage.jpg"
+    buttons = [[InlineKeyboardButton("🔗 update", url="https://example.com/new")]]
+
+    try:
+        with open(MESSAGE_DB, "r") as f:
+            sent_messages = json.load(f)
+    except FileNotFoundError:
+        return
+
+    for user_id, message_id in sent_messages.items():
+        try:
+            if photo:
+                await context.bot.edit_message_media(
+                    chat_id=user_id,
+                    message_id=message_id,
+                    media=InputMediaPhoto(media=open(photo, "rb"), caption=text),
+                    reply_markup=InlineKeyboardMarkup(buttons) if buttons else None
+                )
+            else:
+                await context.bot.edit_message_text(
+                    chat_id=user_id,
+                    message_id=message_id,
+                    text=text,
+                    reply_markup=InlineKeyboardMarkup(buttons) if buttons else None
+                )
+        except Exception as e:
+            print(f"Failed to update message for {user_id}: {e}")
+
+# Delete a broadcast message
+async def delete_broadcast(update: Update, context: CallbackContext):
+    try:
+        with open(MESSAGE_DB, "r") as f:
+            sent_messages = json.load(f)
+    except FileNotFoundError:
+        return
+
+    for user_id, message_id in sent_messages.items():
+        try:
+            await context.bot.delete_message(chat_id=user_id, message_id=message_id)
+        except Exception as e:
+            print(f"Failed to delete message for {user_id}: {e}")
+
+    with open(MESSAGE_DB, "w") as f:
+        json.dump({}, f)
+
+# Main function to run the bot
 def main():
     application = Application.builder().token(BOT_TOKEN).build()
     application.add_handler(CommandHandler("start", start))
-    application.add_handler(CommandHandler("broadcast", lambda update, context: broadcast_message(context, "📢 这是一个全局通知！", "images/image.jpg", [[InlineKeyboardButton("🔗 hi", url="https://example.com")]])))
-    application.add_handler(CommandHandler("update_broadcast", lambda update, context: update_broadcast(context, "📢 这是一个更新后的消息！", "images/noimage.jpg", [[InlineKeyboardButton("🔗 update", url="https://example.com/new")]])))
+    application.add_handler(CommandHandler("broadcast", broadcast_message))
+    application.add_handler(CommandHandler("update_broadcast", update_broadcast))
     application.add_handler(CommandHandler("delete_broadcast", delete_broadcast))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_menu))
+
     application.run_polling()
 
 if __name__ == "__main__":
