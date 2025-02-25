@@ -9,9 +9,10 @@ WEB_APP_URL = "https://example.com/form"  # Replace with your actual form URL
 # Menu structure (formatted as grid layout)
 MENU = [
     [KeyboardButton("✈ 落地接机"), KeyboardButton("🔖 证照办理"), KeyboardButton("🏤 房产凭租")],
-    [KeyboardButton("🏩 酒店预订"), KeyboardButton("🥗 食堂频道), KeyboardButton("🛒 生活用品")],
+    [KeyboardButton("🏩 酒店预订"), KeyboardButton("🥗 食堂频道"), KeyboardButton("🛒 生活用品")],
     [KeyboardButton("🔔 后勤生活信息频道")]
 ]
+
 
 # Response data mapping user selections to images and buttons
 RESPONSE_DATA = {
