@@ -1,129 +1,87 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Popup Form</title>
-    <style>
-        /* Popup form styling */
-        .popup {
-            display: block;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            padding: 20px;
-            background: white;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-        }
-        .overlay {
-            display: block;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-        }
-    </style>
-</head>
-<body>
-    <!-- Popup Form -->
-    <div class="overlay" id="overlay"></div>
-    <div class="popup" id="popupForm">
-        <h2>Fill in Your Details</h2>
-        <form id="detailsForm">
-            <!-- Hidden Fields to Auto-Fill Telegram User Info -->
-            <input type="hidden" id="telegram_name" name="telegram_name">
-            <input type="hidden" id="telegram_username" name="telegram_username">
-            <input type="hidden" id="telegram_id" name="telegram_id">
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes, ConversationHandler
+import logging
 
-            <label for="date">Date:</label>
-            <input type="date" id="date" name="date" required><br><br>
+# Enable logging
+logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
+logger = logging.getLogger(__name__)
 
-            <label for="number">Number:</label>
-            <input type="number" id="number" name="number" required><br><br>
+# Replace with your bot token and chat ID
+BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg"
+YOUR_CHAT_ID = "8101143576"  # Your Telegram account ID
 
-            <button type="submit">Submit</button>
-            <button type="button" onclick="closeForm()">Close</button>
-        </form>
-    </div>
+# Define conversation states
+DATE, NUMBER = range(2)
 
-    <script>
-        // Close the popup form
-        function closeForm() {
-            document.getElementById('popupForm').style.display = 'none';
-            document.getElementById('overlay').style.display = 'none';
-        }
+# Start command
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    user = update.message.from_user
 
-        // ✅ Auto-fill user data from Telegram WebApp API
-        window.onload = function () {
-            if (window.Telegram && Telegram.WebApp) {
-                Telegram.WebApp.ready();
-                const user = Telegram.WebApp.initDataUnsafe.user;
+    # Store user info in context
+    context.user_data['first_name'] = user.first_name
+    context.user_data['last_name'] = user.last_name if user.last_name else ""
+    context.user_data['username'] = f"@{user.username}" if user.username else "No username"
+    context.user_data['user_id'] = user.id
 
-                if (user) {
-                    document.getElementById("telegram_name").value = user.first_name + " " + (user.last_name || "");
-                    document.getElementById("telegram_username").value = user.username ? "@" + user.username : "N/A";
-                    document.getElementById("telegram_id").value = user.id;
+    # Ask for date
+    await update.message.reply_text("Please enter the date (YYYY/MM/DD):")
+    return DATE
 
-                    console.log("✅ User Data Retrieved:", user); // Debugging
-                } else {
-                    console.error("❌ No user data retrieved from Telegram WebApp.");
-                }
-            } else {
-                console.error("❌ Telegram WebApp is not available.");
-            }
-        };
+# Handle date input
+async def get_date(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    context.user_data['date'] = update.message.text
 
-        // ✅ Handle form submission
-        document.getElementById('detailsForm').addEventListener('submit', function(event) {
-            event.preventDefault();
+    # Ask for number
+    await update.message.reply_text("Please enter your number:")
+    return NUMBER
 
-            // Collect form data
-            const formData = {
-                telegram_name: document.getElementById('telegram_name').value,
-                telegram_username: document.getElementById('telegram_username').value,
-                telegram_id: document.getElementById('telegram_id').value,
-                date: document.getElementById('date').value,
-                number: document.getElementById('number').value
-            };
+# Handle number input and finish
+async def get_number(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    context.user_data['number'] = update.message.text
 
-            console.log("✅ Collected Form Data:", formData); // Debugging
+    # Prepare the message with all data
+    message = (
+        f"📩 *New Form Submission:*\n"
+        f"💠 *Name:* {context.user_data['first_name']} {context.user_data['last_name']}\n"
+        f"🆔 *ID:* {context.user_data['user_id']}\n"
+        f"🔷 *Username:* {context.user_data['username']}\n"
+        f"📅 *Date:* {context.user_data['date']}\n"
+        f"📞 *Number:* {context.user_data['number']}"
+    )
 
-            // ✅ Send data to Telegram
-            sendToTelegram(formData);
-            closeForm();
-        });
+    # Send the message to your account
+    await context.bot.send_message(chat_id=YOUR_CHAT_ID, text=message, parse_mode="Markdown")
 
-        // ✅ Function to send data to Telegram
-        function sendToTelegram(formData) {
-            const botToken = '7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg';
-            const chatId = '8101143576'; // Your Telegram ID to receive the form data
-            const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+    # Reply to the user
+    await update.message.reply_text("Thank you for your submission!")
 
-            // ✅ Format the message properly
-            const message = `📩 *New Form Submission:*\n
-💠 *Name:* ${formData.telegram_name}
-🆔 *ID:* ${formData.telegram_id}
-🔷 *Username:* ${formData.telegram_username}
-📅 *Date:* ${formData.date}
-📞 *Number:* ${formData.number}`;
+    # End the conversation
+    return ConversationHandler.END
 
-            console.log("🚀 Sending Message:", message); // Debugging
+# Cancel command
+async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text("Submission cancelled.")
+    return ConversationHandler.END
 
-            // Send data to Telegram Bot
-            fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chat_id: chatId, text: message, parse_mode: "Markdown" })
-            })
-            .then(response => response.json())
-            .then(result => console.log('✅ Message sent to Telegram:', result))
-            .catch(error => console.error('❌ Error sending message to Telegram:', error));
-        }
-    </script>
-</body>
-</html>
+def main():
+    # Create the Application
+    application = Application.builder().token(BOT_TOKEN).build()
+
+    # Define conversation handler
+    conv_handler = ConversationHandler(
+        entry_points=[CommandHandler("start", start)],
+        states={
+            DATE: [MessageHandler(filters.TEXT & ~filters.COMMAND, get_date)],
+            NUMBER: [MessageHandler(filters.TEXT & ~filters.COMMAND, get_number)],
+        },
+        fallbacks=[CommandHandler("cancel", cancel)],
+    )
+
+    # Add conversation handler
+    application.add_handler(conv_handler)
+
+    # Start the bot
+    application.run_polling()
+
+if __name__ == "__main__":
+    main()
