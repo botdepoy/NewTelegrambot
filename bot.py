@@ -1,128 +1,63 @@
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import Application, CommandHandler, CallbackQueryHandler, ContextTypes, ConversationHandler
-import logging
+import json
+import os
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo
+from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackContext
 
-# Enable logging
-logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
-logger = logging.getLogger(__name__)
-
-# Replace with your bot token and chat ID
+# ✅ Bot Token and Admin ID
 BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg"
-YOUR_CHAT_ID = "8101143576"  # Your Telegram account ID
+ADMIN_ID = 8101143576  # Replace with your Telegram ID
 
-# Define conversation states
-SERVICE_TYPE, DATE, NUMBER = range(3)
-
-# Start command
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    user = update.message.from_user
-
-    # Store user info in context
-    context.user_data['first_name'] = user.first_name
-    context.user_data['last_name'] = user.last_name if user.last_name else ""
-    context.user_data['username'] = f"@{user.username}" if user.username else "No username"
-
-    # Ask for service type using inline keyboard
+# ✅ Start Command - Sends a Button to Open the Web Form
+async def start(update: Update, context: CallbackContext):
     keyboard = [
-        [InlineKeyboardButton("Cleaning", callback_data="Cleaning")],
-        [InlineKeyboardButton("Repair", callback_data="Repair")],
-        [InlineKeyboardButton("Consultation", callback_data="Consultation")],
+        [InlineKeyboardButton("📝 Fill Form", web_app=WebAppInfo(url="https://botdepoy.github.io/NewTelegrambot/form.html"))]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
-    await update.message.reply_text("Please select the type of service:", reply_markup=reply_markup)
+    await update.message.reply_text("Click below to fill the form:", reply_markup=reply_markup)
 
-    return SERVICE_TYPE
+# ✅ Handle Form Submission from Web App
+async def receive_form(update: Update, context: CallbackContext):
+    try:
+        if update.message and update.message.web_app_data:
+            form_data_json = update.message.web_app_data.data
+            form_data = json.loads(form_data_json)
 
-# Handle service type selection
-async def get_service_type(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    query = update.callback_query
-    await query.answer()
+            # ✅ Extract Form Details
+            user_info = update.effective_user
+            user_id = user_info.id
 
-    # Store selected service type
-    context.user_data['service_type'] = query.data
+            # ✅ Format Message to Send
+            formatted_data = (
+                f"📋 **New Form Submission:**\n\n"
+                f"👤 Name: {form_data.get('telegram_name', 'N/A')}\n"
+                f"🆔 Telegram ID: {form_data.get('telegram_id', 'N/A')}\n"
+                f"🔹 Username: {form_data.get('telegram_username', 'N/A')}\n"
+                f"📅 Date: {form_data.get('date', 'N/A')}\n"
+                f"📞 Contact: {form_data.get('number', 'N/A')}"
+            )
 
-    # Ask for date using inline keyboard
-    keyboard = [
-        [InlineKeyboardButton("2025/02/14", callback_data="2025-02-14")],
-        [InlineKeyboardButton("2025/02/15", callback_data="2025-02-15")],
-        [InlineKeyboardButton("2025/02/16", callback_data="2025-02-16")],
-    ]
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    await query.edit_message_text("Please select the date:", reply_markup=reply_markup)
+            # ✅ Send Form Data to Admin
+            await context.bot.send_message(chat_id=ADMIN_ID, text=formatted_data, parse_mode="Markdown")
 
-    return DATE
+            # ✅ Confirm Submission to User
+            await update.message.reply_text("✅ Your form has been submitted successfully!")
 
-# Handle date selection
-async def get_date(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    query = update.callback_query
-    await query.answer()
+        else:
+            await update.message.reply_text("⚠️ No data received. Please try again.")
 
-    # Store selected date
-    context.user_data['date'] = query.data
+    except Exception as e:
+        print(f"❌ Error processing form data: {e}")
+        await update.message.reply_text("❌ Submission failed. Please try again.")
 
-    # Ask for number using inline keyboard
-    keyboard = [
-        [InlineKeyboardButton("123", callback_data="123")],
-        [InlineKeyboardButton("456", callback_data="456")],
-        [InlineKeyboardButton("789", callback_data="789")],
-    ]
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    await query.edit_message_text("Please select a number:", reply_markup=reply_markup)
-
-    return NUMBER
-
-# Handle number selection and finish
-async def get_number(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    query = update.callback_query
-    await query.answer()
-
-    # Store selected number
-    context.user_data['number'] = query.data
-
-    # Prepare the message with all data
-    message = (
-        f"New User Submission:\n"
-        f"First Name: {context.user_data['first_name']}\n"
-        f"Last Name: {context.user_data['last_name']}\n"
-        f"Username: {context.user_data['username']}\n"
-        f"Service Type: {context.user_data['service_type']}\n"
-        f"Date: {context.user_data['date']}\n"
-        f"Number: {context.user_data['number']}"
-    )
-
-    # Send the message to your account
-    await context.bot.send_message(chat_id=YOUR_CHAT_ID, text=message)
-
-    # Reply to the user
-    await query.edit_message_text("Thank you for your submission!")
-
-    # End the conversation
-    return ConversationHandler.END
-
-# Cancel command
-async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("Submission cancelled.")
-    return ConversationHandler.END
-
+# ✅ Main Function to Run the Bot
 def main():
-    # Create the Application
     application = Application.builder().token(BOT_TOKEN).build()
 
-    # Define conversation handler
-    conv_handler = ConversationHandler(
-        entry_points=[CommandHandler("start", start)],
-        states={
-            SERVICE_TYPE: [CallbackQueryHandler(get_service_type)],
-            DATE: [CallbackQueryHandler(get_date)],
-            NUMBER: [CallbackQueryHandler(get_number)],
-        },
-        fallbacks=[CommandHandler("cancel", cancel)],
-    )
+    # ✅ Handlers
+    application.add_handler(CommandHandler("start", start))
+    application.add_handler(MessageHandler(filters.StatusUpdate.WEB_APP_DATA, receive_form))
 
-    # Add conversation handler
-    application.add_handler(conv_handler)
-
-    # Start the bot
+    # ✅ Start Polling
     application.run_polling()
 
 if __name__ == "__main__":
