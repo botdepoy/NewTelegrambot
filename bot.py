@@ -5,7 +5,7 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters, C
 import os
 
 # ✅ Set Bot Token and Admin ID
-BOT_TOKEN = "BOT_TOKEN"  # Replace with your bot token
+BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg"  # Replace with your bot token
 ADMIN_ID = 8101143576  # Your Telegram ID to receive form data
 
 # ✅ Set WebApp Form URL
