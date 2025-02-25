@@ -1,18 +1,14 @@
 import json
-import logging
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackContext
 import os
 
 # ✅ Set Bot Token and Admin ID
-BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg"  # Replace with your bot token
-ADMIN_ID = 8101143576  # Your Telegram ID to receive form data
+BOT_TOKEN = "YOUR_NEW_BOT_TOKEN"  # 🔹 Replace with your real bot token
+ADMIN_ID = 8101143576  # 🔹 Your Telegram ID
 
 # ✅ Set WebApp Form URL
 FORM_URL = "https://botdepoy.github.io/NewTelegrambot/form.html"
-
-# ✅ Enable logging
-logging.basicConfig(format="%(asctime)s - %(levelname)s - %(message)s", level=logging.INFO)
 
 # ✅ Start Command (Creates a button to open the form)
 async def start(update: Update, context: CallbackContext):
@@ -26,13 +22,14 @@ async def start(update: Update, context: CallbackContext):
 # ✅ Function to handle form submissions
 async def receive_form(update: Update, context: CallbackContext):
     try:
-        logging.info(f"🔍 Received Update: {update}")  # ✅ Debugging Log
+        # ✅ Debugging Log
+        print(f"🔍 Received Update: {update}")
 
-        if update.effective_message and update.effective_message.web_app_data:
+        # ✅ Extract Web App Data from Update
+        if update.effective_message.web_app_data:
             form_data = json.loads(update.effective_message.web_app_data.data)
         else:
             await update.message.reply_text("⚠️ No form data received.")
-            logging.error("❌ No WebApp Data found.")
             return
 
         user_info = update.effective_user  # ✅ Get user info
@@ -47,16 +44,14 @@ async def receive_form(update: Update, context: CallbackContext):
             f"📄 **Additional Info:** {form_data.get('additional_info', 'N/A')}"
         )
 
-        logging.info(f"✅ Received Form Data: {formatted_data}")  # ✅ Debugging Log
-
-        # ✅ Send Data to Admin
+        # ✅ Send Data to Admin (8101143576)
         await context.bot.send_message(chat_id=ADMIN_ID, text=formatted_data, parse_mode="Markdown")
 
-        # ✅ Send Confirmation to User
+        # ✅ Send Confirmation Message to User
         await context.bot.send_message(chat_id=user_id, text="✅ Your form has been submitted successfully!", parse_mode="Markdown")
 
     except Exception as e:
-        logging.error(f"❌ Error processing form data: {e}")
+        print(f"❌ Error processing form data: {e}")
         await update.message.reply_text("⚠️ Submission failed. Please try again!")
 
 # ✅ Main function to run the bot
