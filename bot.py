@@ -19,12 +19,15 @@ RESPONSE_DATA = {
     "✈ 落地接机": {
         "photo": "images/接机.jpg",
         "caption": "🌟 欢迎加入【后勤接机】群 🌟\n\n✅ 请核对信息，如有更改，请联系客服！",
-        "buttons": [[("🧑🏻‍💻 在线客服", "https://t.me/HQBGSKF"), ("✈ 接机频道", "https://t.me/+pqM959ERihBkYTc9")]]
+        "buttons": [("🧑🏻‍💻 在线客服", "https://t.me/HQBGSKF"), ("✈ 接机频道", "https://t.me/+pqM959ERihBkYTc9")]]
     },
     "🔖 证照办理": {
         "photo": "images/passport.jpg",
         "caption": "📋 证照办理服务：\n\n✔️ 提供快速办理签证、护照及其他相关证件的服务。\n📞 点击客服咨询更多详情。",
-        "buttons": [[("🧑🏻‍💻 在线客服", "https://t.me/HQBGSKF"), ("🔖 证件办理频道", "https://t.me/+sINSVji28vM4ZDJl")]]
+        "buttons": [
+            [("🧑🏻‍💻 在线客服", "https://t.me/HQBGSKF"), ("🔖 证件办理频道", "https://t.me/+sINSVji28vM4ZDJl")]
+        ]
+
     },
     "🏤 房产凭租": {
         "photo": "images/resized-image.jpg",
@@ -34,17 +37,17 @@ RESPONSE_DATA = {
     "🏩 酒店预订": {
         "photo": "images/sofietel.jpg",
         "caption": "🏨高端酒店预订代办服务| 索菲特 & 瑰丽酒店 |🏨\n\n✨ 奢华体验，优惠价格，预订更省心！ ✨\n\n📞 联系我们，轻松享受高端住宿！",
-        "buttons": [["🧑🏻‍💻 在线客服", "https://t.me/HQBGSKF", "🏩 酒店详情频道", "https://t.me/+M5Q_hf4xyG00YzRl"]]
+        "buttons": [("🧑🏻‍💻 在线客服", "https://t.me/HQBGSKF"), ("🏩 酒店详情频道", "https://t.me/+M5Q_hf4xyG00YzRl"])]
     },
     "🥗 食堂频道": {
         "photo": "images/食堂.jpg",
             "caption": "🏨高端酒店预订代办服务| 索菲特 & 瑰丽酒店 |🏨\n\n✨ 奢华体验，优惠价格，预订更省心！ ✨\n\n📞 联系我们，轻松享受高端住宿！",
-            "buttons": [["🧑🏻‍💻 在线客服", "https://t.me/DINGCHUANG001", "🏩 酒店详情频道", "https://t.me/+M0su9kfTZHk2ODU1"]]
+            "buttons": [("🧑🏻‍💻 在线客服", "https://t.me/DINGCHUANG001"), ("🏩 酒店详情频道", "https://t.me/+M0su9kfTZHk2ODU1")]]
     },
     "🛒 生活用品": {
         "photo": "images/生活用品.jpg",
             "caption": "🏨高端酒店预订代办服务| 索菲特 & 瑰丽酒店 |🏨\n\n✨ 奢华体验，优惠价格，预订更省心！ ✨\n\n📞 联系我们，轻松享受高端住宿！",
-            "buttons": [["🧑🏻‍💻 在线客服", "https://t.me/HQBGSKF", "🏩 酒店详情频道", "https://t.me/+M5Q_hf4xyG00YzRl"]]
+            "buttons": [("🧑🏻‍💻 在线客服", "https://t.me/HQBGSKF"), ("🏩 酒店详情频道", "https://t.me/+M5Q_hf4xyG00YzRl")]]
     },
     "🔔 后勤生活信息频道": {
         "photo": "images/logistic.png",
