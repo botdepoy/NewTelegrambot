@@ -1,5 +1,5 @@
 import json
-from telegram import Update
+from telegram import Update, KeyboardButton, ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackContext
 import os
 
@@ -7,9 +7,17 @@ import os
 BOT_TOKEN = os.getenv("BOT_TOKEN")  # Ensure this is set
 ADMIN_ID = 8101143576  # Your Telegram ID to receive form data
 
-# ✅ Start Command
+# ✅ Set WebApp Form URL
+FORM_URL = "https://botdepoy.github.io/NewTelegrambot/form.html"
+
+# ✅ Start Command (Creates a button to open the form)
 async def start(update: Update, context: CallbackContext):
-    await update.message.reply_text("Welcome! Click a button to start.")
+    keyboard = [
+        [InlineKeyboardButton("📝 填写表单", web_app=WebAppInfo(url=FORM_URL))]  # ✅ Button to open form
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+
+    await update.message.reply_text("📌 点击下面的按钮填写表单:", reply_markup=reply_markup)
 
 # ✅ Function to handle form submissions
 async def receive_form(update: Update, context: CallbackContext):
@@ -56,4 +64,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
