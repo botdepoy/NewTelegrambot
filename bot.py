@@ -19,12 +19,12 @@ RESPONSE_DATA = {
     "✈ 落地接机": {
         "photo": "images/接机.jpg",
         "caption": "🌟 欢迎加入【后勤接机】群 🌟\n\n✅ 请核对信息，如有更改，请联系客服！",
-        "buttons": [["🧑🏻‍💻 在线客服", "https://t.me/HQBGSKF", "✈ 接机频道", "https://t.me/+pqM959ERihBkYTc9"]]
+        "buttons": [[("🧑🏻‍💻 在线客服", "https://t.me/HQBGSKF"), ("✈ 接机频道", "https://t.me/+pqM959ERihBkYTc9")]]
     },
     "🔖 证照办理": {
         "photo": "images/passport.jpg",
         "caption": "📋 证照办理服务：\n\n✔️ 提供快速办理签证、护照及其他相关证件的服务。\n📞 点击客服咨询更多详情。",
-        "buttons": [["🧑🏻‍💻 在线客服", "https://t.me/HQBGSKF", "🔖 证件办理频道", "https://t.me/+sINSVji28vM4ZDJl"]]
+        "buttons": [[("🧑🏻‍💻 在线客服", "https://t.me/HQBGSKF"), ("🔖 证件办理频道", "https://t.me/+sINSVji28vM4ZDJl")]]
     },
     "🏤 房产凭租": {
         "photo": "images/resized-image.jpg",
