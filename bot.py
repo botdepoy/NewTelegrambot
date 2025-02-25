@@ -1,53 +1,31 @@
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import Application, CommandHandler, CallbackQueryHandler, CallbackContext
+from telegram import Update, KeyboardButton, ReplyKeyboardMarkup
+from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackContext
 import os
 
-# Get the Bot Token from environment variable
+# Get the Bot Token from environment variable (for security)
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 
-# Menu structure
-MENU = {
-    "main": [
-        ("🍔 Food", "food"),
-        ("🍹 Drinks", "drinks"),
-        ("❓ Help", "help")
-    ],
-    "food": [
-        ("🍕 Pizza", "pizza"),
-        ("🍔 Burger", "burger"),
-        ("🔙 Back", "main")
-    ],
-    "drinks": [
-        ("🥤 Soda", "soda"),
-        ("☕ Coffee", "coffee"),
-        ("🔙 Back", "main")
-    ]
-}
+# Menu structure (formatted as grid layout)
+MENU = [
+    [KeyboardButton("🍜 外卖"), KeyboardButton("💱 换汇"), KeyboardButton("♻️ 闲置"), KeyboardButton("📌 求职")],
+    [KeyboardButton("🚖 滴滴"), KeyboardButton("📄 签证"), KeyboardButton("🛍️ 代购"), KeyboardButton("🧧 红包")],
+    [KeyboardButton("💰 充值"), KeyboardButton("💳 收款"), KeyboardButton("🔄 转账"), KeyboardButton("🐱 我的")]
+]
 
 async def start(update: Update, context: CallbackContext):
-    keyboard = [[InlineKeyboardButton(text, callback_data=data)] for text, data in MENU["main"]]
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    await update.message.reply_text("Welcome! Choose a category:", reply_markup=reply_markup)
+    reply_markup = ReplyKeyboardMarkup(MENU, resize_keyboard=True)
+    await update.message.reply_text("📌 请选择一个选项:", reply_markup=reply_markup)
 
-async def menu_callback(update: Update, context: CallbackContext):
-    query = update.callback_query
-    await query.answer()
-    menu_name = query.data
-
-    if menu_name in MENU:
-        keyboard = [[InlineKeyboardButton(text, callback_data=data)] for text, data in MENU[menu_name]]
-        reply_markup = InlineKeyboardMarkup(keyboard)
-        await query.edit_message_text(text=f"You selected {menu_name}. Choose an option:", reply_markup=reply_markup)
-    else:
-        await query.edit_message_text(text=f"You selected {menu_name}! 🎉")
+async def handle_menu(update: Update, context: CallbackContext):
+    text = update.message.text
+    await update.message.reply_text(f"✅ 你选择了: {text}")
 
 def main():
     application = Application.builder().token(BOT_TOKEN).build()
     
     application.add_handler(CommandHandler("start", start))
-    application.add_handler(CallbackQueryHandler(menu_callback))
-
-    print("Bot is running...")
+    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_menu))
+    
     application.run_polling()
 
 if __name__ == "__main__":
