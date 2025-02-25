@@ -1,19 +1,26 @@
-from telegram import Update, KeyboardButton, ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo
+import json
+import time
+from telegram import Update, KeyboardButton, ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo, InputMediaPhoto
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackContext
 import os
 
 # Get the Bot Token from environment variable (for security)
 BOT_TOKEN = os.getenv("BOT_TOKEN")
-WEB_APP_URL = "https://example.com/form"  # Replace with your actual form URL
+WEB_APP_URL = "https://example.com/form"
 
-# Menu structure (formatted as grid layout)
+# Database Files
+USER_DB = "users.json"
+USER_ACTIVITY_DB = "user_activity.json"
+MESSAGE_DB = "messages.json"
+
+# Menu structure
 MENU = [
     [KeyboardButton("✈ 落地接机"), KeyboardButton("🔖 证照办理"), KeyboardButton("🏤 房产凭租")],
     [KeyboardButton("🏩 酒店预订"), KeyboardButton("🥗 食堂频道"), KeyboardButton("🛒 生活用品")],
     [KeyboardButton("🔔 后勤生活信息频道")]
 ]
 
-# Response data mapping user selections to images and buttons
+# Response data for menu selections
 RESPONSE_DATA = {
     "✈ 落地接机": {
         "photo": "images/接机.jpg",
@@ -52,9 +59,36 @@ RESPONSE_DATA = {
     }
 }
 
+def load_users():
+    try:
+        with open(USER_DB, "r") as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return []
+
+def save_users(users):
+    with open(USER_DB, "w") as f:
+        json.dump(users, f)
+
+def update_user_activity(user_id):
+    try:
+        with open(USER_ACTIVITY_DB, "r") as f:
+            user_activity = json.load(f)
+    except FileNotFoundError:
+        user_activity = {}
+    user_activity[str(user_id)] = int(time.time())
+    with open(USER_ACTIVITY_DB, "w") as f:
+        json.dump(user_activity, f)
+
 async def start(update: Update, context: CallbackContext):
+    user_id = update.message.chat_id
+    users = load_users()
+    if user_id not in users:
+        users.append(user_id)
+        save_users(users)
+    update_user_activity(user_id)
     reply_markup = ReplyKeyboardMarkup(MENU, resize_keyboard=True)
-    await update.message.reply_text("📌 请选择一个选项:", reply_markup=reply_markup)
+    await update.message.reply_text("📌 欢迎使用！请选择一个选项:", reply_markup=reply_markup)
 
 async def handle_menu(update: Update, context: CallbackContext):
     text = update.message.text
@@ -69,12 +103,25 @@ async def handle_menu(update: Update, context: CallbackContext):
     else:
         await update.message.reply_text(f"✅ 你选择了: {text}")
 
+async def broadcast_message(context: CallbackContext, text: str, photo: str = None, buttons: list = None):
+    users = load_users()
+    sent_messages = {}
+    for user_id in users:
+        try:
+            if photo:
+                message = await context.bot.send_photo(user_id, photo=open(photo, "rb"), caption=text, reply_markup=InlineKeyboardMarkup(buttons) if buttons else None)
+            else:
+                message = await context.bot.send_message(user_id, text, reply_markup=InlineKeyboardMarkup(buttons) if buttons else None)
+            sent_messages[user_id] = message.message_id
+        except Exception as e:
+            print(f"Failed to send message to {user_id}: {e}")
+    with open(MESSAGE_DB, "w") as f:
+        json.dump(sent_messages, f)
+
 def main():
     application = Application.builder().token(BOT_TOKEN).build()
-    
     application.add_handler(CommandHandler("start", start))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_menu))
-    
     application.run_polling()
 
 if __name__ == "__main__":
