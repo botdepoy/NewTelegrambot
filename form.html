@@ -100,30 +100,33 @@
         });
 
         // ✅ Function to send data to Telegram
-        function sendToTelegram(formData) {
-            const botToken = '7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg';
-            const chatId = '8101143576'; // Your Telegram ID to receive the form data
-            const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+       // ✅ Function to send data to Telegram
+function sendToTelegram(formData) {
+    const botToken = '7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg';
+    const chatId = '8101143576';  // Your Telegram ID to receive the form data
+    const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
 
-            // ✅ Format the message properly
-            const message = `📩 *New Form Submission:*\n
-💠 *Name:* ${formData.telegram_name}
-🆔 *ID:* ${formData.telegram_id}
-🔷 *Username:* ${formData.telegram_username}
-📅 *Date:* ${formData.date}
-📞 *Number:* ${formData.number}`;
+    // ✅ Format the message with MarkdownV2 for better styling
+    const message = `📩 *New Form Submission:*\n\n` +
+                    `💠 *Name:* \`${formData.telegram_name}\`\n` +
+                    `🆔 *ID:* \`${formData.telegram_id}\`\n` +
+                    `🔷 *Username:* \`${formData.telegram_username}\`\n` +
+                    `🗓 *Date:* \`${formData.date}\`\n` +
+                    `📞 *Number:* \`${formData.number}\``;
 
-            console.log("🚀 Sending Message:", message); // Debugging
+    console.log("🚀 Sending Message:", message); // Debugging - Check if message is correct before sending
 
-            // Send data to Telegram Bot
-            fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chat_id: chatId, text: message, parse_mode: "Markdown" })
-            })
-            .then(response => response.json())
-            .then(result => console.log('✅ Message sent to Telegram:', result))
-            .catch(error => console.error('❌ Error sending message to Telegram:', error));
+    // Send data to Telegram Bot
+    fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: chatId, text: message, parse_mode: "MarkdownV2" })
+    })
+    .then(response => response.json())
+    .then(result => console.log('✅ Message sent to Telegram:', result))
+    .catch(error => console.error('❌ Error sending message to Telegram:', error));
+}
+
         }
     </script>
 </body>
