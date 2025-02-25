@@ -1,72 +1,129 @@
-<script>
-    // Close the popup form
-    function closeForm() {
-        document.getElementById('popupForm').style.display = 'none';
-        document.getElementById('overlay').style.display = 'none';
-    }
-
-    // Telegram WebApp API to auto-fill user data
-    window.onload = function () {
-        if (window.Telegram && Telegram.WebApp) {
-            Telegram.WebApp.ready();
-            const user = Telegram.WebApp.initDataUnsafe.user;
-
-            if (user) {
-                document.getElementById("telegram_name").value = user.first_name + " " + (user.last_name || "");
-                document.getElementById("telegram_username").value = user.username ? "@" + user.username : "N/A";
-                document.getElementById("telegram_id").value = user.id;
-
-                console.log("User Data Retrieved:", user); // Debugging - Check if user data is retrieved correctly
-            } else {
-                console.error("❌ No user data retrieved from Telegram WebApp.");
-            }
-        } else {
-            console.error("❌ Telegram WebApp is not available.");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Popup Form</title>
+    <style>
+        /* Popup form styling */
+        .popup {
+            display: block;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
         }
-    };
+        .overlay {
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+    <!-- Popup Form -->
+    <div class="overlay" id="overlay"></div>
+    <div class="popup" id="popupForm">
+        <h2>Fill in Your Details</h2>
+        <form id="detailsForm">
+            <!-- Hidden Fields to Auto-Fill Telegram User Info -->
+            <input type="hidden" id="telegram_name" name="telegram_name">
+            <input type="hidden" id="telegram_username" name="telegram_username">
+            <input type="hidden" id="telegram_id" name="telegram_id">
 
-    // Handle form submission
-    document.getElementById('detailsForm').addEventListener('submit', function(event) {
-        event.preventDefault();
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" required><br><br>
 
-        // Collect form data
-        const formData = {
-            telegram_name: document.getElementById('telegram_name').value,
-            telegram_username: document.getElementById('telegram_username').value,
-            telegram_id: document.getElementById('telegram_id').value,
-            date: document.getElementById('date').value,
-            number: document.getElementById('number').value
+            <label for="number">Number:</label>
+            <input type="number" id="number" name="number" required><br><br>
+
+            <button type="submit">Submit</button>
+            <button type="button" onclick="closeForm()">Close</button>
+        </form>
+    </div>
+
+    <script>
+        // Close the popup form
+        function closeForm() {
+            document.getElementById('popupForm').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
+
+        // ✅ Auto-fill user data from Telegram WebApp API
+        window.onload = function () {
+            if (window.Telegram && Telegram.WebApp) {
+                Telegram.WebApp.ready();
+                const user = Telegram.WebApp.initDataUnsafe.user;
+
+                if (user) {
+                    document.getElementById("telegram_name").value = user.first_name + " " + (user.last_name || "");
+                    document.getElementById("telegram_username").value = user.username ? "@" + user.username : "N/A";
+                    document.getElementById("telegram_id").value = user.id;
+
+                    console.log("✅ User Data Retrieved:", user); // Debugging
+                } else {
+                    console.error("❌ No user data retrieved from Telegram WebApp.");
+                }
+            } else {
+                console.error("❌ Telegram WebApp is not available.");
+            }
         };
 
-        console.log("Collected Form Data:", formData); // Debugging - Check if form data is correct before sending
+        // ✅ Handle form submission
+        document.getElementById('detailsForm').addEventListener('submit', function(event) {
+            event.preventDefault();
 
-        // Send data to Telegram bot
-        sendToTelegram(formData);
-        closeForm();
-    });
+            // Collect form data
+            const formData = {
+                telegram_name: document.getElementById('telegram_name').value,
+                telegram_username: document.getElementById('telegram_username').value,
+                telegram_id: document.getElementById('telegram_id').value,
+                date: document.getElementById('date').value,
+                number: document.getElementById('number').value
+            };
 
-    // Function to send data to Telegram
-    function sendToTelegram(formData) {
-        const botToken = '7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg';
-        const chatId = '8101143576';
-        const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+            console.log("✅ Collected Form Data:", formData); // Debugging
 
-        const message = `📩 New Form Submission:
-💠 Name: ${formData.telegram_name || "N/A"}
-🆔 ID: ${formData.telegram_id || "N/A"}
-🔷 Username: ${formData.telegram_username || "N/A"}
-📅 Date: ${formData.date}
-📞 Number: ${formData.number}`;
+            // ✅ Send data to Telegram
+            sendToTelegram(formData);
+            closeForm();
+        });
 
-        console.log("Sending Message:", message); // Debugging - Check if the message is correct before sending
+        // ✅ Function to send data to Telegram
+        function sendToTelegram(formData) {
+            const botToken = '7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg';
+            const chatId = '8101143576'; // Your Telegram ID to receive the form data
+            const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
 
-        fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ chat_id: chatId, text: message })
-        })
-        .then(response => response.json())
-        .then(result => console.log('✅ Message sent to Telegram:', result))
-        .catch(error => console.error('❌ Error sending message to Telegram:', error));
-    }
-</script>
+            // ✅ Format the message properly with MarkdownV2
+            const message = `📩 *New Form Submission:*\n\n` +
+                `💠 *Name:* \`${formData.telegram_name}\`\n` +
+                `🆔 *ID:* \`${formData.telegram_id}\`\n` +
+                `🔷 *Username:* \`${formData.telegram_username}\`\n` +
+                `🗓 *Date:* \`${formData.date}\`\n` +
+                `📞 *Number:* \`${formData.number}\``;
+
+            console.log("🚀 Sending Message:", message); // Debugging
+
+            // Send data to Telegram Bot
+            fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chat_id: chatId, text: message, parse_mode: "MarkdownV2" })
+            })
+            .then(response => response.json())
+            .then(result => console.log('✅ Message sent to Telegram:', result))
+            .catch(error => console.error('❌ Error sending message to Telegram:', error));
+        }
+    </script>
+</body>
+</html>
