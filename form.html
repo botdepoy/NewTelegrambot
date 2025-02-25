@@ -35,6 +35,7 @@
     <div class="popup" id="popupForm">
         <h2>Fill in Your Details</h2>
         <form id="detailsForm">
+            <!-- Hidden Fields to Auto-Fill Telegram User Info -->
             <input type="hidden" id="telegram_name" name="telegram_name">
             <input type="hidden" id="telegram_username" name="telegram_username">
             <input type="hidden" id="telegram_id" name="telegram_id">
@@ -57,24 +58,32 @@
             document.getElementById('overlay').style.display = 'none';
         }
 
-        // Telegram WebApp API to auto-fill user data
+        // ✅ Auto-fill user data from Telegram WebApp API
         window.onload = function () {
             if (window.Telegram && Telegram.WebApp) {
-                Telegram.WebApp.ready();
+                Telegram.WebApp.ready(); // Initialize WebApp
                 const user = Telegram.WebApp.initDataUnsafe.user;
+
                 if (user) {
+                    // Fill hidden fields with user data
                     document.getElementById("telegram_name").value = user.first_name + " " + (user.last_name || "");
                     document.getElementById("telegram_username").value = user.username ? "@" + user.username : "N/A";
                     document.getElementById("telegram_id").value = user.id;
+
+                    console.log("✅ User Data Retrieved:", user); // Debugging
+                } else {
+                    console.error("❌ No user data retrieved from Telegram WebApp.");
                 }
+            } else {
+                console.error("❌ Telegram WebApp is not available.");
             }
         };
 
-        // Handle form submission
+        // ✅ Handle form submission
         document.getElementById('detailsForm').addEventListener('submit', function(event) {
             event.preventDefault();
 
-            // Collect form data (without user input for Telegram info)
+            // Collect form data
             const formData = {
                 telegram_name: document.getElementById('telegram_name').value,
                 telegram_username: document.getElementById('telegram_username').value,
@@ -83,44 +92,38 @@
                 number: document.getElementById('number').value
             };
 
-            // Send data to Telegram bot
+            console.log("✅ Collected Form Data:", formData); // Debugging
+
+            // ✅ Send data to Telegram
             sendToTelegram(formData);
             closeForm();
         });
 
-        // Function to send data to Telegram
+        // ✅ Function to send data to Telegram
         function sendToTelegram(formData) {
             const botToken = '7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg';
-            const chatId = '8101143576';
+            const chatId = '8101143576'; // Your Telegram ID to receive the form data
             const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
 
-            const message = `📩 New Form Submission:
-                💠 Name: ${formData.telegram_name || "N/A"}
-                🆔 ID: ${formData.telegram_id || "N/A"}
-                🔷 Username: ${formData.telegram_username || "N/A"}
-                📅 Date: ${formData.date}
-                📞 Number: ${formData.number}`;
-                
-                console.log("Sending Message:", message); // Debugging - Check if the message is correct before sending
-                
-                fetch(url, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ chat_id: chatId, text: message })
-                })
-                .then(response => response.json())
-                .then(result => console.log('Message sent to Telegram:', result))
-                .catch(error => console.error('Error sending message to Telegram:', error));
+            // ✅ Format the message properly
+            const message = `📩 *New Form Submission:*\n
+💠 *Name:* ${formData.telegram_name}
+🆔 *ID:* ${formData.telegram_id}
+🔷 *Username:* ${formData.telegram_username}
+📅 *Date:* ${formData.date}
+📞 *Number:* ${formData.number}`;
 
+            console.log("🚀 Sending Message:", message); // Debugging
 
+            // Send data to Telegram Bot
             fetch(url, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chat_id: chatId, text: message })
+                body: JSON.stringify({ chat_id: chatId, text: message, parse_mode: "Markdown" })
             })
             .then(response => response.json())
-            .then(result => console.log('Message sent to Telegram:', result))
-            .catch(error => console.error('Error sending message to Telegram:', error));
+            .then(result => console.log('✅ Message sent to Telegram:', result))
+            .catch(error => console.error('❌ Error sending message to Telegram:', error));
         }
     </script>
 </body>
