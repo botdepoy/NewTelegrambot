@@ -35,14 +35,9 @@
     <div class="popup" id="popupForm">
         <h2>Fill in Your Details</h2>
         <form id="detailsForm">
-            <label for="telegram_name">Telegram Name:</label>
-            <input type="text" id="telegram_name" name="telegram_name" readonly><br><br>
-
-            <label for="telegram_username">Username (@username):</label>
-            <input type="text" id="telegram_username" name="telegram_username" readonly><br><br>
-
-            <label for="telegram_id">Telegram ID:</label>
-            <input type="text" id="telegram_id" name="telegram_id" readonly><br><br>
+            <input type="hidden" id="telegram_name" name="telegram_name">
+            <input type="hidden" id="telegram_username" name="telegram_username">
+            <input type="hidden" id="telegram_id" name="telegram_id">
 
             <label for="date">Date:</label>
             <input type="date" id="date" name="date" required><br><br>
@@ -62,7 +57,7 @@
             document.getElementById('overlay').style.display = 'none';
         }
 
-        // Telegram WebApp Integration
+        // Telegram WebApp API to auto-fill user data
         window.onload = function () {
             if (window.Telegram && Telegram.WebApp) {
                 Telegram.WebApp.ready();
@@ -79,7 +74,7 @@
         document.getElementById('detailsForm').addEventListener('submit', function(event) {
             event.preventDefault();
 
-            // Collect form data
+            // Collect form data (without user input for Telegram info)
             const formData = {
                 telegram_name: document.getElementById('telegram_name').value,
                 telegram_username: document.getElementById('telegram_username').value,
@@ -89,24 +84,21 @@
             };
 
             // Send data to Telegram bot
-            const message = `📩 New Form Submission:\n👤 Name: ${formData.telegram_name}\n🆔 ID: ${formData.telegram_id}\n🔹 Username: ${formData.telegram_username}\n📅 Date: ${formData.date}\n📞 Number: ${formData.number}`;
-            sendToTelegram(message);
-
-            // Close the form
+            sendToTelegram(formData);
             closeForm();
         });
 
         // Function to send data to Telegram
-        function sendToTelegram(message) {
+        function sendToTelegram(formData) {
             const botToken = '7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg';
             const chatId = '8101143576';
             const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
 
+            const message = `📩 New Form Submission:\n👤 Name: ${formData.telegram_name}\n🆔 ID: ${formData.telegram_id}\n🔹 Username: ${formData.telegram_username}\n📅 Date: ${formData.date}\n📞 Number: ${formData.number}`;
+
             fetch(url, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ chat_id: chatId, text: message })
             })
             .then(response => response.json())
