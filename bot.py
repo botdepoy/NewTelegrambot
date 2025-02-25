@@ -1,116 +1,96 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auto-Fill Form</title>
-    <style>
-        /* Popup form styling */
-        .popup {
-            display: block; /* Show the form by default */
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            padding: 20px;
-            background: white;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-        }
-        .overlay {
-            display: block; /* Show the overlay by default */
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-        }
-    </style>
-</head>
-<body>
-    <!-- Popup Form -->
-    <div class="overlay" id="overlay"></div>
-    <div class="popup" id="popupForm">
-        <h2>Your Details</h2>
-        <form id="detailsForm">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required><br><br>
+from telegram import Update
+from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes, ConversationHandler
+import logging
 
-            <label for="date">Date:</label>
-            <input type="date" id="date" name="date" required><br><br>
+# Enable logging
+logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
+logger = logging.getLogger(__name__)
 
-            <label for="number">Number:</label>
-            <input type="number" id="number" name="number" required><br><br>
+# Replace with your bot token and chat ID
+BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg"
+YOUR_CHAT_ID = "8101143576"  # Your Telegram account ID
 
-            <button type="submit" style="display: none;">Submit</button> <!-- Hidden submit button -->
-        </form>
-    </div>
+# Define conversation states
+SERVICE_TYPE, DATE, OTHER_INFO = range(3)
 
-    <script>
-        // Telegram Bot Token and Chat ID
-        const botToken = '7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg';
-        const chatId = '8101143576';
+# Start command
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    user = update.message.from_user
 
-        // Function to close the popup form
-        function closeForm() {
-            document.getElementById('popupForm').style.display = 'none';
-            document.getElementById('overlay').style.display = 'none';
-        }
+    # Store user info in context
+    context.user_data['first_name'] = user.first_name
+    context.user_data['last_name'] = user.last_name if user.last_name else ""
+    context.user_data['username'] = f"@{user.username}" if user.username else "No username"
 
-        // Function to auto-fill and submit the form
-        function autoFillAndSubmitForm() {
-            // Pre-fill form fields with available data
-            const name = "John Doe"; // Example name (can be fetched from a backend or cookie)
-            const date = new Date().toISOString().split('T')[0]; // Current date
-            const number = Math.floor(Math.random() * 1000); // Example number
+    # Ask for service type
+    await update.message.reply_text("Please enter the type of service you need:")
+    return SERVICE_TYPE
 
-            document.getElementById('name').value = name;
-            document.getElementById('date').value = date;
-            document.getElementById('number').value = number;
+# Handle service type input
+async def get_service_type(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    context.user_data['service_type'] = update.message.text
 
-            // Collect form data
-            const formData = {
-                name: name,
-                date: date,
-                number: number
-            };
+    # Ask for date
+    await update.message.reply_text("Please enter the date (YYYY/MM/DD):")
+    return DATE
 
-            // Send data to Telegram bot
-            const message = `New Form Submission:\nName: ${formData.name}\nDate: ${formData.date}\nNumber: ${formData.number}`;
-            sendToTelegram(message);
+# Handle date input
+async def get_date(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    context.user_data['date'] = update.message.text
 
-            // Close the form
-            closeForm();
-        }
+    # Ask for other info
+    await update.message.reply_text("Please enter any additional information:")
+    return OTHER_INFO
 
-        // Function to send data to Telegram
-        function sendToTelegram(message) {
-            const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
-            const data = {
-                chat_id: chatId,
-                text: message
-            };
+# Handle other info input and finish
+async def get_other_info(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    context.user_data['other_info'] = update.message.text
 
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-            .then(response => response.json())
-            .then(result => {
-                console.log('Message sent to Telegram:', result);
-            })
-            .catch(error => {
-                console.error('Error sending message to Telegram:', error);
-            });
-        }
+    # Prepare the message with all data
+    message = (
+        f"New User Submission:\n"
+        f"First Name: {context.user_data['first_name']}\n"
+        f"Last Name: {context.user_data['last_name']}\n"
+        f"Username: {context.user_data['username']}\n"
+        f"Service Type: {context.user_data['service_type']}\n"
+        f"Date: {context.user_data['date']}\n"
+        f"Additional Info: {context.user_data['other_info']}"
+    )
 
-        // Automatically fill and submit the form when the page loads
-        window.onload = autoFillAndSubmitForm;
-    </script>
-</body>
-</html>
+    # Send the message to your account
+    await context.bot.send_message(chat_id=YOUR_CHAT_ID, text=message)
+
+    # Reply to the user
+    await update.message.reply_text("Thank you for your submission!")
+
+    # End the conversation
+    return ConversationHandler.END
+
+# Cancel command
+async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text("Submission cancelled.")
+    return ConversationHandler.END
+
+def main():
+    # Create the Application
+    application = Application.builder().token(BOT_TOKEN).build()
+
+    # Define conversation handler
+    conv_handler = ConversationHandler(
+        entry_points=[CommandHandler("start", start)],
+        states={
+            SERVICE_TYPE: [MessageHandler(filters.TEXT & ~filters.COMMAND, get_service_type)],
+            DATE: [MessageHandler(filters.TEXT & ~filters.COMMAND, get_date)],
+            OTHER_INFO: [MessageHandler(filters.TEXT & ~filters.COMMAND, get_other_info)],
+        },
+        fallbacks=[CommandHandler("cancel", cancel)],
+    )
+
+    # Add conversation handler
+    application.add_handler(conv_handler)
+
+    # Start the bot
+    application.run_polling()
+
+if __name__ == "__main__":
+    main()
