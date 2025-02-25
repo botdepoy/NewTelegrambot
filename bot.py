@@ -1,5 +1,4 @@
 import json
-import os
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackContext
 
