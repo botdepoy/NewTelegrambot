@@ -94,7 +94,24 @@
             const chatId = '8101143576';
             const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
 
-            const message = `📩 New Form Submission:\n👤 Name: ${formData.telegram_name}\n🆔 ID: ${formData.telegram_id}\n🔹 Username: ${formData.telegram_username}\n📅 Date: ${formData.date}\n📞 Number: ${formData.number}`;
+            const message = `📩 New Form Submission:
+                💠 Name: ${formData.telegram_name || "N/A"}
+                🆔 ID: ${formData.telegram_id || "N/A"}
+                🔷 Username: ${formData.telegram_username || "N/A"}
+                📅 Date: ${formData.date}
+                📞 Number: ${formData.number}`;
+                
+                console.log("Sending Message:", message); // Debugging - Check if the message is correct before sending
+                
+                fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ chat_id: chatId, text: message })
+                })
+                .then(response => response.json())
+                .then(result => console.log('Message sent to Telegram:', result))
+                .catch(error => console.error('Error sending message to Telegram:', error));
+
 
             fetch(url, {
                 method: 'POST',
