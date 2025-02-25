@@ -97,9 +97,9 @@ async def handle_menu(update: Update, context: CallbackContext):
 
 # Send a broadcast message
 async def broadcast_message(update: Update, context: CallbackContext):
-    text = "📢 这是一个全局通知！"
+    text = "📢News！"
     photo = "images/image.jpg"
-    buttons = [[InlineKeyboardButton("🔗 hi", url="https://example.com")]]
+    buttons = [[InlineKeyboardButton("🔗 Hi First", url="https://example.com")]]
 
     users = load_users()
     sent_messages = {}
@@ -117,9 +117,9 @@ async def broadcast_message(update: Update, context: CallbackContext):
 
 # Update a broadcast message
 async def update_broadcast(update: Update, context: CallbackContext):
-    text = "📢 这是一个更新后的消息！"
+    text = "📢 Update News！"
     photo = "images/noimage.jpg"
-    buttons = [[InlineKeyboardButton("🔗 update", url="https://example.com/new")]]
+    buttons = [[InlineKeyboardButton("🔗 Haha ByeBye", url="https://example.com/new")]]
 
     try:
         with open(MESSAGE_DB, "r") as f:
