@@ -38,12 +38,12 @@ RESPONSE_DATA = {
     "🥗 食堂频道": {
         "photo": "images/食堂.jpg",
         "caption": "🍽️ 食堂频道信息",
-        "buttons": [[InlineKeyboardButton("🧑🏻‍💻 在线客服", url="https://t.me/DINGCHUANG001"), InlineKeyboardButton("🏩 酒店详情频道", url="https://t.me/+M0su9kfTZHk2ODU1")]]
+        "buttons": [[InlineKeyboardButton("🧑🏻‍💻 在线客服", url="https://t.me/DINGCHUANG001"), InlineKeyboardButton("🥗 食堂频道", url="https://t.me/+M0su9kfTZHk2ODU1")]]
     },
     "🛒 生活用品": {
         "photo": "images/生活用品.jpg",
         "caption": "🛍️ 生活用品信息",
-        "buttons": [[InlineKeyboardButton("🧑🏻‍💻 在线客服", url="https://t.me/HQBGSKF"), InlineKeyboardButton("🏩 酒店详情频道", url="https://t.me/+M5Q_hf4xyG00YzRl")]]
+        "buttons": [[InlineKeyboardButton("🧑🏻‍💻 在线客服", url="https://t.me/HQBGSKF"), InlineKeyboardButton("🛒 详细了解", url="https://t.me/+M5Q_hf4xyG00YzRl")]]
     },
     "🔔 后勤生活信息频道": {
         "photo": "images/logistic.png",
