@@ -10,6 +10,7 @@
             font-family: Arial, sans-serif;
             text-align: center;
             padding: 20px;
+            background-color: #f9f9f9;
         }
         input, textarea {
             display: block;
@@ -17,6 +18,8 @@
             margin: 10px auto;
             padding: 10px;
             font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
         button {
             background-color: #4CAF50;
@@ -24,6 +27,13 @@
             padding: 10px 20px;
             border: none;
             cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
         }
     </style>
 </head>
@@ -45,17 +55,17 @@
             event.preventDefault(); // Prevents form reload
 
             let formData = {
-                service_type: document.getElementById("service_type").value,
-                expiry_date: document.getElementById("expiry_date").value,
-                additional_info: document.getElementById("additional_info").value
+                service_type: document.getElementById("service_type").value.trim(),
+                expiry_date: document.getElementById("expiry_date").value.trim(),
+                additional_info: document.getElementById("additional_info").value.trim()
             };
 
-            console.log("✅ Sending Data:", formData);  // ✅ Debugging Log
+            console.log("✅ Sending Data to Bot:", formData);  // ✅ Debugging Log
 
             if (tg && tg.sendData) {
                 tg.sendData(JSON.stringify(formData));  // ✅ Sends data back to the bot
+                alert("✅ Form submitted successfully! You can close the form now.");
                 tg.close();  // ✅ Closes the WebApp
-                alert("✅ Form submitted successfully!");
             } else {
                 alert("❌ Error: Telegram WebApp not detected.");
                 console.error("Telegram WebApp not found.");
