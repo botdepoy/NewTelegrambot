@@ -1,5 +1,5 @@
-from telegram import Update
-from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes, ConversationHandler
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram.ext import Application, CommandHandler, CallbackQueryHandler, ContextTypes, ConversationHandler
 import logging
 
 # Enable logging
@@ -11,7 +11,7 @@ BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg"
 YOUR_CHAT_ID = "8101143576"  # Your Telegram account ID
 
 # Define conversation states
-SERVICE_TYPE, DATE, OTHER_INFO = range(3)
+SERVICE_TYPE, DATE, NUMBER = range(3)
 
 # Start command
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -22,29 +22,62 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data['last_name'] = user.last_name if user.last_name else ""
     context.user_data['username'] = f"@{user.username}" if user.username else "No username"
 
-    # Ask for service type
-    await update.message.reply_text("Please enter the type of service you need:")
+    # Ask for service type using inline keyboard
+    keyboard = [
+        [InlineKeyboardButton("Cleaning", callback_data="Cleaning")],
+        [InlineKeyboardButton("Repair", callback_data="Repair")],
+        [InlineKeyboardButton("Consultation", callback_data="Consultation")],
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    await update.message.reply_text("Please select the type of service:", reply_markup=reply_markup)
+
     return SERVICE_TYPE
 
-# Handle service type input
+# Handle service type selection
 async def get_service_type(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    context.user_data['service_type'] = update.message.text
+    query = update.callback_query
+    await query.answer()
 
-    # Ask for date
-    await update.message.reply_text("Please enter the date (YYYY/MM/DD):")
+    # Store selected service type
+    context.user_data['service_type'] = query.data
+
+    # Ask for date using inline keyboard
+    keyboard = [
+        [InlineKeyboardButton("2025/02/14", callback_data="2025-02-14")],
+        [InlineKeyboardButton("2025/02/15", callback_data="2025-02-15")],
+        [InlineKeyboardButton("2025/02/16", callback_data="2025-02-16")],
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    await query.edit_message_text("Please select the date:", reply_markup=reply_markup)
+
     return DATE
 
-# Handle date input
+# Handle date selection
 async def get_date(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    context.user_data['date'] = update.message.text
+    query = update.callback_query
+    await query.answer()
 
-    # Ask for other info
-    await update.message.reply_text("Please enter any additional information:")
-    return OTHER_INFO
+    # Store selected date
+    context.user_data['date'] = query.data
 
-# Handle other info input and finish
-async def get_other_info(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    context.user_data['other_info'] = update.message.text
+    # Ask for number using inline keyboard
+    keyboard = [
+        [InlineKeyboardButton("123", callback_data="123")],
+        [InlineKeyboardButton("456", callback_data="456")],
+        [InlineKeyboardButton("789", callback_data="789")],
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    await query.edit_message_text("Please select a number:", reply_markup=reply_markup)
+
+    return NUMBER
+
+# Handle number selection and finish
+async def get_number(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    await query.answer()
+
+    # Store selected number
+    context.user_data['number'] = query.data
 
     # Prepare the message with all data
     message = (
@@ -54,14 +87,14 @@ async def get_other_info(update: Update, context: ContextTypes.DEFAULT_TYPE):
         f"Username: {context.user_data['username']}\n"
         f"Service Type: {context.user_data['service_type']}\n"
         f"Date: {context.user_data['date']}\n"
-        f"Additional Info: {context.user_data['other_info']}"
+        f"Number: {context.user_data['number']}"
     )
 
     # Send the message to your account
     await context.bot.send_message(chat_id=YOUR_CHAT_ID, text=message)
 
     # Reply to the user
-    await update.message.reply_text("Thank you for your submission!")
+    await query.edit_message_text("Thank you for your submission!")
 
     # End the conversation
     return ConversationHandler.END
@@ -79,9 +112,9 @@ def main():
     conv_handler = ConversationHandler(
         entry_points=[CommandHandler("start", start)],
         states={
-            SERVICE_TYPE: [MessageHandler(filters.TEXT & ~filters.COMMAND, get_service_type)],
-            DATE: [MessageHandler(filters.TEXT & ~filters.COMMAND, get_date)],
-            OTHER_INFO: [MessageHandler(filters.TEXT & ~filters.COMMAND, get_other_info)],
+            SERVICE_TYPE: [CallbackQueryHandler(get_service_type)],
+            DATE: [CallbackQueryHandler(get_date)],
+            NUMBER: [CallbackQueryHandler(get_number)],
         },
         fallbacks=[CommandHandler("cancel", cancel)],
     )
