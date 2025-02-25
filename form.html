@@ -49,8 +49,17 @@
                 additional_info: document.getElementById("additional_info").value
             };
 
-            tg.sendData(JSON.stringify(formData));  // ✅ Sends data back to the bot
-            tg.close();  // ✅ Closes the WebApp
+            console.log("Sending Data:", formData);  // ✅ Debugging Log
+
+            // Check if Telegram WebApp is available
+            if (tg && tg.sendData) {
+                tg.sendData(JSON.stringify(formData));  // ✅ Sends data back to the bot
+                tg.close();  // ✅ Closes the WebApp
+                alert("✅ Form submitted successfully!");
+            } else {
+                alert("❌ Error: Telegram WebApp not detected.");
+                console.error("Telegram WebApp not found.");
+            }
         });
     </script>
 
