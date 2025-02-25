@@ -7,7 +7,7 @@
     <style>
         /* Popup form styling */
         .popup {
-            display: block; /* Show the form by default */
+            display: block;
             position: fixed;
             top: 50%;
             left: 50%;
@@ -18,7 +18,7 @@
             z-index: 1000;
         }
         .overlay {
-            display: block; /* Show the overlay by default */
+            display: block;
             position: fixed;
             top: 0;
             left: 0;
@@ -35,8 +35,14 @@
     <div class="popup" id="popupForm">
         <h2>Fill in Your Details</h2>
         <form id="detailsForm">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required><br><br>
+            <label for="telegram_name">Telegram Name:</label>
+            <input type="text" id="telegram_name" name="telegram_name" readonly><br><br>
+
+            <label for="telegram_username">Username (@username):</label>
+            <input type="text" id="telegram_username" name="telegram_username" readonly><br><br>
+
+            <label for="telegram_id">Telegram ID:</label>
+            <input type="text" id="telegram_id" name="telegram_id" readonly><br><br>
 
             <label for="date">Date:</label>
             <input type="date" id="date" name="date" required><br><br>
@@ -50,15 +56,24 @@
     </div>
 
     <script>
-        // Telegram Bot Token and Chat ID
-        const botToken = '7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg';
-        const chatId = '8101143576';
-
         // Close the popup form
         function closeForm() {
             document.getElementById('popupForm').style.display = 'none';
             document.getElementById('overlay').style.display = 'none';
         }
+
+        // Telegram WebApp Integration
+        window.onload = function () {
+            if (window.Telegram && Telegram.WebApp) {
+                Telegram.WebApp.ready();
+                const user = Telegram.WebApp.initDataUnsafe.user;
+                if (user) {
+                    document.getElementById("telegram_name").value = user.first_name + " " + (user.last_name || "");
+                    document.getElementById("telegram_username").value = user.username ? "@" + user.username : "N/A";
+                    document.getElementById("telegram_id").value = user.id;
+                }
+            }
+        };
 
         // Handle form submission
         document.getElementById('detailsForm').addEventListener('submit', function(event) {
@@ -66,13 +81,15 @@
 
             // Collect form data
             const formData = {
-                name: document.getElementById('name').value,
+                telegram_name: document.getElementById('telegram_name').value,
+                telegram_username: document.getElementById('telegram_username').value,
+                telegram_id: document.getElementById('telegram_id').value,
                 date: document.getElementById('date').value,
                 number: document.getElementById('number').value
             };
 
             // Send data to Telegram bot
-            const message = `New Form Submission:\nName: ${formData.name}\nDate: ${formData.date}\nNumber: ${formData.number}`;
+            const message = `📩 New Form Submission:\n👤 Name: ${formData.telegram_name}\n🆔 ID: ${formData.telegram_id}\n🔹 Username: ${formData.telegram_username}\n📅 Date: ${formData.date}\n📞 Number: ${formData.number}`;
             sendToTelegram(message);
 
             // Close the form
@@ -81,26 +98,20 @@
 
         // Function to send data to Telegram
         function sendToTelegram(message) {
+            const botToken = '7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg';
+            const chatId = '8101143576';
             const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
-            const data = {
-                chat_id: chatId,
-                text: message
-            };
 
             fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(data)
+                body: JSON.stringify({ chat_id: chatId, text: message })
             })
             .then(response => response.json())
-            .then(result => {
-                console.log('Message sent to Telegram:', result);
-            })
-            .catch(error => {
-                console.error('Error sending message to Telegram:', error);
-            });
+            .then(result => console.log('Message sent to Telegram:', result))
+            .catch(error => console.error('Error sending message to Telegram:', error));
         }
     </script>
 </body>
