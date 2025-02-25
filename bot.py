@@ -4,7 +4,7 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters, C
 import os
 
 # ✅ Set Bot Token and Admin ID
-BOT_TOKEN = "YOUR_NEW_BOT_TOKEN"  # 🔹 Replace with your real bot token
+BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg"  # 🔹 Replace with your real bot token
 ADMIN_ID = 8101143576  # 🔹 Your Telegram ID
 
 # ✅ Set WebApp Form URL
