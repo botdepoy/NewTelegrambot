@@ -77,11 +77,21 @@ async def handle_menu(update: Update, context: CallbackContext):
 # Handle Form Submission
 async def receive_form(update: Update, context: CallbackContext):
     try:
+        # ✅ Debugging Step 1: Print Update Object
+        print(f"🔍 Received Update: {update}")
+
         if update.message and update.message.web_app_data:
-            form_data = json.loads(update.message.web_app_data.data)  # ✅ Corrected this line
-            user_info = update.effective_user  # ✅ Get correct user info
+            form_data_json = update.message.web_app_data.data
+            print(f"📥 Raw WebApp Data: {form_data_json}")  # ✅ Debugging Step 2
+
+            # ✅ Convert JSON data from WebApp
+            form_data = json.loads(form_data_json)
+
+            # ✅ Ensure correct user details
+            user_info = update.effective_user
             user_id = user_info.id  # ✅ Gets user's Telegram ID
 
+            # ✅ Format data to be sent
             formatted_data = (
                 f"📋 **用户填写的表单:**\n\n"
                 f"👤 用户名: {user_info.full_name}\n"
@@ -107,6 +117,7 @@ async def receive_form(update: Update, context: CallbackContext):
     except Exception as e:
         print(f"❌ Error processing form data: {e}")
         await update.message.reply_text("⚠️ 提交失败，请重试！")
+
 
 
 
