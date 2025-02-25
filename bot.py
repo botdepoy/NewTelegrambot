@@ -22,7 +22,7 @@ MENU = [
 
 # Response data for menu selections
 RESPONSE_DATA = {
-       "✈ 落地接机": {
+          "✈ 落地接机": {
         "photo": "images/接机.jpg",
         "caption": "🌟 欢迎加入【后勤接机】群 🌟\n\n✅ 请核对信息，如有更改，请联系客服！",
         "buttons": [[InlineKeyboardButton("🧑🏻‍💻 在线客服", url="https://t.me/HQBGSKF"), InlineKeyboardButton("✈ 接机频道", url="https://t.me/+pqM959ERihBkYTc9")]]
@@ -69,6 +69,15 @@ def load_users():
 def save_users(users):
     with open(USER_DB, "w") as f:
         json.dump(users, f)
+
+def start(update: Update, context: CallbackContext):
+    user_id = update.message.chat_id
+    users = load_users()
+    if user_id not in users:
+        users.append(user_id)
+        save_users(users)
+    reply_markup = ReplyKeyboardMarkup(MENU, resize_keyboard=True)
+    update.message.reply_text("📌 请选择一个选项:", reply_markup=reply_markup)
 
 def broadcast_message(context: CallbackContext, text: str, photo: str = None, buttons: list = None):
     users = load_users()
