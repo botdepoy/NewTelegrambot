@@ -77,34 +77,37 @@ async def handle_menu(update: Update, context: CallbackContext):
 # Handle Form Submission
 async def receive_form(update: Update, context: CallbackContext):
     try:
-        # ✅ Debugging Log
-        print(f"Received WebApp Data: {update}")
+        if update.message and update.message.web_app_data:
+            form_data = json.loads(update.message.web_app_data.data)  # ✅ Corrected this line
+            user_info = update.effective_user  # ✅ Get correct user info
+            user_id = user_info.id  # ✅ Gets user's Telegram ID
 
-        form_data = json.loads(update.effective_message.web_app_data.data)  # ✅ FIXED
-        user_info = update.effective_user  # ✅ Ensures correct user data
-        user_id = user_info.id  # ✅ Gets user's Telegram ID
+            formatted_data = (
+                f"📋 **用户填写的表单:**\n\n"
+                f"👤 用户名: {user_info.full_name}\n"
+                f"🆔 用户ID: {user_info.id}\n"
+                f"📌 服务类型: {form_data.get('service_type', 'N/A')}\n"
+                f"📆 到期日期: {form_data.get('expiry_date', 'N/A')}\n"
+                f"📄 其他信息: {form_data.get('additional_info', 'N/A')}"
+            )
 
-        formatted_data = (
-            f"📋 **用户填写的表单:**\n\n"
-            f"👤 用户名: {user_info.full_name}\n"
-            f"🆔 用户ID: {user_info.id}\n"
-            f"📌 服务类型: {form_data.get('service_type', 'N/A')}\n"
-            f"📆 到期日期: {form_data.get('expiry_date', 'N/A')}\n"
-            f"📄 其他信息: {form_data.get('additional_info', 'N/A')}"
-        )
+            # ✅ Send Data to Admin (Your Telegram ID)
+            await context.bot.send_message(chat_id=ADMIN_ID, text=f"📩 **New Form Submission:**\n{formatted_data}", parse_mode="Markdown")
 
-        # ✅ Send Data to Admin (8101143576)
-        await context.bot.send_message(chat_id=ADMIN_ID, text=f"📩 **New Form Submission:**\n{formatted_data}", parse_mode="Markdown")
+            # ✅ Send Data Back to User Who Filled the Form
+            await context.bot.send_message(chat_id=user_id, text=f"✅ **Your Form Submission:**\n{formatted_data}", parse_mode="Markdown")
 
-        # ✅ Send Data Back to User Who Filled the Form
-        await context.bot.send_message(chat_id=user_id, text=f"✅ **Your Form Submission:**\n{formatted_data}", parse_mode="Markdown")
+            # ✅ Confirmation Message to User
+            await update.message.reply_text("✅ 您的表单已提交！请检查您的 Telegram 消息。")
 
-        # ✅ Send Confirmation Message to User
-        await update.message.reply_text("✅ 您的表单已提交！请检查您的 Telegram 消息。")
+        else:
+            print("❌ Error: No WebApp Data received!")
+            await update.message.reply_text("⚠️ 提交失败，请重试！")
 
     except Exception as e:
-        print(f"Error processing form data: {e}")
+        print(f"❌ Error processing form data: {e}")
         await update.message.reply_text("⚠️ 提交失败，请重试！")
+
 
 
 
