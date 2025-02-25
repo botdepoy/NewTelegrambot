@@ -108,6 +108,7 @@ async def receive_form(update: Update, context: CallbackContext):
 
 
 
+
 # Send a broadcast message
 async def broadcast_message(update: Update, context: CallbackContext):
     text = "📢 这是一个全局通知！"
