@@ -64,11 +64,9 @@
 
             if (tg && tg.sendData) {
                 tg.sendData(JSON.stringify(formData));  // ✅ Sends data back to the bot
-                alert("✅ Form submitted successfully! You can close the form now.");
                 tg.close();  // ✅ Closes the WebApp
             } else {
-                alert("❌ Error: Telegram WebApp not detected.");
-                console.error("Telegram WebApp not found.");
+                console.error("Telegram WebApp not detected.");
             }
         });
     </script>
