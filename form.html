@@ -50,7 +50,7 @@
                 additional_info: document.getElementById("additional_info").value
             };
 
-            console.log("Sending Data:", formData);  // ✅ Debugging Log
+            console.log("✅ Sending Data:", formData);  // ✅ Debugging Log
 
             if (tg && tg.sendData) {
                 tg.sendData(JSON.stringify(formData));  // ✅ Sends data back to the bot
