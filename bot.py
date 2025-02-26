@@ -1,60 +1,44 @@
-import json
-import logging
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo
-from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackContext
+import telebot
 
-# ✅ Bot Token and Admin ID
+# Replace with your actual Telegram Bot Token
 BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg"
-ADMIN_ID = 8101143576  # Replace with your Telegram ID
+ADMIN_ID = "8101143576"  # Your Telegram ID to receive form data
 
-# ✅ Enable logging
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+bot = telebot.TeleBot(BOT_TOKEN)
 
-# ✅ Start Command - Sends a Button to Open the Web Form
-async def start(update: Update, context: CallbackContext):
-    keyboard = [
-        [InlineKeyboardButton("📝 Fill Form", web_app=WebAppInfo(url="https://botdepoy.github.io/NewTelegrambot/form.html"))]
-    ]
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    
-    await update.message.reply_text(
-        "Click below to fill the form inside Telegram WebApp:",
-        reply_markup=reply_markup
-    )
+# Step 1: Bot sends a form link with a button
+@bot.message_handler(commands=['start', 'form'])
+def send_form(message):
+    chat_id = message.chat.id
+    form_url = "https://botdepoy.github.io/NewTelegrambot/form.html"
 
-# ✅ Handle Form Submission from Web App
-async def receive_form(update: Update, context: CallbackContext):
-    try:
-        if update.message and update.message.web_app_data:
-            form_data_json = update.message.web_app_data.data
-            form_data = json.loads(form_data_json)
+    # Create an inline button with the form link
+    markup = telebot.types.InlineKeyboardMarkup()
+    button = telebot.types.InlineKeyboardButton("📋 Fill Out Form", url=form_url)
+    markup.add(button)
 
-            # ✅ Format Message
-            formatted_data = (
-                f"📋 *New Form Submission:*\n\n"
-                f"💠 *Name:* `{form_data.get('telegram_name', 'N/A')}`\n"
-                f"🆔 *ID:* `{form_data.get('telegram_id', 'N/A')}`\n"
-                f"🔷 *Username:* `{form_data.get('telegram_username', 'N/A')}`\n"
-                f"🗓 *Date:* `{form_data.get('date', 'N/A')}`\n"
-                f"📞 *Number:* `{form_data.get('number', 'N/A')}`"
-            )
+    bot.send_message(chat_id, "📝 Click the button below to fill out the form:", reply_markup=markup)
 
-            # ✅ Send Form Data to Admin
-            await context.bot.send_message(chat_id=ADMIN_ID, text=formatted_data, parse_mode="MarkdownV2")
+# Step 2: Bot receives user messages and forwards to ADMIN_ID
+@bot.message_handler(func=lambda message: True)
+def forward_user_message(message):
+    chat_id = message.chat.id
+    user = message.from_user
 
-            # ✅ Confirm Submission to User
-            await update.message.reply_text("✅ Your form has been submitted successfully!")
+    # Format message
+    message_text = f"📌 **New User Message**\n\n"
+    message_text += f"👤 **User Info:**\n"
+    message_text += f"🔹 User ID: `{chat_id}`\n"
+    message_text += f"🔹 Name: {user.first_name or 'N/A'} {user.last_name or ''}\n"
+    message_text += f"🔹 Username: @{user.username if user.username else 'N/A'}\n\n"
+    message_text += f"📄 **Message:**\n{message.text}"
 
-    except Exception as e:
-        logging.error(f"❌ Error processing form data: {e}")
-        await update.message.reply_text("❌ Submission failed. Please try again.")
+    # Forward to admin
+    bot.send_message(ADMIN_ID, message_text, parse_mode="Markdown")
 
-# ✅ Run the Bot
-def main():
-    application = Application.builder().token(BOT_TOKEN).build()
-    application.add_handler(CommandHandler("start", start))
-    application.add_handler(MessageHandler(filters.StatusUpdate.WEB_APP_DATA, receive_form))
-    application.run_polling()
+    # Confirm message receipt to user
+    bot.send_message(chat_id, "✅ Message received! We will review it shortly.")
 
-if __name__ == "__main__":
-    main()
+# Step 3: Run the bot
+print("🤖 Bot is running...")
+bot.polling()
