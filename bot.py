@@ -2,7 +2,7 @@ import telebot
 from flask import Flask, request, jsonify
 
 # Replace with your actual Telegram Bot Token
-BOT_TOKEN = "YOUR_BOT_TOKEN"
+BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg"
 ADMIN_ID = "8101143576"  # Your Telegram ID to receive form data
 
 bot = telebot.TeleBot(BOT_TOKEN)
