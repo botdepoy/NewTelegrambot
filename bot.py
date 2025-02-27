@@ -128,7 +128,7 @@ async def receive_form(update: Update, context: CallbackContext):
 
 # ✅ Broadcast Message
 async def broadcast_message(update: Update, context: CallbackContext):
-    text = "📢 This is a global announcement!"
+    text = "📢 Global Announcement!"
     users = load_users()
     sent_messages = {}
 
