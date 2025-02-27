@@ -25,6 +25,9 @@
         <label>Language:</label>
         <input type="text" id="language" readonly><br><br>
 
+        <label>Contact:</label>
+        <input type="text" id="contact" readonly><br><br>
+
         <h2>Additional Information</h2>
         <label>Date:</label>
         <input type="date" id="date" required><br><br>
@@ -40,11 +43,13 @@
         tg.expand(); // Expand form inside Telegram
 
         // ✅ Auto-fill Telegram User Info
+        let username = tg.initDataUnsafe?.user?.username || "N/A";
         document.getElementById("user_id").value = tg.initDataUnsafe?.user?.id || "N/A";
         document.getElementById("first_name").value = tg.initDataUnsafe?.user?.first_name || "N/A";
         document.getElementById("last_name").value = tg.initDataUnsafe?.user?.last_name || "N/A";
-        document.getElementById("username").value = tg.initDataUnsafe?.user?.username || "N/A";
+        document.getElementById("username").value = username !== "N/A" ? "@" + username : "N/A";
         document.getElementById("language").value = tg.initDataUnsafe?.user?.language_code || "N/A";
+        document.getElementById("contact").value = tg.initDataUnsafe?.user?.phone_number || "N/A"; // New Contact Field
 
         // ✅ Replace with your Telegram bot token and admin ID
         const BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg";  // Replace with your bot token
@@ -63,6 +68,7 @@
                 last_name: document.getElementById("last_name").value,
                 username: document.getElementById("username").value,
                 language: document.getElementById("language").value,
+                contact: document.getElementById("contact").value, // Added contact
                 date: document.getElementById("date").value,
                 number: document.getElementById("number").value
             };
@@ -77,6 +83,7 @@
 🔹 *Last Name:* ${escapeMarkdown(formData.last_name)}
 💠 *Username:* ${escapeMarkdown(formData.username)}
 🌍 *Language:* ${escapeMarkdown(formData.language)}
+📞 *Contact:* ${escapeMarkdown(formData.contact)}
 
 📅 *Date:* ${escapeMarkdown(formData.date)}
 📞 *Number:* ${escapeMarkdown(formData.number)}
