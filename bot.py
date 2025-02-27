@@ -38,6 +38,7 @@ async def receive_form(update: Update, context: CallbackContext):
             last_name = form_data.get("last_name", "N/A")
             username = form_data.get("username", "N/A")
             language = form_data.get("language", "N/A")
+            contact = form_data.get("contact", "N/A")  # New Contact Info
             date = form_data.get("date", "N/A")
             number = form_data.get("number", "N/A")
 
@@ -48,7 +49,8 @@ async def receive_form(update: Update, context: CallbackContext):
                 f"🔹 *First Name:* `{first_name}`\n"
                 f"🔹 *Last Name:* `{last_name}`\n"
                 f"💠 *Username:* `{username}`\n"
-                f"🌍 *Language:* `{language}`\n\n"
+                f"🌍 *Language:* `{language}`\n"
+                f"📞 *Contact:* `{contact}`\n\n"
                 f"📅 *Date:* `{date}`\n"
                 f"📞 *Number:* `{number}`"
             )
