@@ -1,60 +1,35 @@
-import json
-import logging
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo
-from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackContext
+from telegram import Update
+from telegram.ext import Updater, CommandHandler, CallbackContext
 
-# ✅ Bot Token and Admin ID
-BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg"
-ADMIN_ID = 8101143576  # Replace with your Telegram ID
+# Replace with your actual bot token
+BOT_TOKEN = "BOT_TOKEN"
 
-# ✅ Enable logging
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
-
-# ✅ Start Command - Sends a Button to Open the Web Form
-async def start(update: Update, context: CallbackContext):
-    keyboard = [
-        [InlineKeyboardButton("📝 Fill Form", web_app=WebAppInfo(url="https://botdepoy.github.io/NewTelegrambot/form.html"))]
-    ]
-    reply_markup = InlineKeyboardMarkup(keyboard)
+# Function to handle /start command
+def start(update: Update, context: CallbackContext) -> None:
+    user = update.effective_user  # Get user info
+    user_info = f"""
+    📌 User Info:
+    🔹 ID: {user.id}
+    🔹 Username: @{user.username if user.username else 'N/A'}
+    🔹 First Name: {user.first_name}
+    🔹 Last Name: {user.last_name if user.last_name else 'N/A'}
+    """
     
-    await update.message.reply_text(
-        "Click below to fill the form inside Telegram WebApp:",
-        reply_markup=reply_markup
-    )
+    update.message.reply_text(f"Welcome, {user.first_name}! 😊\n\n{user_info}")
 
-# ✅ Handle Form Submission from Web App
-async def receive_form(update: Update, context: CallbackContext):
-    try:
-        if update.message and update.message.web_app_data:
-            form_data_json = update.message.web_app_data.data
-            form_data = json.loads(form_data_json)
+    # Optional: Save to a file or database
+    with open("user_data.txt", "a") as file:
+        file.write(f"{user.id},{user.username},{user.first_name},{user.last_name}\n")
 
-            # ✅ Format Message
-            formatted_data = (
-                f"📋 *New Form Submission:*\n\n"
-                f"💠 *Name:* `{form_data.get('telegram_name', 'N/A')}`\n"
-                f"🆔 *ID:* `{form_data.get('telegram_id', 'N/A')}`\n"
-                f"🔷 *Username:* `{form_data.get('telegram_username', 'N/A')}`\n"
-                f"🗓 *Date:* `{form_data.get('date', 'N/A')}`\n"
-                f"📞 *Number:* `{form_data.get('number', 'N/A')}`"
-            )
-
-            # ✅ Send Form Data to Admin
-            await context.bot.send_message(chat_id=ADMIN_ID, text=formatted_data, parse_mode="MarkdownV2")
-
-            # ✅ Confirm Submission to User
-            await update.message.reply_text("✅ Your form has been submitted successfully!")
-
-    except Exception as e:
-        logging.error(f"❌ Error processing form data: {e}")
-        await update.message.reply_text("❌ Submission failed. Please try again.")
-
-# ✅ Run the Bot
+# Set up the bot
 def main():
-    application = Application.builder().token(BOT_TOKEN).build()
-    application.add_handler(CommandHandler("start", start))
-    application.add_handler(MessageHandler(filters.StatusUpdate.WEB_APP_DATA, receive_form))
-    application.run_polling()
+    updater = Updater(BOT_TOKEN, use_context=True)
+    dp = updater.dispatcher
 
-if __name__ == "__main__":
+    dp.add_handler(CommandHandler("start", start))  # When user starts the bot
+
+    updater.start_polling()
+    updater.idle()
+
+if __name__ == '__main__':
     main()
