@@ -37,7 +37,7 @@
 
     <script>
         let tg = window.Telegram.WebApp;
-        tg.expand(); // Expand form to fullscreen inside Telegram
+        tg.expand(); // Expand form inside Telegram
 
         // ✅ Auto-fill Telegram User Info
         document.getElementById("user_id").value = tg.initDataUnsafe?.user?.id || "N/A";
@@ -92,13 +92,17 @@
             })
             .then(response => response.json())
             .then(data => {
-                console.log("✅ Message sent to Telegram:", data);
-                alert("✅ Form submitted successfully!");
-                tg.close();  // Close the WebApp after submission
+                console.log("✅ Telegram API Response:", data);
+                if (data.ok) {
+                    alert("✅ Form submitted successfully!");
+                    tg.close();  // Close the WebApp after submission
+                } else {
+                    alert("❌ Telegram API Error: " + data.description);
+                }
             })
             .catch(error => {
-                console.error("❌ Error sending message:", error);
-                alert("❌ Submission failed. Please try again.");
+                console.error("❌ Fetch Error:", error);
+                alert("❌ Submission failed. Please check the console.");
             });
         }
     </script>
