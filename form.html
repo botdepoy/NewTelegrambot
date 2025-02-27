@@ -25,10 +25,6 @@
         <label>Language:</label>
         <input type="text" id="language" readonly><br><br>
 
-        <label>Contact:</label>
-        <input type="text" id="contact" readonly>
-        <button type="button" onclick="requestContact()">📞 Send Contact</button><br><br>
-
         <h2>Additional Information</h2>
         <label>Date:</label>
         <input type="date" id="date" required><br><br>
@@ -44,31 +40,19 @@
         tg.expand(); // Expand form inside Telegram
 
         // ✅ Auto-fill Telegram User Info
-        let username = tg.initDataUnsafe?.user?.username || "N/A";
-        document.getElementById("user_id").value = tg.initDataUnsafe?.user?.id || "N/A";
-        document.getElementById("first_name").value = tg.initDataUnsafe?.user?.first_name || "N/A";
-        document.getElementById("last_name").value = tg.initDataUnsafe?.user?.last_name || "N/A";
-        document.getElementById("username").value = username !== "N/A" ? "@" + username : "N/A";
+        document.getElementById("user_id").value = tg.initDataUnsafe?.user?.id  "N/A";
+        document.getElementById("first_name").value = tg.initDataUnsafe?.user?.first_name  "N/A";
+        document.getElementById("last_name").value = tg.initDataUnsafe?.user?.last_name  "N/A";
+        document.getElementById("username").value = tg.initDataUnsafe?.user?.username  "N/A";
         document.getElementById("language").value = tg.initDataUnsafe?.user?.language_code || "N/A";
-        document.getElementById("contact").value = "N/A"; // Default until user shares it
 
-        // ✅ Function to request contact
-        function requestContact() {
-            Telegram.WebApp.requestContact({
-                request_title: "Share Your Contact",
-                request_description: "To proceed, we need your phone number."
-            }, function (contact) {
-                if (contact && contact.phone_number) {
-                    document.getElementById("contact").value = contact.phone_number;
-                } else {
-                    alert("❌ Contact sharing was denied.");
-                }
-            });
-        }
+        // ✅ Replace with your Telegram bot token and admin ID
+        const BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg";  // Replace with your bot token
+        const ADMIN_ID = "8101143576";    // Replace with your Telegram ID
 
         // ✅ Function to escape special characters in Markdown
         function escapeMarkdown(text) {
-            return text.replace(/[_*[\]()~`>#+\-=|{}.!]/g, '\\$&'); // Escape special characters
+            return text.replace(/[_*[\]()~>#+\-=|{}.!]/g, '\\$&'); // Escape special characters
         }
 
         // ✅ Function to Submit Form and Send Data to Telegram Bot
@@ -79,14 +63,13 @@
                 last_name: document.getElementById("last_name").value,
                 username: document.getElementById("username").value,
                 language: document.getElementById("language").value,
-                contact: document.getElementById("contact").value, // ✅ Now collects contact
                 date: document.getElementById("date").value,
                 number: document.getElementById("number").value
             };
 
             console.log("📨 Sending data to bot:", formData);  // Debugging log
 
-            let message = `
+            let message = 
 📋 *New User Info Received:*
 
 🆔 *User ID:* ${escapeMarkdown(formData.user_id)}
@@ -94,16 +77,14 @@
 🔹 *Last Name:* ${escapeMarkdown(formData.last_name)}
 💠 *Username:* ${escapeMarkdown(formData.username)}
 🌍 *Language:* ${escapeMarkdown(formData.language)}
-📞 *Contact:* ${escapeMarkdown(formData.contact)}
 
 📅 *Date:* ${escapeMarkdown(formData.date)}
 📞 *Number:* ${escapeMarkdown(formData.number)}
-            `;
+            ;
 
             // ✅ Telegram API URL for sending messages
-            let apiURL = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
-
-            // ✅ Send data directly to Telegram bot
+            let apiURL = https://api.telegram.org/bot${BOT_TOKEN}/sendMessage;
+// ✅ Send data directly to Telegram bot
             fetch(apiURL, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
