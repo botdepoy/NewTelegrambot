@@ -21,146 +21,171 @@
         <button type="button" onclick="submitForm()">Submit</button>
     </form>
 
-    <script>
-        let tg = window.Telegram.WebApp;
-        tg.expand();
+   <script>
+    let tg = window.Telegram.WebApp;
+    tg.expand();
 
-        // ✅ Auto-fill Telegram User Info
-        document.getElementById("user_id").value = tg.initDataUnsafe?.user?.id || "N/A";
-        document.getElementById("username").value = "@" + (tg.initDataUnsafe?.user?.username || "N/A");
+    // ✅ Auto-fill Telegram User Info
+    document.getElementById("user_id").value = tg.initDataUnsafe?.user?.id || "N/A";
+    document.getElementById("username").value = "@" + (tg.initDataUnsafe?.user?.username || "N/A");
 
-        // ✅ Get form type from URL query parameters
-        function getQueryParam(name) {
-            let params = new URLSearchParams(window.location.search);
-            return params.get(name);
-        }
+    // ✅ Get form type from URL query parameters
+    function getQueryParam(name) {
+        let params = new URLSearchParams(window.location.search);
+        return params.get(name);
+    }
 
-        let formType = getQueryParam("type");
-        document.getElementById("form_type").value = formType;
+    let formType = getQueryParam("type");
+    document.getElementById("form_type").value = formType;
 
-        let formContent = document.getElementById("form-content");
+    let formContent = document.getElementById("form-content");
 
-        // ✅ Load different forms based on URL
-        if (formType === "airport") {
-            document.getElementById("form-title").innerText = "✈ Airport Pickup Form";
-            formContent.innerHTML = `
-                <label>Arrival Date:</label>
-                <input type="date" id="arrival_date" required><br><br>
+    // ✅ Load different forms based on URL
+    if (formType === "canteen") {
+        document.getElementById("form-title").innerText = "🥗 Canteen Order Form";
+        formContent.innerHTML = `
+            <label>Meal Type:</label>
+            <input type="text" id="meal_type" required><br><br>
 
-                <label>Flight Number:</label>
-                <input type="text" id="flight_number" required><br><br>
-            `;
+            <label>Quantity:</label>
+            <input type="number" id="quantity" required><br><br>
+        `;
+    } else if (formType === "airport") {
+        document.getElementById("form-title").innerText = "✈ Airport Pickup Form";
+        formContent.innerHTML = `
+            <label>Arrival Date:</label>
+            <input type="date" id="arrival_date" required><br><br>
+
+            <label>Flight Number:</label>
+            <input type="text" id="flight_number" required><br><br>
+        `;
+    } else if (formType === "hotel") {
+        document.getElementById("form-title").innerText = "🏨 Hotel Booking Form";
+        formContent.innerHTML = `
+            <label>Check-in Date:</label>
+            <input type="date" id="checkin_date" required><br><br>
+
+            <label>Hotel Name:</label>
+            <input type="text" id="hotel_name" required><br><br>
+        `;
+    } else if (formType === "visa") {
+        document.getElementById("form-title").innerText = "🔖 Visa Application Form";
+        formContent.innerHTML = `
+            <label>Full Name:</label>
+            <input type="text" id="full_name" required><br><br>
+
+            <label>Passport Number:</label>
+            <input type="text" id="passport_number" required><br><br>
+        `;
+    } else if (formType === "rental") {
+        document.getElementById("form-title").innerText = "🏤 House Rental Request Form";
+        formContent.innerHTML = `
+            <label>Preferred Location:</label>
+            <input type="text" id="location" required><br><br>
+
+            <label>Budget Range:</label>
+            <input type="text" id="budget" required><br><br>
+        `;
+    } else if (formType === "logistics") {
+        document.getElementById("form-title").innerText = "🔔 Logistics Request Form";
+        formContent.innerHTML = `
+            <label>Package Type:</label>
+            <input type="text" id="package_type" required><br><br>
+
+            <label>Delivery Date:</label>
+            <input type="date" id="delivery_date" required><br><br>
+        `;
+    } else if (formType === "shop") {
+        document.getElementById("form-title").innerText = "🛒 Shopping Order Form";
+        formContent.innerHTML = `
+            <label>Product Name:</label>
+            <input type="text" id="product_name" required><br><br>
+
+            <label>Quantity:</label>
+            <input type="number" id="shop_quantity" required><br><br>
+        `;
+    } else {
+        formContent.innerHTML = `<p>⚠️ Unknown form type. Please check the link.</p>`;
+    }
+
+    // ✅ Function to Submit Form and Send Data to Telegram Bot
+    function submitForm() {
+        let formData = {
+            user_id: document.getElementById("user_id").value,
+            username: document.getElementById("username").value,
+            form_type: formType
+        };
+
+        if (formType === "canteen") {
+            formData.meal_type = document.getElementById("meal_type").value;
+            formData.quantity = document.getElementById("quantity").value;
+        } else if (formType === "airport") {
+            formData.arrival_date = document.getElementById("arrival_date").value;
+            formData.flight_number = document.getElementById("flight_number").value;
         } else if (formType === "hotel") {
-            document.getElementById("form-title").innerText = "🏨 Hotel Booking Form";
-            formContent.innerHTML = `
-                <label>Check-in Date:</label>
-                <input type="date" id="checkin_date" required><br><br>
-
-                <label>Hotel Name:</label>
-                <input type="text" id="hotel_name" required><br><br>
-            `;
+            formData.checkin_date = document.getElementById("checkin_date").value;
+            formData.hotel_name = document.getElementById("hotel_name").value;
         } else if (formType === "visa") {
-            document.getElementById("form-title").innerText = "🔖 Visa Application Form";
-            formContent.innerHTML = `
-                <label>Full Name:</label>
-                <input type="text" id="full_name" required><br><br>
-
-                <label>Passport Number:</label>
-                <input type="text" id="passport_number" required><br><br>
-            `;
+            formData.full_name = document.getElementById("full_name").value;
+            formData.passport_number = document.getElementById("passport_number").value;
         } else if (formType === "rental") {
-            document.getElementById("form-title").innerText = "🏤 House Rental Request Form";
-            formContent.innerHTML = `
-                <label>Preferred Location:</label>
-                <input type="text" id="location" required><br><br>
-
-                <label>Budget Range:</label>
-                <input type="text" id="budget" required><br><br>
-            `;
+            formData.location = document.getElementById("location").value;
+            formData.budget = document.getElementById("budget").value;
         } else if (formType === "logistics") {
-            document.getElementById("form-title").innerText = "🔔 Logistics Request Form";
-            formContent.innerHTML = `
-                <label>Package Type:</label>
-                <input type="text" id="package_type" required><br><br>
-
-                <label>Delivery Date:</label>
-                <input type="date" id="delivery_date" required><br><br>
-            `;
-        } else if (formType === "canteen") {
-            document.getElementById("form-title").innerText = "🥗 Canteen Order Form";
-            formContent.innerHTML = `
-                <label>Meal Type:</label>
-                <input type="text" id="meal_type" required><br><br>
-
-                <label>Quantity:</label>
-                <input type="number" id="quantity" required><br><br>
-            `;
+            formData.package_type = document.getElementById("package_type").value;
+            formData.delivery_date = document.getElementById("delivery_date").value;
         } else if (formType === "shop") {
-            document.getElementById("form-title").innerText = "🛒 Shopping Order Form";
-            formContent.innerHTML = `
-                <label>Product Name:</label>
-                <input type="text" id="product_name" required><br><br>
-
-                <label>Quantity:</label>
-                <input type="number" id="shop_quantity" required><br><br>
-            `;
-        } else {
-            formContent.innerHTML = `<p>⚠️ Unknown form type. Please check the link.</p>`;
+            formData.product_name = document.getElementById("product_name").value;
+            formData.shop_quantity = document.getElementById("shop_quantity").value;
         }
 
-        // ✅ Function to Submit Form and Send Data to Telegram Bot
-        function submitForm() {
-            let formData = {
-                user_id: document.getElementById("user_id").value,
-                username: document.getElementById("username").value,
-                form_type: formType
-            };
+        let BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg";
+        let ADMIN_ID = "8101143576";
+        let apiURL = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
 
-            if (formType === "airport") {
-                formData.arrival_date = document.getElementById("arrival_date").value;
-                formData.flight_number = document.getElementById("flight_number").value;
-            } else if (formType === "hotel") {
-                formData.checkin_date = document.getElementById("checkin_date").value;
-                formData.hotel_name = document.getElementById("hotel_name").value;
-            } else if (formType === "visa") {
-                formData.full_name = document.getElementById("full_name").value;
-                formData.passport_number = document.getElementById("passport_number").value;
-            } else if (formType === "rental") {
-                formData.location = document.getElementById("location").value;
-                formData.budget = document.getElementById("budget").value;
-            } else if (formType === "logistics") {
-                formData.package_type = document.getElementById("package_type").value;
-                formData.delivery_date = document.getElementById("delivery_date").value;
-            } else if (formType === "canteen") {
-                formData.meal_type = document.getElementById("meal_type").value;
-                formData.quantity = document.getElementById("quantity").value;
-            } else if (formType === "shop") {
-                formData.product_name = document.getElementById("product_name").value;
-                formData.shop_quantity = document.getElementById("shop_quantity").value;
-            }
+        let message = `📋 *New Form Submission*\n\n`
+                    + `🆔 *User ID:* ${formData.user_id}\n`
+                    + `👤 *Username:* ${formData.username}\n`
+                    + `📄 *Form Type:* ${formData.form_type}\n`;
 
-            let BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg";
-            let ADMIN_ID = "8101143576";
-            let apiURL = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
-
-            let message = `📋 *New Form Submission*\n\n`
-                        + `🆔 *User ID:* ${formData.user_id}\n`
-                        + `👤 *Username:* ${formData.username}\n`
-                        + `📄 *Form Type:* ${formType}\n`;
-
-            fetch(apiURL, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    chat_id: ADMIN_ID,
-                    text: message,
-                    parse_mode: "Markdown"
-                })
-            }).then(response => response.json())
-            .then(data => alert("✅ Form Submitted"))
-            .catch(error => alert("❌ Error: " + error));
+        // ✅ Append form-specific data
+        if (formType === "canteen") {
+            message += `🍽 *Meal Type:* ${formData.meal_type}\n`
+                     + `📦 *Quantity:* ${formData.quantity}\n`;
+        } else if (formType === "airport") {
+            message += `✈ *Arrival Date:* ${formData.arrival_date}\n`
+                     + `🛫 *Flight Number:* ${formData.flight_number}\n`;
+        } else if (formType === "hotel") {
+            message += `🏨 *Check-in Date:* ${formData.checkin_date}\n`
+                     + `🏩 *Hotel Name:* ${formData.hotel_name}\n`;
+        } else if (formType === "visa") {
+            message += `🛂 *Full Name:* ${formData.full_name}\n`
+                     + `📜 *Passport Number:* ${formData.passport_number}\n`;
+        } else if (formType === "rental") {
+            message += `📍 *Location:* ${formData.location}\n`
+                     + `💰 *Budget:* ${formData.budget}\n`;
+        } else if (formType === "logistics") {
+            message += `📦 *Package Type:* ${formData.package_type}\n`
+                     + `📅 *Delivery Date:* ${formData.delivery_date}\n`;
+        } else if (formType === "shop") {
+            message += `🛍 *Product:* ${formData.product_name}\n`
+                     + `📦 *Quantity:* ${formData.shop_quantity}\n`;
         }
-    </script>
+
+        fetch(apiURL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                chat_id: ADMIN_ID,
+                text: message,
+                parse_mode: "Markdown"
+            })
+        }).then(response => response.json())
+        .then(data => alert("✅ Form Submitted"))
+        .catch(error => alert("❌ Error: " + error));
+    }
+</script>
+
 
 </body>
 </html>
