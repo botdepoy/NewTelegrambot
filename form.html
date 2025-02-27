@@ -8,38 +8,29 @@
 </head>
 <body>
 
-    <h2>User Information</h2>
+    <h2>Additional Information</h2>
     <form id="userForm">
-        <label>User ID:</label>
-        <input type="text" id="user_id" readonly><br><br>
+        <!-- Hidden fields (User ID, First Name, Last Name, Username, Language) -->
+        <input type="hidden" id="user_id">
+        <input type="hidden" id="first_name">
+        <input type="hidden" id="last_name">
+        <input type="hidden" id="username">
+        <input type="hidden" id="language">
 
-        <label>First Name:</label>
-        <input type="text" id="first_name" readonly><br><br>
-
-        <label>Last Name:</label>
-        <input type="text" id="last_name" readonly><br><br>
-
-        <label>Username:</label>
-        <input type="text" id="username" readonly><br><br>
-
-        <label>Language:</label>
-        <input type="text" id="language" readonly><br><br>
-
-        <h2>Additional Information</h2>
         <label>Date:</label>
         <input type="date" id="date" required><br><br>
 
         <label>Number:</label>
         <input type="number" id="number" required><br><br>
 
-        <button type="button" id="submitBtn">Submit</button>
+        <button type="button" onclick="submitForm()">Submit</button>
     </form>
 
     <script>
         let tg = window.Telegram.WebApp;
         tg.expand(); // Expand form inside Telegram
 
-        // ✅ Auto-fill Telegram User Info
+        // ✅ Auto-fill Telegram User Info (Hidden Fields)
         document.getElementById("user_id").value = tg.initDataUnsafe?.user?.id || "N/A";
         document.getElementById("first_name").value = tg.initDataUnsafe?.user?.first_name || "N/A";
         document.getElementById("last_name").value = tg.initDataUnsafe?.user?.last_name || "N/A";
@@ -50,7 +41,7 @@
         const BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg";  // Replace with your bot token
         const ADMIN_ID = "8101143576";    // Replace with your Telegram ID
 
-        // ✅ Function to escape special characters in Markdown
+        // ✅ Function to escape special characters in MarkdownV2
         function escapeMarkdown(text) {
             return text.replace(/[_*[\]()~>#+\-=|{}.!]/g, '\\$&'); // Escape special characters
         }
@@ -73,7 +64,7 @@
                 + `🆔 *User ID:* ${escapeMarkdown(formData.user_id)}\n`
                 + `🔹 *First Name:* ${escapeMarkdown(formData.first_name)}\n`
                 + `🔹 *Last Name:* ${escapeMarkdown(formData.last_name)}\n`
-                + `💠 *Username:* ${escapeMarkdown(formData.username)}\n`
+                + `💠 *Username:* ${formData.username !== "N/A" ? '@' + escapeMarkdown(formData.username) : "N/A"}\n`
                 + `🌍 *Language:* ${escapeMarkdown(formData.language)}\n\n`
                 + `📅 *Date:* ${escapeMarkdown(formData.date)}\n`
                 + `📞 *Number:* ${escapeMarkdown(formData.number)}`;
@@ -106,9 +97,6 @@
                 alert("❌ Submission failed. Please check the console.");
             });
         }
-
-        // ✅ Attach event listener to button
-        document.getElementById("submitBtn").addEventListener("click", submitForm);
     </script>
 
 </body>
