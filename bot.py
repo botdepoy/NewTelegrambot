@@ -1,6 +1,6 @@
 import json
 import logging
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo, ReplyKeyboardMarkup, KeyboardButton
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackContext
 
 # ✅ Replace with your bot token and admin ID
@@ -8,41 +8,19 @@ BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg"
 ADMIN_ID = "8101143576"
 WEB_APP_URL = "https://botdepoy.github.io/NewTelegrambot/form.html?type="  # Base URL for different forms
 
-# ✅ Enable Logging (For Debugging)
+# ✅ Enable Logging
 logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# ✅ Store Users
-USER_DB = "users.json"
-
-# ✅ Load and Save Users
-def load_users():
-    try:
-        with open(USER_DB, "r") as f:
-            return json.load(f)
-    except FileNotFoundError:
-        return []
-
-def save_users(users):
-    with open(USER_DB, "w") as f:
-        json.dump(users, f)
-
 # ✅ Escape Markdown characters
 def escape_markdown(text):
-    """Escape Markdown special characters"""
+    """Escape MarkdownV2 special characters"""
     if not text:
         return "N/A"
     return text.replace("_", "\\_").replace("*", "\\*").replace("[", "\\[").replace("]", "\\]")
 
-# ✅ Start Command - Show Form Selection Menu
+# ✅ Start Command - Display Form Selection Menu
 async def start(update: Update, context: CallbackContext):
-    user_id = update.message.chat_id
-    users = load_users()
-    if user_id not in users:
-        users.append(user_id)
-        save_users(users)
-
-    # ✅ Inline Buttons for Different Forms
     keyboard = [
         [InlineKeyboardButton("🛬 Airport Pickup", web_app=WebAppInfo(url=f"{WEB_APP_URL}airport"))],
         [InlineKeyboardButton("🏨 Hotel Booking", web_app=WebAppInfo(url=f"{WEB_APP_URL}hotel"))],
@@ -54,7 +32,6 @@ async def start(update: Update, context: CallbackContext):
     ]
     
     reply_markup = InlineKeyboardMarkup(keyboard)
-
     await update.message.reply_text("📋 Select a form to fill:", reply_markup=reply_markup)
 
 # ✅ Handle Form Data Submission
@@ -68,7 +45,7 @@ async def receive_form(update: Update, context: CallbackContext):
             logger.info(f"✅ Parsed WebApp Data: {form_data}")
 
             # Extract Data & Escape Markdown
-            user_id = escape_markdown(form_data.get("user_id", "N/A"))
+            user_id = escape_markdown(str(form_data.get("user_id", "N/A")))
             username = "@" + escape_markdown(form_data.get("username", "N/A"))
             form_type = escape_markdown(form_data.get("form_type", "N/A"))
 
@@ -103,7 +80,7 @@ async def receive_form(update: Update, context: CallbackContext):
                     f"💰 *Budget Range:* `{escape_markdown(form_data.get('budget', 'N/A'))}`\n"
                 )
 
-            # 🔔 Logistics Request Form
+            # 📦 Logistics Request Form
             elif form_type == "logistics":
                 message += (
                     f"📦 *Package Type:* `{escape_markdown(form_data.get('package_type', 'N/A'))}`\n"
@@ -114,14 +91,14 @@ async def receive_form(update: Update, context: CallbackContext):
             elif form_type == "canteen":
                 message += (
                     f"🍽️ *Meal Type:* `{escape_markdown(form_data.get('meal_type', 'N/A'))}`\n"
-                    f"🔢 *Quantity:* `{escape_markdown(form_data.get('quantity', 'N/A'))}`\n"
+                    f"🔢 *Quantity:* `{escape_markdown(str(form_data.get('quantity', 'N/A')))}`\n"
                 )
 
             # 🛒 Shopping Order Form
             elif form_type == "shop":
                 message += (
                     f"🛍️ *Product Name:* `{escape_markdown(form_data.get('product_name', 'N/A'))}`\n"
-                    f"🔢 *Quantity:* `{escape_markdown(form_data.get('shop_quantity', 'N/A'))}`\n"
+                    f"🔢 *Quantity:* `{escape_markdown(str(form_data.get('shop_quantity', 'N/A')))}`\n"
                 )
 
             # ✅ Send to Admin
@@ -137,7 +114,7 @@ def main():
     application = Application.builder().token(BOT_TOKEN).build()
     application.add_handler(CommandHandler("start", start))
     application.add_handler(MessageHandler(filters.StatusUpdate.WEB_APP_DATA, receive_form))
-    
+
     application.run_polling()
 
 if __name__ == "__main__":
