@@ -5,8 +5,8 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters, C
 
 # ✅ Replace with your bot token and admin ID
 BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg"
-ADMIN_ID = 8101143576  # Replace with your Telegram ID
-WEB_APP_URL = "https://botdepoy.github.io/NewTelegrambot/form.html"  # Host your form
+ADMIN_ID = "8101143576"
+WEB_APP_URL = "https://botdepoy.github.io/NewTelegrambot/form.html"  # Replace with your hosted form
 
 # ✅ Enable Logging (For Debugging)
 logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
@@ -27,10 +27,10 @@ async def receive_form(update: Update, context: CallbackContext):
     try:
         if update.message and update.message.web_app_data:
             form_data_json = update.message.web_app_data.data
-            form_data = json.loads(form_data_json)  # Convert JSON string to Python dictionary
+            logger.info(f"🔍 Raw WebApp Data: {form_data_json}")  # Debugging log
 
-            # ✅ Log received data (for debugging)
-            logger.info(f"Received form data: {form_data}")
+            form_data = json.loads(form_data_json)  # Convert JSON string to dictionary
+            logger.info(f"✅ Parsed WebApp Data: {form_data}")  # Debugging log
 
             # ✅ Extract User Information
             user_id = form_data.get("user_id", "N/A")
@@ -52,6 +52,8 @@ async def receive_form(update: Update, context: CallbackContext):
                 f"📅 *Date:* `{date}`\n"
                 f"📞 *Number:* `{number}`"
             )
+
+            logger.info(f"📤 Sending message to {ADMIN_ID}...")  # Log admin message
 
             # ✅ Send Data to Admin
             await context.bot.send_message(chat_id=ADMIN_ID, text=formatted_data, parse_mode="MarkdownV2")
