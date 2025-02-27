@@ -45,13 +45,25 @@ RESPONSE_DATA = {
     "🏩 酒店预订": {
         "photo": "images/sofietel.jpg",
         "caption":  "🏨高端酒店预订代办服务| 索菲特 & 瑰丽酒店 |🏨\n\n✨ 奢华体验，优惠价格，预订更省心！ ✨\n\n📞 联系我们，轻松享受高端住宿！",
-        "buttons": [[InlineKeyboardButton("📄 Document Services", url="https://t.me/your_channel")]]
+        "buttons":  [[InlineKeyboardButton("🧑🏻‍💻 在线客服", url="https://t.me/HQBGSKF"), InlineKeyboardButton("🏩 酒店详情频道", url="https://t.me/+M5Q_hf4xyG00YzRl")]]
     },
-    "🔔 Logistic Updates": {
-        "photo": "images/logistics.jpg",
-        "caption": "🚚 Stay updated with the latest logistics information.",
-        "buttons": [[InlineKeyboardButton("🔔 Subscribe", url="https://t.me/your_channel")]]
+    "🥗 食堂频道": {
+            "photo": "images/食堂.jpg",
+            "caption": "🍽️ 食堂频道信息",
+            "buttons": [[InlineKeyboardButton("🧑🏻‍💻 在线客服", url="https://t.me/DINGCHUANG001"), InlineKeyboardButton("🥗 食堂频道", url="https://t.me/+M0su9kfTZHk2ODU1")]]
+    },
+
+    "🛒 生活用品": {
+        "photo": "images/生活用品.jpg",
+        "caption": "🛍️ 生活用品信息",
+        "buttons": [[InlineKeyboardButton("🧑🏻‍💻 在线客服", url="https://t.me/HQBGSKF"), InlineKeyboardButton("🛒 详细了解", url="https://t.me/+M5Q_hf4xyG00YzRl")]]
+    },
+    "🔔 后勤生活信息频道": {
+        "photo": "images/logistic.png",
+        "caption": "📌 主要提供各种后勤管理和生活服务，确保用户能够方便、高效地获取信息和帮助。",
+        "buttons": [[InlineKeyboardButton("🔔 详细了解", url="https://t.me/+QQ56RVTKshQxMDU1")]]
     }
+
 }
 
 # ✅ Load and save users
