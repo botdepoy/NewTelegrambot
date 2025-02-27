@@ -7,7 +7,7 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters, C
 # ✅ Replace with your bot token and admin ID
 BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg"
 ADMIN_ID = "8101143576"
-WEB_APP_URL = "https://botdepoy.github.io/NewTelegrambot/form.html"  # Replace with your hosted form
+WEB_APP_URL = "https://botdepoy.github.io/NewTelegrambot/form.html?type="  # Replace with your hosted form
 
 # ✅ Enable Logging (For Debugging)
 logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
