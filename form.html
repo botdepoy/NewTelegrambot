@@ -32,7 +32,7 @@
         <label>Number:</label>
         <input type="number" id="number" required><br><br>
 
-        <button type="button" onclick="submitForm()">Submit</button>
+        <button type="button" id="submitBtn">Submit</button>
     </form>
 
     <script>
@@ -40,10 +40,10 @@
         tg.expand(); // Expand form inside Telegram
 
         // ✅ Auto-fill Telegram User Info
-        document.getElementById("user_id").value = tg.initDataUnsafe?.user?.id  "N/A";
-        document.getElementById("first_name").value = tg.initDataUnsafe?.user?.first_name  "N/A";
-        document.getElementById("last_name").value = tg.initDataUnsafe?.user?.last_name  "N/A";
-        document.getElementById("username").value = tg.initDataUnsafe?.user?.username  "N/A";
+        document.getElementById("user_id").value = tg.initDataUnsafe?.user?.id || "N/A";
+        document.getElementById("first_name").value = tg.initDataUnsafe?.user?.first_name || "N/A";
+        document.getElementById("last_name").value = tg.initDataUnsafe?.user?.last_name || "N/A";
+        document.getElementById("username").value = tg.initDataUnsafe?.user?.username || "N/A";
         document.getElementById("language").value = tg.initDataUnsafe?.user?.language_code || "N/A";
 
         // ✅ Replace with your Telegram bot token and admin ID
@@ -69,22 +69,19 @@
 
             console.log("📨 Sending data to bot:", formData);  // Debugging log
 
-            let message = 
-📋 *New User Info Received:*
-
-🆔 *User ID:* ${escapeMarkdown(formData.user_id)}
-🔹 *First Name:* ${escapeMarkdown(formData.first_name)}
-🔹 *Last Name:* ${escapeMarkdown(formData.last_name)}
-💠 *Username:* ${escapeMarkdown(formData.username)}
-🌍 *Language:* ${escapeMarkdown(formData.language)}
-
-📅 *Date:* ${escapeMarkdown(formData.date)}
-📞 *Number:* ${escapeMarkdown(formData.number)}
-            ;
+            let message = `📋 *New User Info Received:*\n\n`
+                + `🆔 *User ID:* ${escapeMarkdown(formData.user_id)}\n`
+                + `🔹 *First Name:* ${escapeMarkdown(formData.first_name)}\n`
+                + `🔹 *Last Name:* ${escapeMarkdown(formData.last_name)}\n`
+                + `💠 *Username:* ${escapeMarkdown(formData.username)}\n`
+                + `🌍 *Language:* ${escapeMarkdown(formData.language)}\n\n`
+                + `📅 *Date:* ${escapeMarkdown(formData.date)}\n`
+                + `📞 *Number:* ${escapeMarkdown(formData.number)}`;
 
             // ✅ Telegram API URL for sending messages
-            let apiURL = https://api.telegram.org/bot${BOT_TOKEN}/sendMessage;
-// ✅ Send data directly to Telegram bot
+            let apiURL = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+
+            // ✅ Send data directly to Telegram bot
             fetch(apiURL, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -109,6 +106,9 @@
                 alert("❌ Submission failed. Please check the console.");
             });
         }
+
+        // ✅ Attach event listener to button
+        document.getElementById("submitBtn").addEventListener("click", submitForm);
     </script>
 
 </body>
