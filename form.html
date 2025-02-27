@@ -8,11 +8,24 @@
 </head>
 <body>
 
-    <h2>Fill in Your Information</h2>
+    <h2>User Information</h2>
     <form id="userForm">
-        <label>Name:</label>
-        <input type="text" id="name" required><br><br>
+        <label>User ID:</label>
+        <input type="text" id="user_id" readonly><br><br>
 
+        <label>First Name:</label>
+        <input type="text" id="first_name" readonly><br><br>
+
+        <label>Last Name:</label>
+        <input type="text" id="last_name" readonly><br><br>
+
+        <label>Username:</label>
+        <input type="text" id="username" readonly><br><br>
+
+        <label>Language:</label>
+        <input type="text" id="language" readonly><br><br>
+
+        <h2>Additional Information</h2>
         <label>Date:</label>
         <input type="date" id="date" required><br><br>
 
@@ -24,19 +37,31 @@
 
     <script>
         let tg = window.Telegram.WebApp;
-        tg.expand(); // Make the form fullscreen in Telegram
+        tg.expand(); // Expand form to fullscreen inside Telegram
 
+        // ✅ Auto-fill Telegram User Info
+        document.getElementById("user_id").value = tg.initDataUnsafe?.user?.id || "N/A";
+        document.getElementById("first_name").value = tg.initDataUnsafe?.user?.first_name || "N/A";
+        document.getElementById("last_name").value = tg.initDataUnsafe?.user?.last_name || "N/A";
+        document.getElementById("username").value = tg.initDataUnsafe?.user?.username || "N/A";
+        document.getElementById("language").value = tg.initDataUnsafe?.user?.language_code || "N/A";
+
+        // ✅ Function to Submit Form
         function submitForm() {
             let formData = {
-                user_id: tg.initDataUnsafe.user.id || "N/A",
-                username: tg.initDataUnsafe.user.username || "N/A",
-                name: document.getElementById("name").value || tg.initDataUnsafe.user.first_name || "N/A",
-                date: document.getElementById("date").value || "N/A",
-                number: document.getElementById("number").value || "N/A"
+                user_id: document.getElementById("user_id").value,
+                first_name: document.getElementById("first_name").value,
+                last_name: document.getElementById("last_name").value,
+                username: document.getElementById("username").value,
+                language: document.getElementById("language").value,
+                date: document.getElementById("date").value,
+                number: document.getElementById("number").value
             };
 
-            tg.sendData(JSON.stringify(formData));
-            tg.close();
+            console.log("Sending data to bot:", formData);  // Debugging log
+
+            tg.sendData(JSON.stringify(formData)); // Send data back to the bot
+            tg.close(); // Close the Web App
         }
     </script>
 
