@@ -3,127 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Popup Form</title>
-    <style>
-        /* Popup form styling */
-        .popup {
-            display: block;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            padding: 20px;
-            background: white;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-        }
-        .overlay {
-            display: block;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-        }
-    </style>
+    <title>Telegram Form</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
-    <!-- Popup Form -->
-    <div class="overlay" id="overlay"></div>
-    <div class="popup" id="popupForm">
-        <h2>Fill in Your Details</h2>
-        <form id="detailsForm">
-            <!-- Hidden Fields to Auto-Fill Telegram User Info -->
-            <input type="hidden" id="telegram_name" name="telegram_name">
-            <input type="hidden" id="telegram_username" name="telegram_username">
-            <input type="hidden" id="telegram_id" name="telegram_id">
 
-            <label for="date">Date:</label>
-            <input type="date" id="date" name="date" required><br><br>
+    <h2>Fill in Your Information</h2>
+    <form id="userForm">
+        <label>Name:</label>
+        <input type="text" id="name" required><br><br>
 
-            <label for="number">Number:</label>
-            <input type="number" id="number" name="number" required><br><br>
+        <label>Date:</label>
+        <input type="date" id="date" required><br><br>
 
-            <button type="submit">Submit</button>
-            <button type="button" onclick="closeForm()">Close</button>
-        </form>
-    </div>
+        <label>Number:</label>
+        <input type="number" id="number" required><br><br>
+
+        <button type="button" onclick="submitForm()">Submit</button>
+    </form>
 
     <script>
-        // Close the popup form
-        function closeForm() {
-            document.getElementById('popupForm').style.display = 'none';
-            document.getElementById('overlay').style.display = 'none';
-        }
+        let tg = window.Telegram.WebApp;
+        tg.expand(); // Make the form fullscreen in Telegram
 
-        // ✅ Auto-fill user data from Telegram WebApp API
-        window.onload = function () {
-            if (window.Telegram && Telegram.WebApp) {
-                Telegram.WebApp.ready();
-                const user = Telegram.WebApp.initDataUnsafe.user;
-
-                if (user) {
-                    document.getElementById("telegram_name").value = user.first_name + " " + (user.last_name || "");
-                    document.getElementById("telegram_username").value = user.username ? "@" + user.username : "N/A";
-                    document.getElementById("telegram_id").value = user.id;
-
-                    console.log("✅ User Data Retrieved:", user); // Debugging
-                } else {
-                    console.error("❌ No user data retrieved from Telegram WebApp.");
-                }
-            } else {
-                console.error("❌ Telegram WebApp is not available.");
-            }
-        };
-
-        // ✅ Handle form submission
-        document.getElementById('detailsForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            // Collect form data
-            const formData = {
-                telegram_name: document.getElementById('telegram_name').value,
-                telegram_username: document.getElementById('telegram_username').value,
-                telegram_id: document.getElementById('telegram_id').value,
-                date: document.getElementById('date').value,
-                number: document.getElementById('number').value
+        function submitForm() {
+            let formData = {
+                user_id: tg.initDataUnsafe.user.id || "N/A",
+                username: tg.initDataUnsafe.user.username || "N/A",
+                name: document.getElementById("name").value || tg.initDataUnsafe.user.first_name || "N/A",
+                date: document.getElementById("date").value || "N/A",
+                number: document.getElementById("number").value || "N/A"
             };
 
-            console.log("✅ Collected Form Data:", formData); // Debugging
-
-            // ✅ Send data to Telegram
-            sendToTelegram(formData);
-            closeForm();
-        });
-
-        // ✅ Function to send data to Telegram
-        function sendToTelegram(formData) {
-            const botToken = '7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg';
-            const chatId = '8101143576'; // Your Telegram ID to receive the form data
-            const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
-
-            // ✅ Format the message properly with MarkdownV2
-            const message = `📩 *New Form Submission:*\n\n` +
-                `💠 *Name:* \`${formData.telegram_name}\`\n` +
-                `🆔 *ID:* \`${formData.telegram_id}\`\n` +
-                `🔷 *Username:* \`${formData.telegram_username}\`\n` +
-                `🗓 *Date:* \`${formData.date}\`\n` +
-                `📞 *Number:* \`${formData.number}\``;
-
-            console.log("🚀 Sending Message:", message); // Debugging
-
-            // Send data to Telegram Bot
-            fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chat_id: chatId, text: message, parse_mode: "MarkdownV2" })
-            })
-            .then(response => response.json())
-            .then(result => console.log('✅ Message sent to Telegram:', result))
-            .catch(error => console.error('❌ Error sending message to Telegram:', error));
+            tg.sendData(JSON.stringify(formData));
+            tg.close();
         }
     </script>
+
 </body>
 </html>
