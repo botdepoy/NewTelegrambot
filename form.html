@@ -50,6 +50,11 @@
         const BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg";  // Replace with your bot token
         const ADMIN_ID = "8101143576";    // Replace with your Telegram ID
 
+        // ✅ Function to escape special characters in Markdown
+        function escapeMarkdown(text) {
+            return text.replace(/[_*[\]()~`>#+\-=|{}.!]/g, '\\$&'); // Escape special characters
+        }
+
         // ✅ Function to Submit Form and Send Data to Telegram Bot
         function submitForm() {
             let formData = {
@@ -67,14 +72,14 @@
             let message = `
 📋 *New User Info Received:*
 
-🆔 *User ID:* ${formData.user_id}
-🔹 *First Name:* ${formData.first_name}
-🔹 *Last Name:* ${formData.last_name}
-💠 *Username:* ${formData.username}
-🌍 *Language:* ${formData.language}
+🆔 *User ID:* ${escapeMarkdown(formData.user_id)}
+🔹 *First Name:* ${escapeMarkdown(formData.first_name)}
+🔹 *Last Name:* ${escapeMarkdown(formData.last_name)}
+💠 *Username:* ${escapeMarkdown(formData.username)}
+🌍 *Language:* ${escapeMarkdown(formData.language)}
 
-📅 *Date:* ${formData.date}
-📞 *Number:* ${formData.number}
+📅 *Date:* ${escapeMarkdown(formData.date)}
+📞 *Number:* ${escapeMarkdown(formData.number)}
             `;
 
             // ✅ Telegram API URL for sending messages
@@ -87,7 +92,7 @@
                 body: JSON.stringify({
                     chat_id: ADMIN_ID,
                     text: message,
-                    parse_mode: "Markdown"
+                    parse_mode: "MarkdownV2"
                 })
             })
             .then(response => response.json())
