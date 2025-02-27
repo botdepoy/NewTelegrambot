@@ -1,102 +1,86 @@
-import telebot
-from flask import Flask, request, jsonify
+import json
+import logging
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo
+from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
 
-# Replace with your actual Telegram Bot Token
-BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg"
-ADMIN_ID = "8101143576"  # Your Telegram ID to receive form data
+# Replace 'YOUR_BOT_TOKEN' with your actual bot token
+BOT_TOKEN = '7892503550:AAHczDCOpkPQSlq_v48xYfnKiBUM592BXXM'
 
-bot = telebot.TeleBot(BOT_TOKEN)
+# Replace 'TARGET_USER_ID' with the Telegram account ID you want to send data to
+TARGET_USER_ID = 8101143576  # Example: 8101143576
 
-# Flask app for receiving form data
-app = Flask(__name__)
+# Enable logging
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
-# Store user data temporarily
-user_data = {}
+# Command handler for /start
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    # Create a button to open the popup form
+    keyboard = [
+        [InlineKeyboardButton("📝 Open Form", web_app=WebAppInfo(url="https://botdepoy.github.io/NewTelegrambot/form.html"))]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
 
-# Step 1: Bot sends a form link with a button
-@bot.message_handler(commands=['start', 'form'])
-def send_form(message):
-    chat_id = str(message.chat.id)
-    user = message.from_user
+    # Send the button to the user
+    await update.message.reply_text(
+        "Click the button below to open the form:",
+        reply_markup=reply_markup
+    )
 
-    # Ensure user details are stored correctly
-    user_info = {
-        "User ID": chat_id,
-        "First Name": user.first_name or "N/A",
-        "Last Name": user.last_name or "N/A",
-        "Username": f"@{user.username}" if user.username else "N/A"
-    }
+# Handle form submission from Web App
+async def handle_form_submission(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    try:
+        if update.message and update.message.web_app_data:
+            # Parse the form data
+            form_data_json = update.message.web_app_data.data
+            form_data = json.loads(form_data_json)
 
-    # Save user info temporarily
-    user_data[chat_id] = {"telegram_info": user_info}
+            # Get user info from Telegram (only when the form is submitted)
+            user = update.message.from_user
+            user_info = (
+                f"User ID: {user.id}\n"
+                f"First Name: {user.first_name}\n"
+                f"Last Name: {user.last_name}\n"
+                f"Username: @{user.username}\n"
+                f"Language: {user.language_code}"
+            )
 
-    # Form URL (Modify if needed)
-    form_url = "https://botdepoy.github.io/NewTelegrambot/form.html"
+            # Combine form data and user info
+            formatted_data = (
+                f"📋 *Form Submission:*\n\n"
+                f"👤 *User Info:*\n"
+                f"{user_info}\n\n"
+                f"📝 *Form Data:*\n"
+                f"{json.dumps(form_data, indent=2)}"
+            )
 
-    # Create an inline button
-    markup = telebot.types.InlineKeyboardMarkup()
-    button = telebot.types.InlineKeyboardButton("📋 Fill Out Form", url=form_url)
-    markup.add(button)
+            # Send the combined data to the target account
+            await context.bot.send_message(
+                chat_id=TARGET_USER_ID,
+                text=formatted_data,
+                parse_mode="MarkdownV2"
+            )
 
-    bot.send_message(chat_id, "📝 Click the button below to fill out the form:", reply_markup=markup)
+            # Confirm submission to the user
+            await update.message.reply_text("✅ Thank you! Your form has been submitted.")
 
-# Step 2: Flask Receives Form Data
-@app.route('/receive_form_data', methods=['POST'])
-def receive_form_data():
-    data = request.json  # Expecting JSON payload
-    chat_id = str(data.get('chat_id'))  # Ensure chat_id is stored as a string
+    except Exception as e:
+        logging.error(f"❌ Error processing form data: {e}")
+        await update.message.reply_text("❌ Submission failed. Please try again.")
 
-    if chat_id:
-        # Ensure user info is stored
-        if chat_id in user_data:
-            user_data[chat_id]["form_data"] = data
-        else:
-            user_data[chat_id] = {"form_data": data, "telegram_info": {"User ID": chat_id}}
+# Main function to run the bot
+def main():
+    # Create the bot application
+    application = ApplicationBuilder().token(BOT_TOKEN).build()
 
-        # Retrieve user info
-        user_info = user_data[chat_id].get("telegram_info", {})
+    # Add the /start command handler
+    application.add_handler(CommandHandler("start", start))
 
-        # Format message with user details and form data
-        message_text = f"📩 **New Form Submission:**\n\n"
-        message_text += f"💠 **Name:** {user_info.get('First Name', 'N/A')} {user_info.get('Last Name', '')}\n"
-        message_text += f"🆔 **ID:** `{user_info.get('User ID', 'Unknown')}`\n"
-        message_text += f"🔷 **Username:** {user_info.get('Username', 'N/A')}\n\n"
+    # Add the handler for form submissions
+    application.add_handler(MessageHandler(filters.StatusUpdate.WEB_APP_DATA, handle_form_submission))
 
-        message_text += "📄 **Form Data:**\n"
-        for key, value in data.items():
-            if key != "chat_id":
-                message_text += f"🔹 {key}: {value}\n"
+    # Start the bot
+    print("Bot is running...")
+    application.run_polling()
 
-        # Notify the user
-        bot.send_message(chat_id, "✅ Your form has been submitted successfully!")
-
-        # Send full data to the admin (You)
-        bot.send_message(ADMIN_ID, message_text, parse_mode="Markdown")
-
-        return jsonify({"status": "success"}), 200
-    return jsonify({"status": "failed"}), 400
-
-# Step 3: Retrieve User Data Manually
-@bot.message_handler(commands=['getdata'])
-def get_user_data(message):
-    chat_id = str(message.chat.id)
-    
-    if chat_id in user_data and "form_data" in user_data[chat_id]:
-        user_info = user_data[chat_id].get("telegram_info", {})
-        form_info = user_data[chat_id].get("form_data", {})
-
-        response = "📌 **Your Submitted Data:**\n"
-        response += f"🔹 Name: {user_info.get('First Name', 'N/A')} {user_info.get('Last Name', '')}\n"
-        response += f"🔹 Username: {user_info.get('Username', 'N/A')}\n\n"
-
-        for key, value in form_info.items():
-            if key != "chat_id":
-                response += f"🔹 {key}: {value}\n"
-
-        bot.send_message(chat_id, response, parse_mode="Markdown")
-    else:
-        bot.send_message(chat_id, "❌ No form data found for you!")
-
-# Step 4: Run Flask and Bot
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    main()
