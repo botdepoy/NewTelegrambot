@@ -4,7 +4,7 @@ from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, WebAppI
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackContext
 
 # ✅ Replace with your bot token and admin ID
-BOT_TOKEN = "YOUR_BOT_TOKEN"
+BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg"
 ADMIN_ID = 8101143576  # Replace with your Telegram ID
 WEB_APP_URL = "https://botdepoy.github.io/NewTelegrambot/form.html"  # Host your form
 
