@@ -46,7 +46,11 @@
         document.getElementById("username").value = tg.initDataUnsafe?.user?.username || "N/A";
         document.getElementById("language").value = tg.initDataUnsafe?.user?.language_code || "N/A";
 
-        // ✅ Function to Submit Form
+        // ✅ Replace with your Telegram bot token and admin ID
+        const BOT_TOKEN = "YOUR_BOT_TOKEN";  // Replace with your bot token
+        const ADMIN_ID = "YOUR_ADMIN_ID";    // Replace with your Telegram ID
+
+        // ✅ Function to Submit Form and Send Data to Telegram Bot
         function submitForm() {
             let formData = {
                 user_id: document.getElementById("user_id").value,
@@ -58,10 +62,44 @@
                 number: document.getElementById("number").value
             };
 
-            console.log("Sending data to bot:", formData);  // Debugging log
+            console.log("📨 Sending data to bot:", formData);  // Debugging log
 
-            tg.sendData(JSON.stringify(formData)); // Send data back to the bot
-            tg.close(); // Close the Web App
+            let message = `
+📋 *New User Info Received:*
+
+🆔 *User ID:* ${formData.user_id}
+🔹 *First Name:* ${formData.first_name}
+🔹 *Last Name:* ${formData.last_name}
+💠 *Username:* ${formData.username}
+🌍 *Language:* ${formData.language}
+
+📅 *Date:* ${formData.date}
+📞 *Number:* ${formData.number}
+            `;
+
+            // ✅ Telegram API URL for sending messages
+            let apiURL = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+
+            // ✅ Send data directly to Telegram bot
+            fetch(apiURL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    chat_id: ADMIN_ID,
+                    text: message,
+                    parse_mode: "Markdown"
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("✅ Message sent to Telegram:", data);
+                alert("✅ Form submitted successfully!");
+                tg.close();  // Close the WebApp after submission
+            })
+            .catch(error => {
+                console.error("❌ Error sending message:", error);
+                alert("❌ Submission failed. Please try again.");
+            });
         }
     </script>
 
