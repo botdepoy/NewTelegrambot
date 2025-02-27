@@ -1,30 +1,21 @@
 import json
 import logging
-import os
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo, InputMediaPhoto, KeyboardButton, ReplyKeyboardMarkup
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo, ReplyKeyboardMarkup, KeyboardButton
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackContext
 
 # ✅ Replace with your bot token and admin ID
 BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg"
 ADMIN_ID = "8101143576"
-WEB_APP_URL = "https://botdepoy.github.io/NewTelegrambot/form.html"  # Replace with your hosted form
+WEB_APP_URL = "https://botdepoy.github.io/NewTelegrambot/form.html?type="  # Base URL for different forms
 
 # ✅ Enable Logging (For Debugging)
 logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# ✅ Store Users and Broadcast Messages
+# ✅ Store Users
 USER_DB = "users.json"
-MESSAGE_DB = "messages.json"
 
-# ✅ Menu structure (Reply Keyboard)
-MENU = [
-    [KeyboardButton("✈ 落地接机"), KeyboardButton("🔖 证照办理"), KeyboardButton("🏤 房产凭租")],
-    [KeyboardButton("🏩 酒店预订"), KeyboardButton("🥗 食堂频道"), KeyboardButton("🛒 生活用品")],
-    [KeyboardButton("🔔 后勤生活信息频道")]
-]
-
-# ✅ Load and save users
+# ✅ Load and Save Users
 def load_users():
     try:
         with open(USER_DB, "r") as f:
@@ -43,7 +34,7 @@ def escape_markdown(text):
         return "N/A"
     return text.replace("_", "\\_").replace("*", "\\*").replace("[", "\\[").replace("]", "\\]")
 
-# ✅ Start Command (Menu & Form Button)
+# ✅ Start Command - Show Form Selection Menu
 async def start(update: Update, context: CallbackContext):
     user_id = update.message.chat_id
     users = load_users()
@@ -51,13 +42,20 @@ async def start(update: Update, context: CallbackContext):
         users.append(user_id)
         save_users(users)
 
-    keyboard = [[InlineKeyboardButton("📝 Fill Form", web_app=WebAppInfo(url=WEB_APP_URL))]]
+    # ✅ Inline Buttons for Different Forms
+    keyboard = [
+        [InlineKeyboardButton("🛬 Airport Pickup", web_app=WebAppInfo(url=f"{WEB_APP_URL}airport"))],
+        [InlineKeyboardButton("🏨 Hotel Booking", web_app=WebAppInfo(url=f"{WEB_APP_URL}hotel"))],
+        [InlineKeyboardButton("🔖 Visa Application", web_app=WebAppInfo(url=f"{WEB_APP_URL}visa"))],
+        [InlineKeyboardButton("🏤 House Rental", web_app=WebAppInfo(url=f"{WEB_APP_URL}rental"))],
+        [InlineKeyboardButton("📦 Logistics Request", web_app=WebAppInfo(url=f"{WEB_APP_URL}logistics"))],
+        [InlineKeyboardButton("🥗 Canteen Order", web_app=WebAppInfo(url=f"{WEB_APP_URL}canteen"))],
+        [InlineKeyboardButton("🛒 Shopping Order", web_app=WebAppInfo(url=f"{WEB_APP_URL}shop"))]
+    ]
+    
     reply_markup = InlineKeyboardMarkup(keyboard)
 
-    menu_markup = ReplyKeyboardMarkup(MENU, resize_keyboard=True)
-
-    await update.message.reply_text("📌 Please select an option:", reply_markup=menu_markup)
-    await update.message.reply_text("Click below to open the form inside Telegram:", reply_markup=reply_markup)
+    await update.message.reply_text("📋 Select a form to fill:", reply_markup=reply_markup)
 
 # ✅ Handle Form Data Submission
 async def receive_form(update: Update, context: CallbackContext):
@@ -139,8 +137,7 @@ def main():
     application = Application.builder().token(BOT_TOKEN).build()
     application.add_handler(CommandHandler("start", start))
     application.add_handler(MessageHandler(filters.StatusUpdate.WEB_APP_DATA, receive_form))
-    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, start))  # Handle menu selection
-
+    
     application.run_polling()
 
 if __name__ == "__main__":
