@@ -1,34 +1,34 @@
 import json
 import logging
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo, KeyboardButton, ReplyKeyboardMarkup
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackContext
 
 # ✅ Replace with your bot token and admin ID
 BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg"
 ADMIN_ID = "8101143576"
-WEB_APP_URL = "https://botdepoy.github.io/NewTelegrambot/form.html?type="  # Base URL for different forms
+WEB_APP_BASE_URL = "https://botdepoy.github.io/NewTelegrambot/form.html?type="  # Dynamic URL for different forms
 
-# ✅ Enable Logging
+# ✅ Enable Logging (For Debugging)
 logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# ✅ Escape Markdown characters
+# ✅ Escape MarkdownV2 special characters
 def escape_markdown(text):
     """Escape MarkdownV2 special characters"""
     if not text:
         return "N/A"
     return text.replace("_", "\\_").replace("*", "\\*").replace("[", "\\[").replace("]", "\\]")
 
-# ✅ Start Command - Display Form Selection Menu
+# ✅ Start Command - Display Menu & Form Selection
 async def start(update: Update, context: CallbackContext):
     keyboard = [
-        [InlineKeyboardButton("🛬 Airport Pickup", web_app=WebAppInfo(url=f"{WEB_APP_URL}airport"))],
-        [InlineKeyboardButton("🏨 Hotel Booking", web_app=WebAppInfo(url=f"{WEB_APP_URL}hotel"))],
-        [InlineKeyboardButton("🔖 Visa Application", web_app=WebAppInfo(url=f"{WEB_APP_URL}visa"))],
-        [InlineKeyboardButton("🏤 House Rental", web_app=WebAppInfo(url=f"{WEB_APP_URL}rental"))],
-        [InlineKeyboardButton("📦 Logistics Request", web_app=WebAppInfo(url=f"{WEB_APP_URL}logistics"))],
-        [InlineKeyboardButton("🥗 Canteen Order", web_app=WebAppInfo(url=f"{WEB_APP_URL}canteen"))],
-        [InlineKeyboardButton("🛒 Shopping Order", web_app=WebAppInfo(url=f"{WEB_APP_URL}shop"))]
+        [InlineKeyboardButton("🛬 Airport Pickup", web_app=WebAppInfo(url=f"{WEB_APP_BASE_URL}airport"))],
+        [InlineKeyboardButton("🏨 Hotel Booking", web_app=WebAppInfo(url=f"{WEB_APP_BASE_URL}hotel"))],
+        [InlineKeyboardButton("🔖 Visa Application", web_app=WebAppInfo(url=f"{WEB_APP_BASE_URL}visa"))],
+        [InlineKeyboardButton("🏤 House Rental", web_app=WebAppInfo(url=f"{WEB_APP_BASE_URL}rental"))],
+        [InlineKeyboardButton("📦 Logistics Request", web_app=WebAppInfo(url=f"{WEB_APP_BASE_URL}logistics"))],
+        [InlineKeyboardButton("🥗 Canteen Order", web_app=WebAppInfo(url=f"{WEB_APP_BASE_URL}canteen"))],
+        [InlineKeyboardButton("🛒 Shopping Order", web_app=WebAppInfo(url=f"{WEB_APP_BASE_URL}shop"))]
     ]
     
     reply_markup = InlineKeyboardMarkup(keyboard)
