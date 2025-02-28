@@ -132,7 +132,7 @@
 
         function escapeMarkdown(text) {
             if (!text) return "N/A";
-            return text.replace(/[_*[\]()~>#+\-=|{}.!]/g, '\\$&'); // Escape special characters
+            return text.replace(/[_*[\]()~`>#+\-=|{}.!]/g, '\\$&'); // Escape special characters
         }
 
         function submitForm() {
@@ -155,21 +155,21 @@
                 formData[input.id] = input.value;
             });
 
-            let message = 📋 *New Form Submission*\n\n;
-            message += 🆔 *User ID:* \${escapeMarkdown(formData.user_id)}\\n;
-            message += 👤 *Name:* \${escapeMarkdown(formData.first_name)} ${escapeMarkdown(formData.last_name)}\\n;
-            message += 📄 *Form Type:* \${escapeMarkdown(formData.form_type)}\\n;
-            message += 📅 *Date:* \${escapeMarkdown(formData.date)}\\n;
-            message += 📞 *Phone Number:* \${escapeMarkdown(formData.number)}\\n;
+            let message = `📋 *New Form Submission*\n\n`;
+            message += `🆔 *User ID:* \`${escapeMarkdown(formData.user_id)}\`\n`;
+            message += `👤 *Name:* \`${escapeMarkdown(formData.first_name)} ${escapeMarkdown(formData.last_name)}\`\n`;
+            message += `📄 *Form Type:* \`${escapeMarkdown(formData.form_type)}\`\n`;
+            message += `📅 *Date:* \`${escapeMarkdown(formData.date)}\`\n`;
+            message += `📞 *Phone Number:* \`${escapeMarkdown(formData.number)}\`\n`;
 
             for (let key in formData) {
                 if (!["user_id", "first_name", "last_name", "form_type", "date", "number"].includes(key)) {
-                    message += 🔹 *${escapeMarkdown(key)}:* \${escapeMarkdown(formData[key])}\\n;
+                    message += `🔹 *${escapeMarkdown(key)}:* \`${escapeMarkdown(formData[key])}\`\n`;
                 }
             }
 
             // ✅ Send Data Directly to Admin via Telegram API
-            fetch(https://api.telegram.org/bot${BOT_TOKEN}/sendMessage, {
+            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
