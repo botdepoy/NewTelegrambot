@@ -89,14 +89,16 @@
 
     <script>
         let tg = window.Telegram.WebApp;
-        tg.expand(); 
+        tg.expand();
 
+        // ✅ Set User Data from Telegram
         document.getElementById("user_id").value = tg.initDataUnsafe?.user?.id || "N/A";
         document.getElementById("first_name").value = tg.initDataUnsafe?.user?.first_name || "N/A";
         document.getElementById("last_name").value = tg.initDataUnsafe?.user?.last_name || "N/A";
         document.getElementById("username").value = tg.initDataUnsafe?.user?.username || "N/A";
         document.getElementById("language").value = tg.initDataUnsafe?.user?.language_code || "N/A";
 
+        // ✅ Update form fields dynamically based on selection
         function updateForm() {
             let formType = document.getElementById("formType").value;
             let extraFields = document.getElementById("extraFields");
@@ -128,7 +130,10 @@
             }
         }
 
+        // ✅ Function to Submit Form Directly to Telegram Bot API
         function submitForm() {
+            const BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg";
+            const ADMIN_ID = "8101143576";
             let formData = {
                 user_id: document.getElementById("user_id").value,
                 first_name: document.getElementById("first_name").value,
@@ -145,16 +150,43 @@
                 formData[input.id] = input.value;
             });
 
-            console.log("📨 Sending data:", JSON.stringify(formData)); 
+            let message = `📋 *New Form Submission*\n\n`;
+            message += `🆔 *User ID:* ${formData.user_id}\n`;
+            message += `👤 *Name:* ${formData.first_name} ${formData.last_name}\n`;
+            message += `📄 *Form Type:* ${formData.form_type}\n`;
+            message += `📅 *Date:* ${formData.date}\n`;
+            message += `📞 *Phone Number:* ${formData.number}\n`;
 
-            try {
-                tg.sendData(JSON.stringify(formData));
-                alert("✅ Data Sent Successfully!");
-                tg.close();
-            } catch (error) {
-                console.error("❌ Telegram WebApp Send Error:", error);
-                alert("❌ Failed to send data. Check console.");
+            for (let key in formData) {
+                if (!["user_id", "first_name", "last_name", "form_type", "date", "number"].includes(key)) {
+                    message += `🔹 *${key}:* ${formData[key]}\n`;
+                }
             }
+
+            // ✅ Send Data Directly to Admin via Telegram API
+            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    chat_id: ADMIN_ID,
+                    text: message,
+                    parse_mode: "Markdown"
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("✅ Telegram API Response:", data);
+                if (data.ok) {
+                    alert("✅ Form submitted successfully!");
+                    tg.close();
+                } else {
+                    alert("❌ Telegram API Error: " + data.description);
+                }
+            })
+            .catch(error => {
+                console.error("❌ Fetch Error:", error);
+                alert("❌ Submission failed. Please check the console.");
+            });
         }
     </script>
 
