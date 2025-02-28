@@ -3,107 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Telegram Form</title>
+    <title>Telegram Form</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
 
-    <h2 id="form-title">User Information</h2>
+    <h2>Additional Information</h2>
     <form id="userForm">
-        <input type="hidden" id="bot_token" value="7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg"> 
-        <input type="hidden" id="admin_id" value="8101143576"> 
         <input type="hidden" id="user_id">
+        <input type="hidden" id="first_name">
+        <input type="hidden" id="last_name">
         <input type="hidden" id="username">
-        <input type="hidden" id="form_type"> 
+        <input type="hidden" id="language">
 
-        <div id="form-content"> 
-            <!-- Dynamic content will be inserted here -->
-        </div>
+        <label>Date:</label>
+        <input type="date" id="date" required><br><br>
 
-        <button type="button" id="submitButton">Submit</button>
+        <label>Number:</label>
+        <input type="number" id="number" required><br><br>
+
+        <button type="button" onclick="submitForm()">Submit</button>
     </form>
 
-   <script>
-    let tg = window.Telegram.WebApp;
-    tg.expand();
+    <script>
+        let tg = window.Telegram.WebApp;
+        tg.expand(); // Expand form inside Telegram
 
-    document.getElementById("user_id").value = tg.initDataUnsafe?.user?.id || "N/A";
-    document.getElementById("username").value = "@" + (tg.initDataUnsafe?.user?.username || "N/A");
+        // ✅ Auto-fill Telegram User Info (Hidden Fields)
+        document.getElementById("user_id").value = tg.initDataUnsafe?.user?.id || "N/A";
+        document.getElementById("first_name").value = tg.initDataUnsafe?.user?.first_name || "N/A";
+        document.getElementById("last_name").value = tg.initDataUnsafe?.user?.last_name || "N/A";
+        document.getElementById("username").value = tg.initDataUnsafe?.user?.username || "N/A";
+        document.getElementById("language").value = tg.initDataUnsafe?.user?.language_code || "N/A";
 
-    function getQueryParam(name) {
-        let params = new URLSearchParams(window.location.search);
-        return params.get(name);
-    }
+        function submitForm() {
+            let formData = {
+                user_id: document.getElementById("user_id").value,
+                first_name: document.getElementById("first_name").value,
+                last_name: document.getElementById("last_name").value,
+                username: document.getElementById("username").value,
+                language: document.getElementById("language").value,
+                date: document.getElementById("date").value,
+                number: document.getElementById("number").value,
+                form_type: tg.initDataUnsafe?.start_param || "default"
+            };
 
-    let formType = getQueryParam("type");
-    document.getElementById("form_type").value = formType;
+            // ✅ Send data to Telegram bot
+            tg.sendData(JSON.stringify(formData));
 
-    let formContent = document.getElementById("form-content");
-
-    let formFields = {
-        "canteen": { title: "🥗 Canteen Order Form", fields: ["Meal Type", "Quantity"] },
-        "airport": { title: "✈ Airport Pickup Form", fields: ["Arrival Date", "Flight Number"] },
-        "hotel": { title: "🏨 Hotel Booking Form", fields: ["Check-in Date", "Hotel Name"] },
-        "visa": { title: "🔖 Visa Application Form", fields: ["Full Name", "Passport Number"] },
-        "rental": { title: "🏤 House Rental Form", fields: ["Location", "Budget"] },
-        "logistics": { title: "🔔 Logistics Form", fields: ["Package Type", "Delivery Date"] },
-        "shop": { title: "🛒 Shopping Form", fields: ["Product Name", "Quantity"] }
-    };
-
-    if (formType in formFields) {
-        document.getElementById("form-title").innerText = formFields[formType].title;
-        formContent.innerHTML = formFields[formType].fields.map(field =>
-            `<label>${field}:</label><input type="text" id="${field.toLowerCase().replace(' ', '_')}" required><br><br>`
-        ).join('');
-    } else {
-        formContent.innerHTML = `<p>⚠️ Unknown form type.</p>`;
-    }
-
-    function submitForm() {
-        let botToken = document.getElementById("bot_token").value;
-        let adminId = document.getElementById("admin_id").value;
-
-        let formData = {
-            user_id: document.getElementById("user_id").value,
-            username: document.getElementById("username").value,
-            form_type: formType
-        };
-
-        document.querySelectorAll("#form-content input").forEach(input => {
-            formData[input.id] = input.value;
-        });
-
-        let message = `📋 *New Form Submission*\n\n`
-                    + `🆔 *User ID:* ${formData.user_id}\n`
-                    + `👤 *Username:* ${formData.username}\n`
-                    + `📄 *Form Type:* ${formData.form_type}\n`;
-
-        for (let key in formData) {
-            if (!["user_id", "username", "form_type"].includes(key)) {
-                message += `🔹 *${key.replace('_', ' ').toUpperCase()}:* ${formData[key]}\n`;
-            }
+            alert("✅ Data Sent Successfully!");
+            tg.close(); // Close the WebApp
         }
-
-        let apiURL = `https://api.telegram.org/bot${botToken}/sendMessage`;
-
-        fetch(apiURL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                chat_id: adminId,
-                text: message,
-                parse_mode: "Markdown"
-            })
-        }).then(response => response.json())
-        .then(data => {
-            alert("✅ Form Submitted!");
-            tg.close();
-        })
-        .catch(error => alert("❌ Error: " + error));
-    }
-
-    document.getElementById("submitButton").addEventListener("click", submitForm);
-</script>
+    </script>
 
 </body>
 </html>
