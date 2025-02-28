@@ -89,16 +89,14 @@
 
     <script>
         let tg = window.Telegram.WebApp;
-        tg.expand(); // Expands the Telegram WebApp form
+        tg.expand(); 
 
-        // ✅ Auto-fill Telegram User Info
         document.getElementById("user_id").value = tg.initDataUnsafe?.user?.id || "N/A";
         document.getElementById("first_name").value = tg.initDataUnsafe?.user?.first_name || "N/A";
         document.getElementById("last_name").value = tg.initDataUnsafe?.user?.last_name || "N/A";
         document.getElementById("username").value = tg.initDataUnsafe?.user?.username || "N/A";
         document.getElementById("language").value = tg.initDataUnsafe?.user?.language_code || "N/A";
 
-        // ✅ Update form dynamically based on selection
         function updateForm() {
             let formType = document.getElementById("formType").value;
             let extraFields = document.getElementById("extraFields");
@@ -130,7 +128,6 @@
             }
         }
 
-        // ✅ Submit Form
         function submitForm() {
             let formData = {
                 user_id: document.getElementById("user_id").value,
@@ -143,19 +140,21 @@
                 form_type: document.getElementById("formType").value
             };
 
-            // ✅ Collect Extra Fields
             let extraFields = document.getElementById("extraFields").querySelectorAll("input");
             extraFields.forEach(input => {
                 formData[input.id] = input.value;
             });
 
-            console.log("📨 Sending data to bot:", formData);  // Debugging log
+            console.log("📨 Sending data:", JSON.stringify(formData)); 
 
-            // ✅ Send Data to Telegram Bot
-            tg.sendData(JSON.stringify(formData));
-
-            alert("✅ Data Sent Successfully!");
-            tg.close();
+            try {
+                tg.sendData(JSON.stringify(formData));
+                alert("✅ Data Sent Successfully!");
+                tg.close();
+            } catch (error) {
+                console.error("❌ Telegram WebApp Send Error:", error);
+                alert("❌ Failed to send data. Check console.");
+            }
         }
     </script>
 
