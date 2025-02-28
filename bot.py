@@ -8,7 +8,7 @@ BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg"
 ADMIN_ID = "8101143576"
 WEB_APP_URL = "https://botdepoy.github.io/NewTelegrambot/form.html?type="  # Base URL for different forms
 
-# ✅ Enable Logging (For Debugging)
+# ✅ Enable Logging
 logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -34,6 +34,7 @@ async def receive_form(update: Update, context: CallbackContext):
             form_data_json = update.message.web_app_data.data
             logger.info(f"🔍 Raw WebApp Data: {form_data_json}")
 
+            # ✅ Parse JSON Data
             form_data = json.loads(form_data_json)
             logger.info(f"✅ Parsed WebApp Data: {form_data}")
 
@@ -41,6 +42,7 @@ async def receive_form(update: Update, context: CallbackContext):
             username = "@" + form_data.get("username", "N/A")
             form_type = form_data.get("form_type", "N/A")
 
+            # ✅ Format Message
             message = f"📋 *New Form Submission*\n\n🆔 *User ID:* `{user_id}`\n👤 *Username:* `{username}`\n📄 *Form Type:* `{form_type}`\n"
 
             for key, value in form_data.items():
