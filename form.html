@@ -27,7 +27,7 @@
 
     <script>
         let tg = window.Telegram.WebApp;
-        tg.expand(); // Expand form inside Telegram
+        tg.expand(); 
 
         // ✅ Auto-fill Telegram User Info (Hidden Fields)
         document.getElementById("user_id").value = tg.initDataUnsafe?.user?.id || "N/A";
@@ -45,14 +45,16 @@
                 language: document.getElementById("language").value,
                 date: document.getElementById("date").value,
                 number: document.getElementById("number").value,
-                form_type: tg.initDataUnsafe?.start_param || "default"
+                form_type: new URLSearchParams(window.location.search).get("type") || "default"
             };
 
-            // ✅ Send data to Telegram bot
+            console.log("📨 Sending data to Telegram bot:", formData); // Debugging log
+
+            // ✅ Send form data to Telegram bot
             tg.sendData(JSON.stringify(formData));
 
             alert("✅ Data Sent Successfully!");
-            tg.close(); // Close the WebApp
+            tg.close(); // Close WebApp
         }
     </script>
 
