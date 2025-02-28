@@ -3,220 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Telegram Full-Screen Form</title>
+    <title>Telegram Multi-Form</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        body, html {
-            height: 100%;
-            width: 100%;
-            overflow: hidden;
-            background: #f4f4f4;
-        }
-
-        .container {
-            height: 100vh;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .form-container {
-            background: #ffffff;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 420px;
-            height: auto;
-            overflow-y: auto;
+        body {
+            font-family: Arial, sans-serif;
             text-align: center;
+            padding: 20px;
+            background-color: #f4f4f4;
         }
-
-        h2 {
-            font-size: 22px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 15px;
+        .form-container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin: auto;
         }
-
         label {
-            font-weight: 500;
+            font-weight: bold;
             display: block;
-            text-align: left;
-            margin: 12px 0 5px;
-            color: #444;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 14px;
-            background: #f9f9f9;
-            outline: none;
-            transition: 0.3s ease-in-out;
-        }
-
-        input:focus, select:focus {
-            border-color: #007bff;
-            background: #fff;
-            box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
-        }
-
-        select {
-            appearance: none;
-            background: url('https://cdn-icons-png.flaticon.com/512/60/60995.png') no-repeat right 10px center;
-            background-size: 16px;
-            padding-right: 35px;
-        }
-
-        button {
-            background: #007bff;
-            color: white;
-            padding: 12px 15px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            width: 100%;
-            font-size: 16px;
-            font-weight: 500;
-            transition: all 0.3s;
             margin-top: 10px;
         }
-
-        button:hover {
-            background: #0056b3;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0, 86, 179, 0.2);
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
         }
-
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="form-container">
-            <h2>提交信息</h2>
-
-            <form id="userForm">
-                <!-- Hidden Telegram User Fields -->
-                <input type="hidden" id="user_id">
-                <input type="hidden" id="first_name">
-                <input type="hidden" id="last_name">
-                <input type="hidden" id="username">
-                <input type="hidden" id="language">
-
-                <!-- Select Form Type -->
-                <label>选择表单类型:</label>
-                <select id="formType" onchange="updateForm()">
-                    <option value="airport">✈ 接机服务</option>
-                    <option value="hotel">🏨 酒店预订</option>
-                    <option value="visa">🔖 证件办理</option>
-                    <option value="rental">🏤 房产凭租</option>
-                    <option value="logistics">🔔 后勤生活信息频道</option>
-                    <option value="canteen">🥗 食堂频道</option>
-                    <option value="shop">🛒 生活用品</option>
-                </select>
-
-                <!-- Shared Fields -->
-                <label>日期:</label>
-                <input type="date" id="date" required>
-
-                <label>电话:</label>
-                <input type="number" id="number" required>
-
-                <!-- Form-Specific Fields -->
-                <div id="extraFields"></div>
-
-                <button type="button" onclick="submitForm()">提交</button>
-            </form>
-        </div>
-    </div>
-
-    <script>
-        let tg = window.Telegram.WebApp;
-        tg.expand(); // Force full-screen mode in Telegram WebApp
-
-        document.getElementById("user_id").value = tg.initDataUnsafe?.user?.id || "N/A";
-        document.getElementById("first_name").value = tg.initDataUnsafe?.user?.first_name || "N/A";
-        document.getElementById("last_name").value = tg.initDataUnsafe?.user?.last_name || "N/A";
-        document.getElementById("username").value = tg.initDataUnsafe?.user?.username || "N/A";
-        document.getElementById("language").value = tg.initDataUnsafe?.user?.language_code || "N/A";
-
-        function updateForm() {
-            let formType = document.getElementById("formType").value;
-            let extraFields = document.getElementById("extraFields");
-            extraFields.innerHTML = "";
-
-            let fieldDefinitions = {
-                "airport": ["航班号"],
-                "hotel": ["酒店名称"],
-                "visa": ["护照号码"],
-                "rental": ["位置"],
-                "logistics": ["包裹类型"],
-                "canteen": ["餐食类型"],
-                "shop": ["商品名称"]
-            };
-
-            if (fieldDefinitions[formType]) {
-                fieldDefinitions[formType].forEach(field => {
-                    let label = document.createElement("label");
-                    label.textContent = field + ":";
-
-                    let input = document.createElement("input");
-                    input.type = "text";
-                    input.id = field.replace(/\s+/g, "_").toLowerCase();
-                    input.required = true;
-
-                    extraFields.appendChild(label);
-                    extraFields.appendChild(input);
-                });
-            }
-        }
-
-        function submitForm() {
-            let formData = {
-                user_id: document.getElementById("user_id").value,
-                first_name: document.getElementById("first_name").value,
-                last_name: document.getElementById("last_name").value,
-                username: document.getElementById("username").value,
-                language: document.getElementById("language").value,
-                date: document.getElementById("date").value,
-                number: document.getElementById("number").value,
-                form_type: document.getElementById("formType").value
-            };
-
-            let extraFields = document.getElementById("extraFields").querySelectorAll("input");
-            extraFields.forEach(input => {
-                formData[input.id] = input.value;
-            });
-
-            console.log("📨 发送数据::", JSON.stringify(formData));
-
-            tg.sendData(JSON.stringify(formData));
-            alert("✅ 数据已成功提交!");
-            tg.close();
-        }
-    </script>
-</head>
-<body>
+    <h2>Submit Your Information</h2>
 
     <div class="form-container">
-        <h2>提交信息</h2>
-
         <form id="userForm">
             <!-- Hidden Telegram User Fields -->
             <input type="hidden" id="user_id">
@@ -226,34 +62,30 @@
             <input type="hidden" id="language">
 
             <!-- Select Form Type -->
-            <label>选择表单类型:</label>
-                <select id="formType" onchange="updateForm()">
-                    <option value="airport">✈ 接机服务</option>
-                    <option value="hotel">🏨 酒店预订</option>
-                    <option value="visa">🔖 证件办理</option>
-                    <option value="rental">🏤 房产凭租</option>
-                    <option value="logistics">🔔 后勤生活信息频道</option>
-                    <option value="canteen">🥗 食堂频道</option>
-                    <option value="shop">🛒 生活用品</option>
-                </select>
-
+            <label>Choose Form Type:</label>
+            <select id="formType" onchange="updateForm()">
+                <option value="airport">✈ 接机</option>
+                <option value="hotel">🏨 酒店</option>
+                <option value="visa">🔖 证件</option>
+                <option value="rental">🏤 房产凭租</option>
+                <option value="logistics">📦 后勤</option>
+                <option value="canteen">🥗食堂</option>
+                <option value="shop">🛒 生活用品</option>
+            </select>
 
             <!-- Shared Fields -->
-            <label>日期·:</label>
+            <label>Date:</label>
             <input type="date" id="date" required>
 
-            <label>电话:</label>
+            <label>Phone Number:</label>
             <input type="number" id="number" required>
 
             <!-- Form-Specific Fields -->
             <div id="extraFields"></div>
 
-            <button type="button" onclick="submitForm()">提交</button>
+            <button type="button" onclick="submitForm()">Submit</button>
         </form>
     </div>
-
-
-
 
     <script>
         let tg = window.Telegram.WebApp;
@@ -273,13 +105,13 @@
             extraFields.innerHTML = "";
 
             let fieldDefinitions = {
-                "airport": ["航班号"],
-                "hotel": ["酒店名称"],
-                "visa": ["护照号码"],
-                "rental": ["位置"],
-                "logistics": ["包裹类型"],
-                "canteen": ["餐食类型"],
-                "shop": ["商品名称"]
+                "airport": ["Flight Number"],
+                "hotel": ["Hotel Name"],
+                "visa": ["Passport Number"],
+                "rental": ["Location"],
+                "logistics": ["Package Type"],
+                "canteen": ["Meal Type"],
+                "shop": ["Product Name"]
             };
 
             if (fieldDefinitions[formType]) {
