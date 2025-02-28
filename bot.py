@@ -12,7 +12,7 @@ WEB_APP_BASE_URL = "https://botdepoy.github.io/NewTelegrambot/form.html?type="  
 logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# ✅ Inline Buttons for Form Selection (Popup Forms in Telegram)
+# ✅ Inline Buttons for Different Forms (Popup Forms in Telegram)
 FORM_BUTTONS = [
     [InlineKeyboardButton("✈ Airport Pickup", web_app=WebAppInfo(url=f"{WEB_APP_BASE_URL}airport"))],
     [InlineKeyboardButton("🏨 Hotel Booking", web_app=WebAppInfo(url=f"{WEB_APP_BASE_URL}hotel"))],
