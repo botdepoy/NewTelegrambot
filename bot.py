@@ -7,7 +7,7 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters, C
 # ✅ Replace with your bot token and admin ID
 BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg"
 ADMIN_ID = "8101143576"
-WEB_APP_BASE_URL = "https://botdepoy.github.io/NewTelegrambot/form.html?type="  # Base form URL
+WEB_APP_BASE_URL = "https://botdepoy.github.io/NewTelegrambot/form.html?type="  
 
 # ✅ Enable Logging
 logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
@@ -47,48 +47,11 @@ async def handle_menu(update: Update, context: CallbackContext):
     else:
         await update.message.reply_text(f"✅ You selected: {text}")
 
-# ✅ Handle Form Data Submission
-async def receive_form(update: Update, context: CallbackContext):
-    try:
-        if update.message and update.message.web_app_data:
-            form_data_json = update.message.web_app_data.data
-            logger.info(f"🟢 Raw WebApp Data Received: {form_data_json}")
-
-            # ✅ Convert JSON string to dictionary
-            form_data = json.loads(form_data_json)
-            logger.info(f"✅ Parsed Form Data: {form_data}")
-
-            # ✅ Extract Form Information
-            user_id = form_data.get("user_id", "N/A")
-            username = "@" + form_data.get("username", "N/A")
-            form_type = form_data.get("form_type", "N/A")
-
-            # ✅ Build Message for Admin
-            message = f"📋 *New Form Submission*\n\n🆔 *User ID:* `{user_id}`\n👤 *Username:* `{username}`\n📄 *Form Type:* `{form_type}`\n"
-
-            # ✅ Add Form Data
-            for key, value in form_data.items():
-                if key not in ["user_id", "username", "form_type"]:
-                    message += f"🔹 *{key.replace('_', ' ').title()}:* `{value}`\n"
-
-            # ✅ Send Form Data to Admin
-            requests.post(
-                f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage",
-                json={"chat_id": ADMIN_ID, "text": message, "parse_mode": "MarkdownV2"}
-            )
-
-            await update.message.reply_text("✅ Your form has been submitted successfully!")
-
-    except Exception as e:
-        logger.error(f"❌ Error processing form data: {e}")
-        await update.message.reply_text("❌ Submission failed. Please try again.")
-
 # ✅ Run the Bot
 def main():
     application = Application.builder().token(BOT_TOKEN).build()
     application.add_handler(CommandHandler("start", start))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_menu))
-    application.add_handler(MessageHandler(filters.StatusUpdate.WEB_APP_DATA, receive_form))
 
     application.run_polling()
 
