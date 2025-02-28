@@ -20,7 +20,7 @@
             <!-- Dynamic content will be inserted here -->
         </div>
 
-        <button type="button" onclick="submitForm()">Submit</button>
+        <button type="button" id="submitButton">Submit</button>
     </form>
 
    <script>
@@ -83,9 +83,7 @@
                 message += `🔹 *${key.replace('_', ' ').toUpperCase()}:* ${formData[key]}\n`;
             }
         }
-        // ✅ Replace with your Telegram bot token and admin ID
-        const botToken = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg";  // Replace with your bot token
-        const adminId = "8101143576";    // Replace with your Telegram ID
+
         let apiURL = `https://api.telegram.org/bot${botToken}/sendMessage`;
 
         fetch(apiURL, {
@@ -103,6 +101,8 @@
         })
         .catch(error => alert("❌ Error: " + error));
     }
+
+    document.getElementById("submitButton").addEventListener("click", submitForm);
 </script>
 
 </body>
