@@ -10,6 +10,7 @@
 
     <h2>Additional Information</h2>
     <form id="userForm">
+        <!-- Hidden fields (User ID, First Name, Last Name, Username, Language) -->
         <input type="hidden" id="user_id">
         <input type="hidden" id="first_name">
         <input type="hidden" id="last_name">
@@ -27,7 +28,7 @@
 
     <script>
         let tg = window.Telegram.WebApp;
-        tg.expand(); 
+        tg.expand(); // Expand form inside Telegram
 
         // ✅ Auto-fill Telegram User Info (Hidden Fields)
         document.getElementById("user_id").value = tg.initDataUnsafe?.user?.id || "N/A";
@@ -36,6 +37,16 @@
         document.getElementById("username").value = tg.initDataUnsafe?.user?.username || "N/A";
         document.getElementById("language").value = tg.initDataUnsafe?.user?.language_code || "N/A";
 
+        // ✅ Replace with your Telegram bot token and admin ID
+        const BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg";  // Replace with your bot token
+        const ADMIN_ID = "8101143576";    // Replace with your Telegram ID
+
+        // ✅ Function to escape special characters in MarkdownV2
+        function escapeMarkdown(text) {
+            return text.replace(/[_*[\]()~>#+\-=|{}.!]/g, '\\$&'); // Escape special characters
+        }
+
+        // ✅ Function to Submit Form and Send Data to Telegram Bot
         function submitForm() {
             let formData = {
                 user_id: document.getElementById("user_id").value,
@@ -44,17 +55,47 @@
                 username: document.getElementById("username").value,
                 language: document.getElementById("language").value,
                 date: document.getElementById("date").value,
-                number: document.getElementById("number").value,
-                form_type: new URLSearchParams(window.location.search).get("type") || "default"
+                number: document.getElementById("number").value
             };
 
-            console.log("📨 Sending data to Telegram bot:", formData); // Debugging log
+            console.log("📨 Sending data to bot:", formData);  // Debugging log
 
-            // ✅ Send form data to Telegram bot
-            tg.sendData(JSON.stringify(formData));
+            let message = `📋 *New User Info Received:*\n\n`
+                + `🆔 *User ID:* ${escapeMarkdown(formData.user_id)}\n`
+                + `🔹 *First Name:* ${escapeMarkdown(formData.first_name)}\n`
+                + `🔹 *Last Name:* ${escapeMarkdown(formData.last_name)}\n`
+                + `💠 *Username:* ${formData.username !== "N/A" ? '@' + escapeMarkdown(formData.username) : "N/A"}\n`
+                + `🌍 *Language:* ${escapeMarkdown(formData.language)}\n\n`
+                + `📅 *Date:* ${escapeMarkdown(formData.date)}\n`
+                + `📞 *Number:* ${escapeMarkdown(formData.number)}`;
 
-            alert("✅ Data Sent Successfully!");
-            tg.close(); // Close WebApp
+            // ✅ Telegram API URL for sending messages
+            let apiURL = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+
+            // ✅ Send data directly to Telegram bot
+            fetch(apiURL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    chat_id: ADMIN_ID,
+                    text: message,
+                    parse_mode: "MarkdownV2"
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("✅ Telegram API Response:", data);
+                if (data.ok) {
+                    alert("✅ Form submitted successfully!");
+                    tg.close();  // Close the WebApp after submission
+                } else {
+                    alert("❌ Telegram API Error: " + data.description);
+                }
+            })
+            .catch(error => {
+                console.error("❌ Fetch Error:", error);
+                alert("❌ Submission failed. Please check the console.");
+            });
         }
     </script>
 
