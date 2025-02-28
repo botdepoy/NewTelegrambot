@@ -1,5 +1,6 @@
 import json
 import logging
+import requests
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo, KeyboardButton, ReplyKeyboardMarkup
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackContext
 
@@ -8,7 +9,7 @@ BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg"
 ADMIN_ID = "8101143576"
 WEB_APP_BASE_URL = "https://botdepoy.github.io/NewTelegrambot/form.html?type="  # Base form URL
 
-# ✅ Enable Logging
+# ✅ Enable Logging (For Debugging)
 logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -19,8 +20,8 @@ MENU = [
     [KeyboardButton("🔔 后勤生活信息频道")]
 ]
 
-# ✅ Form URLs for each menu selection
-FORM_URLS = {
+# ✅ Form Types Mapping
+FORM_TYPES = {
     "✈ 落地接机": "airport",
     "🔖 证照办理": "visa",
     "🏤 房产凭租": "rental",
@@ -38,8 +39,8 @@ async def start(update: Update, context: CallbackContext):
 # ✅ Handle Menu Selection & Provide Form Link
 async def handle_menu(update: Update, context: CallbackContext):
     text = update.message.text
-    if text in FORM_URLS:
-        form_url = WEB_APP_BASE_URL + FORM_URLS[text]
+    if text in FORM_TYPES:
+        form_url = WEB_APP_BASE_URL + FORM_TYPES[text]
         buttons = [[InlineKeyboardButton("📝 Fill Form", web_app=WebAppInfo(url=form_url))]]
         reply_markup = InlineKeyboardMarkup(buttons)
         await update.message.reply_text(f"📌 You selected: {text}\nClick below to fill the form:", reply_markup=reply_markup)
@@ -86,7 +87,11 @@ async def receive_form(update: Update, context: CallbackContext):
             logger.info(f"📤 Sending message to admin: {message}")
 
             # ✅ Send Form Data to Admin
-            await context.bot.send_message(chat_id=ADMIN_ID, text=message, parse_mode="MarkdownV2")
+            requests.post(
+                f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage",
+                json={"chat_id": ADMIN_ID, "text": message, "parse_mode": "MarkdownV2"}
+            )
+
             await update.message.reply_text("✅ Your form has been submitted successfully!")
 
     except Exception as e:
