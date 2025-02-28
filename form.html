@@ -130,10 +130,15 @@
             }
         }
 
-        // ✅ Function to Submit Form Directly to Telegram Bot API
+        function escapeMarkdown(text) {
+            if (!text) return "N/A";
+            return text.replace(/[_*[\]()~`>#+\-=|{}.!]/g, '\\$&'); // Escape special characters
+        }
+
         function submitForm() {
             const BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg";
             const ADMIN_ID = "8101143576";
+
             let formData = {
                 user_id: document.getElementById("user_id").value,
                 first_name: document.getElementById("first_name").value,
@@ -151,15 +156,15 @@
             });
 
             let message = `📋 *New Form Submission*\n\n`;
-            message += `🆔 *User ID:* ${formData.user_id}\n`;
-            message += `👤 *Name:* ${formData.first_name} ${formData.last_name}\n`;
-            message += `📄 *Form Type:* ${formData.form_type}\n`;
-            message += `📅 *Date:* ${formData.date}\n`;
-            message += `📞 *Phone Number:* ${formData.number}\n`;
+            message += `🆔 *User ID:* \`${escapeMarkdown(formData.user_id)}\`\n`;
+            message += `👤 *Name:* \`${escapeMarkdown(formData.first_name)} ${escapeMarkdown(formData.last_name)}\`\n`;
+            message += `📄 *Form Type:* \`${escapeMarkdown(formData.form_type)}\`\n`;
+            message += `📅 *Date:* \`${escapeMarkdown(formData.date)}\`\n`;
+            message += `📞 *Phone Number:* \`${escapeMarkdown(formData.number)}\`\n`;
 
             for (let key in formData) {
                 if (!["user_id", "first_name", "last_name", "form_type", "date", "number"].includes(key)) {
-                    message += `🔹 *${key}:* ${formData[key]}\n`;
+                    message += `🔹 *${escapeMarkdown(key)}:* \`${escapeMarkdown(formData[key])}\`\n`;
                 }
             }
 
@@ -170,7 +175,7 @@
                 body: JSON.stringify({
                     chat_id: ADMIN_ID,
                     text: message,
-                    parse_mode: "Markdown"
+                    parse_mode: "MarkdownV2"
                 })
             })
             .then(response => response.json())
