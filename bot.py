@@ -9,7 +9,7 @@ BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg"
 ADMIN_ID = "8101143576"
 WEB_APP_BASE_URL = "https://botdepoy.github.io/NewTelegrambot/form.html?type="  # Base form URL
 
-# ✅ Enable Logging (For Debugging)
+# ✅ Enable Logging
 logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -63,28 +63,13 @@ async def receive_form(update: Update, context: CallbackContext):
             username = "@" + form_data.get("username", "N/A")
             form_type = form_data.get("form_type", "N/A")
 
-            # ✅ Debugging Log
-            logger.info(f"🔹 User: {username} | Form Type: {form_type}")
-
             # ✅ Build Message for Admin
             message = f"📋 *New Form Submission*\n\n🆔 *User ID:* `{user_id}`\n👤 *Username:* `{username}`\n📄 *Form Type:* `{form_type}`\n"
 
             # ✅ Add Form Data
-            if form_type == "canteen":
-                message += f"🍽️ *Meal Type:* `{form_data.get('meal_type', 'N/A')}`\n🔢 *Quantity:* `{form_data.get('quantity', 'N/A')}`\n"
-            elif form_type == "airport":
-                message += f"📅 *Arrival Date:* `{form_data.get('arrival_date', 'N/A')}`\n✈ *Flight Number:* `{form_data.get('flight_number', 'N/A')}`\n"
-            elif form_type == "hotel":
-                message += f"🏨 *Hotel Name:* `{form_data.get('hotel_name', 'N/A')}`\n📅 *Check-in Date:* `{form_data.get('checkin_date', 'N/A')}`\n"
-            elif form_type == "visa":
-                message += f"🆔 *Full Name:* `{form_data.get('full_name', 'N/A')}`\n🛂 *Passport Number:* `{form_data.get('passport_number', 'N/A')}`\n"
-            elif form_type == "rental":
-                message += f"📍 *Location:* `{form_data.get('location', 'N/A')}`\n💰 *Budget:* `{form_data.get('budget', 'N/A')}`\n"
-            elif form_type == "shop":
-                message += f"🛍️ *Product Name:* `{form_data.get('product_name', 'N/A')}`\n🔢 *Quantity:* `{form_data.get('shop_quantity', 'N/A')}`\n"
-
-            # ✅ Debugging Log Before Sending Message
-            logger.info(f"📤 Sending message to admin: {message}")
+            for key, value in form_data.items():
+                if key not in ["user_id", "username", "form_type"]:
+                    message += f"🔹 *{key.replace('_', ' ').title()}:* `{value}`\n"
 
             # ✅ Send Form Data to Admin
             requests.post(
