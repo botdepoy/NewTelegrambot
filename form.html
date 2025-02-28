@@ -215,7 +215,7 @@
 <body>
 
     <div class="form-container">
-        <h2>Submit Your Information</h2>
+        <h2>提交信息</h2>
 
         <form id="userForm">
             <!-- Hidden Telegram User Fields -->
@@ -226,7 +226,7 @@
             <input type="hidden" id="language">
 
             <!-- Select Form Type -->
-            <label>Choose Form Type:</label>
+            <label>选择表单类型:</label>
                 <select id="formType" onchange="updateForm()">
                     <option value="airport">✈ 接机服务</option>
                     <option value="hotel">🏨 酒店预订</option>
@@ -273,13 +273,13 @@
             extraFields.innerHTML = "";
 
             let fieldDefinitions = {
-                "airport": ["Flight Number"],
-                "hotel": ["Hotel Name"],
-                "visa": ["Passport Number"],
-                "rental": ["Location"],
-                "logistics": ["Package Type"],
-                "canteen": ["Meal Type"],
-                "shop": ["Product Name"]
+                "airport": ["航班号"],
+                "hotel": ["酒店名称"],
+                "visa": ["护照号码"],
+                "rental": ["位置"],
+                "logistics": ["包裹类型"],
+                "canteen": ["餐食类型"],
+                "shop": ["商品名称"]
             };
 
             if (fieldDefinitions[formType]) {
