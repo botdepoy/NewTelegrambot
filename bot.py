@@ -1,6 +1,5 @@
 import json
 import logging
-import os
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo, KeyboardButton, ReplyKeyboardMarkup
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackContext
 
@@ -12,9 +11,6 @@ WEB_APP_BASE_URL = "https://botdepoy.github.io/NewTelegrambot/form.html?type="  
 # ✅ Enable Logging
 logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
 logger = logging.getLogger(__name__)
-
-# ✅ Store Users and Broadcast Messages
-USER_DB = "users.json"
 
 # ✅ Menu structure (Reply Keyboard)
 MENU = [
@@ -34,37 +30,17 @@ FORM_URLS = {
     "🔔 后勤生活信息频道": "logistics"
 }
 
-# ✅ Load and save users
-def load_users():
-    try:
-        with open(USER_DB, "r") as f:
-            return json.load(f)
-    except FileNotFoundError:
-        return []
-
-def save_users(users):
-    with open(USER_DB, "w") as f:
-        json.dump(users, f)
-
 # ✅ Start Command (Menu & Form Button)
 async def start(update: Update, context: CallbackContext):
-    user_id = update.message.chat_id
-    users = load_users()
-    if user_id not in users:
-        users.append(user_id)
-        save_users(users)
-
     menu_markup = ReplyKeyboardMarkup(MENU, resize_keyboard=True)
     await update.message.reply_text("📌 Please select an option:", reply_markup=menu_markup)
 
-# ✅ Handle Menu Selection
+# ✅ Handle Menu Selection & Provide Form Link
 async def handle_menu(update: Update, context: CallbackContext):
     text = update.message.text
     if text in FORM_URLS:
         form_url = WEB_APP_BASE_URL + FORM_URLS[text]
-        buttons = [
-            [InlineKeyboardButton("📝 Fill Form", web_app=WebAppInfo(url=form_url))]
-        ]
+        buttons = [[InlineKeyboardButton("📝 Fill Form", web_app=WebAppInfo(url=form_url))]]
         reply_markup = InlineKeyboardMarkup(buttons)
         await update.message.reply_text(f"📌 You selected: {text}\nClick below to fill the form:", reply_markup=reply_markup)
     else:
@@ -86,6 +62,9 @@ async def receive_form(update: Update, context: CallbackContext):
             username = "@" + form_data.get("username", "N/A")
             form_type = form_data.get("form_type", "N/A")
 
+            # ✅ Debugging Log
+            logger.info(f"🔹 User: {username} | Form Type: {form_type}")
+
             # ✅ Build Message for Admin
             message = f"📋 *New Form Submission*\n\n🆔 *User ID:* `{user_id}`\n👤 *Username:* `{username}`\n📄 *Form Type:* `{form_type}`\n"
 
@@ -102,6 +81,9 @@ async def receive_form(update: Update, context: CallbackContext):
                 message += f"📍 *Location:* `{form_data.get('location', 'N/A')}`\n💰 *Budget:* `{form_data.get('budget', 'N/A')}`\n"
             elif form_type == "shop":
                 message += f"🛍️ *Product Name:* `{form_data.get('product_name', 'N/A')}`\n🔢 *Quantity:* `{form_data.get('shop_quantity', 'N/A')}`\n"
+
+            # ✅ Debugging Log Before Sending Message
+            logger.info(f"📤 Sending message to admin: {message}")
 
             # ✅ Send Form Data to Admin
             await context.bot.send_message(chat_id=ADMIN_ID, text=message, parse_mode="MarkdownV2")
