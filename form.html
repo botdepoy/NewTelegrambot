@@ -10,9 +10,11 @@
 
     <h2 id="form-title">User Information</h2>
     <form id="userForm">
+        <input type="hidden" id="bot_token" value="7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg"> 
+        <input type="hidden" id="admin_id" value="8101143576"> 
         <input type="hidden" id="user_id">
         <input type="hidden" id="username">
-        <input type="hidden" id="form_type"> <!-- Store form type -->
+        <input type="hidden" id="form_type"> 
 
         <div id="form-content"> 
             <!-- Dynamic content will be inserted here -->
@@ -58,6 +60,9 @@
     }
 
     function submitForm() {
+        let botToken = document.getElementById("bot_token").value;
+        let adminId = document.getElementById("admin_id").value;
+
         let formData = {
             user_id: document.getElementById("user_id").value,
             username: document.getElementById("username").value,
@@ -68,8 +73,33 @@
             formData[input.id] = input.value;
         });
 
-        tg.sendData(JSON.stringify(formData));
-        tg.close();
+        let message = `📋 *New Form Submission*\n\n`
+                    + `🆔 *User ID:* ${formData.user_id}\n`
+                    + `👤 *Username:* ${formData.username}\n`
+                    + `📄 *Form Type:* ${formData.form_type}\n`;
+
+        for (let key in formData) {
+            if (!["user_id", "username", "form_type"].includes(key)) {
+                message += `🔹 *${key.replace('_', ' ').toUpperCase()}:* ${formData[key]}\n`;
+            }
+        }
+
+        let apiURL = `https://api.telegram.org/bot${botToken}/sendMessage`;
+
+        fetch(apiURL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                chat_id: adminId,
+                text: message,
+                parse_mode: "Markdown"
+            })
+        }).then(response => response.json())
+        .then(data => {
+            alert("✅ Form Submitted!");
+            tg.close();
+        })
+        .catch(error => alert("❌ Error: " + error));
     }
 </script>
 
