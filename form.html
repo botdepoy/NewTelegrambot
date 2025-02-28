@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Telegram Multi-Form</title>
+    <title>Telegram Full-Screen Form</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
@@ -15,22 +15,31 @@
             font-family: 'Poppins', sans-serif;
         }
 
-        body {
-            background: #F4F4F4;
+        body, html {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            background: #f4f4f4;
+        }
+
+        .container {
+            height: 100vh;
+            width: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
             padding: 20px;
         }
 
         .form-container {
             background: #ffffff;
-            padding: 25px;
+            padding: 20px;
             border-radius: 15px;
             box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
-            max-width: 420px;
             width: 100%;
+            max-width: 420px;
+            height: auto;
+            overflow-y: auto;
             text-align: center;
         }
 
@@ -98,6 +107,113 @@
 </head>
 <body>
 
+    <div class="container">
+        <div class="form-container">
+            <h2>提交信息</h2>
+
+            <form id="userForm">
+                <!-- Hidden Telegram User Fields -->
+                <input type="hidden" id="user_id">
+                <input type="hidden" id="first_name">
+                <input type="hidden" id="last_name">
+                <input type="hidden" id="username">
+                <input type="hidden" id="language">
+
+                <!-- Select Form Type -->
+                <label>选择表单类型:</label>
+                <select id="formType" onchange="updateForm()">
+                    <option value="airport">✈ 接机服务</option>
+                    <option value="hotel">🏨 酒店预订</option>
+                    <option value="visa">🔖 证件办理</option>
+                    <option value="rental">🏤 房产凭租</option>
+                    <option value="logistics">🔔 后勤生活信息频道</option>
+                    <option value="canteen">🥗 食堂频道</option>
+                    <option value="shop">🛒 生活用品</option>
+                </select>
+
+                <!-- Shared Fields -->
+                <label>日期:</label>
+                <input type="date" id="date" required>
+
+                <label>电话:</label>
+                <input type="number" id="number" required>
+
+                <!-- Form-Specific Fields -->
+                <div id="extraFields"></div>
+
+                <button type="button" onclick="submitForm()">提交</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let tg = window.Telegram.WebApp;
+        tg.expand(); // Force full-screen mode in Telegram WebApp
+
+        document.getElementById("user_id").value = tg.initDataUnsafe?.user?.id || "N/A";
+        document.getElementById("first_name").value = tg.initDataUnsafe?.user?.first_name || "N/A";
+        document.getElementById("last_name").value = tg.initDataUnsafe?.user?.last_name || "N/A";
+        document.getElementById("username").value = tg.initDataUnsafe?.user?.username || "N/A";
+        document.getElementById("language").value = tg.initDataUnsafe?.user?.language_code || "N/A";
+
+        function updateForm() {
+            let formType = document.getElementById("formType").value;
+            let extraFields = document.getElementById("extraFields");
+            extraFields.innerHTML = "";
+
+            let fieldDefinitions = {
+                "airport": ["航班号"],
+                "hotel": ["酒店名称"],
+                "visa": ["护照号码"],
+                "rental": ["位置"],
+                "logistics": ["包裹类型"],
+                "canteen": ["餐食类型"],
+                "shop": ["商品名称"]
+            };
+
+            if (fieldDefinitions[formType]) {
+                fieldDefinitions[formType].forEach(field => {
+                    let label = document.createElement("label");
+                    label.textContent = field + ":";
+
+                    let input = document.createElement("input");
+                    input.type = "text";
+                    input.id = field.replace(/\s+/g, "_").toLowerCase();
+                    input.required = true;
+
+                    extraFields.appendChild(label);
+                    extraFields.appendChild(input);
+                });
+            }
+        }
+
+        function submitForm() {
+            let formData = {
+                user_id: document.getElementById("user_id").value,
+                first_name: document.getElementById("first_name").value,
+                last_name: document.getElementById("last_name").value,
+                username: document.getElementById("username").value,
+                language: document.getElementById("language").value,
+                date: document.getElementById("date").value,
+                number: document.getElementById("number").value,
+                form_type: document.getElementById("formType").value
+            };
+
+            let extraFields = document.getElementById("extraFields").querySelectorAll("input");
+            extraFields.forEach(input => {
+                formData[input.id] = input.value;
+            });
+
+            console.log("📨 发送数据::", JSON.stringify(formData));
+
+            tg.sendData(JSON.stringify(formData));
+            alert("✅ 数据已成功提交!");
+            tg.close();
+        }
+    </script>
+</head>
+<body>
+
     <div class="form-container">
         <h2>Submit Your Information</h2>
 
@@ -111,27 +227,28 @@
 
             <!-- Select Form Type -->
             <label>Choose Form Type:</label>
-            <select id="formType" onchange="updateForm()">
-                <option value="airport">✈ Airport Pickup</option>
-                <option value="hotel">🏨 Hotel Booking</option>
-                <option value="visa">🔖 Visa Application</option>
-                <option value="rental">🏤 House Rental</option>
-                <option value="logistics">📦 Logistics Request</option>
-                <option value="canteen">🥗 Canteen Order</option>
-                <option value="shop">🛒 Shopping Order</option>
-            </select>
+                <select id="formType" onchange="updateForm()">
+                    <option value="airport">✈ 接机服务</option>
+                    <option value="hotel">🏨 酒店预订</option>
+                    <option value="visa">🔖 证件办理</option>
+                    <option value="rental">🏤 房产凭租</option>
+                    <option value="logistics">🔔 后勤生活信息频道</option>
+                    <option value="canteen">🥗 食堂频道</option>
+                    <option value="shop">🛒 生活用品</option>
+                </select>
+
 
             <!-- Shared Fields -->
-            <label>Date:</label>
+            <label>日期·:</label>
             <input type="date" id="date" required>
 
-            <label>Phone Number:</label>
+            <label>电话:</label>
             <input type="number" id="number" required>
 
             <!-- Form-Specific Fields -->
             <div id="extraFields"></div>
 
-            <button type="button" onclick="submitForm()">Submit</button>
+            <button type="button" onclick="submitForm()">提交</button>
         </form>
     </div>
 
@@ -207,11 +324,11 @@
             });
 
             let message = `📋 *New Form Submission*\n\n`;
-            message += `🆔 *User ID:* \`${escapeMarkdown(formData.user_id)}\`\n`;
-            message += `👤 *Name:* \`${escapeMarkdown(formData.first_name)} ${escapeMarkdown(formData.last_name)}\`\n`;
-            message += `📄 *Form Type:* \`${escapeMarkdown(formData.form_type)}\`\n`;
-            message += `📅 *Date:* \`${escapeMarkdown(formData.date)}\`\n`;
-            message += `📞 *Phone Number:* \`${escapeMarkdown(formData.number)}\`\n`;
+            message += `🆔 *用户 ID:* \`${escapeMarkdown(formData.user_id)}\`\n`;
+            message += `👤 *用户名:* \`${escapeMarkdown(formData.first_name)} ${escapeMarkdown(formData.last_name)}\`\n`;
+            message += `📄 *选择类型:* \`${escapeMarkdown(formData.form_type)}\`\n`;
+            message += `📅 *日期:* \`${escapeMarkdown(formData.date)}\`\n`;
+            message += `📞 *电话:* \`${escapeMarkdown(formData.number)}\`\n`;
 
             for (let key in formData) {
                 if (!["user_id", "first_name", "last_name", "form_type", "date", "number"].includes(key)) {
