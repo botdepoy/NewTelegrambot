@@ -1,6 +1,5 @@
 import json
 import logging
-import os
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo, KeyboardButton, ReplyKeyboardMarkup
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackContext
 
@@ -13,11 +12,7 @@ WEB_APP_BASE_URL = "https://botdepoy.github.io/NewTelegrambot/form.html?type="  
 logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# ✅ Store Users and Broadcast Messages
-USER_DB = "users.json"
-MESSAGE_DB = "messages.json"
-
-# ✅ Inline Buttons for Form Selection
+# ✅ Inline Buttons for Form Selection (Popup Forms in Telegram)
 FORM_BUTTONS = [
     [InlineKeyboardButton("✈ Airport Pickup", web_app=WebAppInfo(url=f"{WEB_APP_BASE_URL}airport"))],
     [InlineKeyboardButton("🏨 Hotel Booking", web_app=WebAppInfo(url=f"{WEB_APP_BASE_URL}hotel"))],
@@ -36,33 +31,10 @@ MENU = [
 ]
 MENU_MARKUP = ReplyKeyboardMarkup(MENU, resize_keyboard=True)
 
-# ✅ Load and save users
-def load_users():
-    try:
-        with open(USER_DB, "r") as f:
-            return json.load(f)
-    except FileNotFoundError:
-        return []
-
-def save_users(users):
-    with open(USER_DB, "w") as f:
-        json.dump(users, f)
-
-# ✅ Start Command (Menu & Form Button)
+# ✅ Start Command (Menu & Form Selection)
 async def start(update: Update, context: CallbackContext):
-    user_id = update.message.chat_id
-    users = load_users()
-    if user_id not in users:
-        users.append(user_id)
-        save_users(users)
-
     await update.message.reply_text("📌 Please select an option:", reply_markup=MENU_MARKUP)
     await update.message.reply_text("📝 Select a form to fill:", reply_markup=FORM_SELECTION_MARKUP)
-
-# ✅ Handle Menu Selection
-async def handle_menu(update: Update, context: CallbackContext):
-    text = update.message.text
-    await update.message.reply_text(f"✅ You selected: {text}")
 
 # ✅ Handle Form Data Submission
 async def receive_form(update: Update, context: CallbackContext):
@@ -80,6 +52,7 @@ async def receive_form(update: Update, context: CallbackContext):
 
             message = f"📋 *New Form Submission*\n\n🆔 *User ID:* `{user_id}`\n👤 *Username:* `{username}`\n📄 *Form Type:* `{form_type}`\n"
 
+            # ✅ Add extra form details based on type
             if form_type == "airport":
                 message += (
                     f"📅 *Arrival Date:* `{form_data.get('arrival_date', 'N/A')}`\n"
@@ -111,6 +84,7 @@ async def receive_form(update: Update, context: CallbackContext):
                     f"🔢 *Quantity:* `{form_data.get('shop_quantity', 'N/A')}`\n"
                 )
 
+            # ✅ Send collected data to Admin
             await context.bot.send_message(chat_id=ADMIN_ID, text=message, parse_mode="MarkdownV2")
             await update.message.reply_text("✅ Your form has been submitted successfully!")
 
@@ -123,7 +97,6 @@ def main():
     application = Application.builder().token(BOT_TOKEN).build()
     application.add_handler(CommandHandler("start", start))
     application.add_handler(MessageHandler(filters.StatusUpdate.WEB_APP_DATA, receive_form))
-    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_menu))
 
     application.run_polling()
 
