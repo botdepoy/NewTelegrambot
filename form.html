@@ -217,10 +217,10 @@
 
             let message = `📋 *New Form Submission*\n\n`;
             message += `🆔 *用户 ID:* \`${escapeMarkdown(formData.user_id)}\`\n`;
-            message += `👤 *Name:* \`${escapeMarkdown(formData.first_name)} ${escapeMarkdown(formData.last_name)}\`\n`;
-            message += `📄 *Form Type:* \`${escapeMarkdown(formData.form_type)}\`\n`;
-            message += `📅 *Date:* \`${escapeMarkdown(formData.date)}\`\n`;
-            message += `📞 *Phone Number:* \`${escapeMarkdown(formData.number)}\`\n`;
+            message += `👤 *用户姓名:* \`${escapeMarkdown(formData.first_name)} ${escapeMarkdown(formData.last_name)}\`\n`;
+            message += `📄 *选择类型:* \`${escapeMarkdown(formData.form_type)}\`\n`;
+            message += `📅 *日期:* \`${escapeMarkdown(formData.date)}\`\n`;
+            message += `📞 *联系方式:* \`${escapeMarkdown(formData.number)}\`\n`;
 
             for (let key in formData) {
                 if (!["user_id", "first_name", "last_name", "form_type", "date", "number"].includes(key)) {
