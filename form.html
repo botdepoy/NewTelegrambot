@@ -111,7 +111,7 @@
 
                 <label>📌 Choose Service:</label>
                 <select id="formType" onchange="updateForm()">
-                    <option value="choose">Please choose an option</option>
+                    <option value="">Please choose an option . . .</option>
                     <option value="airport">✈ Airport Pickup</option>
                     <option value="hotel">🏨 Hotel Booking</option>
                     <option value="visa">🔖 Visa Application</option>
@@ -137,7 +137,7 @@
             extraFields.innerHTML = "";
 
             let fields = {
-                 "airport": [
+                "airport": [
                     "Flight Number", "Pickup Location & Destination",
                     { label: "Service Level", type: "radio", options: ["普通", "VIP", "超级 VIP"] }
                 ],
@@ -146,7 +146,7 @@
                     { label: "Room Type", type: "radio", options: ["单人房", "双人房", "豪华房"] }
                 ],
                 "visa": [
-                    "Full Name (Pinyin)", "Date of Birth", "Passport Number", 
+                    "Full Name (Pinyin)", "Date of Birth", "Passport Number",
                     { label: "Visa Type", type: "radio", options: ["旅游签", "商务签", "学生签", "工作签"] }
                 ],
                 "rental": [
@@ -154,20 +154,24 @@
                     { label: "Rental Type", type: "radio", options: ["整租", "合租"] }
                 ],
                 "logistics": [
-                    "Sender & Receiver Info", "Item Description", 
+                    "Sender & Receiver Info", "Item Description",
                     { label: "Delivery Speed", type: "radio", options: ["普通", "加急"] }
+                ],
+                "shop": ["Product Name", "Quantity", "Delivery Address"]
             };
 
             if (fields[formType]) {
                 fields[formType].forEach(field => {
-                    let label = document.createElement("label");
-                    label.textContent = field + ":";
-                    let input = document.createElement("input");
-                    input.type = "text";
-                    input.id = field.replace(/\s+/g, "_").toLowerCase();
-                    input.required = true;
-                    extraFields.appendChild(label);
-                    extraFields.appendChild(input);
+                    if (typeof field === "string") {
+                        extraFields.innerHTML += `<label>${field}:</label><input type="text" id="${field.replace(/\s+/g, "_").toLowerCase()}" required>`;
+                    } else {
+                        let radioGroup = `<label>${field.label}:</label>`;
+                        field.options.forEach(option => {
+                            let id = field.label.replace(/\s+/g, "_").toLowerCase() + "_" + option.replace(/\s+/g, "_").toLowerCase();
+                            radioGroup += `<input type="radio" id="${id}" name="${field.label}" value="${option}"> <label for="${id}">${option}</label>`;
+                        });
+                        extraFields.innerHTML += radioGroup;
+                    }
                 });
             }
         }
@@ -182,16 +186,20 @@
                 formData[input.id] = input.value;
             });
 
+            if (!formData.formtype || formData.formtype === "") {
+                alert("⚠️ Please select a service before submitting.");
+                return;
+            }
+
             let message = `📝 *New Form Submission*\n\n` +
                 `🆔 *用户 ID:* \`${formData.user_id}\`\n` +
                 `👤 *Name:* ${formData.first_name} ${formData.last_name || "N/A"}\n` +
                 `📄 *Form Type:* \`${formData.formtype}\`\n` +
                 `📅 *Date:* \`${formData.date || "N/A"}\`\n` +
                 `📞 *Phone Number:* \`${formData.number || "N/A"}\`\n` +
-                `🔹 *username:* @${formData.username || "N/A"}\n` +
-                `🌍 *language:* \`${formData.language || "N/A"}\`\n`;
+                `🔹 *Username:* @${formData.username || "N/A"}\n` +
+                `🌍 *Language:* \`${formData.language || "N/A"}\`\n`;
 
-            // Append extra fields
             Object.keys(formData).forEach(key => {
                 if (!["user_id", "first_name", "last_name", "formtype", "date", "number", "username", "language"].includes(key)) {
                     message += `🔹 *${key.replace(/_/g, " ")}:* \`${formData[key]}\`\n`;
@@ -201,11 +209,7 @@
             fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    chat_id: ADMIN_ID,
-                    text: message,
-                    parse_mode: "Markdown"
-                })
+                body: JSON.stringify({ chat_id: ADMIN_ID, text: message, parse_mode: "Markdown" })
             }).then(response => response.json()).then(data => {
                 if (data.ok) alert("✅ Submitted Successfully!");
                 else alert("❌ Error: " + data.description);
