@@ -1,143 +1,83 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Telegram Full-Screen Form</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+<script>
+    let tg = window.Telegram.WebApp;
+    tg.expand();
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
+    // ✅ Set User Data from Telegram
+    document.getElementById("user_id").value = tg.initDataUnsafe?.user?.id || "N/A";
+    document.getElementById("first_name").value = tg.initDataUnsafe?.user?.first_name || "N/A";
+    document.getElementById("last_name").value = tg.initDataUnsafe?.user?.last_name || "N/A";
+    document.getElementById("username").value = tg.initDataUnsafe?.user?.username ? "@" + tg.initDataUnsafe?.user?.username : "N/A";
+    document.getElementById("language").value = tg.initDataUnsafe?.user?.language_code || "N/A";
+
+    function updateForm() {
+        let formType = document.getElementById("formType").value;
+        let extraFields = document.getElementById("extraFields");
+        extraFields.innerHTML = "";
+
+        let fieldDefinitions = {
+            "airport": [
+                "Flight Number", "Pickup & Destination Address",
+                { label: "Service Level", type: "radio", options: ["普通", "VIP", "超级 VIP"] },
+                { label: "Upgrade Service", type: "checkbox", options: ["行李协助", "延长等候时间", "其他（请填写）"] }
+            ],
+            "hotel": [
+                "Full Name", "Contact Info", "Check-in & Check-out Date",
+                { label: "Room Type", type: "radio", options: ["单人房", "双人房", "豪华房", "其他（请填写）"] },
+                { label: "Payment Method", type: "radio", options: ["现金", "信用卡", "微信支付", "支付宝"] },
+                { label: "Special Requests", type: "checkbox", options: ["无烟房", "高楼层", "加床", "其他（请填写）"] }
+            ],
+            "visa": [
+                "Name (Pinyin)", "DOB & Nationality", "Passport Number", "Passport Expiry Date",
+                { label: "Visa Type", type: "radio", options: ["旅游签", "商务签", "学生签", "工作签"] },
+                "Destination Country", "Entry Date & Duration",
+                { label: "Required Documents", type: "checkbox", options: ["护照扫描件", "照片", "银行流水", "邀请函", "其他（请填写）"] },
+                "Emergency Contact", 
+                { label: "Payment Method", type: "radio", options: ["现金", "银行转账", "微信支付", "支付宝"] }
+            ]
+        };
+
+        if (fieldDefinitions[formType]) {
+            fieldDefinitions[formType].forEach(field => {
+                let label = document.createElement("label");
+
+                if (typeof field === "string") {
+                    label.textContent = field + ":";
+                    let input = document.createElement("input");
+                    input.type = "text";
+                    input.id = field.replace(/\s+/g, "_").toLowerCase();
+                    input.required = true;
+                    extraFields.appendChild(label);
+                    extraFields.appendChild(input);
+                } else {
+                    label.textContent = field.label + ":";
+                    extraFields.appendChild(label);
+
+                    field.options.forEach(option => {
+                        let optionContainer = document.createElement("div");
+                        let input = document.createElement("input");
+                        input.type = field.type;
+                        input.name = field.label.replace(/\s+/g, "_").toLowerCase();
+                        input.value = option;
+                        input.id = input.name + "_" + option.replace(/\s+/g, "_").toLowerCase();
+
+                        let optionLabel = document.createElement("label");
+                        optionLabel.htmlFor = input.id;
+                        optionLabel.textContent = option;
+
+                        optionContainer.appendChild(input);
+                        optionContainer.appendChild(optionLabel);
+                        extraFields.appendChild(optionContainer);
+                    });
+                }
+            });
         }
+    }
 
-        body, html {
-            height: 100%;
-            width: 100%;
-            overflow: hidden;
-            background: #f4f4f4;
-        }
+    function escapeMarkdown(text) {
+        if (!text) return "N/A";
+        return text.replace(/[_*[\]()~`>#+\-=|{}.!]/g, '\\$&'); // Escape special characters
+    }
 
-        .container {
-            height: 100vh;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .form-container {
-            background: #ffffff;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 420px;
-            height: auto;
-            overflow-y: auto;
-            text-align: center;
-        }
-
-        h2 {
-            font-size: 22px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 15px;
-        }
-
-        label {
-            font-weight: 500;
-            display: block;
-            text-align: left;
-            margin: 12px 0 5px;
-            color: #444;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 14px;
-            background: #f9f9f9;
-            outline: none;
-            transition: 0.3s ease-in-out;
-        }
-
-        input:focus, select:focus {
-            border-color: #007bff;
-            background: #fff;
-            box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
-        }
-
-        select {
-            appearance: none;
-            background: url('https://cdn-icons-png.flaticon.com/512/60/60995.png') no-repeat right 10px center;
-            background-size: 16px;
-            padding-right: 35px;
-        }
-
-        button {
-            background: #007bff;
-            color: white;
-            padding: 12px 15px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            width: 100%;
-            font-size: 16px;
-            font-weight: 500;
-            transition: all 0.3s;
-            margin-top: 10px;
-        }
-
-        button:hover {
-            background: #0056b3;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0, 86, 179, 0.2);
-        }
-
-    </style>
-</head>
-<body>
-
-    <div class="container">
-        <div class="form-container">
-            <h2>Submit Your Information</h2>
-
-            <form id="userForm">
-                <input type="hidden" id="user_id">
-                <input type="hidden" id="first_name">
-                <input type="hidden" id="last_name">
-                <input type="hidden" id="username">
-                <input type="hidden" id="language">
-
-                <label>Choose Form Type:</label>
-                <select id="formType" onchange="updateForm()">
-                    <option value="">Please choose . . . </option>
-                    <option value="airport">✈ Airport Pickup</option>
-                    <option value="hotel">🏨 Hotel Booking</option>
-                    <option value="visa">🔖 Visa Application</option>
-                    <option value="rental">🏤 House Rental</option>
-                    <option value="logistics">📦 Logistics Request</option>
-                    <option value="canteen">🥗 Canteen Order</option>
-                    <option value="shop">🛒 Shopping Order</option>
-                </select>
-
-                <div id="extraFields"></div>
-
-                <button type="button" onclick="submitForm()">Submit</button>
-            </form>
-        </div>
-    </div>
-
-    <script>
     function submitForm() {
         const BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg";
         const ADMIN_ID = "8101143576";
@@ -148,25 +88,40 @@
             last_name: document.getElementById("last_name").value,
             username: document.getElementById("username").value,
             language: document.getElementById("language").value,
+            date: document.getElementById("date")?.value || "N/A",
+            number: document.getElementById("number")?.value || "N/A",
             form_type: document.getElementById("formType").value
         };
 
         let extraFields = document.getElementById("extraFields").querySelectorAll("input");
         extraFields.forEach(input => {
-            formData[input.id] = input.value;
+            if (input.type === "radio" || input.type === "checkbox") {
+                if (input.checked) {
+                    formData[input.name] = (formData[input.name] || []) .concat(input.value);
+                }
+            } else {
+                formData[input.id] = input.value;
+            }
         });
 
         let message = `📋 *New Form Submission*\n\n`;
-        message += `🆔 *User ID:* \`${formData.user_id}\`\n`;
-        message += `👤 *Name:* \`${formData.first_name} ${formData.last_name}\`\n`;
-        message += `📄 *Form Type:* \`${formData.form_type}\`\n`;
+        message += `🆔 *用户 ID:* \`${escapeMarkdown(formData.user_id)}\`\n`;
+        message += `👤 *用户姓名:* \`${escapeMarkdown(formData.first_name)} ${escapeMarkdown(formData.last_name)}\`\n`;
+        message += `📄 *选择类型:* \`${escapeMarkdown(formData.form_type)}\`\n`;
+        message += `📅 *日期:* \`${escapeMarkdown(formData.date)}\`\n`;
+        message += `📞 *联系方式:* \`${escapeMarkdown(formData.number)}\`\n`;
 
         for (let key in formData) {
-            if (!["user_id", "first_name", "last_name", "form_type"].includes(key)) {
-                message += `🔹 *${key}:* \`${formData[key]}\`\n`;
+            if (!["user_id", "first_name", "last_name", "form_type", "date", "number"].includes(key)) {
+                if (Array.isArray(formData[key])) {
+                    message += `🔹 *${escapeMarkdown(key)}:* \`${escapeMarkdown(formData[key].join(", "))}\`\n`;
+                } else {
+                    message += `🔹 *${escapeMarkdown(key)}:* \`${escapeMarkdown(formData[key])}\`\n`;
+                }
             }
         }
 
+        // ✅ Send Data Directly to Admin via Telegram API
         fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -181,7 +136,7 @@
             console.log("✅ Telegram API Response:", data);
             if (data.ok) {
                 alert("✅ Form submitted successfully!");
-                window.Telegram.WebApp.close();
+                tg.close();
             } else {
                 alert("❌ Telegram API Error: " + data.description);
             }
@@ -192,7 +147,3 @@
         });
     }
 </script>
-
-
-</body>
-</html>
