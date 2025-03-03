@@ -154,7 +154,8 @@
         document.getElementById("user_id").value = tg.initDataUnsafe?.user?.id || "N/A";
         document.getElementById("first_name").value = tg.initDataUnsafe?.user?.first_name || "N/A";
         document.getElementById("last_name").value = tg.initDataUnsafe?.user?.last_name || "N/A";
-        document.getElementById("username").value = tg.initDataUnsafe?.user?.username || "N/A";
+        document.getElementById("username").value = tg.initDataUnsafe?.user?.username ? "@" + tg.initDataUnsafe?.user?.username : "N/A";
+        // document.getElementById("username").value = tg.initDataUnsafe?.user?.username || "N/A";
         document.getElementById("language").value = tg.initDataUnsafe?.user?.language_code || "N/A";
 
         // ✅ Update form fields dynamically based on selection
