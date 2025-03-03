@@ -137,12 +137,25 @@
             extraFields.innerHTML = "";
 
             let fields = {
-                "airport": ["Flight Number", "Pickup & Destination Address"],
-                "hotel": ["Full Name", "Contact Info", "Check-in & Check-out Date"],
-                "visa": ["Full Name (Pinyin)", "Date of Birth", "Passport Number"],
-                "rental": ["Tenant Name", "Contact Info", "Move-in Date"],
-                "logistics": ["Sender & Receiver Info", "Item Description"],
-                "shop": ["Product Name", "Quantity", "Delivery Address"]
+                 "airport": [
+                    "Flight Number", "Pickup Location & Destination",
+                    { label: "Service Level", type: "radio", options: ["普通", "VIP", "超级 VIP"] }
+                ],
+                "hotel": [
+                    "Full Name", "Contact Info", "Check-in & Check-out Date",
+                    { label: "Room Type", type: "radio", options: ["单人房", "双人房", "豪华房"] }
+                ],
+                "visa": [
+                    "Full Name (Pinyin)", "Date of Birth", "Passport Number", 
+                    { label: "Visa Type", type: "radio", options: ["旅游签", "商务签", "学生签", "工作签"] }
+                ],
+                "rental": [
+                    "Tenant Name", "Contact Info", "Move-in Date",
+                    { label: "Rental Type", type: "radio", options: ["整租", "合租"] }
+                ],
+                "logistics": [
+                    "Sender & Receiver Info", "Item Description", 
+                    { label: "Delivery Speed", type: "radio", options: ["普通", "加急"] }
             };
 
             if (fields[formType]) {
