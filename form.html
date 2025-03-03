@@ -142,27 +142,27 @@
             let extraFields = document.getElementById("extraFields");
             extraFields.innerHTML = "";
 
-            if (formType === "airport") {
-                let serviceTypeLabel = document.createElement("label");
-                serviceTypeLabel.textContent = "选择服务等级:";
-                let serviceTypeSelect = document.createElement("select");
-                serviceTypeSelect.id = "service_type";
-                ["普通", "VIP", "超级 VIP"].forEach(optionText => {
-                    let option = document.createElement("option");
-                    option.value = optionText;
-                    option.textContent = optionText;
-                    serviceTypeSelect.appendChild(option);
-                });
-                extraFields.appendChild(serviceTypeLabel);
-                extraFields.appendChild(serviceTypeSelect);
+            let fieldDefinitions = {
+                "airport": ["Flight Number", "选择服务等级: 普通/VIP/超级 VIP", "升级服务"],
+                "hotel": ["姓名", "联系方式", "护照号码", "入住日期", "退房日期", "房型", "特殊需求", "支付方式"],
+                "visa": ["姓名(拼音)", "性别", "出生日期", "国籍", "护照号码", "护照有效期", "签证类型", "计划入境时间", "停留时间", "目的地国家", "所需文件", "联系方式", "支付信息"],
+                "rental": ["姓名", "联系方式", "职业", "租赁类型", "房屋要求", "入住时间", "付款方式"],
+                "logistics": ["寄件人信息", "收件人信息", "物流类型", "物品信息", "配送方式", "付款方式", "备注"],
+                "canteen": ["订餐人信息", "订餐时间", "餐品选择", "配送方式", "支付方式"],
+                "shop": ["购物人信息", "商品信息", "配送信息", "支付方式", "备注"]
+            };
 
-                let upgradeLabel = document.createElement("label");
-                upgradeLabel.textContent = "升级服务:";
-                let upgradeInput = document.createElement("input");
-                upgradeInput.type = "text";
-                upgradeInput.id = "upgrade_service";
-                extraFields.appendChild(upgradeLabel);
-                extraFields.appendChild(upgradeInput);
+            if (fieldDefinitions[formType]) {
+                fieldDefinitions[formType].forEach(field => {
+                    let label = document.createElement("label");
+                    label.textContent = field + ":";
+                    let input = document.createElement("input");
+                    input.type = "text";
+                    input.id = field.replace(/\s+/g, "_").toLowerCase();
+                    input.required = true;
+                    extraFields.appendChild(label);
+                    extraFields.appendChild(input);
+                });
             }
         }
     </script>
