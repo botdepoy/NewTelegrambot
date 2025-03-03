@@ -49,7 +49,8 @@ async def start(update: Update, context: CallbackContext):
     if user_id not in users:
         users.append(user_id)
         save_users(users)
-    await update.message.reply_text("📌 Welcome! Use /broadcast to send messages to all users.")
+    menu_markup = ReplyKeyboardMarkup(MENU, resize_keyboard=True)
+    await update.message.reply_text("📌 Please select an option:", reply_markup=menu_markup)
 
 async def broadcast(update: Update, context: CallbackContext):
     text = "📢 **Global Announcement!**\n\nThis is a test broadcast message."
