@@ -43,6 +43,16 @@ def save_users(users):
     with open(USER_DB, "w") as f:
         json.dump(users, f)
 
+
+async def start(update: Update, context: CallbackContext):
+    user_id = update.message.chat_id
+    users = load_users()
+    if user_id not in users:
+        users.append(user_id)
+        save_users(users)
+    menu_markup = ReplyKeyboardMarkup(MENU, resize_keyboard=True)
+    await update.message.reply_text("📌 Please select an option:", reply_markup=menu_markup)
+
 async def handle_menu(update: Update, context: CallbackContext):
     text = update.message.text
     if text in RESPONSE_DATA:
