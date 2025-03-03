@@ -120,6 +120,7 @@
 
                 <label>Choose Form Type:</label>
                 <select id="formType" onchange="updateForm()">
+                    <option value="">Please choose . . . </option>
                     <option value="airport">✈ Airport Pickup</option>
                     <option value="hotel">🏨 Hotel Booking</option>
                     <option value="visa">🔖 Visa Application</option>
@@ -143,13 +144,14 @@
             extraFields.innerHTML = "";
 
             let fieldDefinitions = {
-                "airport": ["Flight Number", "选择服务等级: 普通/VIP/超级 VIP", "升级服务"],
-                "hotel": ["姓名", "联系方式", "护照号码", "入住日期", "退房日期", "房型", "特殊需求", "支付方式"],
-                "visa": ["姓名(拼音)", "性别", "出生日期", "国籍", "护照号码", "护照有效期", "签证类型", "计划入境时间", "停留时间", "目的地国家", "所需文件", "联系方式", "支付信息"],
-                "rental": ["姓名", "联系方式", "职业", "租赁类型", "房屋要求", "入住时间", "付款方式"],
-                "logistics": ["寄件人信息", "收件人信息", "物流类型", "物品信息", "配送方式", "付款方式", "备注"],
-                "canteen": ["订餐人信息", "订餐时间", "餐品选择", "配送方式", "支付方式"],
-                "shop": ["购物人信息", "商品信息", "配送信息", "支付方式", "备注"]
+                "airport": ["Flight Number", "Pickup & Destination Address", "Service Level: 普通/VIP/超级 VIP", "Upgrade Service: 行李协助/延长等候时间/其他"],
+                "hotel": ["Name", "Contact Info", "Check-in & Check-out Date", "Room Type", "Payment Method", "Special Requests"],
+                "visa": ["Name (Pinyin)", "DOB & Nationality", "Passport Info", "Visa Type", "Destination Country", "Entry Date & Duration", "Required Documents", "Emergency Contact", "Payment Method"],
+                "rental": ["Tenant Name & Contact", "Rental Type", "Move-in Date", "Payment Method", "Occupation", "Special Requirements"],
+                "logistics": ["Sender & Receiver Info", "Logistics Type", "Item Details", "Delivery Method", "Payment Method", "Remarks"],
+                "canteen": ["Customer Name & Contact", "Order Date & Time", "Meal Selection", "Delivery Method", "Payment Method"],
+                "shop": ["Customer Name & Contact", "Product Details", "Delivery Address", "Payment Method", "Additional Requests"],
+                "documents": ["Name (Pinyin)", "Document Type", "Nationality", "Passport Number (If applicable)", "Document Expiry", "Processing Type", "Planned Use Date", "Urgency Level", "Additional Documents", "Emergency Contact", "Payment Method"]
             };
 
             if (fieldDefinitions[formType]) {
