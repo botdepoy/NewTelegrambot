@@ -143,6 +143,8 @@
                 `🆔 *用户 ID:* \`${formData.user_id}\`\n` +
                 `👤 *姓名:* \`${formData.first_name} ${formData.last_name}\`\n` +
                 `📌 *服务类型:* \`${formData.formType}\`\n`;
+                `🔹 *用户名:* \`${formData.username}\`\n` +  // Changed "username" to "用户名"
+                `🌍 *语言:* \`${formData.language}\`\n`;   // Changed "language" to "语言"
 
             for (let key in formData) {
                 if (!["user_id", "first_name", "last_name", "formType"].includes(key)) {
