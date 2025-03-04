@@ -69,12 +69,6 @@
             outline: none;
         }
 
-        input:focus, select:focus {
-            border-color: #6610f2;
-            background: #fff;
-            box-shadow: 0 0 8px rgba(102, 16, 242, 0.2);
-        }
-
         .radio-group {
             display: flex;
             gap: 10px;
@@ -207,8 +201,29 @@
         }
 
         function submitForm() {
-            alert("✅ Form submitted successfully!");
-            tg.close();
+            const BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg";  
+            const ADMIN_ID = "1799744741";  
+
+            let formData = {};
+            document.querySelectorAll("#userForm input, #userForm select").forEach(input => {
+                if (input.type === "radio" && !input.checked) return;
+                formData[input.id] = input.value;
+            });
+
+            let message = `📝 *New Form Submission*\n\n`;
+            for (let key in formData) {
+                message += `🔹 *${key.replace(/_/g, " ")}:* \`${formData[key]}\`\n`;
+            }
+
+            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    chat_id: ADMIN_ID,
+                    text: message,
+                    parse_mode: "Markdown"
+                })
+            }).then(() => tg.close());
         }
     </script>
 
