@@ -7,116 +7,15 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        body, html {
-            height: 100%;
-            width: 100%;
-            overflow: hidden;
-            background: linear-gradient(135deg, #007bff, #6610f2);
-        }
-
-        .container {
-            height: 100vh;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .form-container {
-            background: #ffffff;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
-            width: 100%;
-            max-width: 450px;
-            height: auto;
-            overflow-y: auto;
-            text-align: center;
-        }
-
-        h2 {
-            font-size: 22px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 15px;
-        }
-
-        label {
-            font-weight: 500;
-            display: block;
-            text-align: left;
-            margin: 10px 0 5px;
-            color: #444;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 14px;
-            background: #f9f9f9;
-            outline: none;
-        }
-
-        .radio-group {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-bottom: 12px;
-        }
-
-        .radio-group input {
-            display: none;
-        }
-
-        .radio-group label {
-            padding: 10px;
-            border-radius: 8px;
-            text-align: center;
-            font-size: 14px;
-            background: #f9f9f9;
-            border: 1px solid #ddd;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .radio-group input:checked + label {
-            background: #6610f2;
-            color: white;
-            border-color: #520dc2;
-        }
-
-        button {
-            background: #6610f2;
-            color: white;
-            padding: 12px 15px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            width: 100%;
-            font-size: 16px;
-            font-weight: 500;
-            transition: all 0.3s;
-            margin-top: 10px;
-        }
-
-        button:hover {
-            background: #520dc2;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(82, 13, 194, 0.2);
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body, html { height: 100%; width: 100%; overflow: hidden; background: linear-gradient(135deg, #007bff, #6610f2); }
+        .container { height: 100vh; width: 100%; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        .form-container { background: #ffffff; padding: 20px; border-radius: 15px; box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2); width: 100%; max-width: 450px; height: auto; overflow-y: auto; text-align: center; }
+        h2 { font-size: 22px; font-weight: 600; color: #333; margin-bottom: 15px; }
+        label { font-weight: 500; display: block; text-align: left; margin: 10px 0 5px; color: #444; }
+        input, select { width: 100%; padding: 10px; margin-bottom: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; background: #f9f9f9; outline: none; }
+        button { background: #6610f2; color: white; padding: 12px 15px; border: none; border-radius: 8px; cursor: pointer; width: 100%; font-size: 16px; font-weight: 500; transition: all 0.3s; margin-top: 10px; }
+        button:hover { background: #520dc2; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(82, 13, 194, 0.2); }
     </style>
 </head>
 <body>
@@ -133,8 +32,8 @@
                 <input type="hidden" id="language">
 
                 <label>📌 Choose Service:</label>
-                <select id="formType" onchange="updateForm()">
-                    <option value="">Please choose an option . . .</option>
+                <select id="formType">
+                    <option value="">Please choose an option...</option>
                     <option value="airport">✈ Airport Pickup</option>
                     <option value="hotel">🏨 Hotel Booking</option>
                     <option value="visa">🔖 Visa Application</option>
@@ -154,13 +53,26 @@
         let tg = window.Telegram.WebApp;
         tg.expand();
 
-        // ✅ Get User Data from Telegram WebApp
-        let user = tg.initDataUnsafe?.user || {};
-        document.getElementById("user_id").value = user.id || "N/A";
-        document.getElementById("first_name").value = user.first_name || "N/A";
-        document.getElementById("last_name").value = user.last_name || "N/A";
-        document.getElementById("username").value = user.username ? "@" + user.username : "N/A";
-        document.getElementById("language").value = user.language_code || "N/A";
+        function loadUserData() {
+            let user = tg.initDataUnsafe?.user || {};
+            
+            // Debugging: Log the user data to console
+            console.log("User Data from Telegram:", user);
+            
+            document.getElementById("user_id").value = user.id || "N/A";
+            document.getElementById("first_name").value = user.first_name || "N/A";
+            document.getElementById("last_name").value = user.last_name || "N/A";
+            document.getElementById("username").value = user.username ? "@" + user.username : "N/A";
+            document.getElementById("language").value = user.language_code || "N/A";
+
+            if (!user.id) {
+                console.error("❌ User data is empty! Telegram WebApp might not be loading correctly.");
+                alert("⚠️ User data is not available. Please try reopening the form inside Telegram.");
+            }
+        }
+
+        // Retry loading user data if empty
+        setTimeout(loadUserData, 1000);
 
         function submitForm() {
             const BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg";  
@@ -177,14 +89,15 @@
             message += `🔹 *Name:* ${formData.first_name} ${formData.last_name}\n`;
             message += `🔹 *Username:* ${formData.username}\n`;
             message += `🔹 *Language:* \`${formData.language}\`\n`;
-            message += `🔹 *Form Type:* \`${formData.formtype}\`\n`;
+            message += `🔹 *Form Type:* \`${formData.formType}\`\n`;
 
-            // Append extra form data
             for (let key in formData) {
-                if (!["user_id", "first_name", "last_name", "username", "language", "formtype"].includes(key)) {
+                if (!["user_id", "first_name", "last_name", "username", "language", "formType"].includes(key)) {
                     message += `🔹 *${key.replace(/_/g, " ")}:* \`${formData[key]}\`\n`;
                 }
             }
+
+            console.log("Sending form data:", message);
 
             fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
                 method: "POST",
@@ -194,7 +107,21 @@
                     text: message,
                     parse_mode: "Markdown"
                 })
-            }).then(() => tg.close());
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.ok) {
+                    alert("✅ Form submitted successfully!");
+                    tg.close();
+                } else {
+                    console.error("❌ Telegram API Error:", data);
+                    alert("❌ Submission failed: " + data.description);
+                }
+            })
+            .catch(error => {
+                console.error("❌ Fetch Error:", error);
+                alert("❌ Submission failed. Check the console for details.");
+            });
         }
     </script>
 
