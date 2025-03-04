@@ -176,8 +176,8 @@
     if (serviceType === "airport") {
         extraFields.innerHTML = `
             <label>✈ 航班号:</label>
-            <input type="text" id="flight_number" placeholder="请输入航班号">
-            
+            <input type="text" id="flight_number" placeholder="请输入航班号" />
+
             <label>📌 服务等级:</label>
             <select id="service_level">
                 <option value="普通">普通</option>
@@ -186,33 +186,34 @@
             </select>
 
             <label>📍 接机地点 & 目的地地址:</label>
-            <input type="text" id="pickup_location" placeholder="请输入接机地点">
-            <input type="text" id="destination_address" placeholder="请输入目的地地址">
+            <input type="text" id="pickup_location" placeholder="请输入接机地点" />
+            <input type="text" id="destination_address" placeholder="请输入目的地地址" />
 
             <label>🔹 可选升级服务:</label>
-            <input type="checkbox" id="baggage_assist"> 行李协助
-            <input type="checkbox" id="extra_waiting"> 延长等候时间
-            <input type="text" id="other_services" placeholder="其他（请填写）">
+            <label><input type="checkbox" id="baggage_assist" /> 行李协助</label>
+            <label><input type="checkbox" id="extra_waiting" /> 延长等候时间</label>
+            <input type="text" id="other_services" placeholder="其他（请填写）" />
         `;
     } else if (serviceType === "hotel") {
         extraFields.innerHTML = `
             <label>👤 姓名:</label>
-            <input type="text" id="guest_name" placeholder="请输入姓名">
+            <input type="text" id="guest_name" placeholder="请输入姓名" />
 
             <label>📞 联系方式:</label>
-            <input type="text" id="contact_number" placeholder="请输入手机号">
+            <input type="text" id="contact_number" placeholder="请输入手机号" />
 
             <label>🏨 入住日期 & 退房日期:</label>
-            <input type="date" id="checkin_date">
-            <input type="date" id="checkout_date">
+            <input type="date" id="checkin_date" />
+            <input type="date" id="checkout_date" />
 
             <label>🏠 房型:</label>
-            <select id="room_type">
+            <select id="room_type" onchange="toggleOtherField('room_type', 'room_other')">
                 <option value="单人房">单人房</option>
                 <option value="双人房">双人房</option>
                 <option value="豪华房">豪华房</option>
                 <option value="其他">其他（请填写）</option>
             </select>
+            <input type="text" id="room_other" placeholder="请输入房型" style="display:none;" />
 
             <label>💰 付款方式:</label>
             <select id="payment_method">
@@ -223,25 +224,25 @@
             </select>
 
             <label>🔹 特殊要求:</label>
-            <input type="checkbox" id="non_smoking"> 无烟房
-            <input type="checkbox" id="high_floor"> 高楼层
-            <input type="checkbox" id="extra_bed"> 加床
-            <input type="text" id="other_requests" placeholder="其他（请填写）">
+            <label><input type="checkbox" id="non_smoking" /> 无烟房</label>
+            <label><input type="checkbox" id="high_floor" /> 高楼层</label>
+            <label><input type="checkbox" id="extra_bed" /> 加床</label>
+            <input type="text" id="other_requests" placeholder="其他（请填写）" />
         `;
     } else if (serviceType === "visa") {
         extraFields.innerHTML = `
             <label>👤 姓名（拼音）:</label>
-            <input type="text" id="full_name" placeholder="请输入拼音姓名">
+            <input type="text" id="full_name" placeholder="请输入拼音姓名" />
 
             <label>🎂 出生日期:</label>
-            <input type="date" id="birth_date">
+            <input type="date" id="birth_date" />
 
             <label>🌍 国籍:</label>
-            <input type="text" id="nationality" placeholder="请输入国籍">
+            <input type="text" id="nationality" placeholder="请输入国籍" />
 
             <label>📑 护照信息:</label>
-            <input type="text" id="passport_number" placeholder="护照号码">
-            <input type="date" id="passport_expiry" placeholder="护照有效期">
+            <input type="text" id="passport_number" placeholder="护照号码" />
+            <input type="date" id="passport_expiry" />
 
             <label>🛂 签证类型:</label>
             <select id="visa_type">
@@ -252,91 +253,21 @@
             </select>
 
             <label>🏛 目的地国家:</label>
-            <input type="text" id="destination_country" placeholder="请输入目的地国家">
+            <input type="text" id="destination_country" placeholder="请输入目的地国家" />
 
             <label>📅 计划入境时间 & 停留时长:</label>
-            <input type="date" id="entry_date">
-            <input type="text" id="stay_duration" placeholder="停留时长">
+            <input type="date" id="entry_date" />
+            <input type="text" id="stay_duration" placeholder="停留时长" />
 
             <label>📄 所需文件:</label>
-            <input type="checkbox" id="passport_scan"> 护照扫描件
-            <input type="checkbox" id="photo"> 照片
-            <input type="checkbox" id="bank_statement"> 银行流水
-            <input type="checkbox" id="invitation_letter"> 邀请函
-            <input type="text" id="other_documents" placeholder="其他（请填写）">
-        `;
-    } else if (serviceType === "rental") {
-        extraFields.innerHTML = `
-            <label>👤 租客姓名:</label>
-            <input type="text" id="tenant_name" placeholder="请输入姓名">
-
-            <label>📞 联系方式:</label>
-            <input type="text" id="rental_contact" placeholder="请输入手机号">
-
-            <label>🏠 租赁类型:</label>
-            <select id="rental_type">
-                <option value="整租">整租</option>
-                <option value="合租">合租</option>
-            </select>
-
-            <label>📅 入住日期:</label>
-            <input type="date" id="rental_date">
-
-            <label>💰 付款方式:</label>
-            <select id="rental_payment">
-                <option value="现金">现金</option>
-                <option value="银行转账">银行转账</option>
-                <option value="其他">其他（请填写）</option>
-            </select>
-
-            <label>🔹 可选信息:</label>
-            <input type="checkbox" id="furnished"> 带家具
-            <input type="checkbox" id="unfurnished"> 不带家具
-            <input type="text" id="other_rental_requests" placeholder="其他（请填写）">
-        `;
-    } else if (serviceType === "document") {
-        extraFields.innerHTML = `
-            <label>👤 姓名（拼音）:</label>
-            <input type="text" id="doc_name" placeholder="请输入拼音姓名">
-
-            <label>📄 证件类型:</label>
-            <select id="doc_type">
-                <option value="护照">护照</option>
-                <option value="签证">签证</option>
-                <option value="劳工证">劳工证</option>
-                <option value="驾驶证">驾驶证</option>
-                <option value="其他">其他（请填写）</option>
-            </select>
-
-            <label>🌍 国籍:</label>
-            <input type="text" id="doc_nationality" placeholder="请输入国籍">
-
-            <label>📑 证件有效期:</label>
-            <select id="doc_validity">
-                <option value="未过期">未过期</option>
-                <option value="已过期">已过期</option>
-                <option value="不确定">不确定</option>
-            </select>
-
-            <label>✅ 办理需求:</label>
-            <select id="doc_process_type">
-                <option value="申请新证">申请新证</option>
-                <option value="续签/换发">续签/换发</option>
-                <option value="遗失补办">遗失补办</option>
-            </select>
-
-            <label>🔹 可选信息:</label>
-            <input type="text" id="doc_emergency_contact" placeholder="紧急联系人（姓名 & 电话）">
-            <select id="doc_payment">
-                <option value="现金">现金</option>
-                <option value="银行转账">银行转账</option>
-                <option value="微信支付">微信支付</option>
-                <option value="支付宝">支付宝</option>
-            </select>
+            <label><input type="checkbox" id="passport_scan" /> 护照扫描件</label>
+            <label><input type="checkbox" id="photo" /> 照片</label>
+            <label><input type="checkbox" id="bank_statement" /> 银行流水</label>
+            <label><input type="checkbox" id="invitation_letter" /> 邀请函</label>
+            <input type="text" id="other_documents" placeholder="其他（请填写）" />
         `;
     }
 }
-
 
         function submitForm() {
             const BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg";  
