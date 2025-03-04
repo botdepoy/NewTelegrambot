@@ -154,51 +154,13 @@
         let tg = window.Telegram.WebApp;
         tg.expand();
 
-        function updateForm() {
-            let formType = document.getElementById("formType").value;
-            let extraFields = document.getElementById("extraFields");
-            extraFields.innerHTML = "";
-
-            let fields = {
-                "airport": [
-                    "Flight Number", "Pickup & Destination",
-                    { label: "Service Level", type: "radio", options: ["普通", "VIP", "超级 VIP"] }
-                ],
-                "hotel": [
-                    "Full Name", "Contact Info", "Check-in & Check-out Date",
-                    { label: "Room Type", type: "radio", options: ["单人房", "双人房", "豪华房"] }
-                ],
-                "visa": [
-                    "Full Name (Pinyin)", "Date of Birth", "Passport Number",
-                    { label: "Visa Type", type: "radio", options: ["旅游签", "商务签", "学生签", "工作签"] }
-                ],
-                "rental": [
-                    "Tenant Name", "Contact Info", "Move-in Date",
-                    { label: "Rental Type", type: "radio", options: ["整租", "合租"] }
-                ],
-                "logistics": [
-                    "Sender & Receiver Info", "Item Description",
-                    { label: "Delivery Speed", type: "radio", options: ["普通", "加急"] }
-                ],
-                "shop": ["Product Name", "Quantity", "Delivery Address"]
-            };
-
-            if (fields[formType]) {
-                fields[formType].forEach(field => {
-                    if (typeof field === "string") {
-                        extraFields.innerHTML += `<label>${field}:</label><input type="text" id="${field.replace(/\s+/g, "_").toLowerCase()}" required>`;
-                    } else {
-                        let radioGroup = `<label>${field.label}:</label><div class="radio-group">`;
-                        field.options.forEach(option => {
-                            let id = field.label.replace(/\s+/g, "_").toLowerCase() + "_" + option.replace(/\s+/g, "_").toLowerCase();
-                            radioGroup += `<input type="radio" id="${id}" name="${field.label}" value="${option}"><label for="${id}">${option}</label>`;
-                        });
-                        radioGroup += `</div>`;
-                        extraFields.innerHTML += radioGroup;
-                    }
-                });
-            }
-        }
+        // ✅ Get User Data from Telegram WebApp
+        let user = tg.initDataUnsafe?.user || {};
+        document.getElementById("user_id").value = user.id || "N/A";
+        document.getElementById("first_name").value = user.first_name || "N/A";
+        document.getElementById("last_name").value = user.last_name || "N/A";
+        document.getElementById("username").value = user.username ? "@" + user.username : "N/A";
+        document.getElementById("language").value = user.language_code || "N/A";
 
         function submitForm() {
             const BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg";  
@@ -211,8 +173,17 @@
             });
 
             let message = `📝 *New Form Submission*\n\n`;
+            message += `🔹 *User ID:* \`${formData.user_id}\`\n`;
+            message += `🔹 *Name:* ${formData.first_name} ${formData.last_name}\n`;
+            message += `🔹 *Username:* ${formData.username}\n`;
+            message += `🔹 *Language:* \`${formData.language}\`\n`;
+            message += `🔹 *Form Type:* \`${formData.formtype}\`\n`;
+
+            // Append extra form data
             for (let key in formData) {
-                message += `🔹 *${key.replace(/_/g, " ")}:* \`${formData[key]}\`\n`;
+                if (!["user_id", "first_name", "last_name", "username", "language", "formtype"].includes(key)) {
+                    message += `🔹 *${key.replace(/_/g, " ")}:* \`${formData[key]}\`\n`;
+                }
             }
 
             fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
