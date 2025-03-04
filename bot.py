@@ -95,6 +95,17 @@ async def handle_menu(update: Update, context: CallbackContext):
     else:
         await update.message.reply_text("❌ Invalid option. Please select a valid menu item.")
 
+
+async def contact(update: Update, context: CallbackContext):
+    """Handles the /contact command and sends a clickable Telegram link."""
+    contact_link = "https://t.me/LUODISWKF"  # Replace with your actual Telegram contact link
+    text = "📞 **联系我们:**\n点击下方按钮联系在线客服。"
+    
+    buttons = [[InlineKeyboardButton("💬 联系客服", url=contact_link)]]
+    
+    await update.message.reply_text(text, reply_markup=InlineKeyboardMarkup(buttons), parse_mode="Markdown")
+
+
 async def broadcast(update: Update, context: CallbackContext):
     text_messages = [
         "📢 **Global Announcement!**",
@@ -165,6 +176,7 @@ async def delete_broadcast(update: Update, context: CallbackContext):
 def main():
     application = Application.builder().token(BOT_TOKEN).build()
     application.add_handler(CommandHandler("start", start))
+    application.add_handler(CommandHandler("contact", contact))
     application.add_handler(CommandHandler("broadcast", broadcast))
     application.add_handler(CommandHandler("update_broadcast", update_broadcast))
     application.add_handler(CommandHandler("delete_broadcast", delete_broadcast))
