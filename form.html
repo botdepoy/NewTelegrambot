@@ -110,6 +110,24 @@
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(255, 75, 43, 0.5);
         }
+
+        /* Make form mobile-friendly */
+        @media (max-width: 768px) {
+            .form-container {
+                width: 95%;
+                padding: 15px;
+                max-height: 80vh;
+            }
+
+            input, select, button {
+                font-size: 14px;
+                padding: 10px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -140,10 +158,14 @@
         let tg = window.Telegram.WebApp;
         tg.expand();
 
+        function escapeMarkdownV2(text) {
+            return text.replace(/[_*[\]()~`>#+\-=|{}.!]/g, "\\$&");  
+        }
+
         function updateForm() {
             let serviceType = document.getElementById("formType").value;
             let extraFields = document.getElementById("extraFields");
-            extraFields.innerHTML = ""; // Clear previous fields
+            extraFields.innerHTML = ""; 
 
             if (serviceType === "airport") {
                 extraFields.innerHTML = `
@@ -158,65 +180,38 @@
         }
 
         function submitForm() {
-    const BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg";  
-    const ADMIN_ID = "1799744741";  
+            const BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg";  
+            const ADMIN_ID = "1799744741";  
 
-    let formData = {};
-    
-    // Collect all inputs, including dynamic ones
-    document.querySelectorAll("#userForm input, #userForm select").forEach(input => {
-        if (input.type === "checkbox") {
-            formData[input.id] = input.checked ? "✅ 是" : "❌ 否";
-        } else {
-            formData[input.id] = input.value || "N/A";
+            let formData = {};
+            document.querySelectorAll("#userForm input, #userForm select").forEach(input => {
+                if (input.type === "checkbox") {
+                    formData[input.id] = input.checked ? "✅ 是" : "❌ 否";
+                } else {
+                    formData[input.id] = escapeMarkdownV2(input.value || "N/A");
+                }
+            });
+
+            let tg = window.Telegram.WebApp;
+            formData.user_id = escapeMarkdownV2(tg.initDataUnsafe?.user?.id || "N/A");
+            formData.first_name = escapeMarkdownV2(tg.initDataUnsafe?.user?.first_name || "N/A");
+            formData.last_name = escapeMarkdownV2(tg.initDataUnsafe?.user?.last_name || "N/A");
+            formData.username = escapeMarkdownV2(tg.initDataUnsafe?.user?.username ? `@${tg.initDataUnsafe?.user?.username}` : "N/A");
+            formData.language = escapeMarkdownV2(tg.initDataUnsafe?.user?.language_code || "N/A");
+
+            let message = `📋 *新的表单提交*\n\n` +
+                `🆔 *用户 ID:* \`${formData.user_id}\`\n` +
+                `👤 *姓名:* \`${formData.first_name} ${formData.last_name}\`\n` +
+                `📌 *服务类型:* \`${formData.formType}\`\n` +
+                `🔹 *username:* ${formData.username}\n` +
+                `🔹 *language:* ${formData.language}\n`;
+
+            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ chat_id: ADMIN_ID, text: message, parse_mode: "MarkdownV2" })
+            });
         }
-    });
-
-    // Ensure Telegram user details are collected
-    let tg = window.Telegram.WebApp;
-    formData.user_id = tg.initDataUnsafe?.user?.id || "N/A";
-    formData.first_name = tg.initDataUnsafe?.user?.first_name || "N/A";
-    formData.last_name = tg.initDataUnsafe?.user?.last_name || "N/A";
-    formData.username = tg.initDataUnsafe?.user?.username ? `@${tg.initDataUnsafe?.user?.username}` : "N/A";
-    formData.language = tg.initDataUnsafe?.user?.language_code || "N/A";
-
-    // Create formatted message
-    let message = `📋 *新的表单提交*\n\n` +
-        `🆔 *用户 ID:* \`${formData.user_id}\`\n` +
-        `👤 *姓名:* \`${formData.first_name} ${formData.last_name}\`\n` +
-        `📌 *服务类型:* \`${formData.formType}\`\n` +
-        `🔹 *username:* ${formData.username}\n` +
-        `🔹 *language:* ${formData.language}\n`;
-
-    // Append additional fields
-    for (let key in formData) {
-        if (!["user_id", "first_name", "last_name", "formType", "username", "language"].includes(key)) {
-            message += `🔹 *${key.replace(/_/g, " ")}:* \`${formData[key]}\`\n`;
-        }
-    }
-
-    // Send to Telegram
-    fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            chat_id: ADMIN_ID,
-            text: message,
-            parse_mode: "MarkdownV2"
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.ok) {
-            alert("✅ 提交成功!");
-            tg.close();
-        } else {
-            alert("❌ Telegram API 错误: " + data.description);
-        }
-    })
-    .catch(error => console.error("❌ 错误:", error));
-}
-
     </script>
 
 </body>
