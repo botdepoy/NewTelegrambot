@@ -97,14 +97,25 @@ async def handle_menu(update: Update, context: CallbackContext):
 
 
 async def contact(update: Update, context: CallbackContext):
-    """Handles the /contact command and sends a clickable Telegram link."""
+    """Handles the /contact command and sends an image with a clickable Telegram link."""
+    
     contact_link = "https://t.me/LUODISWKF"  # Replace with your actual Telegram contact link
+    image_path = "images/217798948_117810053917589_7233136944671638590_n.png"  # Replace with your actual image path
     text = "📞 **联系我们:**\n点击下方按钮联系在线客服。"
-    images = ["images/217798948_117810053917589_7233136944671638590_n.png"]
-    
+
     buttons = [[InlineKeyboardButton("💬 联系客服", url=contact_link)]]
-    
-    await update.message.reply_text(text, reply_markup=InlineKeyboardMarkup(buttons), parse_mode="Markdown")
+
+    if os.path.exists(image_path):
+        # Send image with caption and button
+        await update.message.reply_photo(
+            photo=open(image_path, "rb"),
+            caption=text,
+            reply_markup=InlineKeyboardMarkup(buttons),
+            parse_mode="Markdown"
+        )
+    else:
+        # If image is missing, send text only
+        await update.message.reply_text(text, reply_markup=InlineKeyboardMarkup(buttons), parse_mode="Markdown")
 
 
 async def broadcast(update: Update, context: CallbackContext):
