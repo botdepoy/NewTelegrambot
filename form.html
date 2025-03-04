@@ -110,23 +110,6 @@
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(255, 75, 43, 0.5);
         }
-
-        /* Responsive Design */
-        @media (max-width: 600px) {
-            .form-container {
-                width: 90%;
-                padding: 15px;
-            }
-
-            input, select, button {
-                font-size: 14px;
-                padding: 10px;
-            }
-
-            h2 {
-                font-size: 20px;
-            }
-        }
     </style>
 </head>
 <body>
@@ -137,7 +120,7 @@
 
             <form id="userForm">
                 <label>📌 选择服务:</label>
-                <select id="formType">
+                <select id="formType" onchange="updateForm()">
                     <option value="">请选择一个选项 . . .</option>
                     <option value="airport">✈ 机场接送</option>
                     <option value="hotel">🏨 酒店预订</option>
@@ -146,128 +129,33 @@
                     <option value="document">📄 证件办理</option>
                 </select>
 
-                <label>👤 姓名:</label>
-                <input type="text" id="name" placeholder="请输入您的姓名">
+                <div id="extraFields"></div> <!-- Dynamic Fields Container -->
 
-                <label>📞 联系方式:</label>
-                <input type="text" id="contact" placeholder="请输入您的联系方式">
-
-                <button type="submit">✅ 提交</button>
+                <button type="button" onclick="submitForm()">✅ 提交</button>
             </form>
         </div>
     </div>
-
 
     <script>
         let tg = window.Telegram.WebApp;
         tg.expand();
 
-        document.getElementById("user_id").value = tg.initDataUnsafe?.user?.id || "N/A";
-        document.getElementById("first_name").value = tg.initDataUnsafe?.user?.first_name || "N/A";
-        document.getElementById("last_name").value = tg.initDataUnsafe?.user?.last_name || "N/A";
-        document.getElementById("username").value = tg.initDataUnsafe?.user?.username ? "@" + tg.initDataUnsafe?.user?.username : "N/A";
-        document.getElementById("language").value = tg.initDataUnsafe?.user?.language_code || "N/A";
-
         function updateForm() {
-    let serviceType = document.getElementById("formType").value;
-    let extraFields = document.getElementById("extraFields");
-    extraFields.innerHTML = ""; // Clear previous fields
+            let serviceType = document.getElementById("formType").value;
+            let extraFields = document.getElementById("extraFields");
+            extraFields.innerHTML = ""; // Clear previous fields
 
-    if (serviceType === "airport") {
-        extraFields.innerHTML = `
-            <label>✈ 航班号:</label>
-            <input type="text" id="flight_number" placeholder="请输入航班号" />
+            if (serviceType === "airport") {
+                extraFields.innerHTML = `
+                    <label>✈ 航班号:</label>
+                    <input type="text" id="flight_number" placeholder="请输入航班号" />
 
-            <label>📌 服务等级:</label>
-            <select id="service_level">
-                <option value="普通">普通</option>
-                <option value="VIP">VIP</option>
-                <option value="超级VIP">超级VIP</option>
-            </select>
-
-            <label>📍 接机地点 & 目的地地址:</label>
-            <input type="text" id="pickup_location" placeholder="请输入接机地点" />
-            <input type="text" id="destination_address" placeholder="请输入目的地地址" />
-
-            <label>🔹 可选升级服务:</label>
-            <label><input type="checkbox" id="baggage_assist" /> 行李协助</label>
-            <label><input type="checkbox" id="extra_waiting" /> 延长等候时间</label>
-            <input type="text" id="other_services" placeholder="其他（请填写）" />
-        `;
-    } else if (serviceType === "hotel") {
-        extraFields.innerHTML = `
-            <label>👤 姓名:</label>
-            <input type="text" id="guest_name" placeholder="请输入姓名" />
-
-            <label>📞 联系方式:</label>
-            <input type="text" id="contact_number" placeholder="请输入手机号" />
-
-            <label>🏨 入住日期 & 退房日期:</label>
-            <input type="date" id="checkin_date" />
-            <input type="date" id="checkout_date" />
-
-            <label>🏠 房型:</label>
-            <select id="room_type" onchange="toggleOtherField('room_type', 'room_other')">
-                <option value="单人房">单人房</option>
-                <option value="双人房">双人房</option>
-                <option value="豪华房">豪华房</option>
-                <option value="其他">其他（请填写）</option>
-            </select>
-            <input type="text" id="room_other" placeholder="请输入房型" style="display:none;" />
-
-            <label>💰 付款方式:</label>
-            <select id="payment_method">
-                <option value="现金">现金</option>
-                <option value="信用卡">信用卡</option>
-                <option value="微信支付">微信支付</option>
-                <option value="支付宝">支付宝</option>
-            </select>
-
-            <label>🔹 特殊要求:</label>
-            <label><input type="checkbox" id="non_smoking" /> 无烟房</label>
-            <label><input type="checkbox" id="high_floor" /> 高楼层</label>
-            <label><input type="checkbox" id="extra_bed" /> 加床</label>
-            <input type="text" id="other_requests" placeholder="其他（请填写）" />
-        `;
-    } else if (serviceType === "visa") {
-        extraFields.innerHTML = `
-            <label>👤 姓名（拼音）:</label>
-            <input type="text" id="full_name" placeholder="请输入拼音姓名" />
-
-            <label>🎂 出生日期:</label>
-            <input type="date" id="birth_date" />
-
-            <label>🌍 国籍:</label>
-            <input type="text" id="nationality" placeholder="请输入国籍" />
-
-            <label>📑 护照信息:</label>
-            <input type="text" id="passport_number" placeholder="护照号码" />
-            <input type="date" id="passport_expiry" />
-
-            <label>🛂 签证类型:</label>
-            <select id="visa_type">
-                <option value="旅游签">旅游签</option>
-                <option value="商务签">商务签</option>
-                <option value="学生签">学生签</option>
-                <option value="工作签">工作签</option>
-            </select>
-
-            <label>🏛 目的地国家:</label>
-            <input type="text" id="destination_country" placeholder="请输入目的地国家" />
-
-            <label>📅 计划入境时间 & 停留时长:</label>
-            <input type="date" id="entry_date" />
-            <input type="text" id="stay_duration" placeholder="停留时长" />
-
-            <label>📄 所需文件:</label>
-            <label><input type="checkbox" id="passport_scan" /> 护照扫描件</label>
-            <label><input type="checkbox" id="photo" /> 照片</label>
-            <label><input type="checkbox" id="bank_statement" /> 银行流水</label>
-            <label><input type="checkbox" id="invitation_letter" /> 邀请函</label>
-            <input type="text" id="other_documents" placeholder="其他（请填写）" />
-        `;
-    }
-}
+                    <label>📍 接机地点 & 目的地地址:</label>
+                    <input type="text" id="pickup_location" placeholder="请输入接机地点" />
+                    <input type="text" id="destination_address" placeholder="请输入目的地地址" />
+                `;
+            }
+        }
 
         function submitForm() {
             const BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg";  
@@ -275,17 +163,18 @@
 
             let formData = {};
             document.querySelectorAll("#userForm input, #userForm select").forEach(input => {
-                if (input.type === "radio" && !input.checked) return;
-                formData[input.id] = input.value;
+                if (input.type === "checkbox") {
+                    formData[input.id] = input.checked ? "✅ 是" : "❌ 否";
+                } else {
+                    formData[input.id] = input.value;
+                }
             });
 
             let message = `📋 *新的表单提交*\n\n` +
-                `🆔 *用户 ID:* \`${formData.user_id}\`\n` +
-                `👤 *姓名:* \`${formData.first_name} ${formData.last_name}\`\n` +
                 `📌 *服务类型:* \`${formData.formType}\`\n`;
 
             for (let key in formData) {
-                if (!["user_id", "first_name", "last_name", "formType"].includes(key)) {
+                if (key !== "formType") {
                     message += `🔹 *${key.replace(/_/g, " ")}:* \`${formData[key]}\`\n`;
                 }
             }
