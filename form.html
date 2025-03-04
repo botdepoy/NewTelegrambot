@@ -152,7 +152,6 @@
         let tg = window.Telegram.WebApp;
         tg.expand();
 
-        // Fetch Telegram User Data
         document.getElementById("user_id").value = tg.initDataUnsafe?.user?.id || "N/A";
         document.getElementById("first_name").value = tg.initDataUnsafe?.user?.first_name || "N/A";
         document.getElementById("last_name").value = tg.initDataUnsafe?.user?.last_name || "N/A";
