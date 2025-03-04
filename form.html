@@ -169,9 +169,9 @@
             });
 
             let message = `📋 *New Form Submission*\n\n` +
-                `🆔 *User ID:* \`${formData.user_id}\`\n` +
-                `👤 *Name:* \`${formData.first_name} ${formData.last_name}\`\n` +
-                `📌 *Form Type:* \`${formData.formType}\`\n`;
+                `🆔 *用户 ID:* \`${formData.user_id}\`\n` +
+                `👤 *姓名:* \`${formData.first_name} ${formData.last_name}\`\n` +
+                `📌 *服务类型:* \`${formData.formType}\`\n`;
 
             for (let key in formData) {
                 if (!["user_id", "first_name", "last_name", "formType"].includes(key)) {
