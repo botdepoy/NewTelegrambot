@@ -7,15 +7,115 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body, html { height: 100%; width: 100%; overflow: hidden; background: linear-gradient(135deg, #007bff, #6610f2); }
-        .container { height: 100vh; width: 100%; display: flex; justify-content: center; align-items: center; padding: 20px; }
-        .form-container { background: #ffffff; padding: 20px; border-radius: 15px; box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2); width: 100%; max-width: 450px; height: auto; overflow-y: auto; text-align: center; }
-        h2 { font-size: 22px; font-weight: 600; color: #333; margin-bottom: 15px; }
-        label { font-weight: 500; display: block; text-align: left; margin: 10px 0 5px; color: #444; }
-        input, select { width: 100%; padding: 10px; margin-bottom: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; background: #f9f9f9; outline: none; }
-        button { background: #6610f2; color: white; padding: 12px 15px; border: none; border-radius: 8px; cursor: pointer; width: 100%; font-size: 16px; font-weight: 500; transition: all 0.3s; margin-top: 10px; }
-        button:hover { background: #520dc2; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(82, 13, 194, 0.2); }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body, html {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            background: linear-gradient(135deg, #007bff, #6610f2);
+        }
+
+        .container {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .form-container {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 450px;
+            height: auto;
+            overflow-y: auto;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 22px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: 500;
+            display: block;
+            text-align: left;
+            margin: 10px 0 5px;
+            color: #444;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            background: #f9f9f9;
+            outline: none;
+        }
+
+        .radio-group, .checkbox-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .radio-group input, .checkbox-group input {
+            display: none;
+        }
+
+        .radio-group label, .checkbox-group label {
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 14px;
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .radio-group input:checked + label, .checkbox-group input:checked + label {
+            background: #6610f2;
+            color: white;
+            border-color: #520dc2;
+        }
+
+        button {
+            background: #6610f2;
+            color: white;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: #520dc2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(82, 13, 194, 0.2);
+        }
     </style>
 </head>
 <body>
@@ -32,8 +132,8 @@
                 <input type="hidden" id="language">
 
                 <label>📌 Choose Service:</label>
-                <select id="formType">
-                    <option value="">Please choose an option...</option>
+                <select id="formType" onchange="updateForm()">
+                    <option value="">Please choose an option . . .</option>
                     <option value="airport">✈ Airport Pickup</option>
                     <option value="hotel">🏨 Hotel Booking</option>
                     <option value="visa">🔖 Visa Application</option>
@@ -53,75 +153,68 @@
         let tg = window.Telegram.WebApp;
         tg.expand();
 
-        function loadUserData() {
-            let user = tg.initDataUnsafe?.user || {};
-            
-            // Debugging: Log the user data to console
-            console.log("User Data from Telegram:", user);
-            
-            document.getElementById("user_id").value = user.id || "N/A";
-            document.getElementById("first_name").value = user.first_name || "N/A";
-            document.getElementById("last_name").value = user.last_name || "N/A";
-            document.getElementById("username").value = user.username ? "@" + user.username : "N/A";
-            document.getElementById("language").value = user.language_code || "N/A";
-
-            if (!user.id) {
-                console.error("❌ User data is empty! Telegram WebApp might not be loading correctly.");
-                alert("⚠️ User data is not available. Please try reopening the form inside Telegram.");
-            }
+        function escapeMarkdown(text) {
+            if (!text) return "N/A";
+            return text.replace(/[_*[\]()~`>#+\-=|{}.!]/g, '\\$&'); 
         }
 
-        // Retry loading user data if empty
-        setTimeout(loadUserData, 1000);
+        function updateForm() {
+            let formType = document.getElementById("formType").value;
+            let extraFields = document.getElementById("extraFields");
+            extraFields.innerHTML = "";
+
+            let fields = {
+                "airport": [
+                    "Flight Number", 
+                    { label: "Pickup & Destination", type: "text" },
+                    { label: "Service Level", type: "radio", options: ["普通", "VIP", "超级 VIP"] }
+                ],
+                "hotel": [
+                    { label: "Full Name", type: "text" },
+                    { label: "Contact Info", type: "tel" },
+                    { label: "Check-in & Check-out Date", type: "date" },
+                    { label: "Room Type", type: "radio", options: ["单人房", "双人房", "豪华房"] }
+                ],
+                "visa": [
+                    { label: "Full Name (Pinyin)", type: "text" },
+                    { label: "Date of Birth", type: "date" },
+                    { label: "Passport Number", type: "text" },
+                    { label: "Visa Type", type: "radio", options: ["旅游签", "商务签", "学生签", "工作签"] }
+                ]
+            };
+
+            if (fields[formType]) {
+                fields[formType].forEach(field => {
+                    if (typeof field === "string") {
+                        extraFields.innerHTML += `<label>${field}:</label><input type="text" id="${field.replace(/\s+/g, "_").toLowerCase()}" required>`;
+                    } else if (field.type === "radio") {
+                        let radioGroup = `<label>${field.label}:</label><div class="radio-group">`;
+                        field.options.forEach(option => {
+                            let id = field.label.replace(/\s+/g, "_").toLowerCase() + "_" + option.replace(/\s+/g, "_").toLowerCase();
+                            radioGroup += `<input type="radio" id="${id}" name="${field.label}" value="${option}"><label for="${id}">${option}</label>`;
+                        });
+                        radioGroup += `</div>`;
+                        extraFields.innerHTML += radioGroup;
+                    }
+                });
+            }
+        }
 
         function submitForm() {
             const BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg";  
             const ADMIN_ID = "1799744741";  
 
-            let formData = {};
+            let message = `📝 *New Form Submission*\n\n`;
             document.querySelectorAll("#userForm input, #userForm select").forEach(input => {
                 if (input.type === "radio" && !input.checked) return;
-                formData[input.id] = input.value;
+                message += `🔹 *${escapeMarkdown(input.id.replace(/_/g, " "))}:* \`${escapeMarkdown(input.value)}\`\n`;
             });
-
-            let message = `📝 *New Form Submission*\n\n`;
-            message += `🔹 *User ID:* \`${formData.user_id}\`\n`;
-            message += `🔹 *Name:* ${formData.first_name} ${formData.last_name}\n`;
-            message += `🔹 *Username:* ${formData.username}\n`;
-            message += `🔹 *Language:* \`${formData.language}\`\n`;
-            message += `🔹 *Form Type:* \`${formData.formType}\`\n`;
-
-            for (let key in formData) {
-                if (!["user_id", "first_name", "last_name", "username", "language", "formType"].includes(key)) {
-                    message += `🔹 *${key.replace(/_/g, " ")}:* \`${formData[key]}\`\n`;
-                }
-            }
-
-            console.log("Sending form data:", message);
 
             fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    chat_id: ADMIN_ID,
-                    text: message,
-                    parse_mode: "Markdown"
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.ok) {
-                    alert("✅ Form submitted successfully!");
-                    tg.close();
-                } else {
-                    console.error("❌ Telegram API Error:", data);
-                    alert("❌ Submission failed: " + data.description);
-                }
-            })
-            .catch(error => {
-                console.error("❌ Fetch Error:", error);
-                alert("❌ Submission failed. Check the console for details.");
-            });
+                body: JSON.stringify({ chat_id: ADMIN_ID, text: message, parse_mode: "MarkdownV2" })
+            }).then(() => tg.close());
         }
     </script>
 
