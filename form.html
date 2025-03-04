@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Telegram Full-Screen Form</title>
+    <title>Telegram 全屏表单</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
@@ -67,35 +67,6 @@
             outline: none;
         }
 
-        .radio-group {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-bottom: 12px;
-        }
-
-        .radio-group input {
-            display: none;
-        }
-
-        .radio-group label {
-            padding: 10px;
-            border-radius: 8px;
-            text-align: center;
-            font-size: 14px;
-            background: #f9f9f9;
-            border: 1px solid #ddd;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .radio-group input:checked + label {
-            background: #6610f2;
-            color: white;
-            border-color: #520dc2;
-        }
-
         button {
             background: #6610f2;
             color: white;
@@ -121,7 +92,7 @@
 
     <div class="container">
         <div class="form-container">
-            <h2>📝 Submit Your Information</h2>
+            <h2>📝 提交您的信息</h2>
 
             <form id="userForm">
                 <input type="hidden" id="user_id">
@@ -130,20 +101,20 @@
                 <input type="hidden" id="username">
                 <input type="hidden" id="language">
 
-                <label>📌 Choose Service:</label>
+                <label>📌 选择服务:</label>
                 <select id="formType" onchange="updateForm()">
-                    <option value="">Please choose an option . . .</option>
-                    <option value="airport">✈ Airport Pickup</option>
-                    <option value="hotel">🏨 Hotel Booking</option>
-                    <option value="visa">🔖 Visa Application</option>
-                    <option value="rental">🏤 House Rental</option>
-                    <option value="logistics">📦 Logistics</option>
-                    <option value="shop">🛒 Shopping Order</option>
+                    <option value="">请选择一个选项 . . .</option>
+                    <option value="airport">✈ 机场接送</option>
+                    <option value="hotel">🏨 酒店预订</option>
+                    <option value="visa">🔖 签证申请</option>
+                    <option value="rental">🏤 房屋租赁</option>
+                    <option value="logistics">📦 物流服务</option>
+                    <option value="shop">🛒 购物订单</option>
                 </select>
 
                 <div id="extraFields"></div>
 
-                <button type="button" onclick="submitForm()">✅ Submit</button>
+                <button type="button" onclick="submitForm()">✅ 提交</button>
             </form>
         </div>
     </div>
@@ -168,7 +139,7 @@
                 formData[input.id] = input.value;
             });
 
-            let message = `📋 *New Form Submission*\n\n` +
+            let message = `📋 *新的表单提交*\n\n` +
                 `🆔 *用户 ID:* \`${formData.user_id}\`\n` +
                 `👤 *姓名:* \`${formData.first_name} ${formData.last_name}\`\n` +
                 `📌 *服务类型:* \`${formData.formType}\`\n`;
@@ -191,15 +162,15 @@
             .then(response => response.json())
             .then(data => {
                 if (data.ok) {
-                    alert("✅ Form submitted successfully!");
+                    alert("✅ 表单提交成功!");
                     tg.close();
                 } else {
-                    alert("❌ Telegram API Error: " + data.description);
+                    alert("❌ Telegram API 错误: " + data.description);
                 }
             })
             .catch(error => {
-                console.error("❌ Fetch Error:", error);
-                alert("❌ Submission failed. Please check the console.");
+                console.error("❌ 请求错误:", error);
+                alert("❌ 提交失败。请检查控制台日志。");
             });
         }
     </script>
