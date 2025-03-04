@@ -100,6 +100,7 @@ async def contact(update: Update, context: CallbackContext):
     """Handles the /contact command and sends a clickable Telegram link."""
     contact_link = "https://t.me/LUODISWKF"  # Replace with your actual Telegram contact link
     text = "📞 **联系我们:**\n点击下方按钮联系在线客服。"
+    images = ["images/217798948_117810053917589_7233136944671638590_n.png"]
     
     buttons = [[InlineKeyboardButton("💬 联系客服", url=contact_link)]]
     
