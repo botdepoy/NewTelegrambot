@@ -2,6 +2,9 @@ import json
 import logging
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo, KeyboardButton, ReplyKeyboardMarkup, InputMediaPhoto
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackContext
+import os
+from telegram import InlineKeyboardMarkup, InlineKeyboardButton, InputMediaPhoto
+from telegram.ext import CommandHandler
 
 BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg"
 ADMIN_ID = "1799744741"
@@ -96,26 +99,33 @@ async def handle_menu(update: Update, context: CallbackContext):
         await update.message.reply_text("❌ Invalid option. Please select a valid menu item.")
 
 
+
 async def contact(update: Update, context: CallbackContext):
     """Handles the /contact command and sends an image with a clickable Telegram link."""
     
     contact_link = "https://t.me/LUODISWKF"  # Replace with your actual Telegram contact link
     image_path = "images/217798948_117810053917589_7233136944671638590_n.png"  # Replace with your actual image path
-    text = "📞 **联系我们:**\n点击下方按钮联系在线客服。"
+    text_message = "📞 **联系我们:**\n点击下方按钮联系在线客服。"
 
+    # Create button
     buttons = [[InlineKeyboardButton("💬 联系客服", url=contact_link)]]
 
+    # Check if the image exists
     if os.path.exists(image_path):
-        # Send image with caption and button
-        await update.message.reply_photo(
-            photo=open(image_path, "rb"),
-            caption=text,
-            reply_markup=InlineKeyboardMarkup(buttons),
-            parse_mode="Markdown"
-        )
+        with open(image_path, "rb") as image_file:
+            await update.message.reply_photo(
+                photo=image_file,
+                caption=text_message,
+                parse_mode="Markdown",
+                reply_markup=InlineKeyboardMarkup(buttons)
+            )
     else:
-        # If image is missing, send text only
-        await update.message.reply_text(text, reply_markup=InlineKeyboardMarkup(buttons), parse_mode="Markdown")
+        # If the image is missing, send text only
+        await update.message.reply_text(
+            text=text_message, 
+            parse_mode="Markdown", 
+            reply_markup=InlineKeyboardMarkup(buttons)
+        )
 
 
 async def broadcast(update: Update, context: CallbackContext):
@@ -188,6 +198,7 @@ async def delete_broadcast(update: Update, context: CallbackContext):
 def main():
     application = Application.builder().token(BOT_TOKEN).build()
     application.add_handler(CommandHandler("start", start))
+    application.add_handler(CommandHandler("contact", contact))
     application.add_handler(CommandHandler("contact", contact))
     application.add_handler(CommandHandler("broadcast", broadcast))
     application.add_handler(CommandHandler("update_broadcast", update_broadcast))
