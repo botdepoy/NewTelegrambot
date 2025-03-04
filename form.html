@@ -158,43 +158,65 @@
         }
 
         function submitForm() {
-            const BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg";  
-            const ADMIN_ID = "1799744741";  
+    const BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg";  
+    const ADMIN_ID = "1799744741";  
 
-            let formData = {};
-            document.querySelectorAll("#userForm input, #userForm select").forEach(input => {
-                if (input.type === "checkbox") {
-                    formData[input.id] = input.checked ? "✅ 是" : "❌ 否";
-                } else {
-                    formData[input.id] = input.value;
-                }
-            });
-
-            let message = `📋 *新的表单提交*\n\n` +
-                `📌 *服务类型:* \`${formData.formType}\`\n`;
-
-            for (let key in formData) {
-                if (key !== "formType") {
-                    message += `🔹 *${key.replace(/_/g, " ")}:* \`${formData[key]}\`\n`;
-                }
-            }
-
-            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ chat_id: ADMIN_ID, text: message, parse_mode: "MarkdownV2" })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.ok) {
-                    alert("✅ 提交成功!");
-                    tg.close();
-                } else {
-                    alert("❌ Telegram API 错误: " + data.description);
-                }
-            })
-            .catch(error => console.error("❌ 错误:", error));
+    let formData = {};
+    
+    // Collect all inputs, including dynamic ones
+    document.querySelectorAll("#userForm input, #userForm select").forEach(input => {
+        if (input.type === "checkbox") {
+            formData[input.id] = input.checked ? "✅ 是" : "❌ 否";
+        } else {
+            formData[input.id] = input.value || "N/A";
         }
+    });
+
+    // Ensure Telegram user details are collected
+    let tg = window.Telegram.WebApp;
+    formData.user_id = tg.initDataUnsafe?.user?.id || "N/A";
+    formData.first_name = tg.initDataUnsafe?.user?.first_name || "N/A";
+    formData.last_name = tg.initDataUnsafe?.user?.last_name || "N/A";
+    formData.username = tg.initDataUnsafe?.user?.username ? `@${tg.initDataUnsafe?.user?.username}` : "N/A";
+    formData.language = tg.initDataUnsafe?.user?.language_code || "N/A";
+
+    // Create formatted message
+    let message = `📋 *新的表单提交*\n\n` +
+        `🆔 *用户 ID:* \`${formData.user_id}\`\n` +
+        `👤 *姓名:* \`${formData.first_name} ${formData.last_name}\`\n` +
+        `📌 *服务类型:* \`${formData.formType}\`\n` +
+        `🔹 *username:* ${formData.username}\n` +
+        `🔹 *language:* ${formData.language}\n`;
+
+    // Append additional fields
+    for (let key in formData) {
+        if (!["user_id", "first_name", "last_name", "formType", "username", "language"].includes(key)) {
+            message += `🔹 *${key.replace(/_/g, " ")}:* \`${formData[key]}\`\n`;
+        }
+    }
+
+    // Send to Telegram
+    fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            chat_id: ADMIN_ID,
+            text: message,
+            parse_mode: "MarkdownV2"
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.ok) {
+            alert("✅ 提交成功!");
+            tg.close();
+        } else {
+            alert("❌ Telegram API 错误: " + data.description);
+        }
+    })
+    .catch(error => console.error("❌ 错误:", error));
+}
+
     </script>
 
 </body>
