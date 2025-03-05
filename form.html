@@ -35,12 +35,13 @@ body, html {
     padding: 20px;
     box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
     text-align: center;
-    max-height: 85vh; /* Ensure form fits without cutting */
-    overflow-y: auto; /* Enable scrolling inside form */
+    max-height: 85vh; /* Ensure form fits screen */
+    overflow-y: auto; /* Allow scrolling */
     scrollbar-width: thin;
     scrollbar-color: rgba(255, 255, 255, 0.4) transparent;
 }
 
+/* Custom Scrollbar */
 .container::-webkit-scrollbar {
     width: 6px;
 }
@@ -72,9 +73,10 @@ label {
     color: #ffffff;
 }
 
-/* Inputs & Selects */
+/* Inputs, Select, Textarea */
 input, select, textarea {
     width: 100%;
+    max-width: 100%;
     padding: 12px;
     border: none;
     border-radius: 8px;
@@ -103,22 +105,22 @@ button:hover {
     background: #ff4c4c;
 }
 
-/* Radio Button Group */
+/* Fix for radio button group */
 .radio-group {
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
+    flex-direction: column; /* Make buttons stack properly */
+    gap: 8px;
+    margin-bottom: 12px;
 }
 
 .radio-group label {
-    flex: 1 1 100%;
     background: rgba(255, 255, 255, 0.4);
     padding: 12px;
     border-radius: 8px;
     text-align: center;
     cursor: pointer;
     transition: background 0.3s ease;
+    width: 100%;
 }
 
 .radio-group input[type="radio"] {
@@ -130,10 +132,10 @@ button:hover {
     color: white;
 }
 
-/* Budget Range */
+/* Fix budget input alignment */
 .budget-range {
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Stack min/max budget fields */
     gap: 10px;
 }
 
@@ -141,12 +143,12 @@ button:hover {
     width: 100%;
 }
 
-/* Adjustments for smaller screens */
+/* Ensure scrolling works properly */
 @media (max-width: 480px) {
     .container {
         width: 95%;
         padding: 15px;
-        max-height: 85vh; /* Ensure form is visible */
+        max-height: 90vh; /* Ensure form is visible */
     }
 
     h2 {
@@ -251,7 +253,7 @@ button:hover {
     </div>
 
     <script>
-        let tg = window.Telegram.WebApp;
+let tg = window.Telegram.WebApp;
 tg.expand();
 
 // Function to navigate to next page
@@ -303,6 +305,7 @@ function submitForm() {
         body: JSON.stringify({ chat_id: ADMIN_ID, text: JSON.stringify(formData, null, 2) })
     }).then(() => alert("表单提交成功！"));
 }
+
 
     </script>
 </body>
