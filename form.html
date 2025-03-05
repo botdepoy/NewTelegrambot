@@ -6,7 +6,7 @@
     <title>客户需求表</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-       @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
 
 * {
     margin: 0;
@@ -16,9 +16,9 @@
 }
 
 body, html {
-    height: 100vh;
+    height: 100vh; /* Full viewport height */
     width: 100vw;
-    overflow: auto;
+    overflow: hidden; /* Prevent background from scrolling */
     background: linear-gradient(135deg, #6e8efb, #a777e3);
     display: flex;
     justify-content: center;
@@ -27,36 +27,55 @@ body, html {
 }
 
 .container {
-    width: 90%;
-    max-width: 500px;
+    width: 100%;
+    max-width: 450px;
     background: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(10px);
     border-radius: 15px;
-    padding: 25px;
+    padding: 20px;
     box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
     text-align: center;
+    max-height: 80vh; /* Limit height to prevent overflow */
+    overflow-y: auto; /* Enable scrolling if form is too long */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.4) transparent;
+}
+
+/* Custom Scrollbar */
+.container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.container::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 10px;
 }
 
 /* Typography */
 h2 {
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 700;
     color: #ffffff;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
+/* Labels */
 label {
     font-weight: 500;
     display: block;
     text-align: left;
-    margin: 12px 0 5px;
+    margin: 10px 0 5px;
     color: #ffffff;
 }
 
+/* Inputs */
 input, select, textarea {
     width: 100%;
     padding: 12px;
-    margin-bottom: 12px;
     border: none;
     border-radius: 8px;
     font-size: 14px;
@@ -65,7 +84,7 @@ input, select, textarea {
     color: #000;
 }
 
-/* Button Styling */
+/* Button */
 button {
     background: #ff6b6b;
     color: white;
@@ -83,20 +102,17 @@ button:hover {
     background: #ff4c4c;
 }
 
-/* Responsive Radio Buttons */
+/* Radio Button Group */
 .radio-group {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 10px;
+    flex-direction: column; /* Stack buttons */
+    gap: 8px;
     margin-bottom: 12px;
 }
 
 .radio-group label {
-    flex: 1;
-    min-width: 120px;
     background: rgba(255, 255, 255, 0.4);
-    padding: 10px;
+    padding: 12px;
     border-radius: 8px;
     text-align: center;
     cursor: pointer;
@@ -116,10 +132,10 @@ button:hover {
     color: white;
 }
 
-/* Responsive Budget Range */
+/* Budget Range */
 .budget-range {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column; /* Stack inputs */
     gap: 10px;
 }
 
@@ -131,11 +147,12 @@ button:hover {
 @media (max-width: 480px) {
     .container {
         width: 95%;
-        padding: 20px;
+        padding: 15px;
+        max-height: 85vh; /* Slightly larger to fit mobile screen */
     }
 
     h2 {
-        font-size: 20px;
+        font-size: 18px;
     }
 
     label {
@@ -149,21 +166,24 @@ button:hover {
 
     .radio-group {
         flex-direction: column;
+        gap: 10px;
     }
 
     .radio-group label {
-        min-width: unset;
         width: 100%;
     }
 
     .budget-range {
         flex-direction: column;
+        gap: 10px;
     }
 
-    .budget-range input {
-        width: 100%;
+    button {
+        padding: 12px;
+        font-size: 14px;
     }
 }
+
     </style>
 </head>
 <body>
