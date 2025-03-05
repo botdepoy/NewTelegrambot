@@ -16,30 +16,32 @@
     }
 
     body, html {
-        height: 100%;
-        width: 100%;
-        overflow: hidden;
+        height: 100vh;
+        width: 100vw;
+        overflow: auto;
         background: linear-gradient(135deg, #6e8efb, #a777e3);
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: 20px;
+        padding: 10px;
     }
 
     .container {
-        height: auto;
-        max-width: 400px;
         width: 100%;
+        max-width: 420px; /* For desktop */
+        height: auto;
+        min-height: 90vh; /* Ensures it adjusts based on content */
         background: rgba(255, 255, 255, 0.2);
         backdrop-filter: blur(10px);
         border-radius: 15px;
         padding: 25px;
         box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
         text-align: center;
+        overflow: hidden;
     }
 
     h2 {
-        font-size: 24px;
+        font-size: 22px;
         font-weight: 700;
         color: #ffffff;
         margin-bottom: 20px;
@@ -97,6 +99,29 @@
         background: #ff4040;
         transform: translateY(-2px);
         box-shadow: 0 8px 20px rgba(255, 107, 107, 0.5);
+    }
+
+    /* ✅ Make It More Responsive for Mobile */
+    @media (max-width: 768px) {
+        body, html {
+            height: auto;
+            width: 100%;
+            overflow: auto;
+            display: block;
+            padding: 10px;
+        }
+
+        .container {
+            width: 95%;
+            min-height: 95vh;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        button {
+            font-size: 14px;
+            padding: 10px;
+        }
     }
 </style>
 
