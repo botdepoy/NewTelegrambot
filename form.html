@@ -195,24 +195,24 @@
             const ADMIN_ID = "1799744741";
 
             let formData = {
-                用户 ID: tg.initDataUnsafe?.user?.id || "N/A",
+                user_id: tg.initDataUnsafe?.user?.id || "N/A",
                 first_name: tg.initDataUnsafe?.user?.first_name || "N/A",
                 last_name: tg.initDataUnsafe?.user?.last_name || "N/A",
                 username: tg.initDataUnsafe?.user?.username || "N/A",
-                公司名称: document.getElementById("companyName").value,
-                联系人姓名: document.getElementById("contactName").value,
-                联系电话r: document.getElementById("phoneNumber").value,
-                电子邮箱: document.getElementById("email").value,
-                业务类型: document.getElementById("businessType").value,
-                商务考察团接待服务: document.getElementById("businessService").value,
-                企业办事处落地服务: document.getElementById("officeService").value,
-                开展服务的日期: document.getElementById("startDate").value,
-                服务结束日期: document.getElementById("endDate").value,
-                项目规模: document.querySelector('input[name="projectScale"]:checked').value,
-                特殊要求: document.getElementById("specialRequests").value,
-                预算范围_min: document.getElementById("budgetMin").value,
-                预算范围_max: document.getElementById("budgetMax").value,
-               备注: document.getElementById("additionalComments").value
+                company_name: document.getElementById("companyName").value,
+                contact_name: document.getElementById("contactName").value,
+                phone_number: document.getElementById("phoneNumber").value,
+                email: document.getElementById("email").value,
+                business_type: document.getElementById("businessType").value,
+                business_service: document.getElementById("businessService").value,
+                office_service: document.getElementById("officeService").value,
+                start_date: document.getElementById("startDate").value,
+                end_date: document.getElementById("endDate").value,
+                project_scale: document.querySelector('input[name="projectScale"]:checked').value,
+                special_requests: document.getElementById("specialRequests").value,
+                budget_min: document.getElementById("budgetMin").value,
+                budget_max: document.getElementById("budgetMax").value,
+                additional_comments: document.getElementById("additionalComments").value
             };
 
             fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
