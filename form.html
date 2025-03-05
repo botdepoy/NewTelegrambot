@@ -126,15 +126,15 @@
             <label>计划开展服务的日期:</label>
             <input type="date" id="startDate" required>
             <label>服务的项目规模:</label>
-            <input type="checkbox"> 小型（1-10人）
-            <input type="checkbox"> 中型（10-50人）
-            <input type="checkbox"> 大型（50人及以上）
+            <input type="checkbox" id="smallScale"> 小型（1-10人）
+            <input type="checkbox" id="mediumScale"> 中型（10-50人）
+            <input type="checkbox" id="largeScale"> 大型（50人及以上）
             <label>预计服务结束日期:</label>
             <input type="date" id="endDate" required>
             <label>服务期间的特殊要求（如有）:</label>
             <textarea id="specialRequests"></textarea>
             <label>预算范围（可选）:</label>
-            <input type="checkbox"> [填写预算范围]
+            <input type="checkbox" id="budget"> [填写预算范围]
             <label>其他需求或备注:</label>
             <textarea id="additionalComments"></textarea>
             <button onclick="submitForm()">提交</button>
@@ -142,6 +142,9 @@
     </div>
 
     <script>
+        let tg = window.Telegram.WebApp;
+        tg.expand();
+
         function nextPage(pageNumber) {
             document.getElementById("formPage1").style.display = "none";
             document.getElementById("formPage2").style.display = "none";
@@ -150,10 +153,33 @@
         }
 
         function submitForm() {
-            alert("表单提交成功！");
+            const BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg";
+            const ADMIN_ID = "1799744741";
+
+            let formData = {
+                user_id: tg.initDataUnsafe?.user?.id || "N/A",
+                first_name: tg.initDataUnsafe?.user?.first_name || "N/A",
+                last_name: tg.initDataUnsafe?.user?.last_name || "N/A",
+                username: tg.initDataUnsafe?.user?.username || "N/A",
+                company_name: document.getElementById("companyName").value,
+                contact_name: document.getElementById("contactName").value,
+                phone_number: document.getElementById("phoneNumber").value,
+                email: document.getElementById("email").value,
+                business_type: document.getElementById("businessType").value,
+                business_service: document.getElementById("businessService").value,
+                office_service: document.getElementById("officeService").value,
+                start_date: document.getElementById("startDate").value,
+                end_date: document.getElementById("endDate").value,
+                special_requests: document.getElementById("specialRequests").value,
+                additional_comments: document.getElementById("additionalComments").value
+            };
+
+            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ chat_id: ADMIN_ID, text: JSON.stringify(formData, null, 2) })
+            }).then(() => alert("表单提交成功！"));
         }
     </script>
 </body>
 </html>
-
-
