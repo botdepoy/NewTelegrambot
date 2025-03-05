@@ -6,127 +6,164 @@
     <title>客户需求表</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+       @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
 
-        body, html {
-            height: 100vh;
-            width: 100vw;
-            overflow: auto;
-            background: linear-gradient(135deg, #6e8efb, #a777e3);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 10px;
-        }
+body, html {
+    height: 100vh;
+    width: 100vw;
+    overflow: auto;
+    background: linear-gradient(135deg, #6e8efb, #a777e3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
 
-        .container {
-            width: 100%;
-            max-width: 500px;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
+.container {
+    width: 90%;
+    max-width: 500px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
 
-        h2 {
-            font-size: 22px;
-            font-weight: 700;
-            color: #ffffff;
-            margin-bottom: 20px;
-        }
+/* Typography */
+h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 20px;
+}
 
-        label {
-            font-weight: 500;
-            display: block;
-            text-align: left;
-            margin: 12px 0 5px;
-            color: #ffffff;
-        }
+label {
+    font-weight: 500;
+    display: block;
+    text-align: left;
+    margin: 12px 0 5px;
+    color: #ffffff;
+}
 
-        input, select, textarea {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 12px;
-            border: none;
-            border-radius: 8px;
-            font-size: 14px;
-            background: rgba(255, 255, 255, 0.4);
-            outline: none;
-            color: #000;
-        }
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    background: rgba(255, 255, 255, 0.4);
+    outline: none;
+    color: #000;
+}
 
-        button {
-            background: #ff6b6b;
-            color: white;
-            padding: 12px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            width: 100%;
-            font-size: 16px;
-            font-weight: 600;
-            transition: background 0.3s ease;
-        }
+/* Button Styling */
+button {
+    background: #ff6b6b;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 16px;
+    font-weight: 600;
+    transition: background 0.3s ease;
+}
 
-        button:hover {
-            background: #ff4c4c;
-        }
+button:hover {
+    background: #ff4c4c;
+}
 
-        .radio-group {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 12px;
-        }
+/* Responsive Radio Buttons */
+.radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 12px;
+}
 
-        .radio-group label {
-            display: flex;
-            align-items: center;
-            margin: 5px 0;
-            background: rgba(255, 255, 255, 0.4);
-            padding: 10px;
-            border-radius: 8px;
-            flex: 1;
-            margin: 0 5px;
-            text-align: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
+.radio-group label {
+    flex: 1;
+    min-width: 120px;
+    background: rgba(255, 255, 255, 0.4);
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
 
-        .radio-group label:hover {
-            background: rgba(255, 255, 255, 0.6);
-        }
+.radio-group label:hover {
+    background: rgba(255, 255, 255, 0.6);
+}
 
-        .radio-group input[type="radio"] {
-            display: none;
-        }
+.radio-group input[type="radio"] {
+    display: none;
+}
 
-        .radio-group input[type="radio"]:checked + label {
-            background: #ff6b6b;
-            color: white;
-        }
+.radio-group input[type="radio"]:checked + label {
+    background: #ff6b6b;
+    color: white;
+}
 
-        textarea {
-            resize: vertical;
-        }
+/* Responsive Budget Range */
+.budget-range {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
 
-        .budget-range {
-            display: flex;
-            justify-content: space-between;
-        }
+.budget-range input {
+    width: 100%;
+}
 
-        .budget-range input {
-            width: 48%;
-        }
+/* Adjustments for smaller screens */
+@media (max-width: 480px) {
+    .container {
+        width: 95%;
+        padding: 20px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    label {
+        font-size: 14px;
+    }
+
+    input, select, textarea {
+        padding: 10px;
+        font-size: 13px;
+    }
+
+    .radio-group {
+        flex-direction: column;
+    }
+
+    .radio-group label {
+        min-width: unset;
+        width: 100%;
+    }
+
+    .budget-range {
+        flex-direction: column;
+    }
+
+    .budget-range input {
+        width: 100%;
+    }
+}
     </style>
 </head>
 <body>
