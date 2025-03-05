@@ -18,7 +18,6 @@
         body, html {
             height: 100vh;
             width: 100vw;
-            overflow: auto;
             background: linear-gradient(135deg, #6e8efb, #a777e3);
             display: flex;
             justify-content: center;
@@ -28,28 +27,29 @@
 
         .container {
             width: 100%;
-            max-width: 500px;
+            max-width: 600px;
             background: rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(12px);
+            backdrop-filter: blur(10px);
             border-radius: 15px;
             padding: 25px;
-            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.15);
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
 
         h2 {
-            font-size: 22px;
+            font-size: 24px;
             font-weight: 700;
             color: #ffffff;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         label {
             font-weight: 500;
             display: block;
             text-align: left;
-            margin: 12px 0 5px;
+            margin: 10px 0 5px;
             color: #ffffff;
+            font-size: 16px;
         }
 
         input, select, textarea {
@@ -64,6 +64,24 @@
             color: #333;
         }
 
+        textarea {
+            resize: none;
+            height: 60px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            white-space: nowrap;
+        }
+
         button {
             background: #ff6b6b;
             color: white;
@@ -74,53 +92,16 @@
             width: 100%;
             font-size: 16px;
             font-weight: 600;
-            transition: all 0.3s ease-in-out;
+            margin-top: 10px;
         }
 
         button:hover {
             background: #ff4040;
         }
 
-        .checkbox-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .checkbox-container label {
-            display: flex;
-            align-items: center;
-            color: #ffffff;
-            font-size: 14px;
-        }
-
-        .checkbox-container input {
-            margin-right: 5px;
-        }
-
         @media (max-width: 768px) {
             .container {
-                width: 95%;
-                padding: 20px;
-            }
-
-            h2 {
-                font-size: 20px;
-            }
-
-            label {
-                font-size: 14px;
-            }
-
-            input, select, textarea {
-                font-size: 14px;
-                padding: 10px;
-            }
-
-            button {
-                font-size: 14px;
-                padding: 10px;
+                max-width: 95%;
             }
         }
     </style>
@@ -156,6 +137,15 @@
                 <option>高端商务车辆/直升机/游艇保障</option>
                 <option>翻译服务（中文、英语、柬埔寨语）</option>
             </select>
+            <h3>2. 企业办事处落地服务</h3>
+            <select id="officeService">
+                <option>公司注册及政府审批协助</option>
+                <option>办公及住房租赁</option>
+                <option>人力资源招聘与劳工证办理</option>
+                <option>行政办公设备采购及安装</option>
+                <option>财税合规咨询</option>
+                <option>企业运营支持服务</option>
+            </select>
             <button onclick="nextPage(3)">下一步</button>
         </div>
 
@@ -165,11 +155,20 @@
             <input type="date" id="startDate" required>
 
             <label>服务的项目规模:</label>
-            <div class="checkbox-container">
+            <div class="checkbox-group">
                 <label><input type="checkbox" id="smallScale"> 小型（1-10人）</label>
                 <label><input type="checkbox" id="mediumScale"> 中型（10-50人）</label>
                 <label><input type="checkbox" id="largeScale"> 大型（50人及以上）</label>
             </div>
+
+            <label>预计服务结束日期:</label>
+            <input type="date" id="endDate" required>
+
+            <label>服务期间的特殊要求（如有）:</label>
+            <textarea id="specialRequests"></textarea>
+
+            <label>预算范围（可选）:</label>
+            <textarea id="budget"></textarea>
 
             <label>其他需求或备注:</label>
             <textarea id="additionalComments"></textarea>
@@ -190,39 +189,30 @@
         }
 
         function submitForm() {
-            const BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg"; // Replace with your Telegram bot token
-            const ADMIN_ID = "1799744741"; // Replace with your admin's Telegram ID
+            const BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg";
+            const ADMIN_ID = "1799744741";
 
             let formData = {
+                用户 ID: tg.initDataUnsafe?.user?.id || "N/A",
+                性: tg.initDataUnsafe?.user?.first_name || "N/A",
+                名: tg.initDataUnsafe?.user?.last_name || "N/A",
+                飞机名: tg.initDataUnsafe?.user?.username || "N/A",
                 公司名称: document.getElementById("companyName").value,
                 联系人姓名: document.getElementById("contactName").value,
-                联系电话: document.getElementById("phoneNumber").value,
-                电子邮箱: document.getElementById("email").value,
-                业务类型: document.getElementById("businessType").value,
-                服务类别选择: document.getElementById("businessService").value,
-                开展服务的日期: document.getElementById("startDate").value,
-                小型: document.getElementById("smallScale").checked ? "✅ 小型" : "",
-                中型: document.getElementById("mediumScale").checked ? "✅ 中型" : "",
-                大型: document.getElementById("largeScale").checked ? "✅ 大型" : "",
-                其他需求或备注: document.getElementById("additionalComments").value
+                联系电话r: document.getElementById("phoneNumber").value,
+                email: document.getElementById("email").value,
+                business_type: document.getElementById("businessType").value,
+                start_date: document.getElementById("startDate").value,
+                end_date: document.getElementById("endDate").value,
+                budget: document.getElementById("budget").value,
+                additional_comments: document.getElementById("additionalComments").value
             };
-
-            let message = `📋 *新客户需求表*\n\n`;
-            for (let key in formData) {
-                message += `🔹 *${key}:* ${formData[key]}\n`;
-            }
 
             fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    chat_id: ADMIN_ID,
-                    text: message,
-                    parse_mode: "Markdown"
-                })
-            })
-            .then(() => alert("✅ 表单提交成功！"))
-            .catch(() => alert("❌ 提交失败，请检查！"));
+                body: JSON.stringify({ chat_id: ADMIN_ID, text: JSON.stringify(formData, null, 2) })
+            }).then(() => alert("表单提交成功！"));
         }
     </script>
 </body>
