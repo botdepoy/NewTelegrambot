@@ -61,7 +61,7 @@
             font-size: 14px;
             background: rgba(255, 255, 255, 0.4);
             outline: none;
-            color: #fff;
+            color: #000;
         }
 
         button {
@@ -74,21 +74,40 @@
             width: 100%;
             font-size: 16px;
             font-weight: 600;
+            transition: background 0.3s ease;
         }
 
-        .checkbox-group {
+        button:hover {
+            background: #ff4c4c;
+        }
+
+        .radio-group {
             display: flex;
-            flex-direction: row;
-            justify-content: space-between;
+            flex-direction: column;
             margin-bottom: 12px;
         }
 
-        .checkbox-group label {
-            margin: 0;
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            margin: 5px 0;
+        }
+
+        .radio-group input[type="radio"] {
+            margin-right: 10px;
         }
 
         textarea {
             resize: vertical;
+        }
+
+        .budget-range {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .budget-range input {
+            width: 48%;
         }
     </style>
 </head>
@@ -140,17 +159,20 @@
             <label>计划开展服务的日期:</label>
             <input type="date" id="startDate" required>
             <label>服务的项目规模:</label>
-            <div class="checkbox-group">
-                <label><input type="checkbox" id="smallScale"> 小型（1-10人）</label>
-                <label><input type="checkbox" id="mediumScale"> 中型（10-50人）</label>
-                <label><input type="checkbox" id="largeScale"> 大型（50人及以上）</label>
+            <div class="radio-group">
+                <label><input type="radio" name="projectScale" value="small"> 小型（1-10人）</label>
+                <label><input type="radio" name="projectScale" value="medium"> 中型（10-50人）</label>
+                <label><input type="radio" name="projectScale" value="large"> 大型（50人及以上）</label>
             </div>
             <label>预计服务结束日期:</label>
             <input type="date" id="endDate" required>
             <label>服务期间的特殊要求（如有）:</label>
             <textarea id="specialRequests"></textarea>
             <label>预算范围（可选）:</label>
-            <input type="text" id="budget" placeholder="填写预算范围">
+            <div class="budget-range">
+                <input type="number" id="budgetMin" placeholder="最小预算">
+                <input type="number" id="budgetMax" placeholder="最大预算">
+            </div>
             <label>其他需求或备注:</label>
             <textarea id="additionalComments"></textarea>
             <button onclick="submitForm()">提交</button>
@@ -173,22 +195,24 @@
             const ADMIN_ID = "1799744741";
 
             let formData = {
-                user_id: tg.initDataUnsafe?.user?.id || "N/A",
+                用户 ID: tg.initDataUnsafe?.user?.id || "N/A",
                 first_name: tg.initDataUnsafe?.user?.first_name || "N/A",
                 last_name: tg.initDataUnsafe?.user?.last_name || "N/A",
                 username: tg.initDataUnsafe?.user?.username || "N/A",
-                company_name: document.getElementById("companyName").value,
-                contact_name: document.getElementById("contactName").value,
-                phone_number: document.getElementById("phoneNumber").value,
-                email: document.getElementById("email").value,
-                business_type: document.getElementById("businessType").value,
-                business_service: document.getElementById("businessService").value,
-                office_service: document.getElementById("officeService").value,
-                start_date: document.getElementById("startDate").value,
-                end_date: document.getElementById("endDate").value,
-                special_requests: document.getElementById("specialRequests").value,
-                budget: document.getElementById("budget").value,
-                additional_comments: document.getElementById("additionalComments").value
+                公司名称: document.getElementById("companyName").value,
+                联系人姓名: document.getElementById("contactName").value,
+                联系电话r: document.getElementById("phoneNumber").value,
+                电子邮箱: document.getElementById("email").value,
+                业务类型: document.getElementById("businessType").value,
+                商务考察团接待服务: document.getElementById("businessService").value,
+                企业办事处落地服务: document.getElementById("officeService").value,
+                开展服务的日期: document.getElementById("startDate").value,
+                服务结束日期: document.getElementById("endDate").value,
+                项目规模: document.querySelector('input[name="projectScale"]:checked').value,
+                特殊要求: document.getElementById("specialRequests").value,
+                预算范围_min: document.getElementById("budgetMin").value,
+                预算范围_max: document.getElementById("budgetMax").value,
+               备注: document.getElementById("additionalComments").value
             };
 
             fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
