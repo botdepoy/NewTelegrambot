@@ -1,301 +1,159 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Telegram Full-Screen Form</title>
+    <title>客户需求表</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
 
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: 'Poppins', sans-serif;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
 
-    body, html {
-        height: 100vh;
-        width: 100vw;
-        overflow: auto;
-        background: linear-gradient(135deg, #6e8efb, #a777e3);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 10px;
-    }
-
-    .container {
-        width: 100%;
-        max-width: 420px; /* For desktop */
-        height: auto;
-        min-height: 90vh; /* Ensures it adjusts based on content */
-        background: rgba(255, 255, 255, 0.2);
-        backdrop-filter: blur(10px);
-        border-radius: 15px;
-        padding: 25px;
-        box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
-        text-align: center;
-        overflow: hidden;
-    }
-
-    h2 {
-        font-size: 22px;
-        font-weight: 700;
-        color: #ffffff;
-        margin-bottom: 20px;
-    }
-
-    label {
-        font-weight: 500;
-        display: block;
-        text-align: left;
-        margin: 12px 0 5px;
-        color: #ffffff;
-    }
-
-    input, select {
-        width: 100%;
-        padding: 12px;
-        margin-bottom: 12px;
-        border: none;
-        border-radius: 8px;
-        font-size: 14px;
-        background: rgba(255, 255, 255, 0.4);
-        outline: none;
-        transition: 0.3s ease-in-out;
-        color: #fff;
-    }
-
-    input:focus, select:focus {
-        background: rgba(255, 255, 255, 0.6);
-        box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-    }
-
-    select {
-        appearance: none;
-        background: url('https://cdn-icons-png.flaticon.com/512/60/60995.png') no-repeat right 10px center;
-        background-size: 16px;
-        padding-right: 35px;
-    }
-
-    button {
-        background: #ff6b6b;
-        color: white;
-        padding: 12px 15px;
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-        width: 100%;
-        font-size: 16px;
-        font-weight: 600;
-        transition: all 0.3s;
-        margin-top: 10px;
-        box-shadow: 0px 5px 15px rgba(255, 107, 107, 0.3);
-    }
-
-    button:hover {
-        background: #ff4040;
-        transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(255, 107, 107, 0.5);
-    }
-
-    /* ✅ Make It More Responsive for Mobile */
-    @media (max-width: 768px) {
         body, html {
-            height: auto;
-            width: 100%;
+            height: 100vh;
+            width: 100vw;
             overflow: auto;
-            display: block;
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
             padding: 10px;
         }
 
         .container {
-            width: 95%;
-            min-height: 95vh;
-            padding: 20px;
-            border-radius: 10px;
+            width: 100%;
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: 500;
+            display: block;
+            text-align: left;
+            margin: 12px 0 5px;
+            color: #ffffff;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            background: rgba(255, 255, 255, 0.4);
+            outline: none;
+            color: #fff;
         }
 
         button {
-            font-size: 14px;
-            padding: 10px;
+            background: #ff6b6b;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            font-weight: 600;
         }
-    }
-</style>
 
+    </style>
 </head>
 <body>
-
     <div class="container">
-        <div class="form-container">
-            <h2>Submit Your Information</h2>
+        <div class="form-container" id="formPage1">
+            <h2>基本信息</h2>
+            <label>公司名称:</label>
+            <input type="text" id="companyName" required>
+            <label>联系人姓名:</label>
+            <input type="text" id="contactName" required>
+            <label>联系电话:</label>
+            <input type="text" id="phoneNumber" required>
+            <label>电子邮箱:</label>
+            <input type="email" id="email" required>
+            <button onclick="nextPage(2)">下一步</button>
+        </div>
 
-            <form id="userForm">
-                <!-- Hidden Telegram User Fields -->
-                <input type="hidden" id="user_id">
-                <input type="hidden" id="first_name">
-                <input type="hidden" id="last_name">
-                <input type="hidden" id="username">
-                <input type="hidden" id="language">
+        <div class="form-container" id="formPage2" style="display:none;">
+            <h2>业务类型</h2>
+            <select id="businessType">
+                <option>企业/公司</option>
+                <option>团队</option>
+                <option>个人</option>
+            </select>
+            <h2>服务类别选择</h2>
+            <h3>1. 商务考察团接待服务</h3>
+            <select id="businessService">
+                <option>机场接机和专车交通安排</option>
+                <option>酒店预订及住宿安排</option>
+                <option>项目考察对接与行程安排</option>
+                <option>高端商务车辆/直升机/游艇保障</option>
+                <option>翻译服务（中文、英语、柬埔寨语）</option>
+            </select>
+            <h3>2. 企业办事处落地服务</h3>
+            <select id="officeService">
+                <option>公司注册及政府审批协助</option>
+                <option>办公及住房租赁</option>
+                <option>人力资源招聘与劳工证办理</option>
+                <option>行政办公设备采购及安装</option>
+                <option>财税合规咨询</option>
+                <option>企业运营支持服务</option>
+            </select>
+            <button onclick="nextPage(3)">下一步</button>
+        </div>
 
-                <!-- Select Form Type -->
-                <label>Choose Form Type:</label>
-                <select id="formType" onchange="updateForm()">
-                    <option value="airport">✈ Airport Pickup</option>
-                    <option value="hotel">🏨 Hotel Booking</option>
-                    <option value="visa">🔖 Visa Application</option>
-                    <option value="rental">🏤 House Rental</option>
-                    <option value="logistics">📦 Logistics Request</option>
-                    <option value="canteen">🥗 Canteen Order</option>
-                    <option value="shop">🛒 Shopping Order</option>
-                </select>
-
-                <!-- Shared Fields -->
-                <label>Date:</label>
-                <input type="date" id="date" required>
-
-                <label>Phone Number:</label>
-                <input type="number" id="number" required>
-
-                <!-- Form-Specific Fields -->
-                <div id="extraFields"></div>
-
-                <button type="button" onclick="submitForm()">Submit</button>
-            </form>
+        <div class="form-container" id="formPage3" style="display:none;">
+            <h2>项目详细信息</h2>
+            <label>计划开展服务的日期:</label>
+            <input type="date" id="startDate" required>
+            <label>服务的项目规模:</label>
+            <input type="checkbox"> 小型（1-10人）
+            <input type="checkbox"> 中型（10-50人）
+            <input type="checkbox"> 大型（50人及以上）
+            <label>预计服务结束日期:</label>
+            <input type="date" id="endDate" required>
+            <label>服务期间的特殊要求（如有）:</label>
+            <textarea id="specialRequests"></textarea>
+            <label>预算范围（可选）:</label>
+            <input type="checkbox"> [填写预算范围]
+            <label>其他需求或备注:</label>
+            <textarea id="additionalComments"></textarea>
+            <button onclick="submitForm()">提交</button>
         </div>
     </div>
 
     <script>
-        let tg = window.Telegram.WebApp;
-        tg.expand();
-
-        // ✅ Set User Data from Telegram
-        document.getElementById("user_id").value = tg.initDataUnsafe?.user?.id || "N/A";
-        document.getElementById("first_name").value = tg.initDataUnsafe?.user?.first_name || "N/A";
-        document.getElementById("last_name").value = tg.initDataUnsafe?.user?.last_name || "N/A";
-        document.getElementById("username").value = tg.initDataUnsafe?.user?.username ? "@" + tg.initDataUnsafe?.user?.username : "N/A";
-        // document.getElementById("username").value = tg.initDataUnsafe?.user?.username || "N/A";
-        document.getElementById("language").value = tg.initDataUnsafe?.user?.language_code || "N/A";
-
-        // ✅ Update form fields dynamically based on selection
-        function updateForm() {
-            let formType = document.getElementById("formType").value;
-            let extraFields = document.getElementById("extraFields");
-            extraFields.innerHTML = "";
-
-            let fieldDefinitions = {
-                "airport": ["Flight Number"],
-                "hotel": ["Hotel Name"],
-                "visa": ["Passport Number"],
-                "rental": ["Location"],
-                "logistics": ["Package Type"],
-                "canteen": ["Meal Type"],
-                "shop": ["Product Name"]
-            };
-
-            if (fieldDefinitions[formType]) {
-                fieldDefinitions[formType].forEach(field => {
-                    let label = document.createElement("label");
-                    label.textContent = field + ":";
-
-                    let input = document.createElement("input");
-                    input.type = "text";
-                    input.id = field.replace(/\s+/g, "_").toLowerCase();
-                    input.required = true;
-
-                    extraFields.appendChild(label);
-                    extraFields.appendChild(input);
-                });
-            }
+        function nextPage(pageNumber) {
+            document.getElementById("formPage1").style.display = "none";
+            document.getElementById("formPage2").style.display = "none";
+            document.getElementById("formPage3").style.display = "none";
+            document.getElementById("formPage" + pageNumber).style.display = "block";
         }
 
-        function escapeMarkdown(text) {
-            if (!text) return "N/A";
-            return text.replace(/[_*[\]()~`>#+\-=|{}.!]/g, '\\$&'); // Escape special characters
+        function submitForm() {
+            alert("表单提交成功！");
         }
-
-       function submitForm() {
-    const BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg";
-    const ADMIN_ID = "1799744741";
-
-    let formData = {
-        user_id: document.getElementById("user_id").value,
-        first_name: document.getElementById("first_name").value,
-        last_name: document.getElementById("last_name").value,
-        username: document.getElementById("username").value,
-        language: document.getElementById("language").value,
-        date: document.getElementById("date").value,
-        number: document.getElementById("number").value,
-        form_type: document.getElementById("formType").value
-    };
-
-    let extraFields = document.getElementById("extraFields").querySelectorAll("input");
-    extraFields.forEach(input => {
-        formData[input.id] = input.value;
-    });
-
-    // ✅ Define English to Chinese Key Mapping
-    let keyTranslations = {
-        "user_id": "用户 ID",
-        "first_name": "名字",
-        "last_name": "姓氏",
-        "username": "用户名",
-        "language": "语言",
-        "date": "日期",
-        "number": "联系方式",
-        "form_type": "选择类型",
-        "flight_number": "航班号",
-        "hotel_name": "酒店名称",
-        "passport_number": "护照号",
-        "location": "位置",
-        "package_type": "包裹类型",
-        "meal_type": "餐点类型",
-        "product_name": "商品名称"
-    };
-
-    // ✅ Modify Labels to Chinese
-    let message = `📋 *新表单提交*\n\n`;
-
-    for (let key in formData) {
-        let translatedKey = keyTranslations[key] || key; // Use Chinese term if available, else use the default key
-        message += `🔹 *${escapeMarkdown(translatedKey)}:* \`${escapeMarkdown(formData[key])}\`\n`;
-    }
-
-    // ✅ Send Data to Telegram API
-    fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            chat_id: ADMIN_ID,
-            text: message,
-            parse_mode: "MarkdownV2"
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log("✅ Telegram API Response:", data);
-        if (data.ok) {
-            alert("✅ 表单提交成功！");
-            tg.close();
-        } else {
-            alert("❌ Telegram API 错误: " + data.description);
-        }
-    })
-    .catch(error => {
-        console.error("❌ Fetch Error:", error);
-        alert("❌ 提交失败，请检查控制台。");
-    });
-}
-
-// ✅ Function to Escape MarkdownV2 Characters
-function escapeMarkdown(text) {
-    if (!text) return "N/A";
-    return text.replace(/[_*[\]()~`>#+\-=|{}.!]/g, '\\$&'); // Escape special characters
-}
-
     </script>
-
 </body>
 </html>
+
+
