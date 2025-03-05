@@ -83,7 +83,7 @@
 
         .radio-group {
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
             margin-bottom: 12px;
         }
 
@@ -91,10 +91,28 @@
             display: flex;
             align-items: center;
             margin: 5px 0;
+            background: rgba(255, 255, 255, 0.4);
+            padding: 10px;
+            border-radius: 8px;
+            flex: 1;
+            margin: 0 5px;
+            text-align: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .radio-group label:hover {
+            background: rgba(255, 255, 255, 0.6);
         }
 
         .radio-group input[type="radio"] {
-            margin-right: 10px;
+            display: none;
+        }
+
+        .radio-group input[type="radio"]:checked + label {
+            background: #ff6b6b;
+            color: white;
         }
 
         textarea {
@@ -160,9 +178,12 @@
             <input type="date" id="startDate" required>
             <label>服务的项目规模:</label>
             <div class="radio-group">
-                <label><input type="radio" name="projectScale" value="small"> 小型（1-10人）</label>
-                <label><input type="radio" name="projectScale" value="medium"> 中型（10-50人）</label>
-                <label><input type="radio" name="projectScale" value="large"> 大型（50人及以上）</label>
+                <input type="radio" id="smallScale" name="projectScale" value="small">
+                <label for="smallScale">小型（1-10人）</label>
+                <input type="radio" id="mediumScale" name="projectScale" value="medium">
+                <label for="mediumScale">中型（10-50人）</label>
+                <input type="radio" id="largeScale" name="projectScale" value="large">
+                <label for="largeScale">大型（50人及以上）</label>
             </div>
             <label>预计服务结束日期:</label>
             <input type="date" id="endDate" required>
