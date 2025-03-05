@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>客户需求表</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>客户需求表</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
 
@@ -153,26 +160,18 @@
             <h2>项目详细信息</h2>
             <label>计划开展服务的日期:</label>
             <input type="date" id="startDate" required>
-
             <label>服务的项目规模:</label>
-            <div class="checkbox-group">
-                <label><input type="checkbox" id="smallScale"> 小型（1-10人）</label>
-                <label><input type="checkbox" id="mediumScale"> 中型（10-50人）</label>
-                <label><input type="checkbox" id="largeScale"> 大型（50人及以上）</label>
-            </div>
-
+            <input type="checkbox" id="smallScale"> 小型（1-10人）
+            <input type="checkbox" id="mediumScale"> 中型（10-50人）
+            <input type="checkbox" id="largeScale"> 大型（50人及以上）
             <label>预计服务结束日期:</label>
             <input type="date" id="endDate" required>
-
             <label>服务期间的特殊要求（如有）:</label>
             <textarea id="specialRequests"></textarea>
-
             <label>预算范围（可选）:</label>
-            <textarea id="budget"></textarea>
-
+            <input type="checkbox" id="budget"> [填写预算范围]
             <label>其他需求或备注:</label>
             <textarea id="additionalComments"></textarea>
-
             <button onclick="submitForm()">提交</button>
         </div>
     </div>
@@ -189,26 +188,28 @@
         }
 
         function submitForm() {
-            const BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg";
-            const ADMIN_ID = "1799744741";
+            const BOT_TOKEN = "YOUR_BOT_TOKEN";
+            const ADMIN_ID = "YOUR_ADMIN_ID";
 
             let formData = {
-                用户 ID: tg.initDataUnsafe?.user?.id || "N/A",
-                性: tg.initDataUnsafe?.user?.first_name || "N/A",
-                名: tg.initDataUnsafe?.user?.last_name || "N/A",
-                飞机名: tg.initDataUnsafe?.user?.username || "N/A",
-                公司名称: document.getElementById("companyName").value,
-                联系人姓名: document.getElementById("contactName").value,
-                联系电话r: document.getElementById("phoneNumber").value,
+                user_id: tg.initDataUnsafe?.user?.id || "N/A",
+                first_name: tg.initDataUnsafe?.user?.first_name || "N/A",
+                last_name: tg.initDataUnsafe?.user?.last_name || "N/A",
+                username: tg.initDataUnsafe?.user?.username || "N/A",
+                company_name: document.getElementById("companyName").value,
+                contact_name: document.getElementById("contactName").value,
+                phone_number: document.getElementById("phoneNumber").value,
                 email: document.getElementById("email").value,
                 business_type: document.getElementById("businessType").value,
+                business_service: document.getElementById("businessService").value,
+                office_service: document.getElementById("officeService").value,
                 start_date: document.getElementById("startDate").value,
                 end_date: document.getElementById("endDate").value,
-                budget: document.getElementById("budget").value,
+                special_requests: document.getElementById("specialRequests").value,
                 additional_comments: document.getElementById("additionalComments").value
             };
 
-            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+            fetch(https://api.telegram.org/bot${BOT_TOKEN}/sendMessage, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ chat_id: ADMIN_ID, text: JSON.stringify(formData, null, 2) })
