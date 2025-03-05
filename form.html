@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Telegram Full-Screen Form</title>
+    <title>Telegram Form</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
@@ -18,12 +18,14 @@
         body, html {
             height: 100%;
             width: 100%;
-            overflow: hidden;
-            background: #f4f4f4;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
         }
 
         .container {
-            height: 100vh;
             width: 100%;
             display: flex;
             justify-content: center;
@@ -32,116 +34,121 @@
         }
 
         .form-container {
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.1);
             padding: 20px;
             border-radius: 15px;
-            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.2);
             width: 100%;
-            max-width: 420px;
-            height: auto;
-            overflow-y: auto;
+            max-width: 450px;
             text-align: center;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            max-height: 85vh;
+            overflow-y: auto;
         }
 
         h2 {
-            font-size: 22px;
-            font-weight: 600;
-            color: #333;
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
             margin-bottom: 15px;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
         }
 
         label {
-            font-weight: 500;
+            font-weight: 600;
             display: block;
             text-align: left;
-            margin: 12px 0 5px;
-            color: #444;
+            margin: 10px 0 5px;
+            color: white;
         }
 
         input, select {
             width: 100%;
             padding: 12px;
             margin-bottom: 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 10px;
             font-size: 14px;
-            background: #f9f9f9;
+            background: rgba(255, 255, 255, 0.2);
             outline: none;
-            transition: 0.3s ease-in-out;
+            color: white;
+            transition: all 0.3s ease-in-out;
         }
 
-        input:focus, select:focus {
-            border-color: #007bff;
-            background: #fff;
-            box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
         }
 
         select {
             appearance: none;
-            background: url('https://cdn-icons-png.flaticon.com/512/60/60995.png') no-repeat right 10px center;
+            background: url('https://cdn-icons-png.flaticon.com/512/60/60995.png') no-repeat right 12px center;
             background-size: 16px;
-            padding-right: 35px;
+            padding-right: 40px;
+            cursor: pointer;
+        }
+
+        input:focus, select:focus {
+            border-color: #ffffff;
+            background: rgba(255, 255, 255, 0.3);
         }
 
         button {
-            background: #007bff;
+            background: linear-gradient(90deg, #ff416c, #ff4b2b);
             color: white;
-            padding: 12px 15px;
+            padding: 12px;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
             width: 100%;
             font-size: 16px;
-            font-weight: 500;
+            font-weight: 600;
             transition: all 0.3s;
-            margin-top: 10px;
+            box-shadow: 0 5px 15px rgba(255, 75, 43, 0.3);
         }
 
         button:hover {
-            background: #0056b3;
+            background: linear-gradient(90deg, #ff4b2b, #ff416c);
             transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0, 86, 179, 0.2);
         }
 
+        /* Fully Responsive Design */
+        @media (max-width: 768px) {
+            .form-container {
+                width: 95%;
+                padding: 15px;
+            }
+
+            input, select, button {
+                font-size: 14px;
+                padding: 10px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
         <div class="form-container">
-            <h2>Submit Your Information</h2>
+            <h2>📝 提交您的信息</h2>
 
             <form id="userForm">
-                <!-- Hidden Telegram User Fields -->
-                <input type="hidden" id="user_id">
-                <input type="hidden" id="first_name">
-                <input type="hidden" id="last_name">
-                <input type="hidden" id="username">
-                <input type="hidden" id="language">
-
-                <!-- Select Form Type -->
-                <label>Choose Form Type:</label>
+                <label>📌 选择服务:</label>
                 <select id="formType" onchange="updateForm()">
-                    <option value="airport">✈ Airport Pickup</option>
-                    <option value="hotel">🏨 Hotel Booking</option>
-                    <option value="visa">🔖 Visa Application</option>
-                    <option value="rental">🏤 House Rental</option>
-                    <option value="logistics">📦 Logistics Request</option>
-                    <option value="canteen">🥗 Canteen Order</option>
-                    <option value="shop">🛒 Shopping Order</option>
+                    <option value="">请选择一个选项...</option>
+                    <option value="airport">✈ 机场接送</option>
+                    <option value="hotel">🏨 酒店预订</option>
+                    <option value="visa">🔖 签证申请</option>
+                    <option value="rental">🏤 房屋租赁</option>
                 </select>
 
-                <!-- Shared Fields -->
-                <label>Date:</label>
-                <input type="date" id="date" required>
-
-                <label>Phone Number:</label>
-                <input type="number" id="number" required>
-
-                <!-- Form-Specific Fields -->
                 <div id="extraFields"></div>
 
-                <button type="button" onclick="submitForm()">Submit</button>
+                <button id="submitButton">✅ 提交</button>
             </form>
         </div>
     </div>
