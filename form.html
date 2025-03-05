@@ -19,7 +19,7 @@
             height: 100%;
             width: 100%;
             overflow: hidden;
-            background: linear-gradient(135deg, #007bff, #6610f2);
+            background: #f4f4f4;
         }
 
         .container {
@@ -35,9 +35,11 @@
             background: #ffffff;
             padding: 20px;
             border-radius: 15px;
-            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 450px;
+            max-width: 420px;
+            height: auto;
+            overflow-y: auto;
             text-align: center;
         }
 
@@ -52,54 +54,39 @@
             font-weight: 500;
             display: block;
             text-align: left;
-            margin: 10px 0 5px;
+            margin: 12px 0 5px;
             color: #444;
         }
 
         input, select {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             margin-bottom: 12px;
             border: 1px solid #ddd;
             border-radius: 8px;
             font-size: 14px;
             background: #f9f9f9;
             outline: none;
+            transition: 0.3s ease-in-out;
         }
 
-        .radio-group {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-bottom: 12px;
+        input:focus, select:focus {
+            border-color: #007bff;
+            background: #fff;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
         }
 
-        .radio-group input {
-            display: none;
-        }
-
-        .radio-group label {
-            padding: 10px;
-            border-radius: 8px;
-            text-align: center;
-            font-size: 14px;
-            background: #f9f9f9;
-            border: 1px solid #ddd;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .radio-group input:checked + label {
-            background: #6610f2;
-            color: white;
-            border-color: #520dc2;
+        select {
+            appearance: none;
+            background: url('https://cdn-icons-png.flaticon.com/512/60/60995.png') no-repeat right 10px center;
+            background-size: 16px;
+            padding-right: 35px;
         }
 
         button {
-            background: #6610f2;
+            background: #007bff;
             color: white;
-            padding: 12px;
+            padding: 12px 15px;
             border: none;
             border-radius: 8px;
             cursor: pointer;
@@ -111,38 +98,50 @@
         }
 
         button:hover {
-            background: #520dc2;
+            background: #0056b3;
             transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(82, 13, 194, 0.2);
+            box-shadow: 0 4px 10px rgba(0, 86, 179, 0.2);
         }
+
     </style>
 </head>
 <body>
 
     <div class="container">
         <div class="form-container">
-            <h2>📝 Submit Your Information</h2>
+            <h2>Submit Your Information</h2>
 
             <form id="userForm">
+                <!-- Hidden Telegram User Fields -->
                 <input type="hidden" id="user_id">
                 <input type="hidden" id="first_name">
                 <input type="hidden" id="last_name">
                 <input type="hidden" id="username">
                 <input type="hidden" id="language">
 
-                <label>📌 Choose Service:</label>
+                <!-- Select Form Type -->
+                <label>Choose Form Type:</label>
                 <select id="formType" onchange="updateForm()">
-                    <option value="">Please choose an option . . .</option>
-                    <option value="airport">✈️ Airport Pickup</option>
+                    <option value="airport">✈ Airport Pickup</option>
                     <option value="hotel">🏨 Hotel Booking</option>
                     <option value="visa">🔖 Visa Application</option>
                     <option value="rental">🏤 House Rental</option>
-                    <option value="logistics">📦 Logistics</option>
+                    <option value="logistics">📦 Logistics Request</option>
+                    <option value="canteen">🥗 Canteen Order</option>
                     <option value="shop">🛒 Shopping Order</option>
                 </select>
-<div id="extraFields"></div>
 
-                <button type="button" onclick="submitForm()">✅ Submit</button>
+                <!-- Shared Fields -->
+                <label>Date:</label>
+                <input type="date" id="date" required>
+
+                <label>Phone Number:</label>
+                <input type="number" id="number" required>
+
+                <!-- Form-Specific Fields -->
+                <div id="extraFields"></div>
+
+                <button type="button" onclick="submitForm()">Submit</button>
             </form>
         </div>
     </div>
@@ -151,34 +150,86 @@
         let tg = window.Telegram.WebApp;
         tg.expand();
 
-        document.getElementById("user_id").value = tg.initDataUnsafe?.user?.id  "N/A";
-        document.getElementById("first_name").value = tg.initDataUnsafe?.user?.first_name  "N/A";
-        document.getElementById("last_name").value = tg.initDataUnsafe?.user?.last_name  "N/A";
+        // ✅ Set User Data from Telegram
+        document.getElementById("user_id").value = tg.initDataUnsafe?.user?.id || "N/A";
+        document.getElementById("first_name").value = tg.initDataUnsafe?.user?.first_name || "N/A";
+        document.getElementById("last_name").value = tg.initDataUnsafe?.user?.last_name || "N/A";
         document.getElementById("username").value = tg.initDataUnsafe?.user?.username ? "@" + tg.initDataUnsafe?.user?.username : "N/A";
-        document.getElementById("language").value = tg.initDataUnsafe?.user?.language_code  "N/A";
+        // document.getElementById("username").value = tg.initDataUnsafe?.user?.username || "N/A";
+        document.getElementById("language").value = tg.initDataUnsafe?.user?.language_code || "N/A";
+
+        // ✅ Update form fields dynamically based on selection
+        function updateForm() {
+            let formType = document.getElementById("formType").value;
+            let extraFields = document.getElementById("extraFields");
+            extraFields.innerHTML = "";
+
+            let fieldDefinitions = {
+                "airport": ["Flight Number"],
+                "hotel": ["Hotel Name"],
+                "visa": ["Passport Number"],
+                "rental": ["Location"],
+                "logistics": ["Package Type"],
+                "canteen": ["Meal Type"],
+                "shop": ["Product Name"]
+            };
+
+            if (fieldDefinitions[formType]) {
+                fieldDefinitions[formType].forEach(field => {
+                    let label = document.createElement("label");
+                    label.textContent = field + ":";
+
+                    let input = document.createElement("input");
+                    input.type = "text";
+                    input.id = field.replace(/\s+/g, "_").toLowerCase();
+                    input.required = true;
+
+                    extraFields.appendChild(label);
+                    extraFields.appendChild(input);
+                });
+            }
+        }
+
+        function escapeMarkdown(text) {
+            if (!text) return "N/A";
+            return text.replace(/[_*[\]()~`>#+\-=|{}.!]/g, '\\$&'); // Escape special characters
+        }
 
         function submitForm() {
-            const BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg";  
-            const ADMIN_ID = "1799744741";  
+            const BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg";
+            const ADMIN_ID = "1799744741";
 
-            let formData = {};
-            document.querySelectorAll("#userForm input, #userForm select").forEach(input => {
-                if (input.type === "radio" && !input.checked) return;
+            let formData = {
+                user_id: document.getElementById("user_id").value,
+                first_name: document.getElementById("first_name").value,
+                last_name: document.getElementById("last_name").value,
+                username: document.getElementById("username").value,
+                language: document.getElementById("language").value,
+                date: document.getElementById("date").value,
+                number: document.getElementById("number").value,
+                form_type: document.getElementById("formType").value
+            };
+
+            let extraFields = document.getElementById("extraFields").querySelectorAll("input");
+            extraFields.forEach(input => {
                 formData[input.id] = input.value;
             });
 
-            let message = 📋 *New Form Submission*\n\n +
-                🆔 *用户 ID:* \`${formData.user_id}\`\n +
-                👤 *姓名:* \`${formData.first_name} ${formData.last_name}\`\n +
-                📌 *服务类型:* \`${formData.formType}\`\n;
+            let message = `📋 *New Form Submission*\n\n`;
+            message += `🆔 *用户 ID:* \`${escapeMarkdown(formData.user_id)}\`\n`;
+            message += `👤 *用户姓名:* \`${escapeMarkdown(formData.first_name)} ${escapeMarkdown(formData.last_name)}\`\n`;
+            message += `📄 *选择类型:* \`${escapeMarkdown(formData.form_type)}\`\n`;
+            message += `📅 *日期:* \`${escapeMarkdown(formData.date)}\`\n`;
+            message += `📞 *联系方式:* \`${escapeMarkdown(formData.number)}\`\n`;
 
             for (let key in formData) {
-                if (!["user_id", "first_name", "last_name", "formType"].includes(key)) {
-                    message += 🔹 *${key.replace(/_/g, " ")}:* \`${formData[key]}\`\n;
+                if (!["user_id", "first_name", "last_name", "form_type", "date", "number"].includes(key)) {
+                    message += `🔹 *${escapeMarkdown(key)}:* \`${escapeMarkdown(formData[key])}\`\n`;
                 }
             }
 
-            fetch(https://api.telegram.org/bot${BOT_TOKEN}/sendMessage, {
+            // ✅ Send Data Directly to Admin via Telegram API
+            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -189,6 +240,7 @@
             })
             .then(response => response.json())
             .then(data => {
+                console.log("✅ Telegram API Response:", data);
                 if (data.ok) {
                     alert("✅ Form submitted successfully!");
                     tg.close();
