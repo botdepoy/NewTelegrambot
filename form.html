@@ -6,140 +6,177 @@
     <title>客户需求表</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+       @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
 
-        body, html {
-            height: 100vh;
-            width: 100vw;
-            overflow: auto;
-            background: linear-gradient(135deg, #6e8efb, #a777e3);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 10px;
-        }
+body, html {
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden; /* Prevent background scrolling */
+    background: linear-gradient(135deg, #6e8efb, #a777e3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
 
-        .container {
-            width: 100%;
-            max-width: 500px;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
+.container {
+    width: 100%;
+    max-width: 450px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-height: 85vh; /* Ensure form fits without cutting */
+    overflow-y: auto; /* Enable scrolling inside form */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.4) transparent;
+}
 
-        h2 {
-            font-size: 22px;
-            font-weight: 700;
-            color: #ffffff;
-            margin-bottom: 20px;
-        }
+.container::-webkit-scrollbar {
+    width: 6px;
+}
 
-        label {
-            font-weight: 500;
-            display: block;
-            text-align: left;
-            margin: 12px 0 5px;
-            color: #ffffff;
-        }
+.container::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 10px;
+}
 
-        input, select, textarea {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 12px;
-            border: none;
-            border-radius: 8px;
-            font-size: 14px;
-            background: rgba(255, 255, 255, 0.4);
-            outline: none;
-            color: #000;
-        }
+/* Ensure form sections are properly displayed */
+.form-container {
+    width: 100%;
+    transition: transform 0.3s ease-in-out;
+}
 
-        button {
-            background: #ff6b6b;
-            color: white;
-            padding: 12px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            width: 100%;
-            font-size: 16px;
-            font-weight: 600;
-            transition: background 0.3s ease;
-        }
+/* Typography */
+h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 15px;
+}
 
-        button:hover {
-            background: #ff4c4c;
-        }
+label {
+    font-weight: 500;
+    display: block;
+    text-align: left;
+    margin: 10px 0 5px;
+    color: #ffffff;
+}
 
-        .radio-group {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            margin-bottom: 12px;
-        }
+/* Inputs & Selects */
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    background: rgba(255, 255, 255, 0.4);
+    outline: none;
+    color: #000;
+}
 
-        .radio-group label {
-            display: flex;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.4);
-            padding: 10px;
-            border-radius: 8px;
-            flex: 1 1 30%;
-            margin: 5px;
-            text-align: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
+/* Button */
+button {
+    background: #ff6b6b;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 16px;
+    font-weight: 600;
+    transition: background 0.3s ease;
+    margin-top: 10px;
+}
 
-        .radio-group label:hover {
-            background: rgba(255, 255, 255, 0.6);
-        }
+button:hover {
+    background: #ff4c4c;
+}
 
-        .radio-group input[type="radio"] {
-            display: none;
-        }
+/* Radio Button Group */
+.radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
 
-        .radio-group input[type="radio"]:checked + label {
-            background: #ff6b6b;
-            color: white;
-        }
+.radio-group label {
+    flex: 1 1 100%;
+    background: rgba(255, 255, 255, 0.4);
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
 
-        textarea {
-            resize: vertical;
-        }
+.radio-group input[type="radio"] {
+    display: none;
+}
 
-        .budget-range {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-        }
+.radio-group input[type="radio"]:checked + label {
+    background: #ff6b6b;
+    color: white;
+}
 
-        .budget-range input {
-            width: 48%;
-            margin-bottom: 12px;
-        }
+/* Budget Range */
+.budget-range {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
 
-        @media (max-width: 600px) {
-            .radio-group label {
-                flex: 1 1 100%;
-                margin: 5px 0;
-            }
+.budget-range input {
+    width: 100%;
+}
 
-            .budget-range input {
-                width: 100%;
-            }
-        }
+/* Adjustments for smaller screens */
+@media (max-width: 480px) {
+    .container {
+        width: 95%;
+        padding: 15px;
+        max-height: 85vh; /* Ensure form is visible */
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+
+    label {
+        font-size: 14px;
+    }
+
+    input, select, textarea {
+        padding: 10px;
+        font-size: 13px;
+    }
+
+    button {
+        padding: 12px;
+        font-size: 14px;
+    }
+
+    .radio-group label {
+        width: 100%;
+    }
+
+    .budget-range {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
     </style>
 </head>
 <body>
@@ -215,46 +252,58 @@
 
     <script>
         let tg = window.Telegram.WebApp;
-        tg.expand();
+tg.expand();
 
-        function nextPage(pageNumber) {
-            document.getElementById("formPage1").style.display = "none";
-            document.getElementById("formPage2").style.display = "none";
-            document.getElementById("formPage3").style.display = "none";
-            document.getElementById("formPage" + pageNumber).style.display = "block";
-        }
+// Function to navigate to next page
+function nextPage(pageNumber) {
+    document.getElementById("formPage1").style.display = "none";
+    document.getElementById("formPage2").style.display = "none";
+    document.getElementById("formPage3").style.display = "none";
+    document.getElementById("formPage" + pageNumber).style.display = "block";
+}
 
-        function submitForm() {
-            const BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg";
-            const ADMIN_ID = "1799744741";
+// Fix for keyboard covering input fields
+document.querySelectorAll("input, textarea").forEach(input => {
+    input.addEventListener("focus", (event) => {
+        setTimeout(() => {
+            event.target.scrollIntoView({ behavior: "smooth", block: "center" });
+        }, 300);
+    });
+});
 
-            let formData = {
-                user_id: tg.initDataUnsafe?.user?.id || "N/A",
-                first_name: tg.initDataUnsafe?.user?.first_name || "N/A",
-                last_name: tg.initDataUnsafe?.user?.last_name || "N/A",
-                username: tg.initDataUnsafe?.user?.username || "N/A",
-                company_name: document.getElementById("companyName").value,
-                contact_name: document.getElementById("contactName").value,
-                phone_number: document.getElementById("phoneNumber").value,
-                email: document.getElementById("email").value,
-                business_type: document.getElementById("businessType").value,
-                business_service: document.getElementById("businessService").value,
-                office_service: document.getElementById("officeService").value,
-                start_date: document.getElementById("startDate").value,
-                end_date: document.getElementById("endDate").value,
-                project_scale: document.querySelector('input[name="projectScale"]:checked').value,
-                special_requests: document.getElementById("specialRequests").value,
-                budget_min: document.getElementById("budgetMin").value,
-                budget_max: document.getElementById("budgetMax").value,
-                additional_comments: document.getElementById("additionalComments").value
-            };
+// Submit Form
+function submitForm() {
+    const BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg";
+    const ADMIN_ID = "1799744741";
 
-            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ chat_id: ADMIN_ID, text: JSON.stringify(formData, null, 2) })
-            }).then(() => alert("表单提交成功！"));
-        }
+    let formData = {
+        user_id: tg.initDataUnsafe?.user?.id || "N/A",
+        first_name: tg.initDataUnsafe?.user?.first_name || "N/A",
+        last_name: tg.initDataUnsafe?.user?.last_name || "N/A",
+        username: tg.initDataUnsafe?.user?.username || "N/A",
+        company_name: document.getElementById("companyName").value,
+        contact_name: document.getElementById("contactName").value,
+        phone_number: document.getElementById("phoneNumber").value,
+        email: document.getElementById("email").value,
+        business_type: document.getElementById("businessType").value,
+        business_service: document.getElementById("businessService").value,
+        office_service: document.getElementById("officeService").value,
+        start_date: document.getElementById("startDate").value,
+        end_date: document.getElementById("endDate").value,
+        project_scale: document.querySelector('input[name="projectScale"]:checked')?.value || "N/A",
+        special_requests: document.getElementById("specialRequests").value,
+        budget_min: document.getElementById("budgetMin").value,
+        budget_max: document.getElementById("budgetMax").value,
+        additional_comments: document.getElementById("additionalComments").value
+    };
+
+    fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chat_id: ADMIN_ID, text: JSON.stringify(formData, null, 2) })
+    }).then(() => alert("表单提交成功！"));
+}
+
     </script>
 </body>
 </html>
