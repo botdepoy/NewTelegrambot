@@ -76,6 +76,20 @@
             font-weight: 600;
         }
 
+        .checkbox-group {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .checkbox-group label {
+            margin: 0;
+        }
+
+        textarea {
+            resize: vertical;
+        }
     </style>
 </head>
 <body>
@@ -126,15 +140,17 @@
             <label>计划开展服务的日期:</label>
             <input type="date" id="startDate" required>
             <label>服务的项目规模:</label>
-            <input type="checkbox" id="smallScale"> 小型（1-10人）
-            <input type="checkbox" id="mediumScale"> 中型（10-50人）
-            <input type="checkbox" id="largeScale"> 大型（50人及以上）
+            <div class="checkbox-group">
+                <label><input type="checkbox" id="smallScale"> 小型（1-10人）</label>
+                <label><input type="checkbox" id="mediumScale"> 中型（10-50人）</label>
+                <label><input type="checkbox" id="largeScale"> 大型（50人及以上）</label>
+            </div>
             <label>预计服务结束日期:</label>
             <input type="date" id="endDate" required>
             <label>服务期间的特殊要求（如有）:</label>
             <textarea id="specialRequests"></textarea>
             <label>预算范围（可选）:</label>
-            <input type="checkbox" id="budget"> [填写预算范围]
+            <input type="text" id="budget" placeholder="填写预算范围">
             <label>其他需求或备注:</label>
             <textarea id="additionalComments"></textarea>
             <button onclick="submitForm()">提交</button>
@@ -171,6 +187,7 @@
                 start_date: document.getElementById("startDate").value,
                 end_date: document.getElementById("endDate").value,
                 special_requests: document.getElementById("specialRequests").value,
+                budget: document.getElementById("budget").value,
                 additional_comments: document.getElementById("additionalComments").value
             };
 
