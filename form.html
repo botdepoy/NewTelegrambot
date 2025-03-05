@@ -6,129 +6,100 @@
     <title>Telegram Full-Screen Form</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
 
-        body, html {
-            height: 100%;
-            width: 100%;
-            background: linear-gradient(135deg, #6a11cb, #2575fc);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
+    body, html {
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+        background: linear-gradient(135deg, #6e8efb, #a777e3);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
 
-        .container {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
+    .container {
+        height: auto;
+        max-width: 400px;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
 
-        .form-container {
-            background: rgba(255, 255, 255, 0.15);
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.2);
-            width: 100%;
-            max-width: 450px;
-            text-align: center;
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            max-height: 85vh;
-            overflow-y: auto;
-        }
+    h2 {
+        font-size: 24px;
+        font-weight: 700;
+        color: #ffffff;
+        margin-bottom: 20px;
+    }
 
-        h2 {
-            font-size: 24px;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 15px;
-            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
-        }
+    label {
+        font-weight: 500;
+        display: block;
+        text-align: left;
+        margin: 12px 0 5px;
+        color: #ffffff;
+    }
 
-        label {
-            font-weight: 600;
-            display: block;
-            text-align: left;
-            margin: 10px 0 5px;
-            color: white;
-        }
+    input, select {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 12px;
+        border: none;
+        border-radius: 8px;
+        font-size: 14px;
+        background: rgba(255, 255, 255, 0.4);
+        outline: none;
+        transition: 0.3s ease-in-out;
+        color: #fff;
+    }
 
-        input, select {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            border-radius: 10px;
-            font-size: 14px;
-            background: rgba(255, 255, 255, 0.2);
-            outline: none;
-            color: white;
-            transition: all 0.3s ease-in-out;
-        }
+    input:focus, select:focus {
+        background: rgba(255, 255, 255, 0.6);
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
 
-        input::placeholder {
-            color: rgba(255, 255, 255, 0.6);
-        }
+    select {
+        appearance: none;
+        background: url('https://cdn-icons-png.flaticon.com/512/60/60995.png') no-repeat right 10px center;
+        background-size: 16px;
+        padding-right: 35px;
+    }
 
-        select {
-            appearance: none;
-            background: url('https://cdn-icons-png.flaticon.com/512/60/60995.png') no-repeat right 12px center;
-            background-size: 16px;
-            padding-right: 40px;
-            cursor: pointer;
-        }
+    button {
+        background: #ff6b6b;
+        color: white;
+        padding: 12px 15px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        width: 100%;
+        font-size: 16px;
+        font-weight: 600;
+        transition: all 0.3s;
+        margin-top: 10px;
+        box-shadow: 0px 5px 15px rgba(255, 107, 107, 0.3);
+    }
 
-        input:focus, select:focus {
-            border-color: #ffffff;
-            background: rgba(255, 255, 255, 0.3);
-        }
+    button:hover {
+        background: #ff4040;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(255, 107, 107, 0.5);
+    }
+</style>
 
-        button {
-            background: linear-gradient(90deg, #ff416c, #ff4b2b);
-            color: white;
-            padding: 12px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            width: 100%;
-            font-size: 16px;
-            font-weight: 600;
-            transition: all 0.3s;
-            box-shadow: 0 5px 15px rgba(255, 75, 43, 0.3);
-        }
-
-        button:hover {
-            background: linear-gradient(90deg, #ff4b2b, #ff416c);
-            transform: translateY(-2px);
-        }
-
-        /* Fully Responsive */
-        @media (max-width: 768px) {
-            .form-container {
-                width: 95%;
-                padding: 15px;
-            }
-
-            input, select, button {
-                font-size: 14px;
-                padding: 10px;
-            }
-
-            h2 {
-                font-size: 20px;
-            }
-        }
-    </style>
 </head>
 <body>
 
