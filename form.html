@@ -216,7 +216,7 @@
             return text.replace(/[_*[\]()~`>#+\-=|{}.!]/g, '\\$&'); // Escape special characters
         }
 
-        function submitForm() {
+       function submitForm() {
     const BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg";
     const ADMIN_ID = "1799744741";
 
@@ -236,21 +236,31 @@
         formData[input.id] = input.value;
     });
 
+    // ✅ Define English to Chinese Key Mapping
+    let keyTranslations = {
+        "user_id": "用户 ID",
+        "first_name": "名字",
+        "last_name": "姓氏",
+        "username": "用户名",
+        "language": "语言",
+        "date": "日期",
+        "number": "联系方式",
+        "form_type": "选择类型",
+        "flight_number": "航班号",
+        "hotel_name": "酒店名称",
+        "passport_number": "护照号",
+        "location": "位置",
+        "package_type": "包裹类型",
+        "meal_type": "餐点类型",
+        "product_name": "商品名称"
+    };
+
     // ✅ Modify Labels to Chinese
     let message = `📋 *新表单提交*\n\n`;
-    message += `🆔 *用户 ID:* \`${escapeMarkdown(formData.user_id)}\`\n`;
-    message += `👤 *用户姓名:* \`${escapeMarkdown(formData.first_name)} ${escapeMarkdown(formData.last_name)}\`\n`;
-    message += `📄 *选择类型:* \`${escapeMarkdown(formData.form_type)}\`\n`;
-    message += `📅 *日期:* \`${escapeMarkdown(formData.date)}\`\n`;
-    message += `📞 *联系方式:* \`${escapeMarkdown(formData.number)}\`\n`;
-    message += `🔹 *用户名:* ${escapeMarkdown(formData.username)}\n`; // Chinese: Username
-    message += `🔹 *语言:* \`${escapeMarkdown(formData.language)}\`\n`; // Chinese: Language
 
-    // ✅ Append additional fields dynamically
     for (let key in formData) {
-        if (!["user_id", "first_name", "last_name", "form_type", "date", "number", "username", "language"].includes(key)) {
-            message += `🔹 *${escapeMarkdown(key)}:* \`${escapeMarkdown(formData[key])}\`\n`;
-        }
+        let translatedKey = keyTranslations[key] || key; // Use Chinese term if available, else use the default key
+        message += `🔹 *${escapeMarkdown(translatedKey)}:* \`${escapeMarkdown(formData[key])}\`\n`;
     }
 
     // ✅ Send Data to Telegram API
@@ -284,6 +294,7 @@ function escapeMarkdown(text) {
     if (!text) return "N/A";
     return text.replace(/[_*[\]()~`>#+\-=|{}.!]/g, '\\$&'); // Escape special characters
 }
+
     </script>
 
 </body>
