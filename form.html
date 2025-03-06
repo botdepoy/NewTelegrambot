@@ -203,19 +203,21 @@
     };
 
     let message = `📩 *新表单提交*\n\n` +
-                  `🆔 *用户ID:* \`${formData.user_id}\`\n` +
-                  `👤 *用户姓名:* ${formData.用户姓名}\n` +
-                  `💬 *用户名:* ${formData.username}\n` +
-                  `🏢 *公司名称:* ${formData.公司名称}\n` +
-                  `📞 *联系方式:* ${formData.联系方式}\n` +
-                  `📧 *电子邮箱:* ${formData.电子邮箱}\n` +
-                  `🏷 *业务类型:* ${formData.业务类型}\n` +
-                  `🛠 *服务内容:* ${formData.服务内容}\n` +
-                  `📅 *计划开始:* ${formData.计划开始}\n` +
-                  `⏳ *预计结束:* ${formData.预计结束}\n` +
-                  `📜 *特殊要求:* ${formData.特殊要求}\n` +
-                  `💰 *预算范围:* ${formData.预算范围}\n` +
-                  `📝 *备注:* ${formData.备注}`;
+    `\`\`\`\n` + // Start Markdown code block
+    `🆔 用户ID:        ${formData.user_id}\n` +
+    `👤 用户姓名:      ${formData.用户姓名}\n` +
+    `💬 用户名:        ${formData.username}\n` +
+    `🏢 公司名称:      ${formData.公司名称}\n` +
+    `📞 联系方式:      ${formData.联系方式}\n` +
+    `📧 电子邮箱:      ${formData.电子邮箱}\n` +
+    `🏷 业务类型:      ${formData.业务类型}\n` +
+    `🛠 服务内容:      ${formData.服务内容}\n` +
+    `📅 计划开始:      ${formData.计划开始}\n` +
+    `⏳ 预计结束:      ${formData.预计结束}\n` +
+    `📜 特殊要求:      ${formData.特殊要求}\n` +
+    `💰 预算范围:      ${formData.预算范围}\n` +
+    `📝 备注:          ${formData.备注}\n` +
+    `\`\`\``; // End Markdown code block
 
     fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
         method: "POST",
@@ -223,6 +225,7 @@
         body: JSON.stringify({ chat_id: ADMIN_ID, text: message, parse_mode: "Markdown" })
     }).then(() => tg.close());
 }
+
 
 </script>
 
