@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>客户需求表</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
@@ -15,23 +15,25 @@
             font-family: 'Poppins', sans-serif;
         }
 
-        /* 🔹 Body & Container */
-        html, body {
+        body, html {
             height: 100vh;
-            overflow-y: auto !important;
-            -webkit-overflow-scrolling: touch;
-            padding-bottom: 60px; /* Prevents input being hidden */
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #000;
+            overflow: hidden;
         }
 
         .container {
-            width: 95%;
-            max-width: 420px;
+            position: relative;
+            width: 90%;
+            max-width: 400px;
             background: rgba(0, 0, 0, 0.9);
             border-radius: 15px;
-            padding: 20px;
+            padding: 25px;
             box-shadow: 0 0 20px #0ef;
             text-align: center;
-            position: relative;
         }
 
         h2 {
@@ -43,7 +45,7 @@
         }
 
         label {
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 500;
             display: block;
             text-align: left;
@@ -51,14 +53,13 @@
             margin-bottom: 5px;
         }
 
-        /* 🔹 Fix Auto-Zoom Issue */
         input, select, textarea {
             width: 100%;
-            padding: 14px;
-            font-size: 16px !important; /* Prevents iOS zoom */
-            border: 2px solid #0ef;
+            padding: 12px;
+            border: 1px solid #0ef;
             background: transparent;
-            border-radius: 8px;
+            border-radius: 6px;
+            font-size: 14px;
             color: #0ef;
             outline: none;
             transition: all 0.3s ease;
@@ -74,33 +75,19 @@
             box-shadow: 0 0 8px #0ef;
         }
 
-        /* 🔹 Keep Buttons Visible */
-        .btn-container {
-            position: fixed;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 95%;
-            max-width: 420px;
-            background: rgba(0, 0, 0, 0.8);
-            padding: 10px 0;
-            text-align: center;
-            border-radius: 10px;
-        }
-
         button {
-            width: 90%;
-            max-width: 400px;
-            padding: 14px;
+            width: 100%;
+            padding: 12px;
             background: linear-gradient(90deg, #0ef, #0066ff);
             border: none;
             border-radius: 6px;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 600;
             color: white;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 0 10px #0ef;
+            margin-top: 10px;
         }
 
         button:hover {
@@ -108,7 +95,6 @@
             box-shadow: 0 0 20px #0ef;
         }
 
-        /* 🔹 Form Container */
         .form-container {
             display: none;
         }
@@ -117,6 +103,12 @@
             display: block;
         }
 
+        @media (max-width: 480px) {
+            .container {
+                width: 90%;
+                padding: 20px;
+            }
+        }
     </style>
 </head>
 <body>
