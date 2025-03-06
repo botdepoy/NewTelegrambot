@@ -22,14 +22,16 @@
             justify-content: center;
             align-items: center;
             background: #000;
+            overflow: hidden;
         }
 
         .container {
             position: relative;
-            width: 400px;
+            width: 90%;
+            max-width: 400px;
             background: rgba(0, 0, 0, 0.9);
             border-radius: 15px;
-            padding: 30px;
+            padding: 25px;
             box-shadow: 0 0 20px #0ef;
             text-align: center;
         }
@@ -111,117 +113,102 @@
 </head>
 <body>
 
-    <div class="container">
-        <!-- Page 1: Basic Information -->
-        <div class="form-container active" id="formPage1">
-            <h2>基本信息</h2>
-            <label>公司名称:</label>
-            <input type="text" id="companyName" required placeholder="输入公司名称">
-            <label>联系人姓名:</label>
-            <input type="text" id="contactName" required placeholder="输入联系人姓名">
-            <label>联系电话:</label>
-            <input type="text" id="phoneNumber" required placeholder="输入联系电话">
-            <label>电子邮箱:</label>
-            <input type="email" id="email" required placeholder="输入电子邮箱">
-            <button onclick="nextPage(2)">下一步</button>
-        </div>
-
-        <!-- Page 2: Business Type and Service Selection -->
-        <div class="form-container" id="formPage2">
-            <h2>业务类型</h2>
-            <label>请选择业务类型:</label>
-            <select id="businessType">
-                <option value="">选择业务类型</option>
-                <option>企业/公司</option>
-                <option>团队</option>
-                <option>个人</option>
-            </select>
-            <h2>服务类别选择</h2>
-            <label>1. 商务考察团接待服务</label>
-            <select id="businessService">
-                <option value="">选择服务类别</option>
-                <option>机场接机和专车交通安排</option>
-                <option>酒店预订及住宿安排</option>
-                <option>项目考察对接与行程安排</option>
-                <option>高端商务车辆/直升机/游艇保障</option>
-                <option>翻译服务（中文、英语、柬埔寨语）</option>
-            </select>
-            <button onclick="nextPage(3)">下一步</button>
-        </div>
-
-        <!-- Page 3: Project Details -->
-        <div class="form-container" id="formPage3">
-            <h2>项目详细信息</h2>
-            <label>计划开展服务的日期:</label>
-            <input type="date" id="startDate" required>
-            <label>预计服务结束日期:</label>
-            <input type="date" id="endDate" required>
-            <label>服务期间的特殊要求（如有）:</label>
-            <textarea id="specialRequests" placeholder="填写特殊要求"></textarea>
-            <button onclick="nextPage(4)">下一步</button>
-        </div>
-
-        <!-- Page 4: Budget and Additional Comments -->
-        <div class="form-container" id="formPage4">
-            <h2>预算和其他信息</h2>
-            <label>预算范围（可选）:</label>
-            <input type="number" id="budgetMin" placeholder="最小预算">
-            <input type="number" id="budgetMax" placeholder="最大预算">
-            <label>其他需求或备注:</label>
-            <textarea id="additionalComments" placeholder="填写其他需求或备注"></textarea>
-            <button onclick="submitForm()">提交</button>
-        </div>
+<div class="container">
+    <!-- Page 1: Basic Information -->
+    <div class="form-container active" id="formPage1">
+        <h2>基本信息</h2>
+        <label>公司名称:</label>
+        <input type="text" id="companyName" required>
+        <label>联系人姓名:</label>
+        <input type="text" id="contactName" required>
+        <label>联系电话:</label>
+        <input type="text" id="phoneNumber" required>
+        <label>电子邮箱:</label>
+        <input type="email" id="email" required>
+        <button onclick="nextPage(2)">下一步</button>
     </div>
 
-    <script>
-       let tg = window.Telegram.WebApp;
-tg.expand();
+    <!-- Page 2: Business Type and Service Selection -->
+    <div class="form-container" id="formPage2">
+        <h2>业务类型</h2>
+        <select id="businessType">
+            <option>企业/公司</option>
+            <option>团队</option>
+            <option>个人</option>
+        </select>
+        <h2>服务类别选择</h2>
+        <label>选择服务:</label>
+        <select id="businessService">
+            <option>机场接机和专车交通安排</option>
+            <option>酒店预订及住宿安排</option>
+            <option>项目考察对接与行程安排</option>
+            <option>高端商务车辆/直升机/游艇保障</option>
+            <option>翻译服务（中文、英语、柬埔寨语）</option>
+        </select>
+        <button onclick="nextPage(3)">下一步</button>
+    </div>
 
-function submitForm() {
-    const BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg";
-    const ADMIN_ID = "1799744741";
+    <!-- Page 3: Project Details -->
+    <div class="form-container" id="formPage3">
+        <h2>项目详细信息</h2>
+        <label>计划开展服务的日期:</label>
+        <input type="date" id="startDate" required>
+        <label>预计服务结束日期:</label>
+        <input type="date" id="endDate" required>
+        <label>特殊要求:</label>
+        <textarea id="specialRequests"></textarea>
+        <button onclick="nextPage(4)">下一步</button>
+    </div>
 
-    let formData = {
-        user_id: tg.initDataUnsafe?.user?.id || "N/A",
-        用户姓名: `${tg.initDataUnsafe?.user?.first_name || "N/A"} ${tg.initDataUnsafe?.user?.last_name || ""}`,
-        username: tg.initDataUnsafe?.user?.username ? `@${tg.initDataUnsafe?.user?.username}` : "N/A",
-        公司名称: document.getElementById("companyName").value || "N/A",
-        联系人姓名: document.getElementById("contactName").value || "N/A",
-        联系方式: document.getElementById("phoneNumber").value || "N/A",
-        电子邮箱: document.getElementById("email").value || "N/A",
-        业务类型: document.getElementById("businessType").value || "N/A",
-        服务内容: document.getElementById("businessService").value || "N/A",
-        计划开始日期: document.getElementById("startDate").value || "N/A",
-        预计结束日期: document.getElementById("endDate").value || "N/A",
-        特殊要求: document.getElementById("specialRequests").value || "无",
-        预算最小值: document.getElementById("budgetMin").value || "未填写",
-        预算最大值: document.getElementById("budgetMax").value || "未填写",
-        其他备注: document.getElementById("additionalComments").value || "无"
-    };
+    <!-- Page 4: Budget and Submission -->
+    <div class="form-container" id="formPage4">
+        <h2>预算和备注</h2>
+        <label>预算范围:</label>
+        <input type="number" id="budgetMin" placeholder="最小预算">
+        <input type="number" id="budgetMax" placeholder="最大预算">
+        <label>其他需求或备注:</label>
+        <textarea id="additionalComments"></textarea>
+        <button onclick="submitForm()">提交</button>
+    </div>
+</div>
 
-    let message = `📩 *新表单提交*\n\n` +
-                  `🆔 *用户ID:* ${formData.user_id}\n` +
-                  `👤 *用户姓名:* ${formData.用户姓名}\n` +
-                  `🏢 *公司名称:* ${formData.公司名称}\n` +
-                  `📞 *联系方式:* ${formData.联系方式}\n` +
-                  `📧 *电子邮箱:* ${formData.电子邮箱}\n` +
-                  `📌 *业务类型:* ${formData.业务类型}\n` +
-                  `📑 *服务内容:* ${formData.服务内容}\n` +
-                  `📅 *计划开始:* ${formData.计划开始日期}\n` +
-                  `📆 *预计结束:* ${formData.预计结束日期}\n` +
-                  `📜 *特殊要求:* ${formData.特殊要求}\n` +
-                  `💰 *预算范围:* ${formData.预算最小值} - ${formData.预算最大值}\n` +
-                  `📝 *其他备注:* ${formData.其他备注}\n` +
-                  `💠 *用户名称:* ${formData.username}`;
+<script>
+    let tg = window.Telegram.WebApp;
+    tg.expand();
 
-    fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ chat_id: ADMIN_ID, text: message, parse_mode: "Markdown" })
-    }).then(() => tg.close());
-}
+    function nextPage(pageNumber) {
+        document.querySelectorAll(".form-container").forEach(page => page.classList.remove("active"));
+        document.getElementById("formPage" + pageNumber).classList.add("active");
+    }
 
-    </script>
+    function submitForm() {
+        const BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg";
+        const ADMIN_ID = "1799744741";
+
+        let formData = {
+            user_id: tg.initDataUnsafe?.user?.id || "N/A",
+            用户姓名: `${tg.initDataUnsafe?.user?.first_name || "N/A"} ${tg.initDataUnsafe?.user?.last_name || ""}`,
+            username: tg.initDataUnsafe?.user?.username ? `@${tg.initDataUnsafe?.user?.username}` : "N/A",
+            公司名称: document.getElementById("companyName").value,
+            联系人姓名: document.getElementById("contactName").value,
+            联系方式: document.getElementById("phoneNumber").value,
+            电子邮箱: document.getElementById("email").value,
+            业务类型: document.getElementById("businessType").value,
+            服务内容: document.getElementById("businessService").value,
+            计划开始: document.getElementById("startDate").value,
+            预计结束: document.getElementById("endDate").value,
+            特殊要求: document.getElementById("specialRequests").value || "无",
+            预算范围: `${document.getElementById("budgetMin").value || "未填写"} - ${document.getElementById("budgetMax").value || "未填写"}`,
+            备注: document.getElementById("additionalComments").value || "无"
+        };
+
+        fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ chat_id: ADMIN_ID, text: JSON.stringify(formData, null, 2) })
+        }).then(() => tg.close());
+    }
+</script>
 
 </body>
 </html>
