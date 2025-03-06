@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>客户需求表</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <style>
+<style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
 
         * {
@@ -15,14 +15,15 @@
             font-family: 'Poppins', sans-serif;
         }
 
-        /* 🔹 Prevent Page Zooming */
+        /* Prevent scrolling issues */
         html, body {
             height: 100vh;
-            overflow-y: auto !important;
-            -webkit-overflow-scrolling: touch;
-            padding-bottom: 60px; /* Prevents input from being hidden */
+            width: 100vw;
+            background: #000;
+            overflow: hidden;
         }
 
+        /* Main container */
         .container {
             width: 95%;
             max-width: 420px;
@@ -31,6 +32,9 @@
             padding: 20px;
             box-shadow: 0 0 20px #0ef;
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
             position: relative;
         }
 
@@ -39,26 +43,47 @@
             font-weight: 600;
             color: #0ef;
             text-shadow: 0 0 8px #0ef;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         label {
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 500;
-            display: block;
             text-align: left;
             color: #0ef;
             margin-bottom: 5px;
+            display: block;
         }
 
-        /* 🔹 Fix Input Auto-Zoom on Mobile */
+        /* Scrollable Form Page */
+        .form-container {
+            display: none;
+            max-height: 60vh;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .form-container.active {
+            display: block;
+        }
+
+        /* Custom scrollbar */
+        .form-container::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .form-container::-webkit-scrollbar-thumb {
+            background: #0ef;
+            border-radius: 2px;
+        }
+
         input, select, textarea {
             width: 100%;
-            padding: 14px;
-            font-size: 16px !important; /* Prevents iOS zoom */
-            border: 2px solid #0ef;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #0ef;
             background: transparent;
-            border-radius: 8px;
+            border-radius: 6px;
             color: #0ef;
             outline: none;
             transition: all 0.3s ease;
@@ -74,7 +99,7 @@
             box-shadow: 0 0 8px #0ef;
         }
 
-        /* 🔹 Keep Buttons Visible */
+        /* Fixed Bottom Navigation Buttons */
         .btn-container {
             position: fixed;
             bottom: 10px;
@@ -82,15 +107,11 @@
             transform: translateX(-50%);
             width: 95%;
             max-width: 420px;
-            background: rgba(0, 0, 0, 0.8);
-            padding: 10px 0;
             text-align: center;
-            border-radius: 10px;
         }
 
         button {
             width: 90%;
-            max-width: 400px;
             padding: 14px;
             background: linear-gradient(90deg, #0ef, #0066ff);
             border: none;
@@ -108,15 +129,23 @@
             box-shadow: 0 0 20px #0ef;
         }
 
-        /* 🔹 Form Container */
-        .form-container {
-            display: none;
-        }
+        /* Responsive Design for Mobile */
+        @media (max-width: 480px) {
+            .container {
+                width: 100%;
+                padding: 15px;
+            }
 
-        .form-container.active {
-            display: block;
-        }
+            input, select, textarea {
+                font-size: 15px;
+                padding: 10px;
+            }
 
+            button {
+                font-size: 16px;
+                padding: 12px;
+            }
+        }
     </style>
 </head>
 <body>
