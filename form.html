@@ -15,25 +15,27 @@
             font-family: 'Poppins', sans-serif;
         }
 
-        body, html {
+        /* Prevent scrolling issues */
+        html, body {
             height: 100vh;
             width: 100vw;
+            background: #000;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: #000;
             overflow: hidden;
         }
 
+        /* Main container */
         .container {
-            position: relative;
-            width: 90%;
-            max-width: 400px;
+            width: 95%;
+            max-width: 420px;
             background: rgba(0, 0, 0, 0.9);
             border-radius: 15px;
-            padding: 25px;
+            padding: 20px;
             box-shadow: 0 0 20px #0ef;
             text-align: center;
+            position: relative;
         }
 
         h2 {
@@ -41,25 +43,47 @@
             font-weight: 600;
             color: #0ef;
             text-shadow: 0 0 8px #0ef;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         label {
             font-size: 14px;
             font-weight: 500;
-            display: block;
             text-align: left;
             color: #0ef;
             margin-bottom: 5px;
+            display: block;
+        }
+
+        /* Scrollable form pages */
+        .form-container {
+            display: none;
+            max-height: 60vh; /* Ensures scrolling works */
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .form-container.active {
+            display: block;
+        }
+
+        /* Custom scrollbar */
+        .form-container::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .form-container::-webkit-scrollbar-thumb {
+            background: #0ef;
+            border-radius: 2px;
         }
 
         input, select, textarea {
             width: 100%;
             padding: 12px;
+            font-size: 16px;
             border: 1px solid #0ef;
             background: transparent;
             border-radius: 6px;
-            font-size: 14px;
             color: #0ef;
             outline: none;
             transition: all 0.3s ease;
@@ -75,19 +99,29 @@
             box-shadow: 0 0 8px #0ef;
         }
 
+        /* Fixed Bottom Navigation Buttons */
+        .btn-container {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 95%;
+            max-width: 420px;
+            text-align: center;
+        }
+
         button {
-            width: 100%;
-            padding: 12px;
+            width: 90%;
+            padding: 14px;
             background: linear-gradient(90deg, #0ef, #0066ff);
             border: none;
             border-radius: 6px;
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 600;
             color: white;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 0 10px #0ef;
-            margin-top: 10px;
         }
 
         button:hover {
@@ -95,18 +129,21 @@
             box-shadow: 0 0 20px #0ef;
         }
 
-        .form-container {
-            display: none;
-        }
-
-        .form-container.active {
-            display: block;
-        }
-
+        /* Responsive Design for Mobile */
         @media (max-width: 480px) {
             .container {
-                width: 90%;
-                padding: 20px;
+                width: 100%;
+                padding: 15px;
+            }
+
+            input, select, textarea {
+                font-size: 15px;
+                padding: 10px;
+            }
+
+            button {
+                font-size: 16px;
+                padding: 12px;
             }
         }
     </style>
