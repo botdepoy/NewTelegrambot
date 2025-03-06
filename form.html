@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>客户需求表</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
@@ -15,76 +15,52 @@
             font-family: 'Poppins', sans-serif;
         }
 
-        /* 🔹 Fix scrolling issues */
-        html, body {
+        body, html {
             height: 100vh;
             width: 100vw;
-            background: #000;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
+            background: #000;
+            overflow-y: auto; /* Allow scrolling if needed */
+            padding: 15px; /* Prevent screen cutting */
         }
 
-        /* 🔹 Main container */
         .container {
-            width: 95%;
-            max-width: 420px;
+            position: relative;
+            width: 100%;
+            max-width: 450px;
             background: rgba(0, 0, 0, 0.9);
             border-radius: 15px;
-            padding: 20px;
+            padding: 25px;
             box-shadow: 0 0 20px #0ef;
             text-align: center;
-            position: relative;
-            overflow: hidden;
         }
 
         h2 {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 600;
             color: #0ef;
             text-shadow: 0 0 8px #0ef;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
 
         label {
             font-size: 14px;
             font-weight: 500;
+            display: block;
             text-align: left;
             color: #0ef;
             margin-bottom: 5px;
-            display: block;
-        }
-
-        /* 🔹 Scrollable form pages */
-        .form-container {
-            display: none;
-            max-height: 65vh; /* Ensures scrolling works */
-            overflow-y: auto;
-            padding-right: 5px;
-        }
-
-        .form-container.active {
-            display: block;
-        }
-
-        /* 🔹 Custom scrollbar */
-        .form-container::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        .form-container::-webkit-scrollbar-thumb {
-            background: #0ef;
-            border-radius: 2px;
         }
 
         input, select, textarea {
             width: 100%;
-            padding: 12px;
-            font-size: 16px;
+            padding: 14px; /* Increased padding for easier tapping */
             border: 1px solid #0ef;
             background: transparent;
             border-radius: 6px;
+            font-size: 16px; /* Slightly larger text for readability */
             color: #0ef;
             outline: none;
             transition: all 0.3s ease;
@@ -100,29 +76,19 @@
             box-shadow: 0 0 8px #0ef;
         }
 
-        /* 🔹 Fixed Bottom Navigation Buttons */
-        .btn-container {
-            position: fixed;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 95%;
-            max-width: 420px;
-            text-align: center;
-        }
-
         button {
-            width: 90%;
+            width: 100%;
             padding: 14px;
             background: linear-gradient(90deg, #0ef, #0066ff);
             border: none;
             border-radius: 6px;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 600;
             color: white;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 0 10px #0ef;
+            margin-top: 10px;
         }
 
         button:hover {
@@ -130,23 +96,32 @@
             box-shadow: 0 0 20px #0ef;
         }
 
-        /* 🔹 Responsive Design for Mobile */
+        .form-container {
+            display: none;
+        }
+
+        .form-container.active {
+            display: block;
+        }
+
+        /* 🔹 Ensure scrolling works properly in mobile keyboards */
         @media (max-width: 480px) {
             .container {
                 width: 100%;
-                padding: 15px;
+                padding: 20px;
             }
 
             input, select, textarea {
-                font-size: 15px;
-                padding: 10px;
+                font-size: 15px; /* Slightly smaller text */
+                padding: 12px;
             }
 
             button {
-                font-size: 16px;
                 padding: 12px;
+                font-size: 15px;
             }
         }
+
     </style>
 </head>
 <body>
@@ -175,7 +150,7 @@
             <option>个人</option>
         </select>
         <h2>服务类别选择</h2>
-        <label>选择服务:</label>
+        <label>1. 商务考察团接待服务</label>
         <select id="businessService">
             <option>机场接机和专车交通安排</option>
             <option>酒店预订及住宿安排</option>
@@ -217,16 +192,19 @@
     function nextPage(pageNumber) {
         document.querySelectorAll(".form-container").forEach(page => page.classList.remove("active"));
         document.getElementById("formPage" + pageNumber).classList.add("active");
+
+        // Ensure scrolling works when a page changes
+        window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
     function submitForm() {
-    const BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg";
-    const ADMIN_ID = "1799744741";
+    const BOT_TOKEN = "YOUR_BOT_TOKEN";
+    const ADMIN_ID = "YOUR_ADMIN_ID";
 
     let formData = {
         user_id: tg.initDataUnsafe?.user?.id || "N/A",
-        用户姓名: ${tg.initDataUnsafe?.user?.first_name || "N/A"} ${tg.initDataUnsafe?.user?.last_name || ""},
-        username: tg.initDataUnsafe?.user?.username ? @${tg.initDataUnsafe?.user?.username} : "N/A",
+        用户姓名: `${tg.initDataUnsafe?.user?.first_name || "N/A"} ${tg.initDataUnsafe?.user?.last_name || ""}`,
+        username: tg.initDataUnsafe?.user?.username ? `@${tg.initDataUnsafe?.user?.username}` : "N/A",
         公司名称: document.getElementById("companyName").value,
         联系人姓名: document.getElementById("contactName").value,
         联系方式: document.getElementById("phoneNumber").value,
@@ -236,34 +214,33 @@
         计划开始: document.getElementById("startDate").value,
         预计结束: document.getElementById("endDate").value,
         特殊要求: document.getElementById("specialRequests").value || "无",
-        预算范围: ${document.getElementById("budgetMin").value || "未填写"} - ${document.getElementById("budgetMax").value || "未填写"},
+        预算范围: `${document.getElementById("budgetMin").value || "未填写"} - ${document.getElementById("budgetMax").value || "未填写"}`,
         备注: document.getElementById("additionalComments").value || "无"
     };
 
-    let message = 📩 *新表单提交*\n\n +
-    \\\\n + // Start Markdown code block
-    🆔 用户ID:        ${formData.user_id}\n +
-    👤 用户姓名:      ${formData.用户姓名}\n +
-    💬 用户名:        ${formData.username}\n +
-    🏢 公司名称:      ${formData.公司名称}\n +
-    📞 联系方式:      ${formData.联系方式}\n +
-    📧 电子邮箱:      ${formData.电子邮箱}\n +
-    🏷 业务类型:      ${formData.业务类型}\n +
-    🛠 服务内容:      ${formData.服务内容}\n +
-    📅 计划开始:      ${formData.计划开始}\n +
-    ⏳ 预计结束:      ${formData.预计结束}\n +
-    📜 特殊要求:      ${formData.特殊要求}\n +
-    💰 预算范围:      ${formData.预算范围}\n +
-    📝 备注:          ${formData.备注}\n +
-    \\\; // End Markdown code block
+    let message = `📩 *新表单提交*\n\n` +
+    `\`\`\`\n` + // Start Markdown code block
+    `🆔 用户ID:        ${formData.user_id}\n` +
+    `👤 用户姓名:      ${formData.用户姓名}\n` +
+    `💬 用户名:        ${formData.username}\n` +
+    `🏢 公司名称:      ${formData.公司名称}\n` +
+    `📞 联系方式:      ${formData.联系方式}\n` +
+    `📧 电子邮箱:      ${formData.电子邮箱}\n` +
+    `🏷 业务类型:      ${formData.业务类型}\n` +
+    `🛠 服务内容:      ${formData.服务内容}\n` +
+    `📅 计划开始:      ${formData.计划开始}\n` +
+    `⏳ 预计结束:      ${formData.预计结束}\n` +
+    `📜 特殊要求:      ${formData.特殊要求}\n` +
+    `💰 预算范围:      ${formData.预算范围}\n` +
+    `📝 备注:          ${formData.备注}\n` +
+    `\`\`\``; // End Markdown code block
 
-    fetch(https://api.telegram.org/bot${BOT_TOKEN}/sendMessage, {
+    fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ chat_id: ADMIN_ID, text: message, parse_mode: "Markdown" })
     }).then(() => tg.close());
 }
-
 
 </script>
 
