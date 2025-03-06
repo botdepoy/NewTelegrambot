@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
     <title>客户需求表</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
@@ -15,7 +15,7 @@
             font-family: 'Poppins', sans-serif;
         }
 
-        /* Prevent scrolling issues */
+        /* Fix scrolling issues */
         html, body {
             height: 100vh;
             width: 100vw;
@@ -36,6 +36,7 @@
             box-shadow: 0 0 20px #0ef;
             text-align: center;
             position: relative;
+            overflow: hidden;
         }
 
         h2 {
@@ -43,7 +44,7 @@
             font-weight: 600;
             color: #0ef;
             text-shadow: 0 0 8px #0ef;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
         label {
@@ -58,7 +59,7 @@
         /* Scrollable form pages */
         .form-container {
             display: none;
-            max-height: 60vh; /* Ensures scrolling works */
+            max-height: 65vh; /* Ensures scrolling works */
             overflow-y: auto;
             padding-right: 5px;
         }
