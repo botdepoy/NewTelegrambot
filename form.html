@@ -6,7 +6,7 @@
     <title>客户需求表</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+               @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
 
         * {
             margin: 0;
@@ -15,6 +15,7 @@
             font-family: 'Poppins', sans-serif;
         }
 
+        /* 🔹 Body - Makes the App Fit Telegram WebView */
         body, html {
             height: 100vh;
             width: 100vw;
@@ -23,30 +24,32 @@
             align-items: center;
             background: #000;
             overflow-y: auto; /* Allow scrolling if needed */
-            padding: 15px; /* Prevent screen cutting */
+            padding: 10px; /* Prevents cut-off */
         }
 
+        /* 🔹 Main Form Container */
         .container {
-            position: relative;
-            width: 100%;
-            max-width: 450px;
+            width: 95%;
+            max-width: 420px;
             background: rgba(0, 0, 0, 0.9);
             border-radius: 15px;
-            padding: 25px;
+            padding: 20px;
             box-shadow: 0 0 20px #0ef;
             text-align: center;
         }
 
+        /* 🔹 Header */
         h2 {
-            font-size: 20px;
+            font-size: 22px;
             font-weight: 600;
             color: #0ef;
             text-shadow: 0 0 8px #0ef;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
+        /* 🔹 Label Formatting */
         label {
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 500;
             display: block;
             text-align: left;
@@ -54,35 +57,39 @@
             margin-bottom: 5px;
         }
 
+        /* 🔹 Input Fields */
         input, select, textarea {
             width: 100%;
-            padding: 14px; /* Increased padding for easier tapping */
-            border: 1px solid #0ef;
+            padding: 14px; /* Bigger Touch Area */
+            border: 2px solid #0ef;
             background: transparent;
-            border-radius: 6px;
-            font-size: 16px; /* Slightly larger text for readability */
+            border-radius: 8px;
+            font-size: 16px;
             color: #0ef;
             outline: none;
             transition: all 0.3s ease;
             margin-bottom: 15px;
         }
 
+        /* 🔹 Placeholder Styling */
         input::placeholder, textarea::placeholder {
             color: rgba(0, 238, 255, 0.5);
         }
 
+        /* 🔹 Input Effects */
         input:focus, select:focus, textarea:focus {
             border-color: #0ef;
             box-shadow: 0 0 8px #0ef;
         }
 
+        /* 🔹 Submit Button */
         button {
             width: 100%;
             padding: 14px;
             background: linear-gradient(90deg, #0ef, #0066ff);
             border: none;
             border-radius: 6px;
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 600;
             color: white;
             cursor: pointer;
@@ -96,6 +103,7 @@
             box-shadow: 0 0 20px #0ef;
         }
 
+        /* 🔹 Form Container Behavior */
         .form-container {
             display: none;
         }
@@ -104,21 +112,21 @@
             display: block;
         }
 
-        /* 🔹 Ensure scrolling works properly in mobile keyboards */
+        /* 🔹 Adjustments for Telegram Mini Apps */
         @media (max-width: 480px) {
             .container {
                 width: 100%;
-                padding: 20px;
+                padding: 15px;
             }
 
             input, select, textarea {
-                font-size: 15px; /* Slightly smaller text */
+                font-size: 15px;
                 padding: 12px;
             }
 
             button {
                 padding: 12px;
-                font-size: 15px;
+                font-size: 16px;
             }
         }
 
