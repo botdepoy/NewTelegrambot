@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>客户需求表</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+    <style>
+               @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
 
         * {
             margin: 0;
@@ -15,15 +15,19 @@
             font-family: 'Poppins', sans-serif;
         }
 
-        /* 🔹 Fix Scrolling & Keyboard Issues */
-        html, body {
+        /* 🔹 Body - Makes the App Fit Telegram WebView */
+        body, html {
             height: 100vh;
-            overflow-y: auto !important;
-            -webkit-overflow-scrolling: touch;
-            padding-bottom: 80px; /* Ensures space for button */
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #000;
+            overflow-y: auto; /* Allow scrolling if needed */
+            padding: 10px; /* Prevents cut-off */
         }
 
-        /* 🔹 Main Container */
+        /* 🔹 Main Form Container */
         .container {
             width: 95%;
             max-width: 420px;
@@ -32,9 +36,9 @@
             padding: 20px;
             box-shadow: 0 0 20px #0ef;
             text-align: center;
-            position: relative;
         }
 
+        /* 🔹 Header */
         h2 {
             font-size: 22px;
             font-weight: 600;
@@ -43,6 +47,7 @@
             margin-bottom: 20px;
         }
 
+        /* 🔹 Label Formatting */
         label {
             font-size: 16px;
             font-weight: 500;
@@ -52,37 +57,34 @@
             margin-bottom: 5px;
         }
 
-        /* 🔹 Fix Auto-Zoom Issue */
+        /* 🔹 Input Fields */
         input, select, textarea {
             width: 100%;
-            padding: 14px;
-            font-size: 16px !important; /* Prevents iOS zoom */
+            padding: 14px; /* Bigger Touch Area */
             border: 2px solid #0ef;
             background: transparent;
             border-radius: 8px;
+            font-size: 16px;
             color: #0ef;
             outline: none;
             transition: all 0.3s ease;
             margin-bottom: 15px;
         }
 
+        /* 🔹 Placeholder Styling */
         input::placeholder, textarea::placeholder {
             color: rgba(0, 238, 255, 0.5);
         }
 
+        /* 🔹 Input Effects */
         input:focus, select:focus, textarea:focus {
             border-color: #0ef;
             box-shadow: 0 0 8px #0ef;
         }
 
-        /* 🔹 Keep Button Visible */
+        /* 🔹 Submit Button */
         button {
-            position: absolute;
-            bottom: 15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            max-width: 400px;
+            width: 100%;
             padding: 14px;
             background: linear-gradient(90deg, #0ef, #0066ff);
             border: none;
@@ -93,6 +95,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 0 10px #0ef;
+            margin-top: 10px;
         }
 
         button:hover {
@@ -100,13 +103,31 @@
             box-shadow: 0 0 20px #0ef;
         }
 
-        /* 🔹 Form Container */
+        /* 🔹 Form Container Behavior */
         .form-container {
             display: none;
         }
 
         .form-container.active {
             display: block;
+        }
+
+        /* 🔹 Adjustments for Telegram Mini Apps */
+        @media (max-width: 480px) {
+            .container {
+                width: 100%;
+                padding: 15px;
+            }
+
+            input, select, textarea {
+                font-size: 15px;
+                padding: 12px;
+            }
+
+            button {
+                padding: 12px;
+                font-size: 16px;
+            }
         }
 
     </style>
@@ -187,8 +208,8 @@
 
     let formData = {
         user_id: tg.initDataUnsafe?.user?.id || "N/A",
-        用户姓名: `${tg.initDataUnsafe?.user?.first_name || "N/A"} ${tg.initDataUnsafe?.user?.last_name || ""}`,
-        username: tg.initDataUnsafe?.user?.username ? `@${tg.initDataUnsafe?.user?.username}` : "N/A",
+        用户姓名: ${tg.initDataUnsafe?.user?.first_name || "N/A"} ${tg.initDataUnsafe?.user?.last_name || ""},
+        username: tg.initDataUnsafe?.user?.username ? @${tg.initDataUnsafe?.user?.username} : "N/A",
         公司名称: document.getElementById("companyName").value,
         联系人姓名: document.getElementById("contactName").value,
         联系方式: document.getElementById("phoneNumber").value,
@@ -198,28 +219,28 @@
         计划开始: document.getElementById("startDate").value,
         预计结束: document.getElementById("endDate").value,
         特殊要求: document.getElementById("specialRequests").value || "无",
-        预算范围: `${document.getElementById("budgetMin").value || "未填写"} - ${document.getElementById("budgetMax").value || "未填写"}`,
+        预算范围: ${document.getElementById("budgetMin").value || "未填写"} - ${document.getElementById("budgetMax").value || "未填写"},
         备注: document.getElementById("additionalComments").value || "无"
     };
 
-    let message = `📩 *新表单提交*\n\n` +
-    `\`\`\`\n` + // Start Markdown code block
-    `🆔 用户ID:        ${formData.user_id}\n` +
-    `👤 用户姓名:      ${formData.用户姓名}\n` +
-    `💬 用户名:        ${formData.username}\n` +
-    `🏢 公司名称:      ${formData.公司名称}\n` +
-    `📞 联系方式:      ${formData.联系方式}\n` +
-    `📧 电子邮箱:      ${formData.电子邮箱}\n` +
-    `🏷 业务类型:      ${formData.业务类型}\n` +
-    `🛠 服务内容:      ${formData.服务内容}\n` +
-    `📅 计划开始:      ${formData.计划开始}\n` +
-    `⏳ 预计结束:      ${formData.预计结束}\n` +
-    `📜 特殊要求:      ${formData.特殊要求}\n` +
-    `💰 预算范围:      ${formData.预算范围}\n` +
-    `📝 备注:          ${formData.备注}\n` +
-    `\`\`\``; // End Markdown code block
+    let message = 📩 *新表单提交*\n\n +
+    \\\\n + // Start Markdown code block
+    🆔 用户ID:        ${formData.user_id}\n +
+    👤 用户姓名:      ${formData.用户姓名}\n +
+    💬 用户名:        ${formData.username}\n +
+    🏢 公司名称:      ${formData.公司名称}\n +
+    📞 联系方式:      ${formData.联系方式}\n +
+    📧 电子邮箱:      ${formData.电子邮箱}\n +
+    🏷 业务类型:      ${formData.业务类型}\n +
+    🛠 服务内容:      ${formData.服务内容}\n +
+    📅 计划开始:      ${formData.计划开始}\n +
+    ⏳ 预计结束:      ${formData.预计结束}\n +
+    📜 特殊要求:      ${formData.特殊要求}\n +
+    💰 预算范围:      ${formData.预算范围}\n +
+    📝 备注:          ${formData.备注}\n +
+    \\\; // End Markdown code block
 
-    fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+    fetch(https://api.telegram.org/bot${BOT_TOKEN}/sendMessage, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ chat_id: ADMIN_ID, text: message, parse_mode: "Markdown" })
