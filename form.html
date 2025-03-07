@@ -16,215 +16,306 @@
         }
 
         body, html {
-            height: 100vh;
-            width: 100vw;
+            height: 100%;
+            width: 100%;
+            overflow: auto;
+            background: #f5f5f5;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: #000;
-            overflow: hidden;
+            padding: 10px;
         }
 
         .container {
-            position: relative;
-            width: 90%;
-            max-width: 400px;
-            background: rgba(0, 0, 0, 0.9);
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 0 20px #0ef;
+            width: 100%;
+            max-width: 500px;
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             text-align: center;
+            height: 90vh; /* Limit container height */
+            overflow-y: auto; /* Make container scrollable */
+            position: relative;
         }
 
         h2 {
             font-size: 22px;
             font-weight: 600;
-            color: #0ef;
-            text-shadow: 0 0 8px #0ef;
+            color: #333;
             margin-bottom: 20px;
         }
 
         label {
-            font-size: 14px;
             font-weight: 500;
             display: block;
             text-align: left;
-            color: #0ef;
-            margin-bottom: 5px;
+            margin: 15px 0 5px;
+            color: #555;
         }
 
         input, select, textarea {
             width: 100%;
-            padding: 12px;
-            border: 1px solid #0ef;
-            background: transparent;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
             border-radius: 6px;
             font-size: 14px;
-            color: #0ef;
             outline: none;
-            transition: all 0.3s ease;
-            margin-bottom: 15px;
-        }
-
-        input::placeholder, textarea::placeholder {
-            color: rgba(0, 238, 255, 0.5);
+            color: #333;
+            transition: border-color 0.3s ease;
         }
 
         input:focus, select:focus, textarea:focus {
-            border-color: #0ef;
-            box-shadow: 0 0 8px #0ef;
+            border-color: #6e8efb;
         }
 
         button {
-            width: 100%;
+            background: #6e8efb;
+            color: white;
             padding: 12px;
-            background: linear-gradient(90deg, #0ef, #0066ff);
             border: none;
             border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
             font-size: 16px;
             font-weight: 600;
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 10px #0ef;
-            margin-top: 10px;
+            transition: background 0.3s ease;
+            position: sticky; /* Keep button visible */
+            bottom: 0; /* Stick to the bottom */
+            margin-top: 10px; /* Add some spacing */
         }
 
         button:hover {
-            background: linear-gradient(90deg, #0066ff, #0ef);
-            box-shadow: 0 0 20px #0ef;
+            background: #5a7de0;
         }
 
-        .form-container {
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            background: #f9f9f9;
+            padding: 10px 15px;
+            border-radius: 6px;
+            flex: 1 1 45%;
+            text-align: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            color: #555;
+            border: 1px solid #ddd;
+        }
+
+        .radio-group label:hover {
+            background: #e9e9e9;
+        }
+
+        .radio-group input[type="radio"] {
             display: none;
         }
 
-        .form-container.active {
-            display: block;
+        .radio-group input[type="radio"]:checked + label {
+            background: #6e8efb;
+            color: white;
+            border-color: #6e8efb;
         }
 
-        @media (max-width: 480px) {
+        textarea {
+            resize: vertical;
+        }
+
+        .budget-range {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .budget-range input {
+            flex: 1;
+        }
+
+        @media (max-width: 600px) {
             .container {
-                width: 90%;
-                padding: 20px;
+                padding: 15px;
+                height: 100vh; /* Full height on small screens */
+                border-radius: 0; /* Remove border radius for full-screen feel */
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            label {
+                font-size: 14px;
+            }
+
+            input, select, textarea {
+                font-size: 12px;
+                padding: 8px;
+            }
+
+            button {
+                font-size: 14px;
+                padding: 10px;
+            }
+
+            .radio-group {
+                flex-direction: column;
+            }
+
+            .radio-group label {
+                flex: 1 1 100%;
+                margin: 5px 0;
+            }
+
+            .budget-range {
+                flex-direction: column;
+            }
+
+            .budget-range input {
+                width: 100%;
             }
         }
     </style>
 </head>
 <body>
+    <div class="container">
+        <!-- Page 1: Basic Information -->
+        <div class="form-container" id="formPage1">
+            <h2>基本信息</h2>
+            <label>公司名称:</label>
+            <input type="text" id="companyName" required>
+            <label>联系人姓名:</label>
+            <input type="text" id="contactName" required>
+            <label>联系电话:</label>
+            <input type="text" id="phoneNumber" required>
+            <label>电子邮箱:</label>
+            <input type="email" id="email" required>
+            <button onclick="nextPage(2)">下一步</button>
+        </div>
 
-<div class="container">
-    <!-- Page 1: Basic Information -->
-    <div class="form-container active" id="formPage1">
-        <h2>基本信息</h2>
-        <label>公司名称:</label>
-        <input type="text" id="companyName" required>
-        <label>联系人姓名:</label>
-        <input type="text" id="contactName" required>
-        <label>联系电话:</label>
-        <input type="text" id="phoneNumber" required>
-        <label>电子邮箱:</label>
-        <input type="email" id="email" required>
-        <button onclick="nextPage(2)">下一步</button>
+        <!-- Page 2: Business Type and Service Selection -->
+        <div class="form-container" id="formPage2" style="display:none;">
+            <h2>业务类型</h2>
+            <select id="businessType">
+                <option>企业/公司</option>
+                <option>团队</option>
+                <option>个人</option>
+            </select>
+            <h2>服务类别选择</h2>
+            <label>1. 商务考察团接待服务</label>
+            <select id="businessService">
+                <option>机场接机和专车交通安排</option>
+                <option>酒店预订及住宿安排</option>
+                <option>项目考察对接与行程安排</option>
+                <option>高端商务车辆/直升机/游艇保障</option>
+                <option>翻译服务（中文、英语、柬埔寨语）</option>
+            </select>
+            <label>2. 企业办事处落地服务</label>
+            <select id="officeService">
+                <option>公司注册及政府审批协助</option>
+                <option>办公及住房租赁</option>
+                <option>人力资源招聘与劳工证办理</option>
+                <option>行政办公设备采购及安装</option>
+                <option>财税合规咨询</option>
+                <option>企业运营支持服务</option>
+            </select>
+            <button onclick="nextPage(3)">下一步</button>
+        </div>
+
+        <!-- Page 3: Project Details -->
+        <div class="form-container" id="formPage3" style="display:none;">
+            <h2>项目详细信息</h2>
+            <label>计划开展服务的日期:</label>
+            <input type="date" id="startDate" required>
+            <label>服务的项目规模:</label>
+            <div class="radio-group">
+                <input type="radio" id="smallScale" name="projectScale" value="small">
+                <label for="smallScale">小型（1-10人）</label>
+                <input type="radio" id="mediumScale" name="projectScale" value="medium">
+                <label for="mediumScale">中型（10-50人）</label>
+                <input type="radio" id="largeScale" name="projectScale" value="large">
+                <label for="largeScale">大型（50人及以上）</label>
+            </div>
+            <label>预计服务结束日期:</label>
+            <input type="date" id="endDate" required>
+            <label>服务期间的特殊要求（如有）:</label>
+            <textarea id="specialRequests"></textarea>
+            <button onclick="nextPage(4)">下一步</button>
+        </div>
+
+        <!-- Page 4: Budget and Additional Comments -->
+        <div class="form-container" id="formPage4" style="display:none;">
+            <h2>预算和其他信息</h2>
+            <label>预算范围（可选）:</label>
+            <div class="budget-range">
+                <input type="number" id="budgetMin" placeholder="最小预算">
+                <input type="number" id="budgetMax" placeholder="最大预算">
+            </div>
+            <label>其他需求或备注:</label>
+            <textarea id="additionalComments"></textarea>
+            <button onclick="submitForm()">提交</button>
+        </div>
     </div>
 
-    <!-- Page 2: Business Type and Service Selection -->
-    <div class="form-container" id="formPage2">
-        <h2>业务类型</h2>
-        <select id="businessType">
-            <option>企业/公司</option>
-            <option>团队</option>
-            <option>个人</option>
-        </select>
-        <h2>服务类别选择</h2>
-        <label>选择服务:</label>
-        <select id="businessService">
-            <option>机场接机和专车交通安排</option>
-            <option>酒店预订及住宿安排</option>
-            <option>项目考察对接与行程安排</option>
-            <option>高端商务车辆/直升机/游艇保障</option>
-            <option>翻译服务（中文、英语、柬埔寨语）</option>
-        </select>
-        <button onclick="nextPage(3)">下一步</button>
-    </div>
+    <script>
+        let tg = window.Telegram.WebApp;
+        tg.expand();
 
-    <!-- Page 3: Project Details -->
-    <div class="form-container" id="formPage3">
-        <h2>项目详细信息</h2>
-        <label>计划开展服务的日期:</label>
-        <input type="date" id="startDate" required>
-        <label>预计服务结束日期:</label>
-        <input type="date" id="endDate" required>
-        <label>特殊要求:</label>
-        <textarea id="specialRequests"></textarea>
-        <button onclick="nextPage(4)">下一步</button>
-    </div>
+        function nextPage(pageNumber) {
+            document.getElementById("formPage1").style.display = "none";
+            document.getElementById("formPage2").style.display = "none";
+            document.getElementById("formPage3").style.display = "none";
+            document.getElementById("formPage4").style.display = "none";
+            document.getElementById("formPage" + pageNumber).style.display = "block";
+        }
 
-    <!-- Page 4: Budget and Submission -->
-    <div class="form-container" id="formPage4">
-        <h2>预算和备注</h2>
-        <label>预算范围:</label>
-        <input type="number" id="budgetMin" placeholder="最小预算">
-        <input type="number" id="budgetMax" placeholder="最大预算">
-        <label>其他需求或备注:</label>
-        <textarea id="additionalComments"></textarea>
-        <button onclick="submitForm()">提交</button>
-    </div>
-</div>
+        function submitForm() {
+            const BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg";
+            const ADMIN_ID = "1799744741";
 
-<script>
-    let tg = window.Telegram.WebApp;
-    tg.expand();
+            let formData = {
+                user_id: tg.initDataUnsafe?.user?.id || "N/A",
+                first_name: tg.initDataUnsafe?.user?.first_name || "N/A",
+                last_name: tg.initDataUnsafe?.user?.last_name || "N/A",
+                username: tg.initDataUnsafe?.user?.username || "N/A",
+                company_name: document.getElementById("companyName").value,
+                contact_name: document.getElementById("contactName").value,
+                phone_number: document.getElementById("phoneNumber").value,
+                email: document.getElementById("email").value,
+                business_type: document.getElementById("businessType").value,
+                business_service: document.getElementById("businessService").value,
+                office_service: document.getElementById("officeService").value,
+                start_date: document.getElementById("startDate").value,
+                end_date: document.getElementById("endDate").value,
+                project_scale: document.querySelector('input[name="projectScale"]:checked').value,
+                special_requests: document.getElementById("specialRequests").value,
+                budget_min: document.getElementById("budgetMin").value,
+                budget_max: document.getElementById("budgetMax").value,
+                additional_comments: document.getElementById("additionalComments").value
+            };
 
-    function nextPage(pageNumber) {
-        document.querySelectorAll(".form-container").forEach(page => page.classList.remove("active"));
-        document.getElementById("formPage" + pageNumber).classList.add("active");
-    }
+            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ chat_id: ADMIN_ID, text: JSON.stringify(formData, null, 2) })
+            }).then(() => alert("表单提交成功！"));
+        }
 
-    function submitForm() {
-    const BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg";
-    const ADMIN_ID = "1799744741";
-
-    let formData = {
-        user_id: tg.initDataUnsafe?.user?.id || "N/A",
-        用户姓名: `${tg.initDataUnsafe?.user?.first_name || "N/A"} ${tg.initDataUnsafe?.user?.last_name || ""}`,
-        username: tg.initDataUnsafe?.user?.username ? `@${tg.initDataUnsafe?.user?.username}` : "N/A",
-        公司名称: document.getElementById("companyName").value,
-        联系人姓名: document.getElementById("contactName").value,
-        联系方式: document.getElementById("phoneNumber").value,
-        电子邮箱: document.getElementById("email").value,
-        业务类型: document.getElementById("businessType").value,
-        服务内容: document.getElementById("businessService").value,
-        计划开始: document.getElementById("startDate").value,
-        预计结束: document.getElementById("endDate").value,
-        特殊要求: document.getElementById("specialRequests").value || "无",
-        预算范围: `${document.getElementById("budgetMin").value || "未填写"} - ${document.getElementById("budgetMax").value || "未填写"}`,
-        备注: document.getElementById("additionalComments").value || "无"
-    };
-
-    let message = `📩 *新表单提交*\n\n` +
-                  `🆔 *用户ID:* \`${formData.user_id}\`\n` +
-                  `👤 *用户姓名:* ${formData.用户姓名}\n` +
-                  `💬 *用户名:* ${formData.username}\n` +
-                  `🏢 *公司名称:* ${formData.公司名称}\n` +
-                  `📞 *联系方式:* ${formData.联系方式}\n` +
-                  `📧 *电子邮箱:* ${formData.电子邮箱}\n` +
-                  `🏷 *业务类型:* ${formData.业务类型}\n` +
-                  `🛠 *服务内容:* ${formData.服务内容}\n` +
-                  `📅 *计划开始:* ${formData.计划开始}\n` +
-                  `⏳ *预计结束:* ${formData.预计结束}\n` +
-                  `📜 *特殊要求:* ${formData.特殊要求}\n` +
-                  `💰 *预算范围:* ${formData.预算范围}\n` +
-                  `📝 *备注:* ${formData.备注}`;
-
-    fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ chat_id: ADMIN_ID, text: message, parse_mode: "Markdown" })
-    }).then(() => tg.close());
-}
-
-</script>
-
+        // Ensure scrolling to input when typing
+        document.querySelectorAll("input, textarea").forEach(input => {
+            input.addEventListener("focus", function () {
+                setTimeout(() => {
+                    input.scrollIntoView({ behavior: "smooth", block: "center" });
+                }, 300);
+            });
+        });
+    </script>
 </body>
 </html>
