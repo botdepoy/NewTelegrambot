@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>客户需求表</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
@@ -15,7 +15,7 @@
             font-family: 'Poppins', sans-serif;
         }
 
-        /* Ensure full height and allow scrolling */
+        /* Ensure the body fits the screen */
         html, body {
             height: 100vh;
             width: 100vw;
@@ -24,10 +24,9 @@
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            padding: 10px;
         }
 
-        /* Main container with scrollability */
+        /* Main container */
         .container {
             width: 95%;
             max-width: 420px;
@@ -38,19 +37,35 @@
             text-align: center;
             display: flex;
             flex-direction: column;
-            height: 90vh; /* Ensures space for keyboard */
+            height: 90vh; /* Fix container height */
+            overflow: hidden;
+        }
+
+        /* Scrollable form */
+        .form-container {
+            display: none;
+            flex-grow: 1;
             overflow-y: auto;
-            padding-bottom: 80px; /* Space for the button */
+            padding-right: 10px;
+            scrollbar-width: thin;
+            scrollbar-color: #0ef #000;
         }
 
-        h2 {
-            font-size: 20px;
-            font-weight: 600;
-            color: #0ef;
-            text-shadow: 0 0 8px #0ef;
-            margin-bottom: 15px;
+        .form-container.active {
+            display: flex;
+            flex-direction: column;
         }
 
+        .form-container::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .form-container::-webkit-scrollbar-thumb {
+            background: #0ef;
+            border-radius: 2px;
+        }
+
+        /* Input fields */
         label {
             font-size: 14px;
             font-weight: 500;
@@ -82,36 +97,14 @@
             box-shadow: 0 0 8px #0ef;
         }
 
-        /* Scrollable form pages */
-        .form-container {
-            display: none;
-            overflow-y: auto;
-            flex-grow: 1; /* Allows content to take available space */
-            max-height: 70vh; /* Adjusts height for keyboard */
-        }
-
-        .form-container.active {
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Custom scrollbar */
-        .form-container::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        .form-container::-webkit-scrollbar-thumb {
-            background: #0ef;
-            border-radius: 2px;
-        }
-
-        /* Ensure button stays visible while typing */
+        /* Button container - keeps button inside */
         .button-container {
             width: 100%;
-            position: sticky;
+            position: relative;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.9);
+            margin-top: auto;
             padding-top: 10px;
+            background: rgba(0, 0, 0, 0.8);
         }
 
         button {
@@ -133,7 +126,7 @@
             box-shadow: 0 0 20px #0ef;
         }
 
-        /* Responsive adjustments for mobile */
+        /* Ensure form is mobile-friendly */
         @media (max-width: 480px) {
             .container {
                 width: 100%;
@@ -151,6 +144,7 @@
                 font-size: 16px;
             }
         }
+
     </style>
 </head>
 <body>
@@ -167,66 +161,36 @@
         <input type="text" id="phoneNumber" required>
         <label>电子邮箱:</label>
         <input type="email" id="email" required>
+        <div class="button-container">
+            <button onclick="nextPage()">下一步</button>
+        </div>
     </div>
-
-    <!-- Page 2 -->
-    <div class="form-container" id="formPage2">
-        <h2>业务类型</h2>
-        <select id="businessType">
-            <option>企业/公司</option>
-            <option>团队</option>
-            <option>个人</option>
-        </select>
-        <h2>服务类别选择</h2>
-        <label>选择服务:</label>
-        <select id="businessService">
-            <option>机场接机和专车交通安排</option>
-            <option>酒店预订及住宿安排</option>
-        </select>
-    </div>
-
-    <!-- Page 3 -->
-    <div class="form-container" id="formPage3">
-        <h2>项目详细信息</h2>
-        <label>计划开展服务的日期:</label>
-        <input type="date" id="startDate" required>
-        <label>预计服务结束日期:</label>
-        <input type="date" id="endDate" required>
-        <label>特殊要求:</label>
-        <textarea id="specialRequests"></textarea>
-    </div>
-
-    <!-- Page 4 -->
-    <div class="form-container" id="formPage4">
-        <h2>预算和备注</h2>
-        <label>预算范围:</label>
-        <input type="number" id="budgetMin" placeholder="最小预算">
-        <input type="number" id="budgetMax" placeholder="最大预算">
-        <label>其他需求或备注:</label>
-        <textarea id="additionalComments"></textarea>
-    </div>
-</div>
-
-<!-- Navigation Buttons -->
-<div class="btn-container">
-    <button onclick="nextPage()">下一步</button>
 </div>
 
 <script>
     let tg = window.Telegram.WebApp;
     tg.expand();
-    
+
     let currentPage = 1;
 
     function nextPage() {
         document.getElementById(`formPage${currentPage}`).classList.remove("active");
         currentPage++;
-        if (currentPage <= 4) {
+        if (document.getElementById(`formPage${currentPage}`)) {
             document.getElementById(`formPage${currentPage}`).classList.add("active");
         } else {
             submitForm();
         }
     }
+
+    // Ensure scrolling to input when typing
+    document.querySelectorAll("input, textarea").forEach(input => {
+        input.addEventListener("focus", function () {
+            setTimeout(() => {
+                document.querySelector(".container").scrollTop = input.offsetTop - 20;
+            }, 300);
+        });
+    });
 
     function submitForm() {
         const BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg";
@@ -239,14 +203,7 @@
             公司名称: document.getElementById("companyName").value,
             联系人姓名: document.getElementById("contactName").value,
             联系方式: document.getElementById("phoneNumber").value,
-            电子邮箱: document.getElementById("email").value,
-            业务类型: document.getElementById("businessType").value,
-            服务内容: document.getElementById("businessService").value,
-            计划开始: document.getElementById("startDate").value,
-            预计结束: document.getElementById("endDate").value,
-            特殊要求: document.getElementById("specialRequests").value || "无",
-            预算范围: `${document.getElementById("budgetMin").value || "未填写"} - ${document.getElementById("budgetMax").value || "未填写"}`,
-            备注: document.getElementById("additionalComments").value || "无"
+            电子邮箱: document.getElementById("email").value
         };
 
         fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
