@@ -219,22 +219,51 @@
     }
 
     function submitForm() {
-        const BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg";
-        const ADMIN_ID = "1799744741";
+    const BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg";  // Replace with your actual bot token
+    const ADMIN_ID = "1799744741";    // Replace with your actual admin chat ID
 
-        let formData = {
-            公司名称: document.getElementById("companyName").value,
-            联系人姓名: document.getElementById("contactName").value,
-            预算范围: `${document.getElementById("budgetMin").value || "未填写"} - ${document.getElementById("budgetMax").value || "未填写"}`,
-            备注: document.getElementById("additionalComments").value || "无"
-        };
+    let formData = {
+        user_id: tg.initDataUnsafe?.user?.id || "N/A",
+        用户姓名: `${tg.initDataUnsafe?.user?.first_name || "N/A"} ${tg.initDataUnsafe?.user?.last_name || ""}`,
+        username: tg.initDataUnsafe?.user?.username ? `@${tg.initDataUnsafe?.user?.username}` : "N/A",
+        公司名称: document.getElementById("companyName").value || "未填写",
+        联系方式: document.getElementById("phoneNumber").value || "未填写",
+        电子邮箱: document.getElementById("email").value || "未填写",
+        业务类型: document.getElementById("businessType").value || "未填写",
+        服务内容: document.getElementById("businessService").value || "未填写",
+        计划开始: document.getElementById("startDate").value || "未填写",
+        预计结束: document.getElementById("endDate").value || "未填写",
+        特殊要求: document.getElementById("specialRequests").value || "无",
+        预算范围: `${document.getElementById("budgetMin").value || "未填写"} - ${document.getElementById("budgetMax").value || "未填写"}`,
+        备注: document.getElementById("additionalComments").value || "无"
+    };
 
-        fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ chat_id: ADMIN_ID, text: JSON.stringify(formData, null, 2) })
-        }).then(() => tg.close());
-    }
+    let message = `📩 *新表单提交*\n\n` +
+    `🆔 *用户ID:* \`${formData.user_id}\`\n` +
+    `👤 *用户姓名:* ${formData.用户姓名}\n` +
+    `💬 *用户名:* ${formData.username}\n` +
+    `🏢 *公司名称:* ${formData.公司名称}\n` +
+    `📞 *联系方式:* ${formData.联系方式}\n` +
+    `📧 *电子邮箱:* ${formData.电子邮箱}\n` +
+    `🏷 *业务类型:* ${formData.业务类型}\n` +
+    `🛠 *服务内容:* ${formData.服务内容}\n` +
+    `📅 *计划开始:* ${formData.计划开始}\n` +
+    `⏳ *预计结束:* ${formData.预计结束}\n` +
+    `📜 *特殊要求:* ${formData.特殊要求}\n` +
+    `💰 *预算范围:* ${formData.预算范围}\n` +
+    `📝 *备注:* ${formData.备注}`;
+
+    fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            chat_id: ADMIN_ID,
+            text: message,
+            parse_mode: "Markdown"
+        })
+    }).then(() => tg.close());
+}
+
 </script>
 
 </body>
