@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
     <title>客户需求表</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
@@ -15,52 +15,81 @@
             font-family: 'Poppins', sans-serif;
         }
 
-        body, html {
+        /* 🔹 Fix scrolling issues */
+        html, body {
             height: 100vh;
             width: 100vw;
+            background: #000;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: #000;
-            overflow-y: auto; /* Allow scrolling if needed */
-            padding: 15px; /* Prevent screen cutting */
+            overflow: hidden;
         }
 
+        /* 🔹 Main container */
         .container {
-            position: relative;
-            width: 100%;
-            max-width: 450px;
+            width: 95%;
+            max-width: 420px;
             background: rgba(0, 0, 0, 0.9);
             border-radius: 15px;
-            padding: 25px;
+            padding: 20px;
             box-shadow: 0 0 20px #0ef;
             text-align: center;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            height: 90vh;
         }
 
         h2 {
-            font-size: 20px;
+            font-size: 22px;
             font-weight: 600;
             color: #0ef;
             text-shadow: 0 0 8px #0ef;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
         label {
             font-size: 14px;
             font-weight: 500;
-            display: block;
             text-align: left;
             color: #0ef;
             margin-bottom: 5px;
+            display: block;
+        }
+
+        /* 🔹 Scrollable form pages */
+        .form-container {
+            display: none;
+            flex: 1;
+            max-height: 65vh; /* Ensures scrolling works */
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .form-container.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 🔹 Custom scrollbar */
+        .form-container::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .form-container::-webkit-scrollbar-thumb {
+            background: #0ef;
+            border-radius: 2px;
         }
 
         input, select, textarea {
             width: 100%;
-            padding: 14px; /* Increased padding for easier tapping */
+            padding: 12px;
+            font-size: 16px;
             border: 1px solid #0ef;
             background: transparent;
             border-radius: 6px;
-            font-size: 16px; /* Slightly larger text for readability */
             color: #0ef;
             outline: none;
             transition: all 0.3s ease;
@@ -76,19 +105,29 @@
             box-shadow: 0 0 8px #0ef;
         }
 
+        /* 🔹 Fixed Bottom Navigation Buttons */
+        .btn-container {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 95%;
+            max-width: 420px;
+            text-align: center;
+        }
+
         button {
-            width: 100%;
+            width: 90%;
             padding: 14px;
             background: linear-gradient(90deg, #0ef, #0066ff);
             border: none;
             border-radius: 6px;
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 600;
             color: white;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 0 10px #0ef;
-            margin-top: 10px;
         }
 
         button:hover {
@@ -96,38 +135,29 @@
             box-shadow: 0 0 20px #0ef;
         }
 
-        .form-container {
-            display: none;
-        }
-
-        .form-container.active {
-            display: block;
-        }
-
-        /* 🔹 Ensure scrolling works properly in mobile keyboards */
+        /* 🔹 Responsive Design for Mobile */
         @media (max-width: 480px) {
             .container {
                 width: 100%;
-                padding: 20px;
+                padding: 15px;
             }
 
             input, select, textarea {
-                font-size: 15px; /* Slightly smaller text */
-                padding: 12px;
+                font-size: 15px;
+                padding: 10px;
             }
 
             button {
+                font-size: 16px;
                 padding: 12px;
-                font-size: 15px;
             }
         }
-
     </style>
 </head>
 <body>
 
 <div class="container">
-    <!-- Page 1: Basic Information -->
+    <!-- Page 1 -->
     <div class="form-container active" id="formPage1">
         <h2>基本信息</h2>
         <label>公司名称:</label>
@@ -138,10 +168,9 @@
         <input type="text" id="phoneNumber" required>
         <label>电子邮箱:</label>
         <input type="email" id="email" required>
-        <button onclick="nextPage(2)">下一步</button>
     </div>
 
-    <!-- Page 2: Business Type and Service Selection -->
+    <!-- Page 2 -->
     <div class="form-container" id="formPage2">
         <h2>业务类型</h2>
         <select id="businessType">
@@ -150,18 +179,14 @@
             <option>个人</option>
         </select>
         <h2>服务类别选择</h2>
-        <label>1. 商务考察团接待服务</label>
+        <label>选择服务:</label>
         <select id="businessService">
             <option>机场接机和专车交通安排</option>
             <option>酒店预订及住宿安排</option>
-            <option>项目考察对接与行程安排</option>
-            <option>高端商务车辆/直升机/游艇保障</option>
-            <option>翻译服务（中文、英语、柬埔寨语）</option>
         </select>
-        <button onclick="nextPage(3)">下一步</button>
     </div>
 
-    <!-- Page 3: Project Details -->
+    <!-- Page 3 -->
     <div class="form-container" id="formPage3">
         <h2>项目详细信息</h2>
         <label>计划开展服务的日期:</label>
@@ -170,10 +195,9 @@
         <input type="date" id="endDate" required>
         <label>特殊要求:</label>
         <textarea id="specialRequests"></textarea>
-        <button onclick="nextPage(4)">下一步</button>
     </div>
 
-    <!-- Page 4: Budget and Submission -->
+    <!-- Page 4 -->
     <div class="form-container" id="formPage4">
         <h2>预算和备注</h2>
         <label>预算范围:</label>
@@ -181,67 +205,57 @@
         <input type="number" id="budgetMax" placeholder="最大预算">
         <label>其他需求或备注:</label>
         <textarea id="additionalComments"></textarea>
-        <button onclick="submitForm()">提交</button>
     </div>
+</div>
+
+<!-- Navigation Buttons -->
+<div class="btn-container">
+    <button onclick="nextPage()">下一步</button>
 </div>
 
 <script>
     let tg = window.Telegram.WebApp;
     tg.expand();
+    
+    let currentPage = 1;
 
-    function nextPage(pageNumber) {
-        document.querySelectorAll(".form-container").forEach(page => page.classList.remove("active"));
-        document.getElementById("formPage" + pageNumber).classList.add("active");
-
-        // Ensure scrolling works when a page changes
-        window.scrollTo({ top: 0, behavior: "smooth" });
+    function nextPage() {
+        document.getElementById(`formPage${currentPage}`).classList.remove("active");
+        currentPage++;
+        if (currentPage <= 4) {
+            document.getElementById(`formPage${currentPage}`).classList.add("active");
+        } else {
+            submitForm();
+        }
     }
 
     function submitForm() {
-    const BOT_TOKEN = "YOUR_BOT_TOKEN";
-    const ADMIN_ID = "YOUR_ADMIN_ID";
+        const BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg";
+        const ADMIN_ID = "1799744741";
 
-    let formData = {
-        user_id: tg.initDataUnsafe?.user?.id || "N/A",
-        用户姓名: `${tg.initDataUnsafe?.user?.first_name || "N/A"} ${tg.initDataUnsafe?.user?.last_name || ""}`,
-        username: tg.initDataUnsafe?.user?.username ? `@${tg.initDataUnsafe?.user?.username}` : "N/A",
-        公司名称: document.getElementById("companyName").value,
-        联系人姓名: document.getElementById("contactName").value,
-        联系方式: document.getElementById("phoneNumber").value,
-        电子邮箱: document.getElementById("email").value,
-        业务类型: document.getElementById("businessType").value,
-        服务内容: document.getElementById("businessService").value,
-        计划开始: document.getElementById("startDate").value,
-        预计结束: document.getElementById("endDate").value,
-        特殊要求: document.getElementById("specialRequests").value || "无",
-        预算范围: `${document.getElementById("budgetMin").value || "未填写"} - ${document.getElementById("budgetMax").value || "未填写"}`,
-        备注: document.getElementById("additionalComments").value || "无"
-    };
+        let formData = {
+            user_id: tg.initDataUnsafe?.user?.id || "N/A",
+            用户姓名: `${tg.initDataUnsafe?.user?.first_name || "N/A"} ${tg.initDataUnsafe?.user?.last_name || ""}`,
+            username: tg.initDataUnsafe?.user?.username ? `@${tg.initDataUnsafe?.user?.username}` : "N/A",
+            公司名称: document.getElementById("companyName").value,
+            联系人姓名: document.getElementById("contactName").value,
+            联系方式: document.getElementById("phoneNumber").value,
+            电子邮箱: document.getElementById("email").value,
+            业务类型: document.getElementById("businessType").value,
+            服务内容: document.getElementById("businessService").value,
+            计划开始: document.getElementById("startDate").value,
+            预计结束: document.getElementById("endDate").value,
+            特殊要求: document.getElementById("specialRequests").value || "无",
+            预算范围: `${document.getElementById("budgetMin").value || "未填写"} - ${document.getElementById("budgetMax").value || "未填写"}`,
+            备注: document.getElementById("additionalComments").value || "无"
+        };
 
-    let message = `📩 *新表单提交*\n\n` +
-    `\`\`\`\n` + // Start Markdown code block
-    `🆔 用户ID:        ${formData.user_id}\n` +
-    `👤 用户姓名:      ${formData.用户姓名}\n` +
-    `💬 用户名:        ${formData.username}\n` +
-    `🏢 公司名称:      ${formData.公司名称}\n` +
-    `📞 联系方式:      ${formData.联系方式}\n` +
-    `📧 电子邮箱:      ${formData.电子邮箱}\n` +
-    `🏷 业务类型:      ${formData.业务类型}\n` +
-    `🛠 服务内容:      ${formData.服务内容}\n` +
-    `📅 计划开始:      ${formData.计划开始}\n` +
-    `⏳ 预计结束:      ${formData.预计结束}\n` +
-    `📜 特殊要求:      ${formData.特殊要求}\n` +
-    `💰 预算范围:      ${formData.预算范围}\n` +
-    `📝 备注:          ${formData.备注}\n` +
-    `\`\`\``; // End Markdown code block
-
-    fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ chat_id: ADMIN_ID, text: message, parse_mode: "Markdown" })
-    }).then(() => tg.close());
-}
-
+        fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ chat_id: ADMIN_ID, text: JSON.stringify(formData, null, 2) })
+        }).then(() => tg.close());
+    }
 </script>
 
 </body>
