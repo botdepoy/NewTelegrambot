@@ -15,49 +15,58 @@
             font-family: 'Poppins', sans-serif;
         }
 
-        body, html {
+        /* Ensure full height and allow scrolling */
+        html, body {
             height: 100vh;
             width: 100vw;
+            background: #000;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: #000;
+            overflow: hidden;
+            padding: 10px;
         }
 
+        /* Main container with scrollability */
         .container {
-            position: relative;
-            width: 400px;
+            width: 95%;
+            max-width: 420px;
             background: rgba(0, 0, 0, 0.9);
             border-radius: 15px;
-            padding: 30px;
+            padding: 20px;
             box-shadow: 0 0 20px #0ef;
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            height: 90vh; /* Ensures space for keyboard */
+            overflow-y: auto;
+            padding-bottom: 80px; /* Space for the button */
         }
 
         h2 {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 600;
             color: #0ef;
             text-shadow: 0 0 8px #0ef;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         label {
             font-size: 14px;
             font-weight: 500;
-            display: block;
             text-align: left;
             color: #0ef;
             margin-bottom: 5px;
+            display: block;
         }
 
         input, select, textarea {
             width: 100%;
             padding: 12px;
+            font-size: 16px;
             border: 1px solid #0ef;
             background: transparent;
             border-radius: 6px;
-            font-size: 14px;
             color: #0ef;
             outline: none;
             transition: all 0.3s ease;
@@ -73,19 +82,50 @@
             box-shadow: 0 0 8px #0ef;
         }
 
+        /* Scrollable form pages */
+        .form-container {
+            display: none;
+            overflow-y: auto;
+            flex-grow: 1; /* Allows content to take available space */
+            max-height: 70vh; /* Adjusts height for keyboard */
+        }
+
+        .form-container.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Custom scrollbar */
+        .form-container::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .form-container::-webkit-scrollbar-thumb {
+            background: #0ef;
+            border-radius: 2px;
+        }
+
+        /* Ensure button stays visible while typing */
+        .button-container {
+            width: 100%;
+            position: sticky;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.9);
+            padding-top: 10px;
+        }
+
         button {
             width: 100%;
-            padding: 12px;
+            padding: 14px;
             background: linear-gradient(90deg, #0ef, #0066ff);
             border: none;
             border-radius: 6px;
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 600;
             color: white;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 0 10px #0ef;
-            margin-top: 10px;
         }
 
         button:hover {
@@ -93,16 +133,23 @@
             box-shadow: 0 0 20px #0ef;
         }
 
-        .hidden {
-            display: none;
-        }
+        /* Responsive adjustments for mobile */
+        @media (max-width: 480px) {
+            .container {
+                width: 100%;
+                padding: 15px;
+                height: 100vh;
+            }
 
-        .form-container {
-            display: none;
-        }
+            input, select, textarea {
+                font-size: 15px;
+                padding: 12px;
+            }
 
-        .form-container.active {
-            display: block;
+            button {
+                padding: 12px;
+                font-size: 16px;
+            }
         }
     </style>
 </head>
