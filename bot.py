@@ -5,6 +5,7 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters, C
 import os
 from telegram import InlineKeyboardMarkup, InlineKeyboardButton, InputMediaPhoto
 from telegram.ext import CommandHandler
+import time
 
 BOT_TOKEN = "7472767533:AAFDewMWR-lN1BMEPffa0AwjAvffUMUXHyg"
 ADMIN_ID = "1799744741"
@@ -73,7 +74,7 @@ def load_users():
         with open(USER_DB, "r") as f:
             return json.load(f)
     except FileNotFoundError:
-        return []
+        return {}
 
 def save_users(users):
     with open(USER_DB, "w") as f:
@@ -83,13 +84,23 @@ def save_users(users):
 async def start(update: Update, context: CallbackContext):
     user_id = update.message.chat_id
     users = load_users()
-    if user_id not in users:
-        users.append(user_id)
-        save_users(users)
+    if str(user_id) not in users:
+        users[str(user_id)] = {"last_interaction": time.time()}
+    else:
+        users[str(user_id)]["last_interaction"] = time.time()
+    save_users(users)
     menu_markup = ReplyKeyboardMarkup(MENU, resize_keyboard=True)
     await update.message.reply_text("📌 Please select an option:", reply_markup=menu_markup)
 
 async def handle_menu(update: Update, context: CallbackContext):
+    user_id = update.message.chat_id
+    users = load_users()
+    if str(user_id) in users:
+        users[str(user_id)]["last_interaction"] = time.time()
+    else:
+        users[str(user_id)] = {"last_interaction": time.time()}
+    save_users(users)
+    
     text = update.message.text
     if text in RESPONSE_DATA:
         data = RESPONSE_DATA[text]
@@ -99,6 +110,15 @@ async def handle_menu(update: Update, context: CallbackContext):
         await update.message.reply_text("❌ Invalid option. Please select a valid menu item.")
 
 
+def get_active_users(users, active_threshold=3600):  # active_threshold in seconds (e.g., 1 hour)
+    current_time = time.time()
+    active_users = [user_id for user_id, user_data in users.items() if current_time - user_data["last_interaction"] <= active_threshold]
+    return active_users
+
+async def active_users(update: Update, context: CallbackContext):
+    users = load_users()
+    active_users = get_active_users(users)
+    await update.message.reply_text(f"Active users: {len(active_users)}")
 
 async def contact(update: Update, context: CallbackContext):
     """Handles the /contact command and sends an image with a clickable Telegram link."""
@@ -198,7 +218,7 @@ async def delete_broadcast(update: Update, context: CallbackContext):
 def main():
     application = Application.builder().token(BOT_TOKEN).build()
     application.add_handler(CommandHandler("start", start))
-    application.add_handler(CommandHandler("contact", contact))
+    application.add_handler(CommandHandler("active_users", active_users))  # Add this line
     application.add_handler(CommandHandler("contact", contact))
     application.add_handler(CommandHandler("broadcast", broadcast))
     application.add_handler(CommandHandler("update_broadcast", update_broadcast))
