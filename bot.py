@@ -6,7 +6,7 @@ import os
 from telegram import InlineKeyboardMarkup, InlineKeyboardButton, InputMediaPhoto
 from telegram.ext import CommandHandler
 
-BOT_TOKEN = "7100869336:AAGcqGRUKa1Q__gLmDVWJCM4aZQcD-1K_eg"
+BOT_TOKEN = "7472767533:AAFDewMWR-lN1BMEPffa0AwjAvffUMUXHyg"
 ADMIN_ID = "1799744741"
 WEB_APP_URL = "https://botdepoy.github.io/NewTelegrambot/form.html"
 
