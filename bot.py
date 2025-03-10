@@ -83,18 +83,18 @@ def save_users(users):
         json.dump(users, f, indent=4)
 
 async def start(update: Update, context: CallbackContext):
-        user_id = str(update.message.chat_id)  # Convert to string for JSON storage
-            current_month = datetime.now().strftime("%Y-%m")  # Get current month (YYYY-MM)
-        
-            users = load_users()
-        
-            # If user is new or hasn't interacted this month, update the database
-            if user_id not in users or users[user_id] != current_month:
-                users[user_id] = current_month  # Update last active month
-                save_users(users)
-        
-            menu_markup = ReplyKeyboardMarkup(MENU, resize_keyboard=True)
-            await update.message.reply_text("📌 Please select an option:", reply_markup=menu_markup)
+    user_id = str(update.message.chat_id)  # Convert to string for JSON storage
+    current_month = datetime.now().strftime("%Y-%m")  # Get current month (YYYY-MM)
+
+    users = load_users()
+
+    # If user is new or hasn't interacted this month, update the database
+    if user_id not in users or users[user_id] != current_month:
+        users[user_id] = current_month  # Update last active month
+        save_users(users)
+
+    menu_markup = ReplyKeyboardMarkup(MENU, resize_keyboard=True)
+    await update.message.reply_text("📌 Please select an option:", reply_markup=menu_markup)
 
 
 async def handle_menu(update: Update, context: CallbackContext):
