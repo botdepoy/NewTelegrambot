@@ -47,24 +47,18 @@ async def start(update: Update, context: CallbackContext):
         users[user_id] = current_month  # Update last active month
         save_users(users)
 
-    menu_markup = ReplyKeyboardMarkup(MENU, resize_keyboard=True)
-    await update.message.reply_text("📌 Please select an option:", reply_markup=menu_markup)
-
-async def get_monthly_users(update: Update, context: CallbackContext):
-    users = load_users()
-    current_month = datetime.now().strftime("%Y-%m")
-
     # Count unique users active in the current month
     active_users = sum(1 for month in users.values() if month == current_month)
 
-    await update.message.reply_text(f"📊 Monthly Active Users: {active_users}")
+    menu_markup = ReplyKeyboardMarkup(MENU, resize_keyboard=True)
+    welcome_message = f"📌 Please select an option:\n\n📊 Monthly Active Users: {active_users}"
+    await update.message.reply_text(welcome_message, reply_markup=menu_markup)
 
 # ... (rest of your existing functions)
 
 def main():
     application = Application.builder().token(BOT_TOKEN).build()
     application.add_handler(CommandHandler("start", start))
-    application.add_handler(CommandHandler("monthly_users", get_monthly_users))  # Add this line
     application.add_handler(CommandHandler("contact", contact))
     application.add_handler(CommandHandler("broadcast", broadcast))
     application.add_handler(CommandHandler("update_broadcast", update_broadcast))
