@@ -69,25 +69,52 @@ RESPONSE_DATA = {
 }
 
 def load_users():
+    """Load user data from the JSON file."""
     try:
         with open(USER_DB, "r") as f:
             return json.load(f)
     except FileNotFoundError:
-        return []
+        return {}
 
 def save_users(users):
+    """Save user data to the JSON file."""
     with open(USER_DB, "w") as f:
-        json.dump(users, f)
+        json.dump(users, f, indent=4)
+
+
+# def load_users():
+#     try:
+#         with open(USER_DB, "r") as f:
+#             return json.load(f)
+#     except FileNotFoundError:
+#         return []
+
+# def save_users(users):
+#     with open(USER_DB, "w") as f:
+#         json.dump(users, f)
 
 
 async def start(update: Update, context: CallbackContext):
-    user_id = update.message.chat_id
-    users = load_users()
-    if user_id not in users:
-        users.append(user_id)
-        save_users(users)
-    menu_markup = ReplyKeyboardMarkup(MENU, resize_keyboard=True)
-    await update.message.reply_text("📌 Please select an option:", reply_markup=menu_markup)
+        user_id = str(update.message.chat_id)  # Convert to string for JSON storage
+            current_month = datetime.now().strftime("%Y-%m")  # Get current month (YYYY-MM)
+        
+            users = load_users()
+        
+            # If user is new or hasn't interacted this month, update the database
+            if user_id not in users or users[user_id] != current_month:
+                users[user_id] = current_month  # Update last active month
+                save_users(users)
+        
+            menu_markup = ReplyKeyboardMarkup(MENU, resize_keyboard=True)
+            await update.message.reply_text("📌 Please select an option:", reply_markup=menu_markup)
+
+    # user_id = update.message.chat_id
+    # users = load_users()
+    # if user_id not in users:
+    #     users.append(user_id)
+    #     save_users(users)
+    # menu_markup = ReplyKeyboardMarkup(MENU, resize_keyboard=True)
+    # await update.message.reply_text("📌 Please select an option:", reply_markup=menu_markup)
 
 async def handle_menu(update: Update, context: CallbackContext):
     text = update.message.text
@@ -98,6 +125,15 @@ async def handle_menu(update: Update, context: CallbackContext):
     else:
         await update.message.reply_text("❌ Invalid option. Please select a valid menu item.")
 
+
+async def get_monthly_users(update: Update, context: CallbackContext):
+    users = load_users()
+    current_month = datetime.now().strftime("%Y-%m")
+
+    # Count unique users active in the current month
+    active_users = sum(1 for month in users.values() if month == current_month)
+
+    await update.message.reply_text(f"📊 Monthly Active Users: {active_users}")
 
 
 async def contact(update: Update, context: CallbackContext):
@@ -198,6 +234,7 @@ async def delete_broadcast(update: Update, context: CallbackContext):
 def main():
     application = Application.builder().token(BOT_TOKEN).build()
     application.add_handler(CommandHandler("start", start))
+    application.add_handler(CommandHandler("monthly_users", get_monthly_users))  # NEW COMMAND
     application.add_handler(CommandHandler("contact", contact))
     application.add_handler(CommandHandler("contact", contact))
     application.add_handler(CommandHandler("broadcast", broadcast))
