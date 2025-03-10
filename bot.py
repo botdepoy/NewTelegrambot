@@ -217,7 +217,6 @@ def main():
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("monthly_users", get_monthly_users))  # NEW COMMAND
     application.add_handler(CommandHandler("contact", contact))
-    application.add_handler(CommandHandler("contact", contact))
     application.add_handler(CommandHandler("broadcast", broadcast))
     application.add_handler(CommandHandler("update_broadcast", update_broadcast))
     application.add_handler(CommandHandler("delete_broadcast", delete_broadcast))
