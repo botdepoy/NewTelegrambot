@@ -72,9 +72,14 @@ RESPONSE_DATA = {
 def load_users():
     try:
         with open(USER_DB, "r") as f:
-            return json.load(f)
-    except FileNotFoundError:
-        return {}
+            users = json.load(f)
+            # Ensure the loaded data is a dictionary
+            if isinstance(users, dict):
+                return users
+            else:
+                return {}  # Return an empty dictionary if the file is corrupted
+    except (FileNotFoundError, json.JSONDecodeError):
+        return {}  # Return an empty dictionary if the file doesn't exist or is invalid
 
 def save_users(users):
     with open(USER_DB, "w") as f:
@@ -82,12 +87,12 @@ def save_users(users):
 
 
 async def start(update: Update, context: CallbackContext):
-    user_id = update.message.chat_id
+    user_id = str(update.message.chat_id)  # Convert to string for consistency
     users = load_users()
-    if str(user_id) not in users:
-        users[str(user_id)] = {"last_interaction": time.time()}
-    else:
-        users[str(user_id)]["last_interaction"] = time.time()
+    
+    # Add the user if they don't exist, or update their last interaction time
+    users[user_id] = {"last_interaction": time.time()}
+    
     save_users(users)
     menu_markup = ReplyKeyboardMarkup(MENU, resize_keyboard=True)
     await update.message.reply_text("📌 Please select an option:", reply_markup=menu_markup)
@@ -216,13 +221,23 @@ async def delete_broadcast(update: Update, context: CallbackContext):
         json.dump({}, f)
 
 def main():
+    # Ensure the USER_DB file exists and is initialized
+    if not os.path.exists(USER_DB):
+        with open(USER_DB, "w") as f:
+            json.dump({}, f)  # Initialize with an empty dictionary
+
+    # Ensure the MESSAGE_DB file exists and is initialized
+    if not os.path.exists(MESSAGE_DB):
+        with open(MESSAGE_DB, "w") as f:
+            json.dump({}, f)  # Initialize with an empty dictionary
+
     application = Application.builder().token(BOT_TOKEN).build()
     application.add_handler(CommandHandler("start", start))
-    application.add_handler(CommandHandler("active_users", active_users))  # Add this line
     application.add_handler(CommandHandler("contact", contact))
     application.add_handler(CommandHandler("broadcast", broadcast))
     application.add_handler(CommandHandler("update_broadcast", update_broadcast))
     application.add_handler(CommandHandler("delete_broadcast", delete_broadcast))
+    application.add_handler(CommandHandler("active_users", active_users))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_menu))
     application.run_polling()
 
