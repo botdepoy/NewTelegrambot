@@ -82,19 +82,6 @@ def save_users(users):
     with open(USER_DB, "w") as f:
         json.dump(users, f, indent=4)
 
-
-# def load_users():
-#     try:
-#         with open(USER_DB, "r") as f:
-#             return json.load(f)
-#     except FileNotFoundError:
-#         return []
-
-# def save_users(users):
-#     with open(USER_DB, "w") as f:
-#         json.dump(users, f)
-
-
 async def start(update: Update, context: CallbackContext):
         user_id = str(update.message.chat_id)  # Convert to string for JSON storage
             current_month = datetime.now().strftime("%Y-%m")  # Get current month (YYYY-MM)
@@ -109,13 +96,6 @@ async def start(update: Update, context: CallbackContext):
             menu_markup = ReplyKeyboardMarkup(MENU, resize_keyboard=True)
             await update.message.reply_text("📌 Please select an option:", reply_markup=menu_markup)
 
-    # user_id = update.message.chat_id
-    # users = load_users()
-    # if user_id not in users:
-    #     users.append(user_id)
-    #     save_users(users)
-    # menu_markup = ReplyKeyboardMarkup(MENU, resize_keyboard=True)
-    # await update.message.reply_text("📌 Please select an option:", reply_markup=menu_markup)
 
 async def handle_menu(update: Update, context: CallbackContext):
     text = update.message.text
