@@ -71,7 +71,7 @@ RESPONSE_DATA = {
                                 },
 
 
-    "📜 证照办理 ": {
+    "📜 证照办理": {
             "photo": "images/visa.jpg",
             "caption": "📜 证件办理服务** | **Document Processing Services \n\n"
                         "✨ **快速 & 高效，轻松办理您的证件！** ✨\n  "
