@@ -40,8 +40,7 @@ RESPONSE_DATA = {
                    "无论是商务出行还是尊享专车，我们都为您提供最佳方案！ 🌍✨",
         "buttons": [
             [InlineKeyboardButton("🚗 专车服务", callback_data="🚗 专车服务"),
-             InlineKeyboardButton("✈️ 机场接送", callback_data="✈️ 机场接送")],
-            [InlineKeyboardButton("🔙 返回", callback_data="✈️ 交通服务")]
+             InlineKeyboardButton("✈️ 机场接送", callback_data="✈️ 机场接送")]
             ]
     },
                                 "🚗 专车服务": {
@@ -55,7 +54,7 @@ RESPONSE_DATA = {
                                                 [InlineKeyboardButton("商务车", callback_data="商务车"),
                                                 InlineKeyboardButton("高端专车", callback_data="高端专车")],
                                                 [InlineKeyboardButton("司机租凭", callback_data="司机租凭")],
-                                                [InlineKeyboardButton("🔙 返回", callback_data="🚗 专车服务")]
+                                                [InlineKeyboardButton("🔙 返回", callback_data="✈️ 交通服务")]
                                     ]            
                                 },
                                 "✈️ 机场接送": {
@@ -67,7 +66,7 @@ RESPONSE_DATA = {
                                     "buttons":[
                                                  [InlineKeyboardButton("机场接机", callback_data="机场接机"),
                                                 InlineKeyboardButton("机场送机", callback_data="机场送机")],
-                                                [InlineKeyboardButton("🔙 返回", callback_data="✈️ 机场接送")]
+                                                [InlineKeyboardButton("🔙 返回", callback_data="✈️ 交通服务")]
                                     ]
                                 },
 
@@ -91,8 +90,7 @@ RESPONSE_DATA = {
                  InlineKeyboardButton("🌍 旅游签证", callback_data="🌍 旅游签证")],
                 [InlineKeyboardButton("📆 续签服务", callback_data="📆 续签服务"),
                  InlineKeyboardButton("📑 护照服务", callback_data="📑 护照服务"),
-                InlineKeyboardButton("🚗 驾驶证办理", callback_data="🚗 驾驶证办理")],
-                [InlineKeyboardButton("👩‍💻 客服", url="https://t.me/LUODISWKF")]
+                InlineKeyboardButton("🚗 驾驶证办理", callback_data="🚗 驾驶证办理")]
             ]
         },
                                 "🛫 商务签证": {
@@ -117,7 +115,7 @@ RESPONSE_DATA = {
                                         "buttons": [         [InlineKeyboardButton("落地商务签", callback_data="落地商务签"),
                                                              InlineKeyboardButton("半年商务签", callback_data="半年商务签"),
                                                              InlineKeyboardButton("一年商务签", callback_data="一年商务签")],
-                                                            [InlineKeyboardButton("🔙 返回", callback_data="🛫 商务签证")]
+                                                            [InlineKeyboardButton("🔙 返回", callback_data="📜 证照办理")]
                                                    ]
                                     },
                                     "🌍 旅游签证": {
@@ -134,7 +132,7 @@ RESPONSE_DATA = {
                                                     "🔹 加急办理 & 续签 🔄\n"
                                                     
                                                     "📞 联系我们，开启您的旅行之旅！ 🚀✨\n\n",
-                                        "buttons": [[InlineKeyboardButton("落地旅游签", callback_data="落地旅游签")],[InlineKeyboardButton("🔙 返回", callback_data="🌍 旅游签证")]]
+                                        "buttons": [[InlineKeyboardButton("落地旅游签", callback_data="落地旅游签")],[InlineKeyboardButton("🔙 返回", callback_data="📜 证照办理")]]
                                     },
                                      "📆 续签服务": {
                                         "photo": "images/183320304_291537002602003_2178100990049262973_n.jpg",
@@ -146,7 +144,7 @@ RESPONSE_DATA = {
                                                     "⭐ **进阶续签** – 提供更优解决方案 🌟  \n\n"
                                                     
                                                     "📞 **联系我们，确保您的签证无缝衔接！** 🚀",
-                                        "buttons": [[InlineKeyboardButton("签证到期续签", callback_data="签证到期续签")],[InlineKeyboardButton("🔙 返回", callback_data="📆 续签服务")]]
+                                        "buttons": [[InlineKeyboardButton("签证到期续签", callback_data="签证到期续签")],[InlineKeyboardButton("🔙 返回", callback_data="📜 证照办理")]]
                                     },
                                     "📑 护照服务": {
                                         "photo": "images/20221128212817498.jpg",
@@ -157,7 +155,7 @@ RESPONSE_DATA = {
                                                 "⭐ **进阶服务** – 提供更优更新方案 🌟 \n\n "
                                                 
                                                 "📞 **联系我们，轻松换新护照！** 🚀",
-                                         "buttons": [[InlineKeyboardButton("护照到期更换", callback_data="护照到期更换")],[InlineKeyboardButton("🔙 返回", callback_data="📑 护照服务")]]
+                                         "buttons": [[InlineKeyboardButton("护照到期更换", callback_data="护照到期更换")],[InlineKeyboardButton("🔙 返回", callback_data="📜 证照办理")]]
                                     },
                                     "🚗 驾驶证办理": {
                                         "photo": "images/接机.jpg",
@@ -169,7 +167,7 @@ RESPONSE_DATA = {
                                                     "📞 **联系我们，轻松获取合法驾照！** 🚀",
                                         "buttons": [[InlineKeyboardButton("驾驶证办理", callback_data="驾驶证办理"),
                                                     InlineKeyboardButton("驾驶证更换", callback_data="驾驶证更换")],
-                                                    [InlineKeyboardButton("🔙 返回", callback_data="🚗 驾驶证办理")]
+                                                    [InlineKeyboardButton("🔙 返回", callback_data="📜 证照办理")]
                                                    ]
                                     },
 
@@ -186,8 +184,7 @@ RESPONSE_DATA = {
                     "📞 联系我们，让沟通更顺畅！ 🚀\n",
         "buttons": [
             [InlineKeyboardButton("语言翻译", callback_data="语言翻译"),
-             InlineKeyboardButton("商务对接", callback_data="商务对接")],
-            [InlineKeyboardButton("🔙 返回", callback_data="🌍 翻译与商务对接")]
+             InlineKeyboardButton("商务对接", callback_data="商务对接")]
         ]
     },
                                 "语言翻译": {
@@ -200,7 +197,7 @@ RESPONSE_DATA = {
                                     "buttons": [[InlineKeyboardButton("现场翻译", callback_data="现场翻译"),
                                                 InlineKeyboardButton("商务会议翻译", callback_data="商务会议翻译"),
                                                 InlineKeyboardButton("专业同声传译", callback_data="专业同声传译")],
-                                                [InlineKeyboardButton("🔙 返回", callback_data="语言翻译")]
+                                                [InlineKeyboardButton("🔙 返回", callback_data="🌍 翻译与商务对接")]
                                                ]
                                 },
                                 "商务对接": {
@@ -214,7 +211,7 @@ RESPONSE_DATA = {
                                     "buttons": [[InlineKeyboardButton("企业洽谈安排", callback_data="企业洽谈安排"),
                                                 InlineKeyboardButton("商务会议组织", callback_data="商务会议组织"),
                                                 InlineKeyboardButton("VIP-私人助理", callback_data="VIP-私人助理")],
-                                                [InlineKeyboardButton("🔙 返回", callback_data="商务对接")]
+                                                [InlineKeyboardButton("🔙 返回", callback_data="🌍 翻译与商务对接")]
                                                ]
                                 },       
 }
