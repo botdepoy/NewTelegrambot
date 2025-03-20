@@ -60,7 +60,22 @@ RESPONSE_DATA = {
                    "🚖 商务 & 休闲出行皆宜\n"
                    "🌟 24小时服务",
         "buttons": [[InlineKeyboardButton("🔙 返回", callback_data="✈️ 交通服务")]]
-    }
+    },
+"📜 证照办理 "                                                                                            ": {
+        "photo": "images/passport.jpg",
+        "caption": "🚖 **交通服务 | Transportation Services**\n\n"
+                   "✨ 提供专业出行方案，助您畅行无忧！ ✨\n"
+                   "🚗 机场接送 – 准时接送，轻松出行 🛫\n"
+                   "🚘 专车服务 – 商务用车 / 高端专车 / VIP接待 💼\n"
+                   "🧑‍✈️ 司机租赁 – 经验丰富，安全可靠 🏆\n"
+                   "✅ 安全 | 🚀 高效 | 💎 舒适\n\n"
+                   "无论是商务出行还是尊享专车，我们都为您提供最佳方案！ 🌍✨",
+        "buttons": [
+            [InlineKeyboardButton("🚗 专车服务", callback_data="car_service"),
+             InlineKeyboardButton("✈ 机场接送", callback_data="airport_service")],
+            [InlineKeyboardButton("🔙 返回", callback_data="📜 证照办理 ")]
+        ]
+    },
 }
 
 
