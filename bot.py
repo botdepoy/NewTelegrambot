@@ -42,7 +42,6 @@ RESPONSE_DATA = {
             [InlineKeyboardButton("🚗 专车服务", callback_data="🚗 专车服务"),
              InlineKeyboardButton("✈️ 机场接送", callback_data="✈️ 机场接送")],
             [InlineKeyboardButton("🔙 返回", callback_data="✈️ 交通服务")]
-        ]
     },
                                 "🚗 专车服务": {
                                     "photo": "images/IMG_0105.JPG",
