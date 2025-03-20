@@ -111,9 +111,9 @@ RESPONSE_DATA = {
                                                 
                                                 "📞 **立即联系我们，让您的商务之旅更加顺畅！** 🚀✨",
                                         "buttons": [         [InlineKeyboardButton("落地商务签", callback_data="落地商务签"),
-                                                             InlineKeyboardButton("半年商务签", callback_data="半年商务签")
-                                                            InlineKeyboardButton("一年商务签", callback_data="一年商务签"),],
-                                                            [InlineKeyboardButton("🔙 返回", callback_data="🛫 商务签证")]]
+                                                             InlineKeyboardButton("半年商务签", callback_data="半年商务签"),
+                                                             InlineKeyboardButton("一年商务签", callback_data="一年商务签")],
+                                                            [InlineKeyboardButton("🔙 返回", callback_data="🛫 商务签证")]
                                     },
                                     "🌍 旅游签证": {
                                         "photo": "images/travel.png",
@@ -170,42 +170,44 @@ RESPONSE_DATA = {
     
 
 
- "✈️ 交通服务": {
-        "photo": "images/IMG_0106.JPG",
-        "caption": "🚖 **交通服务 | Transportation Services**\n\n"
-                   "✨ 提供专业出行方案，助您畅行无忧！ ✨\n"
-                   "🚗 机场接送 – 准时接送，轻松出行 🛫\n"
-                   "🚘 专车服务 – 商务用车 / 高端专车 / VIP接待 💼\n"
-                   "🧑‍✈️ 司机租赁 – 经验丰富，安全可靠 🏆\n"
-                   "✅ 安全 | 🚀 高效 | 💎 舒适\n\n"
-                   "无论是商务出行还是尊享专车，我们都为您提供最佳方案！ 🌍✨",
+ "🌍 翻译与商务对接": {
+        "photo": "images/翻译与商务.jpg",
+        "caption": "🗣️ 翻译与商务对接 | Translation & Business Coordination \n\n"
+
+                    "📌 语言翻译 – 提供专业翻译，助力高效沟通 🌍\n"
+                    "📌 商务对接 – 搭建桥梁，促进国际合作 🤝\n"
+                    
+                    "📞 联系我们，让沟通更顺畅！ 🚀\n",
         "buttons": [
-            [InlineKeyboardButton("🚗 专车服务", callback_data="🚗 专车服务"),
-             InlineKeyboardButton("✈️ 机场接送", callback_data="✈️ 机场接送")],
-            [InlineKeyboardButton("🔙 返回", callback_data="✈️ 交通服务")]
+            [InlineKeyboardButton("语言翻译", callback_data="语言翻译"),
+             InlineKeyboardButton("商务对接", callback_data="商务对接")],
+            [InlineKeyboardButton("🔙 返回", callback_data="🌍 翻译与商务对接")]
         ]
     },
-                                "🚗 专车服务": {
-                                    "photo": "images/IMG_0105.JPG",
-                                    "caption": "🚗 **专车服务**\n\n"
-                                               "🔹 高端商务用车 🚘\n"
-                                               "🔹 VIP接待 🏆\n"
-                                               "🔹 舒适 & 便捷\n"
-                                               "💎 尊享您的出行体验！",
-                                    "buttons": [[InlineKeyboardButton("商务车", callback_data="商务车"),
-                                                InlineKeyboardButton("高端专车", callback_data="高端专车")],
-                                                [InlineKeyboardButton("司机租凭", callback_data="司机租凭")],
-                                                [InlineKeyboardButton("🔙 返回", callback_data="🚗 专车服务")]
+                                "语言翻译": {
+                                    "photo": "mages/translator.jpg",
+                                    "caption": "🗣️ **语言翻译** | **Language Translation** \n\n "
+                                                "✅ **现场翻译** – 实时沟通，无障碍交流 🌍 \n "
+                                                "📑 **商务会议翻译** – 专业精准，助力商务洽谈 💼\n  "
+                                                "🎧 **专业同声传译** – 高效流畅，国际标准 🔊 \n\n "
+                                                "📞 **联系我们，提供专业翻译服务！** 🚀",
+                                    "buttons": [[InlineKeyboardButton("现场翻译", callback_data="现场翻译"),
+                                                InlineKeyboardButton("商务会议翻译", callback_data="商务会议翻译"),
+                                                InlineKeyboardButton("专业同声传译", callback_data="专业同声传译")],
+                                                [InlineKeyboardButton("🔙 返回", callback_data="语言翻译")]
                                 },
-                                "✈️ 机场接送": {
-                                    "photo": "images/接机.jpg",
-                                    "caption": "✈ **机场接送**\n\n"
-                                               "🚕 准时接送，轻松出行\n"
-                                               "🚖 商务 & 休闲出行皆宜\n"
-                                               "🌟 24小时服务",
-                                    "buttons": [[InlineKeyboardButton("机场接机", callback_data="机场接机"),
-                                                InlineKeyboardButton("机场送机", callback_data="机场送机")],
-                                                [InlineKeyboardButton("🔙 返回", callback_data="✈️ 机场接送")]
+                                "商务对接": {
+                                    "photo": "images/商务对接.jpg",
+                                    "caption": "🤝 **商务对接** | **Business Coordination** \n\n "
+                                               " ✅ **企业洽谈安排** – 助力高效商务合作 💼 \n "
+                                               " ✅ **商务会议组织** – 精准策划，提升会议效率 🏢 \n "
+                                               " ✅ **VIP私人助理** – 专业服务，尊享商务体验 🌟 \n\n "
+                                                
+                                               " 📞 **联系我们，让商务沟通更顺畅！** 🚀",
+                                    "buttons": [[InlineKeyboardButton("企业洽谈安排", callback_data="企业洽谈安排"),
+                                                InlineKeyboardButton("商务会议组织", callback_data="商务会议组织"),
+                                                InlineKeyboardButton("VIP-私人助理", callback_data="VIP-私人助理")],
+                                                [InlineKeyboardButton("🔙 返回", callback_data="商务对接")]
                                 },       
 }
 
