@@ -87,16 +87,30 @@ RESPONSE_DATA = {
             ]
         },
                     "🛫 商务签证": {
-                            "photo": "images/IMG_0105.JPG",
-                            "caption": "🚗 **专车服务**\n\n"
-                                       "🔹 高端商务用车 🚘\n"
-                                       "🔹 VIP接待 🏆\n"
-                                       "🔹 舒适 & 便捷\n"
-                                       "💎 尊享您的出行体验！",
-                            "buttons": [[InlineKeyboardButton("🔙 返回", callback_data="✈️ 交通服务")]]
+                            "photo": "images/商务签证.png",
+                            "caption": "📜 **商务签证简介 & 服务** | **Business Visa Services**   \n\n "                                  
+                                    "✨ **专业办理，助力全球商务拓展！** ✨ \n "
+                                    
+                                    "📌 **商务签证** 适用于前往他国进行商务洽谈、会议、市场考察及商业合作，确保您的出行 **高效 & 合规**。\n\n  "
+                                    
+                                    "✅ **商务签证类型**：\n  "
+                                    "🔹 **落地商务签** 🏢✈️ – 到达后快速办理，适用于短期商务活动  \n"
+                                    "🔹 **半年商务签** 📆🌍 – 适用于中期商务出差 & 合作项目 \n "
+                                    "🔹 **一年商务签** 🔄✅ – 适用于长期商务驻留 & 跨国业务拓展 \n\n "
+                                    
+                                    "💼 **服务内容**： \n "
+                                    "🔹 签证申请 & 指导 📄  \n"
+                                    "🔹 资料准备 & 审核 ✅ \n "
+                                    "🔹 面签辅导 & 预约 🎯 \n "
+                                    "🔹 加急办理 & 续签 🔄 \n "
+                                    
+                                    "📞 **立即联系我们，让您的商务之旅更加顺畅！** 🚀✨",
+                            "buttons": [         [InlineKeyboardButton("🚗 专车服务", callback_data="🚗 专车服务"),
+                                                 InlineKeyboardButton("✈️ 机场接送", callback_data="✈️ 机场接送")],
+                                                [InlineKeyboardButton("🔙 返回", callback_data="✈️ 交通服务")]]
                         },
                         "🌍 旅游签证": {
-                            "photo": "images/接机.jpg",
+                            "photo": "images/travel.png",
                             "caption": "✈ **机场接送**\n\n"
                                        "🚕 准时接送，轻松出行\n"
                                        "🚖 商务 & 休闲出行皆宜\n"
@@ -104,7 +118,7 @@ RESPONSE_DATA = {
                             "buttons": [[InlineKeyboardButton("🔙 返回", callback_data="✈️ 交通服务")]]
                         },
                          "📆 续签服务": {
-                            "photo": "images/IMG_0105.JPG",
+                            "photo": "images/183320304_291537002602003_2178100990049262973_n.jpg",
                             "caption": "🚗 **专车服务**\n\n"
                                        "🔹 高端商务用车 🚘\n"
                                        "🔹 VIP接待 🏆\n"
@@ -113,7 +127,7 @@ RESPONSE_DATA = {
                             "buttons": [[InlineKeyboardButton("🔙 返回", callback_data="✈️ 交通服务")]]
                         },
                         "📑 护照服务": {
-                            "photo": "images/接机.jpg",
+                            "photo": "images/20221128212817498.jpg",
                             "caption": "✈ **机场接送**\n\n"
                                        "🚕 准时接送，轻松出行\n"
                                        "🚖 商务 & 休闲出行皆宜\n"
