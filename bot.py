@@ -17,26 +17,20 @@ ADMIN_ID = "1799744741"
 WEB_APP_URL = "https://botdepoy.github.io/NewTelegrambot/form.html"
 
 # Logging setup
-logging.basicConfig(
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    level=logging.INFO
-)
+logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-USER_DB = "users.json"
-MESSAGE_DB = "messages.json"
-
-# Menu Keyboard
+# Main menu options
 MENU = [
     [KeyboardButton("✈️ 交通服务"), KeyboardButton("📜 证照办理"), KeyboardButton("🌍 翻译与商务对接")],
     [KeyboardButton("🏛️ 企业落地支持"), KeyboardButton("🏨 酒店与租凭"), KeyboardButton("🚀 综合增值服务")],
     [KeyboardButton("👩‍💻 人工客服")]
 ]
 
-# Response Data
+# Data for response messages
 RESPONSE_DATA = {
-    "✈️ 交通服务": {
-        "photo": "images/IMG_0106.JPG",
+    "transportation": {
+        "photo": "images/接机.jpg",
         "caption": "🚖 **交通服务 | Transportation Services**\n\n"
                    "✨ 提供专业出行方案，助您畅行无忧！ ✨\n"
                    "🚗 机场接送 – 准时接送，轻松出行 🛫\n"
@@ -47,17 +41,17 @@ RESPONSE_DATA = {
         "buttons": [
             [InlineKeyboardButton("🚗 专车服务", callback_data="car_service"),
              InlineKeyboardButton("✈ 机场接送", callback_data="airport_service")],
-            [InlineKeyboardButton("🧑🏻‍💻 在线客服", url="https://t.me/LUODISWKF")]
+            [InlineKeyboardButton("🔙 返回", callback_data="start")]
         ]
     },
     "car_service": {
-        "photo": "images/IMG_0105.JPG",
+        "photo": "images/专车.jpg",
         "caption": "🚗 **专车服务**\n\n"
                    "🔹 高端商务用车 🚘\n"
                    "🔹 VIP接待 🏆\n"
                    "🔹 舒适 & 便捷\n"
                    "💎 尊享您的出行体验！",
-        "buttons": [[InlineKeyboardButton("🔙 返回", callback_data="✈️ 交通服务")]]
+        "buttons": [[InlineKeyboardButton("🔙 返回", callback_data="transportation")]]
     },
     "airport_service": {
         "photo": "images/机场.jpg",
@@ -65,12 +59,12 @@ RESPONSE_DATA = {
                    "🚕 准时接送，轻松出行\n"
                    "🚖 商务 & 休闲出行皆宜\n"
                    "🌟 24小时服务",
-        "buttons": [[InlineKeyboardButton("🔙 返回", callback_data="✈️ 交通服务")]]
+        "buttons": [[InlineKeyboardButton("🔙 返回", callback_data="transportation")]]
     }
 }
 
 
-# Handle button clicks
+# Handle button clicks and edit message instead of sending a new one
 async def button_click(update: Update, context: CallbackContext):
     query = update.callback_query
     query.answer()
@@ -83,18 +77,21 @@ async def button_click(update: Update, context: CallbackContext):
         # Ensure the image file exists
         if os.path.exists(data["photo"]):
             with open(data["photo"], "rb") as photo:
-                await query.message.reply_photo(photo=photo, caption=data["caption"], reply_markup=keyboard)
+                # Edit existing message instead of sending a new one
+                await query.message.edit_media(
+                    media=InputMediaPhoto(photo, caption=data["caption"]),
+                    reply_markup=keyboard
+                )
         else:
-            await query.message.reply_text("🚨 图片不存在，请联系管理员!", reply_markup=keyboard)
+            # If image is missing, just edit text
+            await query.message.edit_caption(
+                caption=data["caption"],
+                reply_markup=keyboard
+            )
 
 
 # Start Command
 async def start(update: Update, context: CallbackContext):
-    user_id = str(update.message.chat_id)
-    users = load_users()
-    users[user_id] = {"last_interaction": time.time()}
-    save_users(users)
-
     menu_markup = ReplyKeyboardMarkup(MENU, resize_keyboard=True)
     await update.message.reply_text("📌 请选择服务:", reply_markup=menu_markup)
 
@@ -116,31 +113,8 @@ async def handle_menu(update: Update, context: CallbackContext):
         await update.message.reply_text("❌ 无效的选项，请选择正确的菜单项。")
 
 
-# Load Users from JSON
-def load_users():
-    try:
-        with open(USER_DB, "r") as f:
-            users = json.load(f)
-            return users if isinstance(users, dict) else {}
-    except (FileNotFoundError, json.JSONDecodeError):
-        return {}
-
-
-# Save Users to JSON
-def save_users(users):
-    with open(USER_DB, "w") as f:
-        json.dump(users, f)
-
-
 # Main Function
 def main():
-    # Ensure JSON files exist
-    for file in [USER_DB, MESSAGE_DB]:
-        if not os.path.exists(file):
-            with open(file, "w") as f:
-                json.dump({}, f)
-
-    # Create Application
     application = Application.builder().token(BOT_TOKEN).build()
 
     # Command Handlers
