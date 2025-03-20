@@ -6,6 +6,8 @@ import os
 from telegram import InlineKeyboardMarkup, InlineKeyboardButton, InputMediaPhoto
 from telegram.ext import CommandHandler
 import time
+from telegram.ext import CallbackQueryHandler
+
 
 BOT_TOKEN = "7472767533:AAFDewMWR-lN1BMEPffa0AwjAvffUMUXHyg"
 ADMIN_ID = "1799744741"
@@ -18,57 +20,70 @@ USER_DB = "users.json"
 MESSAGE_DB = "messages.json"
 
 MENU = [
-    [KeyboardButton("✈ 落地接机"), KeyboardButton("🔖 证照办理"), KeyboardButton("🏤 房产凭租")],
-    [KeyboardButton("🏩 酒店预订"), KeyboardButton("🥗 食堂频道"), KeyboardButton("🛒 生活用品")],
-    [KeyboardButton("🔔 后勤生活信息频道")]
+    [KeyboardButton("✈️ 交通服务"), KeyboardButton("📜 证照办理"), KeyboardButton("🌍 翻译与商务对接")],
+    [KeyboardButton("🏛️ 企业落地支持"), KeyboardButton("🏨 酒店与租凭"), KeyboardButton("🚀 综合增值服务")],
+    [KeyboardButton("👩‍💻 人工客服")]
 ]
 
 RESPONSE_DATA = {
-        "✈ 落地接机": {
+        "✈️ 交通服务": {
         "photo": "images/接机.jpg",
-        "caption": "🛬 Welcome! \n"
-                    "🌟 欢迎加入【后勤接机】群 🌟\n\n✅ 请核对信息，如有更改，请联系客服！",
-        "buttons":  [[InlineKeyboardButton("🧑🏻‍💻 在线客服", url="https://t.me/HQBGSKF"), InlineKeyboardButton("✈ 接机频道", url="https://t.me/+pqM959ERihBkYTc9")],
-                    [InlineKeyboardButton("📝 Fill Form", web_app=WebAppInfo(url=WEB_APP_URL))]]
+        "caption": "🚖 交通服务 | Transportation Services 、\n\n"
+                    "✨ 提供专业出行方案，助您畅行无忧！ ✨\n"
+                    "🚗 机场接送 – 准时接送，轻松出行 🛫\n"
+                   " 🚘 专车服务 – 商务用车 / 高端专车 / VIP接待 💼\n"
+                   " 🧑‍✈️ 司机租赁 – 经验丰富，安全可靠 🏆\n" 
+                  "  ✅ 安全 | 🚀 高效 | 💎 舒适\n\n"
+                   " 无论是商务出行还是尊享专车，我们都为您提供最佳方案！ 🌍✨\n",
+        "buttons":  [[InlineKeyboardButton("专车服务", callback_data="car_service"), InlineKeyboardButton("✈ 机场接送", callback_data="transportation")],
+                    [InlineKeyboardButton("🧑🏻‍💻 在线客服", url="https://t.me/HQBGSKF")]]
         },
-        "🔖 证照办理": {
-            "photo": "images/passport.jpg",
-            "caption": "📋 证照办理服务：\n\n✔️ 提供快速办理签证、护照及其他相关证件的服务。\n📞 点击客服咨询更多详情。",
-            "buttons":  [[InlineKeyboardButton("🧑🏻‍💻 在线客服", url="https://t.me/HQBGSKF"), InlineKeyboardButton("🔖 证件办理频道", url="https://t.me/+sINSVji28vM4ZDJl")],
-                        [InlineKeyboardButton("📝 Fill Form", web_app=WebAppInfo(url=WEB_APP_URL))]]
-        },
-        "🏤 房产凭租": {
-            "photo": "images/resized-image.jpg",
-            "caption": "🏤 房产租赁信息：\n\n✔️ 提供房产出租和购房服务，涵盖各类房型。\n🔍 点击下方按钮了解更多。",
-            "buttons":  [[InlineKeyboardButton("🧑🏻‍💻 在线客服", url="https://t.me/HQBGSKF"), InlineKeyboardButton("🏤 房产信息频道", url="https://t.me/+8i7xQLV_UiY2NTY1")],
-                        [InlineKeyboardButton("📝 Fill Form", web_app=WebAppInfo(url=WEB_APP_URL))]]
-        },
-        "🏩 酒店预订": {
-            "photo": "images/sofietel.jpg",
-            "caption":  "🏨高端酒店预订代办服务| 索菲特 & 瑰丽酒店 |🏨\n\n✨ 奢华体验，优惠价格，预订更省心！ ✨\n\n📞 联系我们，轻松享受高端住宿！",
-            "buttons":  [[InlineKeyboardButton("🧑🏻‍💻 在线客服", url="https://t.me/HQBGSKF"), InlineKeyboardButton("🏩 酒店详情频道", url="https://t.me/+M5Q_hf4xyG00YzRl")],
-                        [InlineKeyboardButton("📝 Fill Form", web_app=WebAppInfo(url=WEB_APP_URL))]]
-        },
-        "🥗 食堂频道": {
-                "photo": "images/食堂.jpg",
-                "caption": "🍽️ 食堂频道信息",
-                "buttons": [[InlineKeyboardButton("🧑🏻‍💻 在线客服", url="https://t.me/DINGCHUANG001"), InlineKeyboardButton("🥗 食堂频道", url="https://t.me/+M0su9kfTZHk2ODU1")],
-                           [InlineKeyboardButton("📝 Fill Form", web_app=WebAppInfo(url=WEB_APP_URL))]]
-        },
-    
-        "🛒 生活用品": {
-            "photo": "images/生活用品.jpg",
-            "caption": "🛍️ 生活用品信息",
-            "buttons": [[InlineKeyboardButton("🧑🏻‍💻 在线客服", url="https://t.me/HQBGSKF"), InlineKeyboardButton("🛒 详细了解", url="https://t.me/+M5Q_hf4xyG00YzRl")],
-                       [InlineKeyboardButton("📝 Fill Form", web_app=WebAppInfo(url=WEB_APP_URL))]]
-        },
-        "🔔 后勤生活信息频道": {
-            "photo": "images/logistic.png",
-            "caption": "📌 主要提供各种后勤管理和生活服务，确保用户能够方便、高效地获取信息和帮助。",
-            "buttons": [[InlineKeyboardButton("🔔 详细了解", url="https://t.me/+QQ56RVTKshQxMDU1")]]
-    }
+         "transportation": {
+                "photo": "images/接机.jpg",  # Change to your image path or URL
+                "caption": "🚖 交通服务 | Transportation Services\n\n"
+                           "✨ 提供专业出行方案，助您畅行无忧！ ✨\n"
+                           "🚗 机场接送 – 准时接送，轻松出行 🛫\n"
+                           "🚘 专车服务 – 商务用车 / 高端专车 / VIP接待 💼\n"
+                           "🧑‍✈️ 司机租赁 – 经验丰富，安全可靠 🏆\n"
+                           "✅ 安全 | 🚀 高效 | 💎 舒适\n\n"
+                           "无论是商务出行还是尊享专车，我们都为您提供最佳方案！ 🌍✨",
+                "buttons": [
+                    [InlineKeyboardButton("🚗 专车服务", callback_data="car_service")],
+                    [InlineKeyboardButton("✈ 接机频道", callback_data="airport_service")],
+                    [InlineKeyboardButton("🔙 返回", callback_data="start")]
+                ]
+            },
+            "car_service": {
+                "photo": "images/专车.jpg",
+                "caption": "🚗 **专车服务**\n\n"
+                           "🔹 高端商务用车 🚘\n"
+                           "🔹 VIP接待 🏆\n"
+                           "🔹 舒适 & 便捷\n"
+                           "💎 尊享您的出行体验！",
+                "buttons": [[InlineKeyboardButton("🔙 返回", callback_data="transportation")]]
+            }
+        
 }
+# Handle Button Clicks
+def button_click(update: Update, context: CallbackContext) -> None:
+    query = update.callback_query
+    query.answer()  # Acknowledge the button press
+    send_response(query.message, query.data)
 
+# Function to Send or Update Response
+def send_response(message, key):
+    if key in RESPONSE_DATA:
+        data = RESPONSE_DATA[key]
+        keyboard = InlineKeyboardMarkup(data["buttons"])
+        
+        # Check if editing an existing message or sending a new one
+        if message.photo:
+            message.edit_media(
+                media=InputMediaPhoto(data["photo"], caption=data["caption"]),
+                reply_markup=keyboard
+            )
+        else:
+            message.reply_photo(photo=data["photo"], caption=data["caption"], reply_markup=keyboard)
 def load_users():
     try:
         with open(USER_DB, "r") as f:
@@ -232,6 +247,7 @@ def main():
             json.dump({}, f)  # Initialize with an empty dictionary
 
     application = Application.builder().token(BOT_TOKEN).build()
+    application.add_handler(CallbackQueryHandler(button_click))
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("contact", contact))
     application.add_handler(CommandHandler("broadcast", broadcast))
