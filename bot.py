@@ -87,9 +87,9 @@ RESPONSE_DATA = {
                        " **让您的出行更无忧，我们为您提供全方位证件支持！** 🌍✨",
             "buttons": [
                 [InlineKeyboardButton("🛫 商务签证", callback_data="🛫 商务签证"),
-                 InlineKeyboardButton("🌍 旅游签证", callback_data="🌍 旅游签证")],
-                [InlineKeyboardButton("📆 续签服务", callback_data="📆 续签服务"),
-                 InlineKeyboardButton("📑 护照服务", callback_data="📑 护照服务"),
+                 InlineKeyboardButton("🌍 旅游签证", callback_data="🌍 旅游签证"),
+                InlineKeyboardButton("📑 护照服务", callback_data="📑 护照服务")],
+                 [InlineKeyboardButton("📆 续签服务", callback_data="📆 续签服务"),
                 InlineKeyboardButton("🚗 驾驶证办理", callback_data="🚗 驾驶证办理")]
             ]
         },
@@ -195,8 +195,8 @@ RESPONSE_DATA = {
                                                 "🎧 **专业同声传译** – 高效流畅，国际标准 🔊 \n\n "
                                                 "📞 **联系我们，提供专业翻译服务！** 🚀",
                                     "buttons": [[InlineKeyboardButton("现场翻译", callback_data="现场翻译"),
-                                                InlineKeyboardButton("商务会议翻译", callback_data="商务会议翻译"),
-                                                InlineKeyboardButton("专业同声传译", callback_data="专业同声传译")],
+                                                InlineKeyboardButton("商务会议翻译", callback_data="商务会议翻译")],
+                                                [InlineKeyboardButton("专业同声传译", callback_data="专业同声传译")],
                                                 [InlineKeyboardButton("🔙 返回", callback_data="🌍 翻译与商务对接")]
                                                ]
                                 },
