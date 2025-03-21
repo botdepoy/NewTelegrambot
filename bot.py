@@ -45,15 +45,9 @@ RESPONSE_DATA = {
     },
                                 "🚗 专车服务": {
                                     "photo": "images/IMG_0105.JPG",
-                                    "caption": "🚗 **专车服务**\n\n"
-                                               "🔹 高端商务用车 🚘\n"
-                                               "🔹 VIP接待 🏆\n"
-                                               "🔹 舒适 & 便捷\n"
-                                               "💎 尊享您的出行体验！",
+                                    "caption": "",
                                     "buttons": [
-                                                [InlineKeyboardButton("商务车", callback_data="商务车"),
-                                                InlineKeyboardButton("高端专车", callback_data="高端专车")],
-                                                [InlineKeyboardButton("司机租凭", callback_data="司机租凭")],
+                                                [InlineKeyboardButton("人工客服", URL="@LUODISWKF")],
                                                 [InlineKeyboardButton("🔙 返回", callback_data="✈️ 交通服务")]
                                     ]            
                                 },
