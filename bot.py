@@ -209,8 +209,8 @@ RESPONSE_DATA = {
                                                 
                                                " 📞 **联系我们，让商务沟通更顺畅！** 🚀",
                                     "buttons": [[InlineKeyboardButton("企业洽谈安排", callback_data="企业洽谈安排"),
-                                                InlineKeyboardButton("商务会议组织", callback_data="商务会议组织"),
-                                                InlineKeyboardButton("VIP-私人助理", callback_data="VIP-私人助理")],
+                                                InlineKeyboardButton("商务会议组织", callback_data="商务会议组织")],
+                                                [InlineKeyboardButton("VIP-私人助理", callback_data="VIP-私人助理")],
                                                 [InlineKeyboardButton("🔙 返回", callback_data="🌍 翻译与商务对接")]
                                                ]
                                 },       
