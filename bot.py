@@ -47,7 +47,7 @@ RESPONSE_DATA = {
                                     "photo": "images/IMG_0105.JPG",
                                     "caption": "",
                                     "buttons": [
-                                                [InlineKeyboardButton("人工客服", URL="https://t.me/LUODISWKF")],
+                                                [InlineKeyboardButton("人工客服", url="https://t.me/LUODISWKF")],
                                                 [InlineKeyboardButton("🔙 返回", callback_data="✈️ 交通服务")]
                                     ]            
                                 },
