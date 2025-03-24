@@ -125,20 +125,6 @@
       border-radius: 16px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
-
-    #type-gallery {
-      display: none;
-      text-align: center;
-      padding: 20px;
-    }
-
-    #gallery-images img {
-      width: 45%;
-      max-width: 200px;
-      border-radius: 12px;
-      margin: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
   </style>
 </head>
 <body>
@@ -148,28 +134,21 @@
   <div class="section">
     <div class="icon-circle" id="icon1">📝</div>
     <div class="title" id="step1-title">1. 办理流程</div>
-    <div class="desc" id="step1-desc">
-      线上下单 → 联系客服提交资料 → 签订合同 → 缴纳押金 → 获取服务
-    </div>
+    <div class="desc" id="step1-desc">线上下单 → 联系客服提交资料 → 签订合同 → 缴纳押金 → 获取服务</div>
   </div>
 
   <div class="section">
     <div class="icon-circle" id="icon2">📄</div>
     <div class="title" id="step2-title">2. 所需材料</div>
-    <div class="desc" id="step2-desc">
-      护照首页照片、身份证、申请表等
-    </div>
+    <div class="desc" id="step2-desc">护照首页照片、身份证、申请表等</div>
   </div>
 
   <div class="section">
     <div class="icon-circle" id="icon3">⚠️</div>
     <div class="title" id="step3-title">3. 注意</div>
-    <div class="desc" id="step3-desc">
-      注意事项内容
-    </div>
+    <div class="desc" id="step3-desc">注意事项内容</div>
   </div>
 
-  <!-- 房型展示 -->
   <div id="hotel-section">
     <h2>🏨 房型展示</h2>
     <div class="hotel-card">
@@ -186,31 +165,10 @@
         <p>私人阳台｜电视｜免费饮品</p>
       </div>
     </div>
-    <div class="hotel-card">
-      <img src="images/club-suite.jpg" class="hotel-img">
-      <div class="hotel-info">
-        <h3>小型套房（53㎡）</h3>
-        <p>含Club服务｜下午茶｜泳池景观</p>
-      </div>
-    </div>
-    <div class="hotel-card">
-      <img src="images/rosewood-suite.jpg" class="hotel-img">
-      <div class="hotel-info">
-        <h3>瑰丽套房（95㎡）</h3>
-        <p>河景｜Spa服务｜延迟退房</p>
-      </div>
-    </div>
   </div>
 
-  <!-- Banner Image -->
   <div id="type-image">
     <img id="type-img" src="" alt="类型图片">
-  </div>
-
-  <!-- 多图展示 -->
-  <div id="type-gallery">
-    <h2>📸 服务展示</h2>
-    <div id="gallery-images"></div>
   </div>
 
   <button class="button" onclick="openTelegramChat()">咨询客服</button>
@@ -220,22 +178,11 @@
       const message = "你好，我想咨询关于服务的详情。";
       const adminUsername = "Mommom2090";
       const link = `https://t.me/${adminUsername}?text=${encodeURIComponent(message)}`;
-
       if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
         Telegram.WebApp.openTelegramLink(link);
       } else {
         window.open(link, '_blank');
       }
-    }
-
-    function renderGallery(images) {
-      const galleryDiv = document.getElementById('gallery-images');
-      galleryDiv.innerHTML = '';
-      images.forEach(src => {
-        const img = document.createElement('img');
-        img.src = src;
-        galleryDiv.appendChild(img);
-      });
     }
 
     function loadContent() {
@@ -245,7 +192,6 @@
       const hotelSection = document.getElementById('hotel-section');
       const typeImageDiv = document.getElementById('type-image');
       const typeImage = document.getElementById('type-img');
-      const typeGallery = document.getElementById('type-gallery');
 
       if (type === 'rental') {
         document.getElementById('page-title').innerText = "租赁办理流程";
@@ -258,12 +204,6 @@
         hotelSection.style.display = 'block';
         typeImageDiv.style.display = 'block';
         typeImage.src = "images/rental-banner.jpg";
-        typeGallery.style.display = 'block';
-        renderGallery([
-          "images/rental1.jpg",
-          "images/rental2.jpg",
-          "images/rental3.jpg"
-        ]);
       } else if (type === 'visa') {
         document.getElementById('page-title').innerText = "签证办理流程";
         document.getElementById('step1-desc').innerText = "选择签证类型 → 准备材料 → 提交申请";
@@ -275,21 +215,13 @@
         hotelSection.style.display = 'none';
         typeImageDiv.style.display = 'block';
         typeImage.src = "images/visa-banner.jpg";
-        typeGallery.style.display = 'block';
-        renderGallery([
-          "images/visa1.jpg",
-          "images/visa2.jpg",
-          "images/visa3.jpg"
-        ]);
       } else {
         hotelSection.style.display = 'none';
         typeImageDiv.style.display = 'none';
-        typeGallery.style.display = 'none';
       }
     }
 
-    Telegram.WebApp.ready();
-    loadContent();
+    window.addEventListener('DOMContentLoaded', loadContent);
   </script>
 </body>
 </html>
