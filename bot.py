@@ -45,7 +45,7 @@ RESPONSE_DATA = {
     },
                                 "🚗 专车服务": {
                                     "photo": "images/Web_Photo_Editor.jpg",
-                                    "caption": "<b>🚗 丰田埃尔法 | 🚐 丰田 Granvia</b> \n\n"
+                                    "caption": "<B>🚗 丰田埃尔法 | 🚐 丰田 Granvia \n\n</B>"
                                                 "高端商务MPV，空间大、坐得舒服，适合接待、出游、婚礼和接送。\n\n"
                                                 "💰 价格\n"
                                                 "🔹自驾租赁：200$/天\n"
@@ -344,17 +344,17 @@ async def button_click(update: Update, context: CallbackContext):
             with open(data["photo"], "rb") as photo:
                 # Edit existing message instead of sending a new one
                 await query.message.edit_media(
-                    media=InputMediaPhoto(photo, caption=data["caption"]),
-                     parse_mode="HTML",
+                    media=InputMediaPhoto(photo, caption=data["caption"], parse_mode="HTML"),  # ✅ Add parse_mode
                     reply_markup=keyboard
                 )
         else:
             # If image is missing, just edit text
             await query.message.edit_caption(
                 caption=data["caption"],
-                 parse_mode="HTML",
-                reply_markup=keyboard
+                reply_markup=keyboard,
+                parse_mode="HTML"  # ✅ Add this line
             )
+
 
 
 # Start Command
@@ -373,7 +373,13 @@ async def handle_menu(update: Update, context: CallbackContext):
         # Ensure the image file exists
         if os.path.exists(data["photo"]):
             with open(data["photo"], "rb") as photo:
-                await update.message.reply_photo(photo=photo, caption=data["caption"], parse_mode="HTML", reply_markup=keyboard)
+                await update.message.reply_photo(
+                        photo=photo,
+                        caption=data["caption"],
+                        reply_markup=keyboard,
+                        parse_mode="HTML"  # ✅ Add this line
+                    )
+
         else:
             await update.message.reply_text("🚨 图片不存在，请联系管理员!", reply_markup=keyboard)
     else:
