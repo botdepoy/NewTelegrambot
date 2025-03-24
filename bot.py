@@ -331,36 +331,21 @@ RESPONSE_DATA = {
         },
                          "🏨 酒店预定": {
                                     "photo": "images/Web_Photo_Editor.jpg",
-                                    "caption": "🚘 高端商务车租赁服务\n\n"
-                                                
-                                                "━━━━━━━━━━━━━━━\n"
-                                                "🚗 车型：丰田埃尔法 | 丰田 Granvia  \n"
-                                                "⭐ 类型：高端商务 MPV \n "
-                                                "🛋️ 特点：空间大，舒适乘坐  \n"
-                                                "🎯 用途：接待｜出游｜婚礼｜接送机 \n\n"
-                                                
-                                                "💰 租金：\n"
-                                                "・自驾：$200/天  \n"
-                                                "・带司机：$300/天\n"
-                                                "━━━━━━━━━━━━━━━\n\n"
-                                                
-                                                "🚐 车型：大众 Multivan  \n"
-                                                "⭐ 类型：7座多功能商务车  \n"
-                                                "🛋️ 特点：空间灵活，乘坐舒适  \n"
-                                                "🎯 用途：商务｜家庭｜婚礼｜机场\n\n"
-                                                
-                                                "💰 租金：\n"
-                                                "・自驾：$100/天  \n"
-                                                "・带司机：$200/天\n"
-                                                "━━━━━━━━━━━━━━━\n\n"
-
-                                                "🔹司机（中-英-柬）: $100/天\n"
-                                                "🔹司机（英-柬）  : $60/天\n"
-                                                "🔹司机保镖带枪   : 120$/天\n"
+                                    "caption": "📍 索菲特 Sofitel\n"
+                                                "• 🛏 标准：双床房 ｜ 大床房 \n"
+                                                "• 🌟 行政：Club套房 \n"
+                                                "• 👑 高端：尊贵 ｜ 歌剧 ｜ 奢华体验\n"
+                                                "🛎️ 礼遇：早餐｜酒会｜迷你吧｜延迟退房\n\n\n"
+                                                "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" 
+                                                "📍 瑰丽 Rosewood\n"
+                                                "• 🛏 行政：大床/双床房 ｜ 城景/河景\n"
+                                                "• 🌟 尊贵：河景房 ｜尊贵大床 \n"
+                                                "• 👑 套房：湄公河 ｜庄园 ｜瑰丽 \n"
+                                                "🛎️ 礼遇：按摩｜观光｜饮品畅饮｜熨烫服务"
 
                                                 ,
                                     "buttons": [
-                                                [InlineKeyboardButton(text="一条龙办理流程",url="https://t.me/HWLDSWFW_bot/Myapp")
+                                                [InlineKeyboardButton(text="办理流程",url="https://botdepoy.github.io/NewTelegrambot/form.html?type=rental")
                                                 ,InlineKeyboardButton(text="💬 联系客服",url="https://t.me/LUODISWKF?start=Hi%20I%20need%20help")],
                                                 [InlineKeyboardButton("🔙 返回", callback_data="✈️ 交通服务")]
                                     ]            
