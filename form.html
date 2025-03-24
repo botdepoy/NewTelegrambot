@@ -108,17 +108,19 @@
     </div>
   </div>
 
-<button class="button" onclick="openTelegramChat()">
-  咨询客服
-</button>
-
 <script>
   function openTelegramChat() {
     const message = ("你好，我想咨询关于办理车辆租赁的服务。");
-    const adminUsername = "Mommom2090"; // ✅ your real admin username
-    const link = `tg://resolve?domain=${adminUsername}&text=${message}`;
+    const adminUsername = "Mommom2090"; // Replace with your actual Telegram username
+    const link = `https://t.me/${adminUsername}?text=${message}`;
 
-    window.location.href = link; // open Telegram app directly
+    // ✅ This works inside Telegram Mini WebApp
+    if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
+      Telegram.WebApp.openTelegramLink(link);
+    } else {
+      // fallback for browser testing
+      window.open(link, '_blank');
+    }
   }
 
   Telegram.WebApp.ready();
