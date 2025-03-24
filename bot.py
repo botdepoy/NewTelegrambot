@@ -345,12 +345,14 @@ async def button_click(update: Update, context: CallbackContext):
                 # Edit existing message instead of sending a new one
                 await query.message.edit_media(
                     media=InputMediaPhoto(photo, caption=data["caption"]),
+                     parse_mode="HTML",
                     reply_markup=keyboard
                 )
         else:
             # If image is missing, just edit text
             await query.message.edit_caption(
                 caption=data["caption"],
+                 parse_mode="HTML",
                 reply_markup=keyboard
             )
 
@@ -358,7 +360,7 @@ async def button_click(update: Update, context: CallbackContext):
 # Start Command
 async def start(update: Update, context: CallbackContext):
     menu_markup = ReplyKeyboardMarkup(MENU, resize_keyboard=True)
-    await update.message.reply_text("📌 请选择服务:", reply_markup=menu_markup)
+    await update.message.reply_text("📌 请选择服务:", parse_mode="HTML" , reply_markup=menu_markup)
 
 
 # Handle Menu Selection
@@ -373,7 +375,7 @@ async def handle_menu(update: Update, context: CallbackContext):
             with open(data["photo"], "rb") as photo:
                 await update.message.reply_photo(photo=photo, caption=data["caption"], parse_mode="HTML", reply_markup=keyboard)
         else:
-            await update.message.reply_text("🚨 图片不存在，请联系管理员!", reply_markup=keyboard)
+            await update.message.reply_text("🚨 图片不存在，请联系管理员!", parse_mode="HTML", reply_markup=keyboard)
     else:
         await update.message.reply_text("❌ 无效的选项，请选择正确的菜单项。")
 
