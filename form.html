@@ -1,315 +1,104 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>客户需求表</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+  <meta charset="UTF-8">
+  <title>车辆办理</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #fff;
+      padding: 20px;
+    }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
+    .section {
+      margin-bottom: 30px;
+      background: #fff5ee;
+      padding: 20px;
+      border-radius: 16px;
+      position: relative;
+      text-align: center;
+    }
 
-        /* Full Screen and Dark Background */
-        html, body {
-            height: 100vh;
-            width: 100vw;
-            background: #0a0f1c; /* Dark Background */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
+    .icon-circle {
+      width: 60px;
+      height: 60px;
+      background-color: #ff7e00;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 28px;
+      position: absolute;
+      top: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
 
-        /* Form Container */
-        .container {
-            width: 95%;
-            max-width: 420px;
-            background: #161b2b;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0px 0px 15px rgba(0, 238, 255, 0.2);
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            height: 90vh;
-            overflow: hidden;
-        }
+    .title {
+      margin-top: 40px;
+      font-weight: bold;
+      font-size: 18px;
+    }
 
-        /* Scrollable Pages */
-        .form-container {
-            display: none;
-            overflow-y: auto;
-            flex-grow: 1;
-            max-height: 70vh;
-        }
+    .desc {
+      margin-top: 10px;
+      font-size: 14px;
+      line-height: 1.5;
+      color: #333;
+    }
 
-        .form-container.active {
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Header Title */
-        h2 {
-            font-size: 20px;
-            font-weight: 600;
-            color: #0ef;
-            text-shadow: 0 0 8px #0ef;
-            margin-bottom: 15px;
-        }
-
-        /* Labels */
-        label {
-            font-size: 14px;
-            font-weight: 500;
-            text-align: left;
-            color: #fff;
-            margin-bottom: 5px;
-            display: block;
-        }
-
-        /* Input Fields */
-        input, select, textarea {
-            width: 100%;
-            padding: 12px;
-            font-size: 16px;
-            border: none;
-            background: #2b3045;
-            border-radius: 6px;
-            color: #ccc;
-            outline: none;
-            transition: all 0.3s ease;
-            margin-bottom: 15px;
-        }
-
-        input::placeholder, textarea::placeholder {
-            color: rgba(255, 255, 255, 0.4);
-        }
-
-        input:focus, select:focus, textarea:focus {
-            border: 2px solid #0ef;
-            box-shadow: 0 0 8px #0ef;
-        }
-
-        /* Gradient Button */
-        .button-container {
-            width: 100%;
-            margin-top: 10px;
-        }
-
-        button {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(90deg, #00eaff, #0066ff);
-            border: none;
-            border-radius: 6px;
-            font-size: 18px;
-            font-weight: 600;
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 10px rgba(0, 238, 255, 0.5);
-        }
-
-        button:hover {
-            background: linear-gradient(90deg, #0066ff, #00eaff);
-            box-shadow: 0 0 20px rgba(0, 238, 255, 0.5);
-        }
-
-        /* Mobile Optimization */
-        @media (max-width: 480px) {
-            .container {
-                width: 90%;
-                padding: 20px;
-            }
-
-            input, select, textarea {
-                font-size: 15px;
-                padding: 12px;
-            }
-
-            button {
-                font-size: 16px;
-                padding: 12px;
-            }
-        }
-    </style>
+    .button {
+      background-color: #ff7e00;
+      color: white;
+      border: none;
+      width: 100%;
+      padding: 15px;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 30px;
+    }
+  </style>
 </head>
 <body>
 
-<div class="container">
-    <!-- Page 1: Basic Information -->
-    <div class="form-container active" id="formPage1">
-        <h2>基本信息</h2>
-        <label>公司名称:</label>
-        <input type="text" id="companyName" required>
-        <label>联系人姓名:</label>
-        <input type="text" id="contactName" required>
-        <label>联系电话:</label>
-        <input type="text" id="phoneNumber" required>
-        <label>电子邮箱:</label>
-        <input type="email" id="email" required>
-        <div class="button-container">
-            <button onclick="nextPage(2)">下一步</button>
-        </div>
+  <h2 style="text-align:center;">一条龙办理流程</h2>
+
+  <div class="section">
+    <div class="icon-circle">🤝</div>
+    <div class="title">1. 办理流程</div>
+    <div class="desc">
+        1、线上下单
+        2、联系客服提交资料
+        3、签订合同
+        4、缴纳押金
+        5、获取车辆
     </div>
+  </div>
 
-    <!-- Page 2: Business Type and Service Selection -->
-    <div class="form-container" id="formPage2">
-        <h2>业务类型</h2>
-        <select id="businessType">
-            <option>企业/公司</option>
-            <option>团队</option>
-            <option>个人</option>
-        </select>
-        <h2>服务类别选择</h2>
-        <label>选择服务:</label>
-        <select id="businessService">
-            <option>机场接机和专车交通安排</option>
-            <option>酒店预订及住宿安排</option>
-            <option>项目考察对接与行程安排</option>
-            <option>高端商务车辆/直升机/游艇保障</option>
-            <option>翻译服务（中文、英语、柬埔寨语）</option>
-        </select>
-        <div class="button-container">
-            <button onclick="nextPage(3)">下一步</button>
-        </div>
+  <div class="section">
+    <div class="icon-circle">📄</div>
+    <div class="title">2. 所需材料</div>
+    <div class="desc">
+        1、护照首页照片
+        2、租赁人驾驶证  
+        3、租赁合同
+        4、车辆押金           
     </div>
+  </div>
 
-    <!-- Page 3: Project Details -->
-    <div class="form-container" id="formPage3">
-        <h2>项目详细信息</h2>
-        <label>计划开展服务的日期:</label>
-        <input type="date" id="startDate" required>
-        <label>预计服务结束日期:</label>
-        <input type="date" id="endDate" required>
-        <label>特殊要求:</label>
-        <textarea id="specialRequests"></textarea>
-        <div class="button-container">
-            <button onclick="nextPage(4)">下一步</button>
-        </div>
+
+  <div class="section">
+    <div class="icon-circle">📄</div>
+    <div class="title">3. 注意</div>
+    <div class="desc">
+        租赁押金：$5000 USD（车辆归还后全额退还，若无损坏）。         
     </div>
-
-    <!-- Page 4: Budget and Submission -->
-    <div class="form-container" id="formPage4">
-        <h2>预算和备注</h2>
-        <label>预算范围:</label>
-        <input type="number" id="budgetMin" placeholder="最小预算">
-        <input type="number" id="budgetMax" placeholder="最大预算">
-        <label>其他需求或备注:</label>
-        <textarea id="additionalComments"></textarea>
-        <div class="button-container">
-            <button onclick="submitForm()">提交</button>
-        </div>
-    </div>
-</div>
-
-<script>
-    let tg = window.Telegram.WebApp;
-    tg.expand();
-    
-    function nextPage(pageNumber) {
-        document.querySelectorAll(".form-container").forEach(page => page.classList.remove("active"));
-        document.getElementById("formPage" + pageNumber).classList.add("active");
-    }
-
-    function submitForm() {
-        const BOT_TOKEN = "7472767533:AAFDewMWR-lN1BMEPffa0AwjAvffUMUXHyg"; 
-        const ADMIN_ID = "1799744741";
-
-        // Collecting form data
-        let formData = {
-            user_id: tg.initDataUnsafe?.user?.id || "N/A",
-            用户姓名: `${tg.initDataUnsafe?.user?.first_name || "N/A"} ${tg.initDataUnsafe?.user?.last_name || ""}`,
-            username: tg.initDataUnsafe?.user?.username ? `@${tg.initDataUnsafe?.user?.username}` : "N/A",
-            公司名称: document.getElementById("companyName").value,
-            联系方式: document.getElementById("phoneNumber").value,
-            电子邮箱: document.getElementById("email").value,
-            业务类型: document.getElementById("businessType").value,
-            服务内容: document.getElementById("businessService").value,
-            计划开始: document.getElementById("startDate").value,
-            预计结束: document.getElementById("endDate").value,
-            特殊要求: document.getElementById("specialRequests").value || "无",
-            预算范围: `${document.getElementById("budgetMin").value || "未填写"} - ${document.getElementById("budgetMax").value || "未填写"}`,
-            备注: document.getElementById("additionalComments").value || "无"
-        };
-
-        // Create a canvas
-        let canvas = document.createElement("canvas");
-        canvas.width = 800;
-        canvas.height = 600;
-        let ctx = canvas.getContext("2d");
-
-        // Background Color
-        ctx.fillStyle = "#1C1C1E";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        // Title
-        ctx.fillStyle = "#00FFFF";
-        ctx.font = "bold 28px Arial";
-        ctx.fillText("📄 新表单提交", 50, 50);
-
-        // User Info
-        ctx.fillStyle = "#FFFFFF";
-        ctx.font = "bold 20px Arial";
-        ctx.fillText("👤 用户ID:", 50, 100);
-        ctx.fillText(formData.user_id, 180, 100);
-        
-        ctx.fillText("📝 用户姓名:", 50, 140);
-        ctx.fillText(formData.用户姓名, 180, 140);
-        
-        ctx.fillText("💬 用户名:", 50, 180);
-        ctx.fillText(formData.username, 180, 180);
-
-        ctx.fillText("🏢 公司名称:", 50, 220);
-        ctx.fillText(formData.公司名称, 180, 220);
-
-        ctx.fillText("📞 联系方式:", 50, 260);
-        ctx.fillText(formData.联系方式, 180, 260);
-
-        ctx.fillText("📧 电子邮箱:", 50, 300);
-        ctx.fillText(formData.电子邮箱, 180, 300);
-
-        ctx.fillText("🏷 业务类型:", 50, 340);
-        ctx.fillText(formData.业务类型, 180, 340);
-
-        ctx.fillText("🛠 服务内容:", 50, 380);
-        ctx.fillText(formData.服务内容, 180, 380);
-
-        ctx.fillText("📅 计划开始:", 50, 420);
-        ctx.fillText(formData.计划开始, 180, 420);
-
-        ctx.fillText("⏳ 预计结束:", 50, 460);
-        ctx.fillText(formData.预计结束, 180, 460);
-
-        ctx.fillText("📜 特殊要求:", 50, 500);
-        ctx.fillText(formData.特殊要求, 180, 500);
-
-        ctx.fillText("💰 预算范围:", 50, 540);
-        ctx.fillText(formData.预算范围, 180, 540);
-
-        ctx.fillText("📝 备注:", 50, 580);
-        ctx.fillText(formData.备注, 180, 580);
-
-        // Convert canvas to a blob and send to Telegram
-        canvas.toBlob((blob) => {
-            let formData = new FormData();
-            formData.append("chat_id", ADMIN_ID);
-            formData.append("photo", blob, "form_submission.png");
-
-            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
-                method: "POST",
-                body: formData
-            }).then(() => tg.close());
-        });
-    }
-
-</script>
+  </div>
+  <button class="button">咨询客服</button>
 
 </body>
 </html>
