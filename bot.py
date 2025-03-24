@@ -314,6 +314,83 @@ RESPONSE_DATA = {
         },
                                 
    
+
+
+"🏨 酒店与租凭": {
+            "photo": "images/sofietel.jpg",
+            "caption": "<b>🏨 【住宿与租赁服务】</b>\n\n"
+                  "📌 高端酒店预订 | 短租公寓 | 长租房屋 | 商务办公空间\n"
+                  "🕰 无论短期考察还是长期定居，均可提供优质选择\n"
+                  "💼 舒适 · 高效 · 快速对接 ✅\n",
+            "buttons": [
+                            [InlineKeyboardButton(text="🏨 酒店预定",callback_data="🏨 酒店预定"),
+                            InlineKeyboardButton(text="🏨 公寓预定",callback_data="🏨 公寓预定"),
+                        ]
+            ]
+
+        },
+                         "🏨 酒店预定": {
+                                    "photo": "images/Web_Photo_Editor.jpg",
+                                    "caption": "🚘 高端商务车租赁服务\n\n"
+                                                
+                                                "━━━━━━━━━━━━━━━\n"
+                                                "🚗 车型：丰田埃尔法 | 丰田 Granvia  \n"
+                                                "⭐ 类型：高端商务 MPV \n "
+                                                "🛋️ 特点：空间大，舒适乘坐  \n"
+                                                "🎯 用途：接待｜出游｜婚礼｜接送机 \n\n"
+                                                
+                                                "💰 租金：\n"
+                                                "・自驾：$200/天  \n"
+                                                "・带司机：$300/天\n"
+                                                "━━━━━━━━━━━━━━━\n\n"
+                                                
+                                                "🚐 车型：大众 Multivan  \n"
+                                                "⭐ 类型：7座多功能商务车  \n"
+                                                "🛋️ 特点：空间灵活，乘坐舒适  \n"
+                                                "🎯 用途：商务｜家庭｜婚礼｜机场\n\n"
+                                                
+                                                "💰 租金：\n"
+                                                "・自驾：$100/天  \n"
+                                                "・带司机：$200/天\n"
+                                                "━━━━━━━━━━━━━━━\n\n"
+
+                                                "🔹司机（中-英-柬）: $100/天\n"
+                                                "🔹司机（英-柬）  : $60/天\n"
+                                                "🔹司机保镖带枪   : 120$/天\n"
+
+                                                ,
+                                    "buttons": [
+                                                [InlineKeyboardButton(text="一条龙办理流程",url="https://t.me/HWLDSWFW_bot/Myapp")
+                                                ,InlineKeyboardButton(text="💬 联系客服",url="https://t.me/LUODISWKF?start=Hi%20I%20need%20help")],
+                                                [InlineKeyboardButton("🔙 返回", callback_data="✈️ 交通服务")]
+                                    ]            
+                                },
+                                "🏨 公寓预定": {
+                                    "photo": "images/接机.jpg",
+                                    "caption": "<b>✈️ 接送机 VIP 服务</b>\n\n"
+                                                "━━━━━━━━━━━━━━\n"
+                                                "<b>🚖 接机服务</b>\n"
+                                                "📝 信息：时间｜地点｜联系方式\n"
+                                                "📍 流程：下单 → 联系客服 → 提交资料 → 到达接机\n"
+                                                "📌 到达现场举牌等候\n"
+                                                "💎 费用：$350（含VIP绿色通道）\n\n"
+                                                
+                                                "━━━━━━━━━━━━━━\n"
+                                                "<b>🚗 送机服务</b>\n"  
+                                                "📝 信息：时间｜地点｜联系方式\n" 
+                                                "📍 流程：下单 → 联系客服 → 提交资料 → 送入海关\n"
+                                                "📌 专人送达入口位置\n"  
+                                                "💎 费用：$350（含VIP绿色通道）\n"
+                                                "━━━━━━━━━━━━━━\n"
+
+                                                ,
+                                    "buttons": [
+                                                [InlineKeyboardButton(text="💬 联系客服",url="https://t.me/LUODISWKF?start=Hi%20I%20need%20help")],
+                                                [InlineKeyboardButton("🔙 返回", callback_data="✈️ 交通服务")]
+                                    ]            
+                                },
+
+
 }
 
 
