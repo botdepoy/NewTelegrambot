@@ -82,53 +82,73 @@
 </head>
 <body>
 
-  <h2>一条龙办理流程</h2>
+  <h2 id="page-title">一条龙办理流程</h2>
 
   <div class="section">
-    <div class="icon-circle">📝</div>
-    <div class="title">1. 办理流程</div>
-    <div class="desc">
+    <div class="icon-circle" id="icon1">📝</div>
+    <div class="title" id="step1-title">1. 办理流程</div>
+    <div class="desc" id="step1-desc">
       线上下单 → 联系客服提交资料 → 签订合同 → 缴纳押金 → 获取车辆
     </div>
   </div>
 
   <div class="section">
-    <div class="icon-circle">📄</div>
-    <div class="title">2. 所需材料</div>
-    <div class="desc">
+    <div class="icon-circle" id="icon2">📄</div>
+    <div class="title" id="step2-title">2. 所需材料</div>
+    <div class="desc" id="step2-desc">
       护照首页照片、租赁人驾照、租赁合同、车辆押金
     </div>
   </div>
 
   <div class="section">
-    <div class="icon-circle">⚠️</div>
-    <div class="title">3. 注意</div>
-    <div class="desc">
+    <div class="icon-circle" id="icon3">⚠️</div>
+    <div class="title" id="step3-title">3. 注意</div>
+    <div class="desc" id="step3-desc">
       租赁押金：$5000 USD（车归还后全额退还，若无损坏）
     </div>
   </div>
 
-<button class="button" onclick="openTelegramChat()">
-  咨询客服
-</button>
-<script>
-  function openTelegramChat() {
-    const message = ("你好，我想咨询关于办理车辆租赁的服务。");
-    const adminUsername = "Mommom2090"; // Replace with your actual Telegram username
-    const link = `https://t.me/${adminUsername}?text=${message}`;
+  <button class="button" onclick="openTelegramChat()">
+    咨询客服
+  </button>
 
-    // ✅ This works inside Telegram Mini WebApp
-    if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
-      Telegram.WebApp.openTelegramLink(link);
-    } else {
-      // fallback for browser testing
-      window.open(link, '_blank');
+  <script>
+    // ✅ keep the original button logic
+    function openTelegramChat() {
+      const message = ("你好，我想咨询关于办理车辆租赁的服务。");
+      const adminUsername = "Mommom2090";
+      const link = `https://t.me/${adminUsername}?text=${encodeURIComponent(message)}`;
+
+      if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
+        Telegram.WebApp.openTelegramLink(link);
+      } else {
+        window.open(link, '_blank');
+      }
     }
-  }
 
-  Telegram.WebApp.ready();
-</script>
+    // ✅ new dynamic content logic
+    function loadContent() {
+      const params = new URLSearchParams(window.location.search);
+      const type = params.get('type'); // e.g. ?type=visa
 
+      if (type === 'visa') {
+        document.getElementById('page-title').innerText = "签证办理流程";
+        document.getElementById('step1-title').innerText = "1. 选择签证类型";
+        document.getElementById('step1-desc').innerText = "旅游签、商务签、学生签、工作签等";
+        document.getElementById('step2-title').innerText = "2. 所需材料";
+        document.getElementById('step2-desc').innerText = "护照复印件、照片、申请表、签证费等";
+        document.getElementById('step3-title').innerText = "3. 注意事项";
+        document.getElementById('step3-desc').innerText = "资料必须真实有效；不同国家材料略有不同";
+        document.getElementById('icon1').innerText = "🛂";
+        document.getElementById('icon2').innerText = "📑";
+        document.getElementById('icon3').innerText = "❗";
+      }
+      // you can add more else if blocks like "hotel", "tour", etc.
+    }
+
+    Telegram.WebApp.ready();
+    loadContent(); // run this on page load
+  </script>
 
 </body>
 </html>
