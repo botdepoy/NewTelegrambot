@@ -284,101 +284,33 @@ RESPONSE_DATA = {
 
 "🏛️ 企业落地支持": {
             "photo": "images/黄黑白蓝色商务企业招聘微信公众号封面 (1).png",
-            "caption": "🏢 **企业落地支持** | **Business Establishment Support** \n\n "
-                        "📌 **一站式服务，助力企业快速落地！** 🚀  \n"
-                        
-                        "✅ **公司注册** 🏢📑 – 高效办理，轻松落地 \n "
-                        "✅ **公司注册** 🏢📑 – 高效办理，轻松落地  \n"
-                        "✅ **政府审批** 🏛️✅ – 专业指导，顺利通过  \n"
-                        "✅ **人才招聘** 👥🎯 – 精准匹配，助力团队建设  \n"
-                        "✅ **财税法律** 💰⚖️ – 合规运营，安全无忧 \n\n" 
-                        
-                        "📞 **联系我们，让您的企业发展更顺畅！** 🌍✨",
+            "caption": "<b>🏢【企业落地支持】</b>\n"
+                      "一站式服务，助力企业快速落地 🚀\n\n"
+                      "━━━━━━━━━━━━━━\n"
+                      "📌 公司注册\n"
+                      "• 🧾 公司注册\n"
+                      "• 🧮 企业税务办理\n\n"
+                      "━━━━━━━━━━━━━━\n"
+                      "📌 政府审批\n"
+                      "• 🏛 企业经营审批\n"
+                      "• 🪪 许可证办理\n\n"
+                      "━━━━━━━━━━━━━━\n"
+                      "📌 人才招聘\n"
+                      "• 👥 本地招聘\n"
+                      "• 🎯 高端人才猎头\n\n"
+                      "━━━━━━━━━━━━━━\n"
+                      "📌 财税法律\n"
+                      "• 💰 税务咨询\n"
+                      "• ⚖️ 法律咨询\n",
             "buttons": [
-                [InlineKeyboardButton("🛫 商务签证", callback_data="🛫 商务签证"),
-                 InlineKeyboardButton("🌍 旅游签证", callback_data="🌍 旅游签证"),
-                InlineKeyboardButton("📑 护照服务", callback_data="📑 护照服务")],
-                 [InlineKeyboardButton("📆 续签服务", callback_data="📆 续签服务"),
-                InlineKeyboardButton("🚗 驾驶证办理", callback_data="🚗 驾驶证办理")]
-            ]
+                            [InlineKeyboardButton(text="✈️ 商务签证",url="https://t.me/LUODISWKF?text=你好，我想咨询关于【商务签证】的服务。"),
+                            InlineKeyboardButton(text="🌍 旅游签证",url="https://t.me/LUODISWKF?text=你好，我想咨询关于【旅游签证】的服务。"),
+                            InlineKeyboardButton(text="📄 护照服务",url="https://t.me/LUODISWKF?text=你好，我想咨询关于【护照服务】的服务。"),
+                            InlineKeyboardButton(text="📅 续签服务",url="https://t.me/LUODISWKF?text=你好，我想咨询关于【续签服务】的服务。"),
+                            InlineKeyboardButton(text="🚗 驾驶证办理",url="https://t.me/LUODISWKF?text=你好，我想咨询关于【驾驶证办理】的服务。")
+        ]
         },
-                                "🛫 商务签证": {
-                                        "photo": "images/商务签证.png",
-                                        "caption": "📜 **商务签证简介 & 服务** | **Business Visa Services**   \n\n "                                  
-                                                "✨ **专业办理，助力全球商务拓展！** ✨ \n "
-                                                
-                                                "📌 **商务签证** 适用于前往他国进行商务洽谈、会议、市场考察及商业合作，确保您的出行 **高效 & 合规**。\n\n  "
-                                                
-                                                "✅ **商务签证类型**：\n  "
-                                                "🔹 **落地商务签** 🏢✈️ – 到达后快速办理，适用于短期商务活动  \n"
-                                                "🔹 **半年商务签** 📆🌍 – 适用于中期商务出差 & 合作项目 \n "
-                                                "🔹 **一年商务签** 🔄✅ – 适用于长期商务驻留 & 跨国业务拓展 \n\n "
-                                                
-                                                "💼 **服务内容**： \n "
-                                                "🔹 签证申请 & 指导 📄  \n"
-                                                "🔹 资料准备 & 审核 ✅ \n "
-                                                "🔹 面签辅导 & 预约 🎯 \n "
-                                                "🔹 加急办理 & 续签 🔄 \n "
-                                                
-                                                "📞 **立即联系我们，让您的商务之旅更加顺畅！** 🚀✨",
-                                        "buttons": [         [InlineKeyboardButton("落地商务签", callback_data="落地商务签"),
-                                                             InlineKeyboardButton("半年商务签", callback_data="半年商务签"),
-                                                             InlineKeyboardButton("一年商务签", callback_data="一年商务签")],
-                                                            [InlineKeyboardButton("🔙 返回", callback_data="📜 证照办理")]
-                                                   ]
-                                    },
-                                    "🌍 旅游签证": {
-                                        "photo": "images/travel.png",
-                                        "caption": "📜 旅游签证服务 | Tourist Visa \n\n"
-                                                    
-                                                    "🌍 轻松办理，畅游世界！ ✈️\n"
-                                                    
-                                                    "✅ 落地旅游签 – 适用于短期旅行，快速办理 🛫\n\n"
-                                                    
-                                                    "💼 服务内容：\n"
-                                                    "🔹 签证申请 & 指导 📄\n"
-                                                    "🔹 资料准备 & 审核 ✅\n"
-                                                    "🔹 加急办理 & 续签 🔄\n"
-                                                    
-                                                    "📞 联系我们，开启您的旅行之旅！ 🚀✨\n\n",
-                                        "buttons": [[InlineKeyboardButton("落地旅游签", callback_data="落地旅游签")],[InlineKeyboardButton("🔙 返回", callback_data="📜 证照办理")]]
-                                    },
-                                     "📆 续签服务": {
-                                        "photo": "images/183320304_291537002602003_2178100990049262973_n.jpg",
-                                        "caption": "📜 **续签服务** | **Visa Renewal**  \n\n"
-            
-                                                    "🔄 **签证到期？轻松续签，无忧出行！**\n " 
-                                                    
-                                                    "✅ **签证到期续签** – 快速办理，避免逾期 📆 \n "
-                                                    "⭐ **进阶续签** – 提供更优解决方案 🌟  \n\n"
-                                                    
-                                                    "📞 **联系我们，确保您的签证无缝衔接！** 🚀",
-                                        "buttons": [[InlineKeyboardButton("签证到期续签", callback_data="签证到期续签")],[InlineKeyboardButton("🔙 返回", callback_data="📜 证照办理")]]
-                                    },
-                                    "📑 护照服务": {
-                                        "photo": "images/20221128212817498.jpg",
-                                        "caption": "📜 **护照服务** | **Passport Services**  \n\n"
-                                                "🔄 **护照到期？快速更换，畅行无忧！**  \n"
-                                                
-                                                "✅ **护照到期更换** – 高效办理，避免影响出行 📆  \n"
-                                                "⭐ **进阶服务** – 提供更优更新方案 🌟 \n\n "
-                                                
-                                                "📞 **联系我们，轻松换新护照！** 🚀",
-                                         "buttons": [[InlineKeyboardButton("护照到期更换", callback_data="护照到期更换")],[InlineKeyboardButton("🔙 返回", callback_data="📜 证照办理")]]
-                                    },
-                                    "🚗 驾驶证办理": {
-                                        "photo": "images/接机.jpg",
-                                        "caption": "🚗 **驾驶证办理** | **Driver's License Services** \n\n "
-                                                    
-                                                    "✅ **驾驶证办理** – 快速申请，轻松上路 🏁  \n"
-                                                    "🔄 **驾驶证更换** – 到期换证，续航无忧 📆  \n"
-                                                    
-                                                    "📞 **联系我们，轻松获取合法驾照！** 🚀",
-                                        "buttons": [[InlineKeyboardButton("驾驶证办理", callback_data="驾驶证办理"),
-                                                    InlineKeyboardButton("驾驶证更换", callback_data="驾驶证更换")],
-                                                    [InlineKeyboardButton("🔙 返回", callback_data="📜 证照办理")]
-                                                   ]
-                                    },
+                                
    
 }
 
