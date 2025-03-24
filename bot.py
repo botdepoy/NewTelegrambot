@@ -371,7 +371,7 @@ async def handle_menu(update: Update, context: CallbackContext):
         # Ensure the image file exists
         if os.path.exists(data["photo"]):
             with open(data["photo"], "rb") as photo:
-                await update.message.reply_photo(photo=photo, caption=data["caption"], reply_markup=keyboard)
+                await update.message.reply_photo(photo=photo, caption=data["caption"], parse_mode="HTML", reply_markup=keyboard)
         else:
             await update.message.reply_text("🚨 图片不存在，请联系管理员!", reply_markup=keyboard)
     else:
