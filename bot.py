@@ -360,7 +360,7 @@ async def button_click(update: Update, context: CallbackContext):
 # Start Command
 async def start(update: Update, context: CallbackContext):
     menu_markup = ReplyKeyboardMarkup(MENU, resize_keyboard=True)
-    await update.message.reply_text("📌 请选择服务:", parse_mode="HTML" , reply_markup=menu_markup)
+    await update.message.reply_text("📌 请选择服务:", reply_markup=menu_markup)
 
 
 # Handle Menu Selection
