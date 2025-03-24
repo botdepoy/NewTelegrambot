@@ -45,7 +45,7 @@ RESPONSE_DATA = {
     },
                                 "🚗 专车服务": {
                                     "photo": "images/Web_Photo_Editor.jpg",
-                                    "caption": "<B>🚗 丰田埃尔法 | 🚐 丰田 Granvia</B> \n\n"
+                                    "caption": "<b>🚗 丰田埃尔法 | 🚐 丰田 Granvia</b> \n\n"
                                                 "高端商务MPV，空间大、坐得舒服，适合接待、出游、婚礼和接送。\n\n"
                                                 "💰 价格\n"
                                                 "🔹自驾租赁：200$/天\n"
