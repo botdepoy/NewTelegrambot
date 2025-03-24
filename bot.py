@@ -31,7 +31,7 @@ MENU = [
 RESPONSE_DATA = {
     "✈️ 交通服务": {
         "photo": "images/IMG_0106.JPG",
-        "caption": "🚖 **交通服务 | Transportation Services**\n\n"
+        "caption": "🚖 交通服务 | Transportation Services**\n\n"
                    "✨ 提供专业出行方案，助您畅行无忧！ ✨\n"
                    "🚗 机场接送 – 准时接送，轻松出行 🛫\n"
                    "🚘 专车服务 – 商务用车 / 高端专车 / VIP接待 💼\n"
@@ -45,7 +45,7 @@ RESPONSE_DATA = {
     },
                                 "🚗 专车服务": {
                                     "photo": "images/Web_Photo_Editor.jpg",
-                                    "caption": "🚗 丰田埃尔法 | 🚐 丰田 Granvia \n\n"
+                                    "caption": "<B>🚗 丰田埃尔法 | 🚐 丰田 Granvia \n\n</B>"
                                                 "高端商务MPV，空间大、坐得舒服，适合接待、出游、婚礼和接送。\n\n"
                                                 "💰 价格\n"
                                                 "🔹自驾租赁：200$/天\n"
