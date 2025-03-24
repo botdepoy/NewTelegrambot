@@ -2,22 +2,31 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>车辆办理</title>
+  <title>一条龙办理流程</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: #fff;
-      padding: 20px;
+      background: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      margin: 40px 20px 30px 20px;
     }
 
     .section {
-      margin-bottom: 30px;
       background: #fff5ee;
-      padding: 20px;
+      margin: 30px 20px;
+      padding: 50px 20px 30px 20px;
       border-radius: 16px;
-      position: relative;
       text-align: center;
+      position: relative;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
     }
 
     .icon-circle {
@@ -25,57 +34,61 @@
       height: 60px;
       background-color: #ff7e00;
       border-radius: 50%;
+      color: white;
+      font-size: 28px;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: white;
-      font-size: 28px;
       position: absolute;
       top: -30px;
       left: 50%;
       transform: translateX(-50%);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
 
     .title {
-      margin-top: 40px;
       font-weight: bold;
       font-size: 18px;
+      margin-top: 40px;
+      margin-bottom: 15px;
     }
 
     .desc {
-      margin-top: 10px;
       font-size: 14px;
-      line-height: 1.5;
+      line-height: 1.6;
       color: #333;
+      padding: 0 10px;
     }
 
     .button {
+      width: calc(100% - 40px);
+      max-width: 400px;
+      margin: 50px auto 60px auto;
+      padding: 15px;
+      border: none;
+      border-radius: 50px;
       background-color: #ff7e00;
       color: white;
-      border: none;
-      width: 100%;
-      padding: 15px;
-      border-radius: 50px;
       font-size: 16px;
+      text-align: center;
+      display: block;
       cursor: pointer;
-      margin-top: 30px;
+    }
+
+    .button:active {
+      background-color: #e66e00;
     }
   </style>
 </head>
 <body>
 
-  <h2 style="text-align:center;">一条龙办理流程</h2>
+  <h2>一条龙办理流程</h2>
 
   <div class="section">
-    <div class="icon-circle">🤝</div>
+    <div class="icon-circle">📝</div>
     <div class="title">1. 办理流程</div>
     <div class="desc">
-        1、线上下单
-        2、联系客服提交资料
-        3、签订合同
-        4、缴纳押金
-        5、获取车辆
+      线上下单 → 联系客服提交资料 → 签订合同 → 缴纳押金 → 获取车辆
     </div>
   </div>
 
@@ -83,22 +96,32 @@
     <div class="icon-circle">📄</div>
     <div class="title">2. 所需材料</div>
     <div class="desc">
-        1、护照首页照片
-        2、租赁人驾驶证  
-        3、租赁合同
-        4、车辆押金           
+      护照首页照片、租赁人驾照、租赁合同、车辆押金
     </div>
   </div>
-
 
   <div class="section">
-    <div class="icon-circle">📄</div>
+    <div class="icon-circle">⚠️</div>
     <div class="title">3. 注意</div>
     <div class="desc">
-        租赁押金：$5000 USD（车辆归还后全额退还，若无损坏）。         
+      租赁押金：$5000 USD（车归还后全额退还，若无损坏）
     </div>
   </div>
-  <button class="button">咨询客服</button>
+
+  <button class="button" onclick="Telegram.WebApp.close();">
+    咨询客服
+  </button>
+
+<script>
+  function openTelegramChat() {
+    const message = encodeURIComponent("你好，我想咨询关于办理车辆租赁的服务。");
+    const adminUsername = "Mommom2090"; // 🔁 Replace with real Telegram username
+    const link = `https://t.me/${adminUsername}?text=${message}`;
+    window.open(link, "_blank");
+  }
+
+  Telegram.WebApp.ready();
+</script>
 
 </body>
 </html>
