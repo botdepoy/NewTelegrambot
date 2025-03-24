@@ -78,6 +78,41 @@
     .button:active {
       background-color: #e66e00;
     }
+
+    #hotel-section {
+      display: none;
+      padding: 20px;
+    }
+
+    .hotel-card {
+      display: flex;
+      background-color: #fffaf4;
+      border-radius: 12px;
+      margin-bottom: 16px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .hotel-img {
+      width: 40%;
+      object-fit: cover;
+    }
+
+    .hotel-info {
+      padding: 10px 15px;
+      flex: 1;
+    }
+
+    .hotel-info h3 {
+      font-size: 16px;
+      margin: 0 0 8px;
+    }
+
+    .hotel-info p {
+      font-size: 14px;
+      color: #444;
+      margin: 0;
+    }
   </style>
 </head>
 <body>
@@ -108,12 +143,48 @@
     </div>
   </div>
 
+  <!-- 🏨 Hotel Room Display Section -->
+  <div id="hotel-section">
+    <h2>🏨 房型展示</h2>
+
+    <div class="hotel-card">
+      <img src="images/superior-room.jpg" class="hotel-img">
+      <div class="hotel-info">
+        <h3>高级双床房（40㎡）</h3>
+        <p>浴缸＋淋浴｜迷你吧｜空调</p>
+      </div>
+    </div>
+
+    <div class="hotel-card">
+      <img src="images/luxury-balcony.jpg" class="hotel-img">
+      <div class="hotel-info">
+        <h3>豪华大床房（47㎡）</h3>
+        <p>私人阳台｜电视｜免费饮品</p>
+      </div>
+    </div>
+
+    <div class="hotel-card">
+      <img src="images/club-suite.jpg" class="hotel-img">
+      <div class="hotel-info">
+        <h3>小型套房（53㎡）</h3>
+        <p>含Club服务｜下午茶｜泳池景观</p>
+      </div>
+    </div>
+
+    <div class="hotel-card">
+      <img src="images/rosewood-suite.jpg" class="hotel-img">
+      <div class="hotel-info">
+        <h3>瑰丽套房（95㎡）</h3>
+        <p>河景｜Spa服务｜延迟退房</p>
+      </div>
+    </div>
+  </div>
+
   <button class="button" onclick="openTelegramChat()">
     咨询客服
   </button>
 
   <script>
-    // ✅ keep the original button logic
     function openTelegramChat() {
       const message = ("你好，我想咨询关于办理车辆租赁的服务。");
       const adminUsername = "Mommom2090";
@@ -126,29 +197,27 @@
       }
     }
 
-    // ✅ new dynamic content logic
     function loadContent() {
       const params = new URLSearchParams(window.location.search);
-      const type = params.get('type'); // e.g. ?type=visa
+      const type = params.get('type');
 
-      if (type === 'visa') {
-        document.getElementById('page-title').innerText = "签证办理流程";
-        document.getElementById('step1-title').innerText = "1. 选择签证类型";
-        document.getElementById('step1-desc').innerText = "旅游签、商务签、学生签、工作签等";
+      if (type === 'rental') {
+        document.getElementById('page-title').innerText = "租赁办理流程";
+        document.getElementById('step1-title').innerText = "1. 办理流程";
+        document.getElementById('step1-desc').innerText = "线上下单 → 联系客服提交资料 → 签订合同 → 缴纳押金 → 获取车辆";
         document.getElementById('step2-title').innerText = "2. 所需材料";
-        document.getElementById('step2-desc').innerText = "护照复印件、照片、申请表、签证费等";
-        document.getElementById('step3-title').innerText = "3. 注意事项";
-        document.getElementById('step3-desc').innerText = "资料必须真实有效；不同国家材料略有不同";
-        document.getElementById('icon1').innerText = "🛂";
-        document.getElementById('icon2').innerText = "📑";
-        document.getElementById('icon3').innerText = "❗";
+        document.getElementById('step2-desc').innerText = "护照首页照片、租赁人驾照、租赁合同、车辆押金";
+        document.getElementById('step3-title').innerText = "3. 注意";
+        document.getElementById('step3-desc').innerText = "租赁押金：$5000 USD（车归还后全额退还，若无损坏）";
+        document.getElementById('icon1').innerText = "📝";
+        document.getElementById('icon2').innerText = "📄";
+        document.getElementById('icon3').innerText = "⚠️";
+        document.getElementById('hotel-section').style.display = 'block';
       }
-      // you can add more else if blocks like "hotel", "tour", etc.
     }
 
     Telegram.WebApp.ready();
-    loadContent(); // run this on page load
+    loadContent();
   </script>
-
 </body>
 </html>
