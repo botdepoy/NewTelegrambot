@@ -45,14 +45,14 @@ RESPONSE_DATA = {
     },
                                 "🚗 专车服务": {
                                     "photo": "images/Web_Photo_Editor.jpg",
-                                    "caption": "<B>🚗 丰田埃尔法 | 🚐 丰田 Granvia \n\n</B>"
+                                    "caption": "<B>🚗 丰田埃尔法 | 🚐 丰田 Granvia \n</B>"
                                                 "高端商务MPV，空间大、坐得舒服，适合接待、出游、婚礼和接送。\n\n"
                                                 "💰 价格\n"
                                                 "🔹自驾租赁：200$/天\n"
                                                 "🔹带司机服务：300$/天\n\n\n"
 
 
-                                                "🚐 大众迈特威 Multivan\n\n"
+                                                "<B>🚐 大众迈特威 Multivan<B>\n\n"
                                                 "7座多功能商务车，空间灵活，乘坐舒适，适合多种出行场景。\n\n"
                                                 "💰 价格\n"
                                                 "🔹自驾租赁：100$/天\n"
