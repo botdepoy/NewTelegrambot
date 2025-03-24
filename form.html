@@ -125,6 +125,20 @@
       border-radius: 16px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
+
+    #type-gallery {
+      display: none;
+      text-align: center;
+      padding: 20px;
+    }
+
+    #gallery-images img {
+      width: 45%;
+      max-width: 200px;
+      border-radius: 12px;
+      margin: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
   </style>
 </head>
 <body>
@@ -155,10 +169,9 @@
     </div>
   </div>
 
-  <!-- 🏨 房型展示 -->
+  <!-- 房型展示 -->
   <div id="hotel-section">
     <h2>🏨 房型展示</h2>
-
     <div class="hotel-card">
       <img src="images/superior-room.jpg" class="hotel-img">
       <div class="hotel-info">
@@ -166,7 +179,6 @@
         <p>浴缸＋淋浴｜迷你吧｜空调</p>
       </div>
     </div>
-
     <div class="hotel-card">
       <img src="images/luxury-balcony.jpg" class="hotel-img">
       <div class="hotel-info">
@@ -174,7 +186,6 @@
         <p>私人阳台｜电视｜免费饮品</p>
       </div>
     </div>
-
     <div class="hotel-card">
       <img src="images/club-suite.jpg" class="hotel-img">
       <div class="hotel-info">
@@ -182,7 +193,6 @@
         <p>含Club服务｜下午茶｜泳池景观</p>
       </div>
     </div>
-
     <div class="hotel-card">
       <img src="images/rosewood-suite.jpg" class="hotel-img">
       <div class="hotel-info">
@@ -192,9 +202,15 @@
     </div>
   </div>
 
-  <!-- 🌄 Image Banner -->
+  <!-- Banner Image -->
   <div id="type-image">
     <img id="type-img" src="" alt="类型图片">
+  </div>
+
+  <!-- 多图展示 -->
+  <div id="type-gallery">
+    <h2>📸 服务展示</h2>
+    <div id="gallery-images"></div>
   </div>
 
   <button class="button" onclick="openTelegramChat()">咨询客服</button>
@@ -212,20 +228,28 @@
       }
     }
 
+    function renderGallery(images) {
+      const galleryDiv = document.getElementById('gallery-images');
+      galleryDiv.innerHTML = '';
+      images.forEach(src => {
+        const img = document.createElement('img');
+        img.src = src;
+        galleryDiv.appendChild(img);
+      });
+    }
+
     function loadContent() {
       const params = new URLSearchParams(window.location.search);
       const type = params.get('type');
+
       const hotelSection = document.getElementById('hotel-section');
       const typeImageDiv = document.getElementById('type-image');
       const typeImage = document.getElementById('type-img');
+      const typeGallery = document.getElementById('type-gallery');
 
       if (type === 'rental') {
         document.getElementById('page-title').innerText = "租赁办理流程";
-        document.getElementById('step1-desc').innerText = "1、线上下单\n"
-                                                          "2、联系客服提交资料\n"
-                                                          "3、付款及押金\n"
-                                                          "4、获取入住信息\n"
-                                                          "5、领取房卡\n";
+        document.getElementById('step1-desc').innerText = "线上下单 → 联系客服提交资料 → 签订合同 → 缴纳押金 → 获取车辆";
         document.getElementById('step2-desc').innerText = "护照首页照片、租赁人驾照、租赁合同、车辆押金";
         document.getElementById('step3-desc').innerText = "租赁押金：$5000 USD（车归还后全额退还，若无损坏）";
         document.getElementById('icon1').innerText = "📝";
@@ -234,6 +258,12 @@
         hotelSection.style.display = 'block';
         typeImageDiv.style.display = 'block';
         typeImage.src = "images/rental-banner.jpg";
+        typeGallery.style.display = 'block';
+        renderGallery([
+          "images/rental1.jpg",
+          "images/rental2.jpg",
+          "images/rental3.jpg"
+        ]);
       } else if (type === 'visa') {
         document.getElementById('page-title').innerText = "签证办理流程";
         document.getElementById('step1-desc').innerText = "选择签证类型 → 准备材料 → 提交申请";
@@ -245,9 +275,16 @@
         hotelSection.style.display = 'none';
         typeImageDiv.style.display = 'block';
         typeImage.src = "images/visa-banner.jpg";
+        typeGallery.style.display = 'block';
+        renderGallery([
+          "images/visa1.jpg",
+          "images/visa2.jpg",
+          "images/visa3.jpg"
+        ]);
       } else {
         hotelSection.style.display = 'none';
         typeImageDiv.style.display = 'none';
+        typeGallery.style.display = 'none';
       }
     }
 
