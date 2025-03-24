@@ -244,8 +244,9 @@ RESPONSE_DATA = {
                     "🏅 等级：⭐⭐⭐ VIP\n"
 ,
         "buttons": [
-            [InlineKeyboardButton("语言翻译", callback_data="语言翻译"),
-             InlineKeyboardButton("商务对接", callback_data="商务对接")]
+            [InlineKeyboardButton(text="🎙️语言翻译",url="https://t.me/LUODISWKF?text=您好，我想了解语言翻译服务"),
+            InlineKeyboardButton(text="🤝商务对接",url="https://t.me/LUODISWKF?text=您好，我想了解商务对接服务")
+]
         ]
     },
                                 # "语言翻译": {
