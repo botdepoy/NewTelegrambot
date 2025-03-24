@@ -229,44 +229,52 @@ RESPONSE_DATA = {
 
  "🌍 翻译与商务对接": {
         "photo": "images/翻译与商务.jpg",
-        "caption": "🗣️ 翻译与商务对接 | Translation & Business Coordination \n\n"
-
-                    "📌 语言翻译 – 提供专业翻译，助力高效沟通 🌍\n"
-                    "📌 商务对接 – 搭建桥梁，促进国际合作 🤝\n"
+        "caption": "🎙️ 语言翻译服务\n"
+                    "🔹 现场翻译｜实时沟通\n\n"
+                    "🔹 商务翻译｜术语精准\n"
+                    "🔹 同声传译｜国际水准\n"
+                    "🏅 等级：⭐⭐⭐ / ⭐⭐⭐⭐ VIP\n\n"
                     
-                    "📞 联系我们，让沟通更顺畅！ 🚀\n",
+                    "━━━━━━━━━━━━━━\n"
+                    
+                    "🤝 商务对接服务\n"
+                    "🔹 洽谈安排｜高效连接\n"
+                    "🔹 会议组织｜全程策划\n"
+                    "🔹 VIP助理｜专属服务\n"
+                    "🏅 等级：⭐⭐⭐ VIP\n"
+,
         "buttons": [
             [InlineKeyboardButton("语言翻译", callback_data="语言翻译"),
              InlineKeyboardButton("商务对接", callback_data="商务对接")]
         ]
     },
-                                "语言翻译": {
-                                    "photo": "mages/translator.jpg",
-                                    "caption": "🗣️ **语言翻译** | **Language Translation** \n\n "
-                                                "✅ **现场翻译** – 实时沟通，无障碍交流 🌍 \n "
-                                                "📑 **商务会议翻译** – 专业精准，助力商务洽谈 💼\n  "
-                                                "🎧 **专业同声传译** – 高效流畅，国际标准 🔊 \n\n "
-                                                "📞 **联系我们，提供专业翻译服务！** 🚀",
-                                    "buttons": [[InlineKeyboardButton("现场翻译", callback_data="现场翻译"),
-                                                InlineKeyboardButton("商务会议翻译", callback_data="商务会议翻译")],
-                                                [InlineKeyboardButton("专业同声传译", callback_data="专业同声传译")],
-                                                [InlineKeyboardButton("🔙 返回", callback_data="🌍 翻译与商务对接")]
-                                               ]
-                                },
-                                "商务对接": {
-                                    "photo": "images/商务对接.jpg",
-                                    "caption": "🤝 **商务对接** | **Business Coordination** \n\n "
-                                               " ✅ **企业洽谈安排** – 助力高效商务合作 💼 \n "
-                                               " ✅ **商务会议组织** – 精准策划，提升会议效率 🏢 \n "
-                                               " ✅ **VIP私人助理** – 专业服务，尊享商务体验 🌟 \n\n "
+                                # "语言翻译": {
+                                #     "photo": "mages/translator.jpg",
+                                #     "caption": "🗣️ **语言翻译** | **Language Translation** \n\n "
+                                #                 "✅ **现场翻译** – 实时沟通，无障碍交流 🌍 \n "
+                                #                 "📑 **商务会议翻译** – 专业精准，助力商务洽谈 💼\n  "
+                                #                 "🎧 **专业同声传译** – 高效流畅，国际标准 🔊 \n\n "
+                                #                 "📞 **联系我们，提供专业翻译服务！** 🚀",
+                                #     "buttons": [[InlineKeyboardButton("现场翻译", callback_data="现场翻译"),
+                                #                 InlineKeyboardButton("商务会议翻译", callback_data="商务会议翻译")],
+                                #                 [InlineKeyboardButton("专业同声传译", callback_data="专业同声传译")],
+                                #                 [InlineKeyboardButton("🔙 返回", callback_data="🌍 翻译与商务对接")]
+                                #                ]
+                                # },
+                                # "商务对接": {
+                                #     "photo": "images/商务对接.jpg",
+                                #     "caption": "🤝 **商务对接** | **Business Coordination** \n\n "
+                                #                " ✅ **企业洽谈安排** – 助力高效商务合作 💼 \n "
+                                #                " ✅ **商务会议组织** – 精准策划，提升会议效率 🏢 \n "
+                                #                " ✅ **VIP私人助理** – 专业服务，尊享商务体验 🌟 \n\n "
                                                 
-                                               " 📞 **联系我们，让商务沟通更顺畅！** 🚀",
-                                    "buttons": [[InlineKeyboardButton("企业洽谈安排", callback_data="企业洽谈安排"),
-                                                InlineKeyboardButton("商务会议组织", callback_data="商务会议组织")],
-                                                [InlineKeyboardButton("VIP-私人助理", callback_data="VIP-私人助理")],
-                                                [InlineKeyboardButton("🔙 返回", callback_data="🌍 翻译与商务对接")]
-                                               ]
-                                },    
+                                #                " 📞 **联系我们，让商务沟通更顺畅！** 🚀",
+                                #     "buttons": [[InlineKeyboardButton("企业洽谈安排", callback_data="企业洽谈安排"),
+                                #                 InlineKeyboardButton("商务会议组织", callback_data="商务会议组织")],
+                                #                 [InlineKeyboardButton("VIP-私人助理", callback_data="VIP-私人助理")],
+                                #                 [InlineKeyboardButton("🔙 返回", callback_data="🌍 翻译与商务对接")]
+                                #                ]
+                                # },    
 
 
 
