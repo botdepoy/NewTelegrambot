@@ -107,103 +107,122 @@ RESPONSE_DATA = {
 
     "📜 证照办理": {
             "photo": "images/visa.jpg",
-            "caption": "📜 证件办理服务** | **Document Processing Services \n\n"
-                        "✨ **快速 & 高效，轻松办理您的证件！** ✨\n  "
+            "caption": "<b>🛂【证件办理服务】</b>\n" 
+                        "快速办理签证、护照、劳工证、驾驶证等服务。\n\n"
                         
-                        "🛂 **落地商务签** – 办理便捷，轻松落地 🌍\n  "
-                        "🛫 **旅游签证** – 畅游世界，轻松出行 ✈️ \n "
-                        "📆 **长期商务签** – 长期驻留，无忧续签 🏢\n " 
-                        "🔄 **签证续签** – 快速续签，避免逾期 ⏳\n  "
-                        "🆕 **护照更换** – 助您顺利更新新护照 📑\n  "
-                        "🚗 **驾驶证办理** – 驾驶资格，轻松搞定 ✅ \n "
-                        "✅ 手续简便 | ⚡ 快速办理 | 🔒 安全可靠 \n\n "
+                        "<b>📌 入境签证</b>\n"  
+                        "🔹 单次旅游签：85$\n"  
+                        "🔹 单次商务签：105$\n"  
+                        "📝 所需资料：护照首页 + 白底照片 + 入境机场/时间\n"  
+                        "🕐 办理时间：1工作日\n"  
+                        "⚠️ 逾期罚款：10$/天\n"  
+                        "➕ 带关服务：+45$\n\n"
                         
-                       " **让您的出行更无忧，我们为您提供全方位证件支持！** 🌍✨",
+                        "━━━━━━━━━━━━━━\n"
+                        
+                        "<b>🔁 续签服务</b>\n"  
+                        "🔹 旅游签续签（1个月）：65$\n"  
+                        "🔹 商务签续签（1个月~1年）：65$ - 300$\n"  
+                        "📝 所需：护照原件（1年加劳工证照片）\n"  
+                        "🕐 正常7工作日｜加急：+90$\n\n"
+                        
+                        "━━━━━━━━━━━━━━\n"
+                        
+                        "<b>📑 劳工证</b>\n"  
+                        "🔹 当年劳工证：205$\n"  
+                        "📝 护照页+签证页+二维码页\n"  
+                        "🕐 正常7天｜加急：+70$\n"  
+                        "⚠️ 逾期未续罚款：80$/年\n\n"
+                        
+                        "━━━━━━━━━━━━━━\n"
+                        
+                        "<b>🚗 驾照服务</b>\n"  
+                        "🔹 换证：中国→柬：350$\n  
+                        "🔹 续签：柬→柬：70$（本人到场，当天出证）\n"
+                        
+                        "━━━━━━━━━━━━━━"
+                        ,
             "buttons": [
-                [InlineKeyboardButton("🛫 商务签证", callback_data="🛫 商务签证"),
-                 InlineKeyboardButton("🌍 旅游签证", callback_data="🌍 旅游签证"),
-                InlineKeyboardButton("📑 护照服务", callback_data="📑 护照服务")],
-                 [InlineKeyboardButton("📆 续签服务", callback_data="📆 续签服务"),
-                InlineKeyboardButton("🚗 驾驶证办理", callback_data="🚗 驾驶证办理")]
+                [InlineKeyboardButton("💬人工客服", url="https://t.me/LUODISWKF")]
             ]
         },
-                                "🛫 商务签证": {
-                                        "photo": "images/商务签证.png",
-                                        "caption": "📜 **商务签证简介 & 服务** | **Business Visa Services**   \n\n "                                  
-                                                "✨ **专业办理，助力全球商务拓展！** ✨ \n "
+                                # "🛫 商务签证": {
+                                #         "photo": "images/商务签证.png",
+                                #         "caption": "📜 **商务签证简介 & 服务** | **Business Visa Services**   \n\n "                                  
+                                #                 "✨ **专业办理，助力全球商务拓展！** ✨ \n "
                                                 
-                                                "📌 **商务签证** 适用于前往他国进行商务洽谈、会议、市场考察及商业合作，确保您的出行 **高效 & 合规**。\n\n  "
+                                #                 "📌 **商务签证** 适用于前往他国进行商务洽谈、会议、市场考察及商业合作，确保您的出行 **高效 & 合规**。\n\n  "
                                                 
-                                                "✅ **商务签证类型**：\n  "
-                                                "🔹 **落地商务签** 🏢✈️ – 到达后快速办理，适用于短期商务活动  \n"
-                                                "🔹 **半年商务签** 📆🌍 – 适用于中期商务出差 & 合作项目 \n "
-                                                "🔹 **一年商务签** 🔄✅ – 适用于长期商务驻留 & 跨国业务拓展 \n\n "
+                                #                 "✅ **商务签证类型**：\n  "
+                                #                 "🔹 **落地商务签** 🏢✈️ – 到达后快速办理，适用于短期商务活动  \n"
+                                #                 "🔹 **半年商务签** 📆🌍 – 适用于中期商务出差 & 合作项目 \n "
+                                #                 "🔹 **一年商务签** 🔄✅ – 适用于长期商务驻留 & 跨国业务拓展 \n\n "
                                                 
-                                                "💼 **服务内容**： \n "
-                                                "🔹 签证申请 & 指导 📄  \n"
-                                                "🔹 资料准备 & 审核 ✅ \n "
-                                                "🔹 面签辅导 & 预约 🎯 \n "
-                                                "🔹 加急办理 & 续签 🔄 \n "
+                                #                 "💼 **服务内容**： \n "
+                                #                 "🔹 签证申请 & 指导 📄  \n"
+                                #                 "🔹 资料准备 & 审核 ✅ \n "
+                                #                 "🔹 面签辅导 & 预约 🎯 \n "
+                                #                 "🔹 加急办理 & 续签 🔄 \n "
                                                 
-                                                "📞 **立即联系我们，让您的商务之旅更加顺畅！** 🚀✨",
-                                        "buttons": [         [InlineKeyboardButton("落地商务签", callback_data="落地商务签"),
-                                                             InlineKeyboardButton("半年商务签", callback_data="半年商务签"),
-                                                             InlineKeyboardButton("一年商务签", callback_data="一年商务签")],
-                                                            [InlineKeyboardButton("🔙 返回", callback_data="📜 证照办理")]
-                                                   ]
-                                    },
-                                    "🌍 旅游签证": {
-                                        "photo": "images/travel.png",
-                                        "caption": "📜 旅游签证服务 | Tourist Visa \n\n"
+                                #                 "📞 **立即联系我们，让您的商务之旅更加顺畅！** 🚀✨",
+                                #         "buttons": [         [InlineKeyboardButton("落地商务签", callback_data="落地商务签"),
+                                #                              InlineKeyboardButton("半年商务签", callback_data="半年商务签"),
+                                #                              InlineKeyboardButton("一年商务签", callback_data="一年商务签")],
+                                #                             [InlineKeyboardButton("🔙 返回", callback_data="📜 证照办理")]
+                                #                    ]
+                                #     },
+                                #     "🌍 旅游签证": {
+                                #         "photo": "images/travel.png",
+                                #         "caption": "📜 旅游签证服务 | Tourist Visa \n\n"
                                                     
-                                                    "🌍 轻松办理，畅游世界！ ✈️\n"
+                                #                     "🌍 轻松办理，畅游世界！ ✈️\n"
                                                     
-                                                    "✅ 落地旅游签 – 适用于短期旅行，快速办理 🛫\n\n"
+                                #                     "✅ 落地旅游签 – 适用于短期旅行，快速办理 🛫\n\n"
                                                     
-                                                    "💼 服务内容：\n"
-                                                    "🔹 签证申请 & 指导 📄\n"
-                                                    "🔹 资料准备 & 审核 ✅\n"
-                                                    "🔹 加急办理 & 续签 🔄\n"
+                                #                     "💼 服务内容：\n"
+                                #                     "🔹 签证申请 & 指导 📄\n"
+                                #                     "🔹 资料准备 & 审核 ✅\n"
+                                #                     "🔹 加急办理 & 续签 🔄\n"
                                                     
-                                                    "📞 联系我们，开启您的旅行之旅！ 🚀✨\n\n",
-                                        "buttons": [[InlineKeyboardButton("落地旅游签", callback_data="落地旅游签")],[InlineKeyboardButton("🔙 返回", callback_data="📜 证照办理")]]
-                                    },
-                                     "📆 续签服务": {
-                                        "photo": "images/183320304_291537002602003_2178100990049262973_n.jpg",
-                                        "caption": "📜 **续签服务** | **Visa Renewal**  \n\n"
+                                #                     "📞 联系我们，开启您的旅行之旅！ 🚀✨\n\n",
+                                #         "buttons": [[InlineKeyboardButton("落地旅游签", callback_data="落地旅游签")],[InlineKeyboardButton("🔙 返回", callback_data="📜 证照办理")]]
+                                #     },
+                                #      "📆 续签服务": {
+                                #         "photo": "images/183320304_291537002602003_2178100990049262973_n.jpg",
+                                #         "caption": "📜 **续签服务** | **Visa Renewal**  \n\n"
             
-                                                    "🔄 **签证到期？轻松续签，无忧出行！**\n " 
+                                #                     "🔄 **签证到期？轻松续签，无忧出行！**\n " 
                                                     
-                                                    "✅ **签证到期续签** – 快速办理，避免逾期 📆 \n "
-                                                    "⭐ **进阶续签** – 提供更优解决方案 🌟  \n\n"
+                                #                     "✅ **签证到期续签** – 快速办理，避免逾期 📆 \n "
+                                #                     "⭐ **进阶续签** – 提供更优解决方案 🌟  \n\n"
                                                     
-                                                    "📞 **联系我们，确保您的签证无缝衔接！** 🚀",
-                                        "buttons": [[InlineKeyboardButton("签证到期续签", callback_data="签证到期续签")],[InlineKeyboardButton("🔙 返回", callback_data="📜 证照办理")]]
-                                    },
-                                    "📑 护照服务": {
-                                        "photo": "images/20221128212817498.jpg",
-                                        "caption": "📜 **护照服务** | **Passport Services**  \n\n"
-                                                "🔄 **护照到期？快速更换，畅行无忧！**  \n"
+                                #                     "📞 **联系我们，确保您的签证无缝衔接！** 🚀",
+                                #         "buttons": [[InlineKeyboardButton("签证到期续签", callback_data="签证到期续签")],[InlineKeyboardButton("🔙 返回", callback_data="📜 证照办理")]]
+                                #     },
+                                #     "📑 护照服务": {
+                                #         "photo": "images/20221128212817498.jpg",
+                                #         "caption": "📜 **护照服务** | **Passport Services**  \n\n"
+                                #                 "🔄 **护照到期？快速更换，畅行无忧！**  \n"
                                                 
-                                                "✅ **护照到期更换** – 高效办理，避免影响出行 📆  \n"
-                                                "⭐ **进阶服务** – 提供更优更新方案 🌟 \n\n "
+                                #                 "✅ **护照到期更换** – 高效办理，避免影响出行 📆  \n"
+                                #                 "⭐ **进阶服务** – 提供更优更新方案 🌟 \n\n "
                                                 
-                                                "📞 **联系我们，轻松换新护照！** 🚀",
-                                         "buttons": [[InlineKeyboardButton("护照到期更换", callback_data="护照到期更换")],[InlineKeyboardButton("🔙 返回", callback_data="📜 证照办理")]]
-                                    },
-                                    "🚗 驾驶证办理": {
-                                        "photo": "images/接机.jpg",
-                                        "caption": "🚗 **驾驶证办理** | **Driver's License Services** \n\n "
+                                #                 "📞 **联系我们，轻松换新护照！** 🚀",
+                                #          "buttons": [[InlineKeyboardButton("护照到期更换", callback_data="护照到期更换")],[InlineKeyboardButton("🔙 返回", callback_data="📜 证照办理")]]
+                                #     },
+                                #     "🚗 驾驶证办理": {
+                                #         "photo": "images/接机.jpg",
+                                #         "caption": "🚗 **驾驶证办理** | **Driver's License Services** \n\n "
                                                     
-                                                    "✅ **驾驶证办理** – 快速申请，轻松上路 🏁  \n"
-                                                    "🔄 **驾驶证更换** – 到期换证，续航无忧 📆  \n"
+                                #                     "✅ **驾驶证办理** – 快速申请，轻松上路 🏁  \n"
+                                #                     "🔄 **驾驶证更换** – 到期换证，续航无忧 📆  \n"
                                                     
-                                                    "📞 **联系我们，轻松获取合法驾照！** 🚀",
-                                        "buttons": [[InlineKeyboardButton("驾驶证办理", callback_data="驾驶证办理"),
-                                                    InlineKeyboardButton("驾驶证更换", callback_data="驾驶证更换")],
-                                                    [InlineKeyboardButton("🔙 返回", callback_data="📜 证照办理")]
-                                                   ]
-                                    },
+                                #                     "📞 **联系我们，轻松获取合法驾照！** 🚀",
+                                #         "buttons": [[InlineKeyboardButton("驾驶证办理", callback_data="驾驶证办理"),
+                                #                     InlineKeyboardButton("驾驶证更换", callback_data="驾驶证更换")],
+                                #                     [InlineKeyboardButton("🔙 返回", callback_data="📜 证照办理")]
+                                #                    ]
+                                #     },
 
     
 
