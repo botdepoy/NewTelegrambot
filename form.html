@@ -115,13 +115,15 @@
 <script>
   function openTelegramChat() {
     const message = encodeURIComponent("你好，我想咨询关于办理车辆租赁的服务。");
-    const adminUsername = "Mommom2090"; // 🔁 Replace with real Telegram username
-    const link = `https://t.me/${adminUsername}?text=${message}`;
-    window.open(link, "_blank");
+    const adminUsername = "Mommom2090"; // ✅ your real admin username
+    const link = `tg://resolve?domain=${adminUsername}&text=${message}`;
+
+    window.location.href = link; // open Telegram app directly
   }
 
   Telegram.WebApp.ready();
 </script>
+
 
 </body>
 </html>
