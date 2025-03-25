@@ -1,98 +1,153 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>租房服务办理</title>
+  <meta charset="UTF-8">
+  <title>一条龙办理流程</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
-      font-family: "Segoe UI", sans-serif;
+      font-family: 'Segoe UI', sans-serif;
+      background: #ffffff;
       margin: 0;
       padding: 0;
-      background-color: #ffffff;
-    }
-
-    .section {
-      padding: 30px 20px;
-      margin: 30px 16px;
-      border-radius: 16px;
-      background-color: #fff3ea;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
     }
 
     h2 {
-      font-size: 22px;
-      font-weight: bold;
-      margin-bottom: 20px;
-      color: #333;
       text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      margin: 40px 20px 30px 20px;
     }
 
-    ul {
-      padding-left: 0;
-      list-style: none;
+    .section {
+      background: #fff5ee;
+      margin: 30px 20px;
+      padding: 50px 20px 30px 20px;
+      border-radius: 16px;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
     }
 
-    li {
-      font-size: 15px;
-      margin-bottom: 12px;
-      color: #444;
+    .icon-circle {
+      width: 60px;
+      height: 60px;
+      background-color: #ff7e00;
+      border-radius: 50%;
+      color: white;
+      font-size: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      top: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
 
-    li::before {
-      content: "✅ ";
-      color: #00aa55;
-      margin-right: 4px;
+    .title {
+      font-weight: bold;
+      font-size: 18px;
+      margin-top: 40px;
+      margin-bottom: 15px;
     }
 
-    .btn {
-      display: block;
-      width: 80%;
-      margin: 40px auto 60px;
-      padding: 14px;
-      font-size: 16px;
+    .desc {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #333;
+      padding: 0 10px;
+    }
+
+    .button {
+      width: calc(100% - 40px);
+      max-width: 400px;
+      margin: 50px auto 60px auto;
+      padding: 15px;
+      border: none;
+      border-radius: 50px;
       background-color: #ff7e00;
       color: white;
-      border: none;
-      border-radius: 30px;
+      font-size: 16px;
       text-align: center;
+      display: block;
       cursor: pointer;
+    }
+
+    .button:active {
+      background-color: #e66e00;
     }
   </style>
 </head>
 <body>
 
-  <!-- 房屋服务展示 -->
+  <h2 id="page-title">一条龙办理流程</h2>
+
   <div class="section">
-    <h2>租房服务办理</h2>
-    <ul>
-      <li>提供短租、长租、整租、分租等服务</li>
-      <li>上传身份证、押金支付凭证</li>
-      <li>提供看房、签约、押金退还一站式服务</li>
-    </ul>
+    <div class="icon-circle" id="icon1">📝</div>
+    <div class="title" id="step1-title">1. 办理流程</div>
+    <div class="desc" id="step1-desc">
+      线上下单 → 联系客服提交资料 → 签订合同 → 缴纳押金 → 获取车辆
+    </div>
   </div>
 
-  <!-- 联系客服按钮 -->
-  <button class="btn" onclick="contactSupport()">咨询客服</button>
+  <div class="section">
+    <div class="icon-circle" id="icon2">📄</div>
+    <div class="title" id="step2-title">2. 所需材料</div>
+    <div class="desc" id="step2-desc">
+      护照首页照片、租赁人驾照、租赁合同、车辆押金
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="icon-circle" id="icon3">⚠️</div>
+    <div class="title" id="step3-title">3. 注意</div>
+    <div class="desc" id="step3-desc">
+      租赁押金：$5000 USD（车归还后全额退还，若无损坏）
+    </div>
+  </div>
+
+  <button class="button" onclick="openTelegramChat()">
+    咨询客服
+  </button>
 
   <script>
-    function contactSupport() {
-      const message = "你好，我想咨询关于租房服务的详情。";
-      const username = "Mommom2090"; // 改为你的客服 Telegram 用户名
-      const link = `https://t.me/${username}?text=${encodeURIComponent(message)}`;
+    // ✅ keep the original button logic
+    function openTelegramChat() {
+      const message = ("你好，我想咨询关于办理车辆租赁的服务。");
+      const adminUsername = "Mommom2090";
+      const link = `https://t.me/${adminUsername}?text=${encodeURIComponent(message)}`;
 
-      if (Telegram.WebApp) {
+      if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
         Telegram.WebApp.openTelegramLink(link);
       } else {
         window.open(link, '_blank');
       }
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
-      if (window.Telegram && Telegram.WebApp) {
-        Telegram.WebApp.ready();
+    // ✅ new dynamic content logic
+    function loadContent() {
+      const params = new URLSearchParams(window.location.search);
+      const type = params.get('type'); // e.g. ?type=visa
+
+      if (type === 'visa') {
+        document.getElementById('page-title').innerText = "签证办理流程";
+        document.getElementById('step1-title').innerText = "1. 选择签证类型";
+        document.getElementById('step1-desc').innerText = "旅游签、商务签、学生签、工作签等";
+        document.getElementById('step2-title').innerText = "2. 所需材料";
+        document.getElementById('step2-desc').innerText = "护照复印件、照片、申请表、签证费等";
+        document.getElementById('step3-title').innerText = "3. 注意事项";
+        document.getElementById('step3-desc').innerText = "资料必须真实有效；不同国家材料略有不同";
+        document.getElementById('icon1').innerText = "🛂";
+        document.getElementById('icon2').innerText = "📑";
+        document.getElementById('icon3').innerText = "❗";
       }
-    });
+      // you can add more else if blocks like "hotel", "tour", etc.
+    }
+
+    Telegram.WebApp.ready();
+    loadContent(); // run this on page load
   </script>
 
 </body>
