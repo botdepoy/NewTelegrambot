@@ -1,84 +1,120 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <title>服务详情</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>服务办理</title>
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
+      font-family: "Segoe UI", sans-serif;
       margin: 0;
-      padding: 20px;
-      background: #fefefe;
+      padding: 0;
+      background-color: #ffffff;
     }
 
     .section {
-      background: #fff4e6;
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      padding: 30px 20px;
+      margin: 20px auto;
+      max-width: 600px;
+      border-radius: 16px;
+      background-color: #fff5ee;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
     }
 
     h2 {
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 16px;
+      color: #333;
       text-align: center;
-      font-size: 24px;
-      margin-bottom: 15px;
     }
 
-    .img {
-      width: 100%;
-      max-width: 350px;
+    p {
+      font-size: 15px;
+      line-height: 1.6;
+      color: #444;
+    }
+
+    .btn {
       display: block;
-      margin: 10px auto;
-      border-radius: 12px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      width: 90%;
+      margin: 30px auto;
+      padding: 14px;
+      font-size: 16px;
+      background-color: #ff7e00;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .form-section {
+      display: none;
     }
   </style>
 </head>
 <body>
-  <h2 id="title">服务详情</h2>
 
-  <!-- Visa Services Section -->
-<div id="visa" class="content-section" style="display: none;">
-  <h2>Visa Services</h2>
-  <!-- form fields here -->
-</div>
+  <!-- VISA -->
+  <div id="visa-form" class="form-section section">
+    <h2>签证服务办理</h2>
+    <p>✔️ 提供落地签、商务签、旅游签、学生签等。</p>
+    <p>✔️ 提交护照首页照片、签证申请表。</p>
+    <p>✔️ 实时更新进度，7x12小时客服支持。</p>
+  </div>
 
-<!-- Rental Services Section -->
-<div id="rental" class="content-section" style="display: none;">
-  <h2>Rental Services</h2>
-  <!-- form fields here -->
-</div>
+  <!-- HOUSE -->
+  <div id="house-form" class="form-section section">
+    <h2>租房服务办理</h2>
+    <p>✔️ 提供短租、长租、整租、分租等服务。</p>
+    <p>✔️ 上传身份证、押金支付凭证。</p>
+    <p>✔️ 提供看房、签约、押金退还一站式服务。</p>
+  </div>
 
-<!-- Cleaning Services Section -->
-<div id="cleaning" class="content-section" style="display: none;">
-  <h2>Cleaning Services</h2>
-  <!-- form fields here -->
-</div>
- <button class="button" onclick="openTelegramChat()">咨询客服</button>
+  <!-- CLEANING -->
+  <div id="cleaning-form" class="form-section section">
+    <h2>清洁服务预约</h2>
+    <p>✔️ 日常清洁、深度清洁、家电清洗。</p>
+    <p>✔️ 提供身份证及地址信息，在线预约时间段。</p>
+    <p>✔️ 快速响应，安全可靠。</p>
+  </div>
+
+  <!-- Common Button -->
+  <button class="btn" onclick="contactSupport()">咨询客服</button>
+
   <script>
-  function getQueryParam(param) {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get(param);
-  }
-
-  window.onload = function() {
-    const type = getQueryParam("type");
-
-    // Hide all sections
-    document.querySelectorAll('.content-section').forEach(el => el.style.display = 'none');
-
-    // Show the section that matches the 'type'
-    if (type) {
-      const target = document.getElementById(type);
-      if (target) {
-        target.style.display = 'block';
+    function contactSupport() {
+      const message = "你好，我想咨询服务详情。";
+      const username = "Mommom2090"; // 你的客服用户名
+      const link = `https://t.me/${username}?text=${encodeURIComponent(message)}`;
+      if (Telegram.WebApp) {
+        Telegram.WebApp.openTelegramLink(link);
+      } else {
+        window.open(link, '_blank');
       }
     }
-  };
-</script>
 
+    function showFormByParam(param) {
+      document.querySelectorAll('.form-section').forEach(el => el.style.display = 'none');
+      const id = `${param}-form`;
+      const section = document.getElementById(id);
+      if (section) {
+        section.style.display = 'block';
+      } else {
+        document.getElementById('house-form').style.display = 'block'; // default
+      }
+    }
 
+    window.addEventListener('DOMContentLoaded', () => {
+      if (window.Telegram && Telegram.WebApp) {
+        Telegram.WebApp.ready();
+        const param = Telegram.WebApp.initDataUnsafe?.start_param || 'house';
+        showFormByParam(param.toLowerCase());
+      } else {
+        showFormByParam('house'); // fallback if not inside Telegram
+      }
+    });
+  </script>
 </body>
 </html>
