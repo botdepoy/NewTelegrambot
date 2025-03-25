@@ -66,70 +66,57 @@
 </head>
 <body>
 
-  <!-- VISA -->
-  <div id="visa-form" class="form-section section">
-    <h2>签证服务办理</h2>
-    <ul>
-      <li>提供落地签、商务签、旅游签、学生签等服务</li>
-      <li>准备护照首页、身份证等资料</li>
-      <li>签证进度可查，资料安全无存储</li>
-    </ul>
-  </div>
+ <div id="visa-form" class="form-section" style="display: none;">
+  <h2>签证服务办理</h2>
+  <p>✅ 提供旅游签、商务签、学生签等</p>
+  <p>✅ 准备护照、身份证等资料</p>
+  <p>✅ 专业团队，一对一服务</p>
+</div>
 
-  <!-- HOUSE -->
-  <div id="house-form" class="form-section section">
-    <h2>租房服务办理</h2>
-    <ul>
-      <li>提供短租、长租、整租、分租等服务</li>
-      <li>上传身份证、押金支付凭证</li>
-      <li>提供看房、签约、押金退还一站式服务</li>
-    </ul>
-  </div>
+<div id="house-form" class="form-section" style="display: none;">
+  <h2>租房服务办理</h2>
+  <p>✅ 提供短租、长租、整租、分租服务</p>
+  <p>✅ 上传身份证、押金支付凭证</p>
+  <p>✅ 提供看房、签约、退还押金服务</p>
+</div>
 
-  <!-- CLEANING -->
-  <div id="cleaning-form" class="form-section section">
-    <h2>清洁服务预约</h2>
-    <ul>
-      <li>提供日常清洁、深度清洁、家电清洗</li>
-      <li>上传地址信息并选择服务时间段</li>
-      <li>快速响应，人员可靠</li>
-    </ul>
-  </div>
+<div id="cleaning-form" class="form-section" style="display: none;">
+  <h2>清洁服务办理</h2>
+  <p>✅ 日常清洁、深度清洁、家电清洗</p>
+  <p>✅ 可预约时间段，支持定时清洁</p>
+  <p>✅ 安全专业团队</p>
+</div>
 
   <!-- Common Contact Button -->
   <button class="btn" onclick="contactSupport()">咨询客服</button>
 
   <script>
-    function contactSupport() {
-      const message = "你好，我想咨询服务详情。";
-      const username = "Mommom2090"; // Replace with your Telegram username
-      const link = `https://t.me/${username}?text=${encodeURIComponent(message)}`;
-      if (Telegram.WebApp) {
-        Telegram.WebApp.openTelegramLink(link);
-      } else {
-        window.open(link, '_blank');
-      }
+  function showFormByType(type) {
+    document.querySelectorAll('.form-section').forEach(el => el.style.display = 'none');
+    const target = document.getElementById(`${type}-form`);
+    if (target) {
+      target.style.display = 'block';
+    } else {
+      document.getElementById('house-form').style.display = 'block';
+    }
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    let type = 'house'; // default
+
+    // ✅ If inside Telegram
+    if (window.Telegram && Telegram.WebApp) {
+      Telegram.WebApp.ready();
+      type = Telegram.WebApp.initDataUnsafe?.start_param || 'house';
+    } else {
+      // ✅ fallback for browser testing
+      const urlParam = new URLSearchParams(window.location.search).get('startapp');
+      if (urlParam) type = urlParam;
     }
 
-    function showFormByType(type) {
-      document.querySelectorAll('.form-section').forEach(el => el.style.display = 'none');
-      const target = document.getElementById(`${type}-form`);
-      if (target) {
-        target.style.display = 'block';
-      } else {
-        document.getElementById('house-form').style.display = 'block';
-      }
-    }
+    showFormByType(type.toLowerCase());
+  });
+</script>
 
-    window.addEventListener('DOMContentLoaded', () => {
-      if (window.Telegram && Telegram.WebApp) {
-        Telegram.WebApp.ready();
-        const param = Telegram.WebApp.initDataUnsafe?.start_param || 'house';
-        showFormByType(param.toLowerCase());
-      } else {
-        showFormByType('house'); // fallback for testing in browser
-      }
-    });
-  </script>
 </body>
 </html>
