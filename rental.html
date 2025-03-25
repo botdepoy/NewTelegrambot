@@ -9,55 +9,73 @@
       font-family: 'Segoe UI', sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #fff;
+      background-color: #fefefe;
     }
 
     h2 {
       text-align: center;
-      font-size: 24px;
-      margin: 30px 0;
+      font-size: 26px;
+      margin: 30px 20px;
+      font-weight: 700;
     }
 
     .hotel-card {
       background-color: #fffaf4;
-      border-radius: 16px;
-      margin: 20px;
+      border-radius: 20px;
+      margin: 20px auto;
+      max-width: 900px;
       overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
       display: flex;
       flex-direction: column;
+      transition: transform 0.2s ease;
+    }
+
+    .hotel-card:hover {
+      transform: translateY(-4px);
     }
 
     .hotel-img {
       width: 100%;
       height: auto;
       object-fit: cover;
+      display: block;
     }
 
     .hotel-info {
-      padding: 20px;
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
     .hotel-info h3 {
       font-size: 18px;
       margin-bottom: 10px;
+      font-weight: bold;
     }
 
     .hotel-info p {
       font-size: 14px;
       color: #444;
-      margin: 4px 0;
+      margin: 6px 0;
     }
 
     .consult-button {
-      margin-top: 12px;
+      margin-top: 14px;
       background-color: #ff7e00;
       color: white;
       border: none;
       padding: 10px 20px;
-      border-radius: 20px;
+      border-radius: 24px;
       font-size: 14px;
       cursor: pointer;
+      width: fit-content;
+      transition: background-color 0.2s ease;
+    }
+
+    .consult-button:hover {
+      background-color: #e96e00;
     }
 
     /* 👉 Desktop layout */
@@ -68,24 +86,26 @@
 
       .hotel-img {
         width: 45%;
-        border-radius: 16px 0 0 16px;
+        height: 100%;
+        border-radius: 20px 0 0 20px;
       }
 
       .hotel-info {
         flex: 1;
         padding: 30px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
+      }
+
+      .consult-button {
+        align-self: flex-start;
       }
     }
   </style>
 </head>
 <body>
 
-<h2>🏨 索菲特房型展示</h2>
+<h2>🏨 索菲特特房型展示</h2>
 
-<!-- Sample Room -->
+<!-- Room 1 -->
 <div class="hotel-card">
   <img src="images/高级.png" class="hotel-img" alt="高级双床间">
   <div class="hotel-info">
@@ -96,8 +116,9 @@
   </div>
 </div>
 
+<!-- Room 2 -->
 <div class="hotel-card">
-  <img src="images/豪华大号床.png" class="hotel-img" alt="豪华大号床">
+  <img src="images/豪华大号床.png" class="hotel-img" alt="豪华大号床间">
   <div class="hotel-info">
     <h3>🌇 豪华大号床间</h3>
     <p>🌿 殖民地风格、私人阳台</p>
@@ -106,7 +127,7 @@
   </div>
 </div>
 
-<!-- Add more rooms below following the same structure -->
+<!-- You can continue adding more hotel-card blocks here -->
 
 <script>
   function openTelegramChat(roomName) {
