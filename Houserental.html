@@ -1,100 +1,134 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>租房服务办理</title>
+  <title>一条龙办理流程</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
-      font-family: "Helvetica Neue", sans-serif;
+      font-family: 'Segoe UI', sans-serif;
+      background: #ffffff;
       margin: 0;
       padding: 0;
-      background: #f8f8f8;
     }
-    .container {
-      max-width: 500px;
-      margin: 20px auto;
-      padding: 20px;
-      background: #fff;
-      border-radius: 12px;
-    }
-    h1 {
-      font-size: 22px;
+
+    h2 {
+      text-align: center;
+      font-size: 24px;
       font-weight: bold;
+      margin: 40px 20px 30px 20px;
+    }
+
+    .section {
+      background: #fff5ee;
+      margin: 30px 20px;
+      padding: 50px 20px 30px 20px;
+      border-radius: 16px;
       text-align: center;
-      margin-bottom: 10px;
+      position: relative;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
     }
-    .subtitle {
-      text-align: center;
-      font-size: 16px;
-      margin-bottom: 20px;
-      color: #555;
-    }
-    .step-box {
-      background: #fff7f2;
-      padding: 20px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-    }
-    .icon {
-      text-align: center;
-      font-size: 36px;
-      color: #f58220;
-      margin-bottom: 10px;
-    }
-    .step-title {
-      font-size: 18px;
-      font-weight: bold;
-      margin-bottom: 8px;
-    }
-    .step-description {
-      font-size: 15px;
-      line-height: 1.6;
-      color: #444;
-    }
-    .btn {
-      display: block;
-      width: 100%;
-      background-color: #f58220;
+
+    .icon-circle {
+      width: 60px;
+      height: 60px;
+      background-color: #ff7e00;
+      border-radius: 50%;
       color: white;
-      text-align: center;
-      padding: 14px;
-      border: none;
-      border-radius: 30px;
-      font-size: 16px;
+      font-size: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      top: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .title {
       font-weight: bold;
-      text-decoration: none;
+      font-size: 18px;
+      margin-top: 40px;
+      margin-bottom: 15px;
+    }
+
+    .desc {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #333;
+      padding: 0 10px;
+    }
+
+    .button {
+      width: calc(100% - 40px);
+      max-width: 400px;
+      margin: 50px auto 60px auto;
+      padding: 15px;
+      border: none;
+      border-radius: 50px;
+      background-color: #ff7e00;
+      color: white;
+      font-size: 16px;
+      text-align: center;
+      display: block;
+      cursor: pointer;
+    }
+
+    .button:active {
+      background-color: #e66e00;
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <h1>租房服务</h1>
-    <div class="subtitle">一站式办理流程</div>
+  <h2>一条龙办理流程</h2>
 
-    <!-- Step 1 -->
-    <div class="step-box">
-      <div class="icon">🏠</div>
-      <div class="step-title">1. 选择服务</div>
-      <div class="step-description">
-        可选服务包括：短租、长租、分租、整租、押一付一、房产咨询、看房安排、水电网代缴、房间维修等。
-      </div>
+  <div class="section">
+    <div class="icon-circle">📝</div>
+    <div class="title">1. 办理流程</div>
+    <div class="desc">
+      线上下单 → 联系客服提交资料 → 签订合同 → 缴纳押金 → 获取车辆
     </div>
-
-    <!-- Step 2 -->
-    <div class="step-box">
-      <div class="icon">📋</div>
-      <div class="step-title">2. 准备资料</div>
-      <div class="step-description">
-        根据所选服务，我们会告知需要准备的资料。保障信息安全、不存档，快速对接房源，支持7x12小时服务响应。
-      </div>
-    </div>
-
-    <!-- Button -->
-    <a href="https://t.me/your_bot_username" class="btn">咨询客服</a>
   </div>
+
+  <div class="section">
+    <div class="icon-circle">📄</div>
+    <div class="title">2. 所需材料</div>
+    <div class="desc">
+      护照首页照片、租赁人驾照、租赁合同、车辆押金
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="icon-circle">⚠️</div>
+    <div class="title">3. 注意</div>
+    <div class="desc">
+      租赁押金：$5000 USD（车归还后全额退还，若无损坏）
+    </div>
+  </div>
+
+<button class="button" onclick="openTelegramChat()">
+  咨询客服
+</button>
+<script>
+  function openTelegramChat() {
+    const message = ("你好，我想咨询关于办理车辆租赁的服务。");
+    const adminUsername = "Mommom2090"; // Replace with your actual Telegram username
+    const link = `https://t.me/${adminUsername}?text=${message}`;
+
+    // ✅ This works inside Telegram Mini WebApp
+    if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
+      Telegram.WebApp.openTelegramLink(link);
+    } else {
+      // fallback for browser testing
+      window.open(link, '_blank');
+    }
+  }
+
+  Telegram.WebApp.ready();
+</script>
+
 
 </body>
 </html>
-
