@@ -14,31 +14,41 @@
 
     .section {
       padding: 30px 20px;
-      margin: 20px auto;
-      max-width: 600px;
+      margin: 30px 16px;
       border-radius: 16px;
-      background-color: #fff5ee;
+      background-color: #fff3ea;
       box-shadow: 0 4px 10px rgba(0,0,0,0.05);
     }
 
     h2 {
       font-size: 22px;
       font-weight: bold;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
       color: #333;
       text-align: center;
     }
 
-    p {
+    ul {
+      padding-left: 0;
+      list-style: none;
+    }
+
+    li {
       font-size: 15px;
-      line-height: 1.6;
+      margin-bottom: 12px;
       color: #444;
+    }
+
+    li::before {
+      content: "✅ ";
+      color: #00aa55;
+      margin-right: 4px;
     }
 
     .btn {
       display: block;
-      width: 90%;
-      margin: 30px auto;
+      width: 80%;
+      margin: 40px auto 60px;
       padding: 14px;
       font-size: 16px;
       background-color: #ff7e00;
@@ -59,34 +69,40 @@
   <!-- VISA -->
   <div id="visa-form" class="form-section section">
     <h2>签证服务办理</h2>
-    <p>✔️ 提供落地签、商务签、旅游签、学生签等。</p>
-    <p>✔️ 提交护照首页照片、签证申请表。</p>
-    <p>✔️ 实时更新进度，7x12小时客服支持。</p>
+    <ul>
+      <li>提供落地签、商务签、旅游签、学生签等服务</li>
+      <li>准备护照首页、身份证等资料</li>
+      <li>签证进度可查，资料安全无存储</li>
+    </ul>
   </div>
 
   <!-- HOUSE -->
   <div id="house-form" class="form-section section">
     <h2>租房服务办理</h2>
-    <p>✔️ 提供短租、长租、整租、分租等服务。</p>
-    <p>✔️ 上传身份证、押金支付凭证。</p>
-    <p>✔️ 提供看房、签约、押金退还一站式服务。</p>
+    <ul>
+      <li>提供短租、长租、整租、分租等服务</li>
+      <li>上传身份证、押金支付凭证</li>
+      <li>提供看房、签约、押金退还一站式服务</li>
+    </ul>
   </div>
 
   <!-- CLEANING -->
   <div id="cleaning-form" class="form-section section">
     <h2>清洁服务预约</h2>
-    <p>✔️ 日常清洁、深度清洁、家电清洗。</p>
-    <p>✔️ 提供身份证及地址信息，在线预约时间段。</p>
-    <p>✔️ 快速响应，安全可靠。</p>
+    <ul>
+      <li>提供日常清洁、深度清洁、家电清洗</li>
+      <li>上传地址信息并选择服务时间段</li>
+      <li>快速响应，人员可靠</li>
+    </ul>
   </div>
 
-  <!-- Common Button -->
+  <!-- Common Contact Button -->
   <button class="btn" onclick="contactSupport()">咨询客服</button>
 
   <script>
     function contactSupport() {
       const message = "你好，我想咨询服务详情。";
-      const username = "Mommom2090"; // 你的客服用户名
+      const username = "Mommom2090"; // Replace with your Telegram username
       const link = `https://t.me/${username}?text=${encodeURIComponent(message)}`;
       if (Telegram.WebApp) {
         Telegram.WebApp.openTelegramLink(link);
@@ -95,14 +111,13 @@
       }
     }
 
-    function showFormByParam(param) {
+    function showFormByType(type) {
       document.querySelectorAll('.form-section').forEach(el => el.style.display = 'none');
-      const id = `${param}-form`;
-      const section = document.getElementById(id);
-      if (section) {
-        section.style.display = 'block';
+      const target = document.getElementById(`${type}-form`);
+      if (target) {
+        target.style.display = 'block';
       } else {
-        document.getElementById('house-form').style.display = 'block'; // default
+        document.getElementById('house-form').style.display = 'block';
       }
     }
 
@@ -110,9 +125,9 @@
       if (window.Telegram && Telegram.WebApp) {
         Telegram.WebApp.ready();
         const param = Telegram.WebApp.initDataUnsafe?.start_param || 'house';
-        showFormByParam(param.toLowerCase());
+        showFormByType(param.toLowerCase());
       } else {
-        showFormByParam('house'); // fallback if not inside Telegram
+        showFormByType('house'); // fallback for testing in browser
       }
     });
   </script>
