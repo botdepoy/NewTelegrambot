@@ -345,7 +345,7 @@ RESPONSE_DATA = {
 
                                                 ,
                                     "buttons": [
-                                                [InlineKeyboardButton(text="办理流程",url="https://t.me/HWLDSWFW_bot/Myapp?startapp=type=rental")
+                                                [InlineKeyboardButton(text="办理流程",url="https://botdepoy.github.io/NewTelegrambot/form.html?startapp=visa")
                                                 ,InlineKeyboardButton(text="💬 联系客服",url="https://t.me/LUODISWKF?start=Hi%20I%20need%20help")],
                                                 [InlineKeyboardButton("🔙 返回", callback_data="🏨 酒店与租凭")]
                                     ]            
