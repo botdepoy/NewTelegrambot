@@ -249,7 +249,7 @@
       const message = "你好，我想咨询关于服务的详情。";
       const adminUsername = "Mommom2090";
       const link = `https://t.me/${adminUsername}?text=${encodeURIComponent(message)}`;
-      if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
+      if (Telegram.WebApp) {
         Telegram.WebApp.openTelegramLink(link);
       } else {
         window.open(link, '_blank');
@@ -257,44 +257,33 @@
     }
 
     function loadContent() {
-  const params = new URLSearchParams(window.location.search);
-  const type = params.get('type');
+      Telegram.WebApp.ready();
 
-  const hotelSection = document.getElementById('hotel-section');
-  const hotelCards = document.getElementById('hotel-cards');
-  const typeImageDiv = document.getElementById('type-image');
-  const typeImage = document.getElementById('type-img');
+      const startParam = Telegram.WebApp.initDataUnsafe?.start_param || '';
+      const type = startParam.trim().toLowerCase();
 
-  if (type === 'rental') {
-    document.getElementById('page-title').innerText = "酒店办理流程";
-    document.getElementById('step1-desc').innerText = "线上下单 → 联系客服提交资料 → 签订合同 → 缴纳押金 → 获取服务";
-    document.getElementById('step2-desc').innerText = "护照首页、入住天数、房型选择等";
-    document.getElementById('icon1').innerText = "📝";
-    document.getElementById('icon2').innerText = "📄";
-    hotelSection.style.display = 'block';
-    hotelCards.style.display = 'block';
-    typeImageDiv.style.display = 'block';
-    typeImage.src = "images/rental-banner.jpg";
-  } else if (type === 'visa') {
-    document.getElementById('page-title').innerText = "签证办理流程";
-    document.getElementById('step1-desc').innerText = "选择签证类型 → 准备材料 → 提交申请";
-    document.getElementById('step2-desc').innerText = "护照、签证表、照片、签证费";
-    document.getElementById('step3-desc').innerText = "签证一经提交，费用不可退，请确认资料真实";
-    document.getElementById('icon1').innerText = "🛂";
-    document.getElementById('icon2').innerText = "📑";
-    document.getElementById('icon3').innerText = "⚠️";
-    hotelSection.style.display = 'none';
-    hotelCards.style.display = 'none';
-    typeImageDiv.style.display = 'block';
-    typeImage.src = "images/visa-banner.jpg";
-  } else {
-    hotelSection.style.display = 'none';
-    hotelCards.style.display = 'none';
-    typeImageDiv.style.display = 'none';
-  }
-}
+      const hotelSection = document.getElementById('hotel-section');
 
-
+      if (type === 'rental') {
+        document.getElementById('page-title').innerText = "酒店办理流程";
+        document.getElementById('step1-desc').innerText = "线上下单 → 联系客服提交资料 → 签订合同 → 缴纳押金 → 获取服务";
+        document.getElementById('step2-desc').innerText = "护照首页、入住日期、房型、天数等信息";
+        document.getElementById('step3-desc').innerText = "押金可能退还，确认信息真实";
+        hotelSection.style.display = 'block';
+      } else if (type === 'visa') {
+        document.getElementById('page-title').innerText = "签证办理流程";
+        document.getElementById('step1-desc').innerText = "选择签证类型 → 准备材料 → 提交申请";
+        document.getElementById('step2-desc').innerText = "护照、照片、签证申请表、签证费";
+        document.getElementById('step3-desc').innerText = "请确保材料真实有效，签证费用不可退";
+        hotelSection.style.display = 'none';
+      } else {
+        document.getElementById('page-title').innerText = "欢迎使用服务";
+        document.getElementById('step1-desc').innerText = "请点击按钮选择服务类型";
+        document.getElementById('step2-desc').innerText = "-";
+        document.getElementById('step3-desc').innerText = "-";
+        hotelSection.style.display = 'none';
+      }
+    }
 
     window.addEventListener('DOMContentLoaded', loadContent);
   </script>
