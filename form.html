@@ -1,291 +1,86 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>一条龙办理流程</title>
+  <title>服务详情</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: #ffffff;
       margin: 0;
-      padding: 0;
+      padding: 20px;
+      background: #fefefe;
+    }
+
+    .section {
+      background: #fff4e6;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     }
 
     h2 {
       text-align: center;
       font-size: 24px;
-      font-weight: bold;
-      margin: 40px 20px 30px 20px;
-    }
-
-    .section {
-      background: #fff5ee;
-      margin: 30px 20px;
-      padding: 50px 20px 30px 20px;
-      border-radius: 16px;
-      text-align: center;
-      position: relative;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
-    }
-
-    .icon-circle {
-      width: 60px;
-      height: 60px;
-      background-color: #ff7e00;
-      border-radius: 50%;
-      color: white;
-      font-size: 28px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: absolute;
-      top: -30px;
-      left: 50%;
-      transform: translateX(-50%);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-
-    .title {
-      font-weight: bold;
-      font-size: 18px;
-      margin-top: 40px;
       margin-bottom: 15px;
     }
 
-    .desc {
-      font-size: 14px;
-      line-height: 1.6;
-      color: #333;
-      padding: 0 10px;
-    }
-
-    .button {
-      width: calc(100% - 40px);
-      max-width: 400px;
-      margin: 50px auto 60px auto;
-      padding: 15px;
-      border: none;
-      border-radius: 50px;
-      background-color: #ff7e00;
-      color: white;
-      font-size: 16px;
-      text-align: center;
+    .img {
+      width: 100%;
+      max-width: 350px;
       display: block;
-      cursor: pointer;
-    }
-
-    .button:active {
-      background-color: #e66e00;
-    }
-
-    #hotel-section {
-      display: none;
-      padding: 20px;
-    }
-
-    .hotel-card {
-      display: flex;
-      background-color: #fffaf4;
+      margin: 10px auto;
       border-radius: 12px;
-      margin-bottom: 16px;
-      overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    }
-
-    .hotel-img {
-      width: 40%;
-      object-fit: cover;
-    }
-
-    .hotel-info {
-      padding: 10px 15px;
-      flex: 1;
-    }
-
-    .hotel-info h3 {
-      font-size: 16px;
-      margin: 0 0 8px;
-    }
-
-    .hotel-info p {
-      font-size: 14px;
-      color: #444;
-      margin: 0;
-    }
-
-    #type-image {
-      display: none;
-      text-align: center;
-      margin: 40px 20px;
-    }
-
-    #type-img {
-      max-width: 90%;
-      border-radius: 16px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
   </style>
 </head>
 <body>
+  <h2 id="title">服务详情</h2>
 
-  <h2 id="page-title">一条龙办理流程</h2>
-
-  <div class="section">
-    <div class="icon-circle" id="icon1">📝</div>
-    <div class="title" id="step1-title">1. 办理流程</div>
-    <div class="desc" id="step1-desc">线上下单 → 联系客服提交资料 → 签订合同 → 缴纳押金 → 获取服务</div>
+  <div class="section" id="content">
+    <p>加载中...</p>
   </div>
-
-  <div class="section">
-    <div class="icon-circle" id="icon2">📄</div>
-    <div class="title" id="step2-title">2. 所需材料</div>
-    <div class="desc" id="step2-desc">护照首页照片、身份证、申请表等</div>
-  </div>
-
-  <div class="section">
-    <div class="icon-circle" id="icon3">⚠️</div>
-    <div class="title" id="step3-title">3. 注意</div>
-    <div class="desc" id="step3-desc">注意事项内容</div>
-  </div>
-
-  <!-- ✅ ONLY THIS div should contain hotel cards -->
-<div id="hotel-section">
-  <h2>🏨 房型展示</h2>
-  <div id="hotel-cards">
-    <div class="hotel-card">
-      <img src="images/高级.png" class="hotel-img">
-      <div class="hotel-info">
-        <h3>🛏️ 高级双床间（Superior Twin Room）</h3>
-        <p>🔹房间特色：平板电视、DVD播放机、独立浴缸 & 淋浴、免费迷你吧 </p>
-        <p>🔹面积：40㎡</p>
-        <p>🔹设施：空调、私人浴室、免费饮品</p>
-      </div>
-    </div>
-
-    <div class="hotel-card">
-      <img src="images/豪华大号床.png" class="hotel-img">
-      <div class="hotel-info">
-        <h3>🌇 豪华大号床间（Luxury Room with Private Balcony）</h3>
-        <p>🔹房间特色：殖民地风格、私人阳台、独立浴缸</p>
-        <p>🔹面积：47㎡</p>
-        <p>🔹设施：空调、私人淋浴、平板电视、阳台</p>
-      </div>
-    </div>
-
-    <div class="hotel-card">
-      <img src="images/豪华大号床.png" class="hotel-img">
-      <div class="hotel-info">
-        <h3>🛌 高级房-带1张特大号床（Superior Room with Club Benefit）</h3>
-        <p>🔹房间特色：木地板、独立浴缸、可使用 Club Millésime</p>
-        <p>🔹面积：40㎡</p>
-        <p>🔹专属权益：</p>
-        <p>✨Club 早餐（06:00-12:00）</p>
-        <p>✨快速入住/退房</p>
-      </div>
-    </div>
-
-    <div class="hotel-card">
-      <img src="images/小型.png" class="hotel-img">
-      <div class="hotel-info">
-        <h3>🏙️ 豪华特大号床间（Luxury Room with Club Benefits）</h3>
-        <p>🔹房间特色：平板电视、浓缩咖啡机、MP3基座、阳台</p>
-        <p>🔹面积：53㎡</p>
-        <p>🔹专属权益：</p>
-        <p>✨早餐、下午茶、晚间鸡尾酒</p>
-        <p>✨会议室1小时/天</p>
-        <p>✨免费迷你吧 & 延迟退房</p>
-        <p>🔹设施：泳池景观、WiFi、茶/咖啡设备</p>
-      </div>
-    </div>
-
-    <div class="hotel-card">
-      <img src="images/小型.png" class="hotel-img">
-      <div class="hotel-info">
-        <h3>👑 小型特大号床套房（Junior Suite with Club Benefits）</h3>
-        <p>🔹房间特色：私人套房、宽敞浴室、平板电视、浓缩咖啡机、MP3基座</p>
-        <p>🔹面积：53㎡</p>
-        <p>🔹专属权益 同上</p>
-      </div>
-    </div>
-
-    <div class="hotel-card">
-      <img src="images/歌剧大号床.png" class="hotel-img">
-      <div class="hotel-info">
-        <h3>🎩 尊贵套房（Prestige Suite with Club Benefits）</h3>
-        <p>🔹房间特色：更衣区、大浴室、现代设施</p>
-        <p>🔹面积：93㎡</p>
-        <p>🔹专属权益 同上</p>
-        <p>🔹适合人群：商务/度假客人</p>
-      </div>
-    </div>
-
-    <div class="hotel-card">
-      <img src="images/歌剧大号床.png" class="hotel-img">
-      <div class="hotel-info">
-        <h3>🎭 歌剧特大号床套房（Opera Suite with Club Benefits）</h3>
-        <p>🔹房间特色：泳池景观、豪华热水浴缸、隔音墙、迷你吧</p>
-        <p>🔹面积：149㎡</p>
-        <p>🔹设施：浴缸 + 淋浴、吹风机、高清电视、WiFi</p>
-        <p>🔹适合人群：追求奢华体验者</p>
-      </div>
-    </div>
-  </div> <!-- ✅ End of hotel-cards -->
-</div> <!-- ✅ End of hotel-section -->
-
-
-
-    
-
-
-  <div id="type-image">
-    <img id="type-img" src="" alt="类型图片">
-  </div>
-
-  <button class="button" onclick="openTelegramChat()">咨询客服</button>
-
+ <button class="button" onclick="openTelegramChat()">咨询客服</button>
   <script>
-    function openTelegramChat() {
-      const message = "你好，我想咨询关于服务的详情。";
-      const adminUsername = "Mommom2090";
-      const link = `https://t.me/${adminUsername}?text=${encodeURIComponent(message)}`;
-      if (Telegram.WebApp) {
-        Telegram.WebApp.openTelegramLink(link);
-      } else {
-        window.open(link, '_blank');
-      }
+
+
+    const param = Telegram.WebApp.initDataUnsafe.start_param;
+    const type = param?.split('=')[1];
+
+    const title = document.getElementById("title");
+    const content = document.getElementById("content");
+
+    if (type === "rental") {
+      title.innerText = "🏨 酒店服务详情";
+      content.innerHTML = `
+        <p>欢迎使用我们的酒店预订服务。流程如下：</p>
+        <ul>
+          <li>1. 在线填写资料</li>
+          <li>2. 客服确认</li>
+          <li>3. 支付订金</li>
+          <li>4. 成功入住</li>
+        </ul>
+        <img src="https://via.placeholder.com/300x180.png?text=Hotel+Image" class="img">
+        <p>🌟 提供双人间、大床房、豪华套房等多种房型。</p>
+      `;
+    } else if (type === "textonly") {
+      title.innerText = "📄 签证办理流程（仅文字）";
+      content.innerHTML = `
+        <p>欢迎使用我们的签证办理服务。</p>
+        <ul>
+          <li>1. 提交护照首页</li>
+          <li>2. 填写申请表</li>
+          <li>3. 支付签证费用</li>
+          <li>4. 等待出签</li>
+        </ul>
+        <p>⚠️ 签证费用不退，请确保信息真实准确。</p>
+      `;
+    } else {
+      title.innerText = "❓ 未知类型";
+      content.innerHTML = "<p>请通过正确入口进入本页面。</p>";
     }
-
-    function loadContent() {
-      Telegram.WebApp.ready();
-
-      const startParam = Telegram.WebApp.initDataUnsafe?.start_param || '';
-      const type = startParam.trim().toLowerCase();
-
-      const hotelSection = document.getElementById('hotel-section');
-
-      if (type === 'rental') {
-        document.getElementById('page-title').innerText = "酒店办理流程";
-        document.getElementById('step1-desc').innerText = "线上下单 → 联系客服提交资料 → 签订合同 → 缴纳押金 → 获取服务";
-        document.getElementById('step2-desc').innerText = "护照首页、入住日期、房型、天数等信息";
-        document.getElementById('step3-desc').innerText = "押金可能退还，确认信息真实";
-        hotelSection.style.display = 'block';
-      } else if (type === 'visa') {
-        document.getElementById('page-title').innerText = "签证办理流程";
-        document.getElementById('step1-desc').innerText = "选择签证类型 → 准备材料 → 提交申请";
-        document.getElementById('step2-desc').innerText = "护照、照片、签证申请表、签证费";
-        document.getElementById('step3-desc').innerText = "请确保材料真实有效，签证费用不可退";
-        hotelSection.style.display = 'none';
-      } else {
-        document.getElementById('page-title').innerText = "欢迎使用服务";
-        document.getElementById('step1-desc').innerText = "请点击按钮选择服务类型";
-        document.getElementById('step2-desc').innerText = "-";
-        document.getElementById('step3-desc').innerText = "-";
-        hotelSection.style.display = 'none';
-      }
-    }
-
-    window.addEventListener('DOMContentLoaded', loadContent);
   </script>
 </body>
 </html>
