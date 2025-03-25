@@ -264,27 +264,7 @@
 
       const hotelSection = document.getElementById('hotel-section');
 
-      if (type === 'rental') {
-        document.getElementById('page-title').innerText = "酒店办理流程";
-        document.getElementById('step1-desc').innerText = "线上下单 → 联系客服提交资料 → 签订合同 → 缴纳押金 → 获取服务";
-        document.getElementById('step2-desc').innerText = "护照首页、入住日期、房型、天数等信息";
-        document.getElementById('step3-desc').innerText = "押金可能退还，确认信息真实";
-        hotelSection.style.display = 'block';
-      } else if (type === 'visa') {
-        document.getElementById('page-title').innerText = "签证办理流程";
-        document.getElementById('step1-desc').innerText = "选择签证类型 → 准备材料 → 提交申请";
-        document.getElementById('step2-desc').innerText = "护照、照片、签证申请表、签证费";
-        document.getElementById('step3-desc').innerText = "请确保材料真实有效，签证费用不可退";
-        hotelSection.style.display = 'none';
-      } else {
-        document.getElementById('page-title').innerText = "欢迎使用服务";
-        document.getElementById('step1-desc').innerText = "请点击按钮选择服务类型";
-        document.getElementById('step2-desc').innerText = "-";
-        document.getElementById('step3-desc').innerText = "-";
-        hotelSection.style.display = 'none';
-      }
-    }
-
+      
     window.addEventListener('DOMContentLoaded', loadContent);
   </script>
 </body>
