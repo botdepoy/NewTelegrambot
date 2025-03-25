@@ -2,87 +2,45 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>一条龙办理流程</title>
+  <title>索菲特房型展示</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: #ffffff;
       margin: 0;
       padding: 0;
+      background-color: #fff;
     }
 
     h2 {
       text-align: center;
       font-size: 24px;
-      font-weight: bold;
-      margin: 40px 20px 30px 20px;
-    }
-
-    .section {
-      background: #fff5ee;
-      margin: 30px 20px;
-      padding: 50px 20px 30px 20px;
-      border-radius: 16px;
-      text-align: center;
-      position: relative;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
-    }
-
-    .icon-circle {
-      width: 60px;
-      height: 60px;
-      background-color: #ff7e00;
-      border-radius: 50%;
-      color: white;
-      font-size: 28px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: absolute;
-      top: -30px;
-      left: 50%;
-      transform: translateX(-50%);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-
-    .title {
-      font-weight: bold;
-      font-size: 18px;
-      margin-top: 40px;
-      margin-bottom: 15px;
-    }
-
-    .desc {
-      font-size: 14px;
-      line-height: 1.6;
-      color: #333;
-      padding: 0 10px;
+      margin: 30px 0;
     }
 
     .hotel-card {
-      display: flex;
       background-color: #fffaf4;
-      border-radius: 12px;
+      border-radius: 16px;
       margin: 20px;
       overflow: hidden;
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      flex-direction: row;
+      display: flex;
+      flex-direction: column;
     }
 
     .hotel-img {
-      width: 45%;
+      width: 100%;
+      height: auto;
       object-fit: cover;
     }
 
     .hotel-info {
-      padding: 15px;
-      flex: 1;
+      padding: 20px;
     }
 
     .hotel-info h3 {
-      font-size: 16px;
-      margin: 10px 0;
+      font-size: 18px;
+      margin-bottom: 10px;
     }
 
     .hotel-info p {
@@ -92,97 +50,72 @@
     }
 
     .consult-button {
-      margin-top: 10px;
-      display: inline-block;
+      margin-top: 12px;
       background-color: #ff7e00;
-      color: #fff;
+      color: white;
+      border: none;
       padding: 10px 20px;
       border-radius: 20px;
-      border: none;
       font-size: 14px;
       cursor: pointer;
     }
 
-    .consult-button:active {
-      background-color: #e66e00;
-    }
-
-    /* ✅ Mobile Responsive */
-    @media (max-width: 768px) {
+    /* 👉 Desktop layout */
+    @media screen and (min-width: 768px) {
       .hotel-card {
-        flex-direction: column;
+        flex-direction: row;
       }
 
       .hotel-img {
-        width: 100%;
+        width: 45%;
+        border-radius: 16px 0 0 16px;
+      }
+
+      .hotel-info {
+        flex: 1;
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
       }
     }
   </style>
 </head>
 <body>
 
-  <h2>一条龙办理流程</h2>
+<h2>🏨 索菲特房型展示</h2>
 
-  <div class="section">
-    <div class="icon-circle">📝</div>
-    <div class="title">1. 办理流程</div>
-    <div class="desc">线上下单 → 联系客服提交资料 → 签订合同 → 缴纳押金 → 获取服务</div>
+<!-- Sample Room -->
+<div class="hotel-card">
+  <img src="images/高级.png" class="hotel-img" alt="高级双床间">
+  <div class="hotel-info">
+    <h3>🛏️ 高级双床间</h3>
+    <p>📺 平板电视、浴缸&淋浴、迷你吧</p>
+    <p>📐 40㎡</p>
+    <button class="consult-button" onclick="openTelegramChat('高级双床间')">咨询此房型</button>
   </div>
+</div>
 
-  <div class="section">
-    <div class="icon-circle">📄</div>
-    <div class="title">2. 所需材料</div>
-    <div class="desc">护照首页照片、身份证、申请表等</div>
+<div class="hotel-card">
+  <img src="images/豪华大号床.png" class="hotel-img" alt="豪华大号床">
+  <div class="hotel-info">
+    <h3>🌇 豪华大号床间</h3>
+    <p>🌿 殖民地风格、私人阳台</p>
+    <p>📐 47㎡</p>
+    <button class="consult-button" onclick="openTelegramChat('豪华大号床间')">咨询此房型</button>
   </div>
+</div>
 
-  <div class="section">
-    <div class="icon-circle">⚠️</div>
-    <div class="title">3. 注意</div>
-    <div class="desc">请确保资料真实、有效，签订合同后不可随意取消服务</div>
-  </div>
+<!-- Add more rooms below following the same structure -->
 
-  <h2>🏨 索菲特房型展示</h2>
+<script>
+  function openTelegramChat(roomName) {
+    const message = `你好，我想咨询关于【${roomName}】的详情。`;
+    const adminUsername = "Mommom2090";
+    const link = `https://t.me/${adminUsername}?text=${encodeURIComponent(message)}`;
+    window.open(link, '_blank');
+  }
+</script>
 
-  <!-- 示例房型卡片（可复制添加） -->
-  <div class="hotel-card">
-    <img src="images/高级.png" class="hotel-img">
-    <div class="hotel-info">
-      <h3>🛏️ 高级双床间</h3>
-      <p>📺 平板电视、浴缸&淋浴、迷你吧</p>
-      <p>📐 40㎡</p>
-      <button class="consult-button" onclick="openTelegramChat('高级双床间')">咨询此房型</button>
-    </div>
-  </div>
-
-  <div class="hotel-card">
-    <img src="images/豪华大号床.png" class="hotel-img">
-    <div class="hotel-info">
-      <h3>🌇 豪华大号床间</h3>
-      <p>🌿 殖民地风格、私人阳台</p>
-      <p>📐 47㎡</p>
-      <button class="consult-button" onclick="openTelegramChat('豪华大号床间')">咨询此房型</button>
-    </div>
-  </div>
-
-  <div class="hotel-card">
-    <img src="images/小型.png" class="hotel-img">
-    <div class="hotel-info">
-      <h3>👑 小型套房（含俱乐部）</h3>
-      <p>🛁 宽敞浴室、咖啡机、MP3座</p>
-      <p>📐 53㎡</p>
-      <button class="consult-button" onclick="openTelegramChat('小型套房')">咨询此房型</button>
-    </div>
-  </div>
-
-  <!-- ✅ 添加更多房型卡片... -->
-
-  <script>
-    function openTelegramChat(roomName) {
-      const message = `你好，我想咨询关于【${roomName}】的详情。`;
-      const adminUsername = "Mommom2090";
-      const link = `https://t.me/${adminUsername}?text=${encodeURIComponent(message)}`;
-      window.open(link, '_blank');
-    }
-  </script>
 </body>
 </html>
