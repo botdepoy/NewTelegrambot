@@ -150,10 +150,7 @@
   </div>
 
   <div id="hotel-section">
-  <h2>🏨 房型展示</h2>
-
-  <!-- Wrap all hotel cards inside hotel-cards div -->
-  <div id="hotel-cards">
+    <h2>🏨 索菲特房型展示</h2>
     <div class="hotel-card">
       <img src="images/高级.png" class="hotel-img">
       <div class="hotel-info">
@@ -230,7 +227,6 @@
           </div>
         </div>
       </div>
-    </div>
 
 
     
@@ -255,46 +251,40 @@
     }
 
     function loadContent() {
-  const params = new URLSearchParams(window.location.search);
-  const type = params.get('type');
+      const params = new URLSearchParams(window.location.search);
+      const type = params.get('type');
 
-  const hotelSection = document.getElementById('hotel-section');
-  const hotelCards = document.getElementById('hotel-cards');
-  const typeImageDiv = document.getElementById('type-image');
-  const typeImage = document.getElementById('type-img');
+      const hotelSection = document.getElementById('hotel-section');
+      const typeImageDiv = document.getElementById('type-image');
+      const typeImage = document.getElementById('type-img');
 
-  if (type === 'rental') {
-    document.getElementById('page-title').innerText = "酒店办理流程";
-    document.getElementById('step1-desc').innerText = "1.线上下单 → 2.联系客服提交资料 → 3.付款及押金 → 4.获取入住信息 → 5.领取房卡";
-    document.getElementById('step2-desc').innerText = "1.入-退房日期 → 2.入住天数 → 3.房型预订 → 4.房间数量 → 5.附上护照首页 → 6.备注 ";
-    document.getElementById('icon1').innerText = "📝";
-    document.getElementById('icon2').innerText = "📄";
-
-    hotelSection.style.display = 'block';
-    hotelCards.style.display = 'block'; // 👈 show only hotel cards in rental
-    typeImageDiv.style.display = 'block';
-    typeImage.src = "images/rental-banner.jpg";
-
-  } else if (type === 'visa') {
-    document.getElementById('page-title').innerText = "签证办理流程";
-    document.getElementById('step1-desc').innerText = "选择签证类型 → 准备材料 → 提交申请";
-    document.getElementById('step2-desc').innerText = "护照、照片、签证申请表、签证费";
-    document.getElementById('step3-desc').innerText = "请确保材料真实有效，签证费用不可退";
-    document.getElementById('icon1').innerText = "🛂";
-    document.getElementById('icon2').innerText = "📑";
-    document.getElementById('icon3').innerText = "❗";
-
-    hotelSection.style.display = 'none'; // 👈 hide hotel section entirely
-    hotelCards.style.display = 'none';
-    typeImageDiv.style.display = 'block';
-    typeImage.src = "images/visa-banner.jpg";
-  } else {
-    hotelSection.style.display = 'none';
-    hotelCards.style.display = 'none';
-    typeImageDiv.style.display = 'none';
-  }
-}
-
+      if (type === 'rental') {
+        document.getElementById('page-title').innerText = "酒店办理流程";
+        document.getElementById('step1-desc').innerText = "1.线上下单 → 2.联系客服提交资料 → 3.付款及押金 → 4.获取入住信息 → 5.领取房卡";
+        document.getElementById('step2-desc').innerText = "1.入-退房日期 → 2.入住天数 → 3.房型预订 → 4.房间数量 → 5.附上护照首页 → 6.备注 ";
+        // document.getElementById('step3-desc').innerText = "租赁押金：$5000 USD（车归还后全额退还，若无损坏）";
+        document.getElementById('icon1').innerText = "📝";
+        document.getElementById('icon2').innerText = "📄";
+        // document.getElementById('icon3').innerText = "⚠️";
+        hotelSection.style.display = 'block';
+        typeImageDiv.style.display = 'block';
+        typeImage.src = "images/rental-banner.jpg";
+      } else if (type === 'visa') {
+        document.getElementById('page-title').innerText = "签证办理流程";
+        document.getElementById('step1-desc').innerText = "选择签证类型 → 准备材料 → 提交申请";
+        document.getElementById('step2-desc').innerText = "护照、照片、签证申请表、签证费";
+        document.getElementById('step3-desc').innerText = "请确保材料真实有效，签证费用不可退";
+        document.getElementById('icon1').innerText = "🛂";
+        document.getElementById('icon2').innerText = "📑";
+        document.getElementById('icon3').innerText = "❗";
+        hotelSection.style.display = 'none';
+        typeImageDiv.style.display = 'block';
+        typeImage.src = "images/visa-banner.jpg";
+      } else {
+        hotelSection.style.display = 'none';
+        typeImageDiv.style.display = 'none';
+      }
+    }
 
     window.addEventListener('DOMContentLoaded', loadContent);
   </script>
