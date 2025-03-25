@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>服务办理</title>
+  <title>租房服务办理</title>
   <style>
     body {
       font-family: "Segoe UI", sans-serif;
@@ -58,65 +58,42 @@
       text-align: center;
       cursor: pointer;
     }
-
-    .form-section {
-      display: none;
-    }
   </style>
 </head>
 <body>
 
- <div id="visa-form" class="form-section" style="display: none;">
-  <h2>签证服务办理</h2>
-  <p>✅ 提供旅游签、商务签、学生签等</p>
-  <p>✅ 准备护照、身份证等资料</p>
-  <p>✅ 专业团队，一对一服务</p>
-</div>
+  <!-- 房屋服务展示 -->
+  <div class="section">
+    <h2>租房服务办理</h2>
+    <ul>
+      <li>提供短租、长租、整租、分租等服务</li>
+      <li>上传身份证、押金支付凭证</li>
+      <li>提供看房、签约、押金退还一站式服务</li>
+    </ul>
+  </div>
 
-<div id="house-form" class="form-section" style="display: none;">
-  <h2>租房服务办理</h2>
-  <p>✅ 提供短租、长租、整租、分租服务</p>
-  <p>✅ 上传身份证、押金支付凭证</p>
-  <p>✅ 提供看房、签约、退还押金服务</p>
-</div>
-
-<div id="cleaning-form" class="form-section" style="display: none;">
-  <h2>清洁服务办理</h2>
-  <p>✅ 日常清洁、深度清洁、家电清洗</p>
-  <p>✅ 可预约时间段，支持定时清洁</p>
-  <p>✅ 安全专业团队</p>
-</div>
-
-  <!-- Common Contact Button -->
+  <!-- 联系客服按钮 -->
   <button class="btn" onclick="contactSupport()">咨询客服</button>
 
   <script>
-  function showFormByType(type) {
-    document.querySelectorAll('.form-section').forEach(el => el.style.display = 'none');
-    const target = document.getElementById(`${type}-form`);
-    if (target) {
-      target.style.display = 'block';
-    } else {
-      document.getElementById('house-form').style.display = 'block';
-    }
-  }
+    function contactSupport() {
+      const message = "你好，我想咨询关于租房服务的详情。";
+      const username = "Mommom2090"; // 改为你的客服 Telegram 用户名
+      const link = `https://t.me/${username}?text=${encodeURIComponent(message)}`;
 
-  window.addEventListener('DOMContentLoaded', () => {
-    let type = 'house'; // default
-
-    // ✅ If inside Telegram
-    if (window.Telegram && Telegram.WebApp) {
-      Telegram.WebApp.ready();
-      type = Telegram.WebApp.initDataUnsafe?.start_param || 'house';
-    } else {
-      // ✅ fallback for browser testing
-      const urlParam = new URLSearchParams(window.location.search).get('startapp');
-      if (urlParam) type = urlParam;
+      if (Telegram.WebApp) {
+        Telegram.WebApp.openTelegramLink(link);
+      } else {
+        window.open(link, '_blank');
+      }
     }
 
-    showFormByType(type.toLowerCase());
-  });
-</script>
+    window.addEventListener('DOMContentLoaded', () => {
+      if (window.Telegram && Telegram.WebApp) {
+        Telegram.WebApp.ready();
+      }
+    });
+  </script>
 
 </body>
 </html>
