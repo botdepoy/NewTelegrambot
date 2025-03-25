@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>一条龙办理流程</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      margin: 40px 20px 30px 20px;
+    }
+
+    .section {
+      background: #fff5ee;
+      margin: 30px 20px;
+      padding: 50px 20px 30px 20px;
+      border-radius: 16px;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    }
+
+    .icon-circle {
+      width: 60px;
+      height: 60px;
+      background-color: #ff7e00;
+      border-radius: 50%;
+      color: white;
+      font-size: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      top: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .title {
+      font-weight: bold;
+      font-size: 18px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+    }
+
+    .desc {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #333;
+      padding: 0 10px;
+    }
+
+    .button {
+      width: calc(100% - 40px);
+      max-width: 400px;
+      margin: 50px auto 60px auto;
+      padding: 15px;
+      border: none;
+      border-radius: 50px;
+      background-color: #ff7e00;
+      color: white;
+      font-size: 16px;
+      text-align: center;
+      display: block;
+      cursor: pointer;
+    }
+
+    .button:active {
+      background-color: #e66e00;
+    }
+
+    #hotel-section {
+      display: none;
+      padding: 20px;
+    }
+
+    .hotel-card {
+      display: flex;
+      background-color: #fffaf4;
+      border-radius: 12px;
+      margin-bottom: 16px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .hotel-img {
+      width: 40%;
+      object-fit: cover;
+    }
+
+    .hotel-info {
+      padding: 10px 15px;
+      flex: 1;
+    }
+
+    .hotel-info h3 {
+      font-size: 16px;
+      margin: 0 0 8px;
+      font-weight: bold; 
+    }
+
+    .hotel-info p {
+      font-size: 14px;
+      color: #444;
+      margin: 0;
+    }
+
+    #type-image {
+      display: none;
+      text-align: center;
+      margin: 40px 20px;
+    }
+.consult-button {
+    background-color: #ff7e00;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  .consult-button:active {
+    background-color: #e66e00;
+  }
+
+  .button-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 12px;
+  }
+    #type-img {
+      max-width: 90%;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body>
+
+  <h2 id="page-title">一条龙办理流程</h2>
+
+  <div class="section">
+    <div class="icon-circle" id="icon1">📝</div>
+    <div class="title" id="step1-title">1. 办理流程</div>
+    <div class="desc" id="step1-desc">线上下单 → 联系客服提交资料 → 签订合同 → 缴纳押金 → 获取服务</div>
+  </div>
+
+  <div class="section">
+    <div class="icon-circle" id="icon2">📄</div>
+    <div class="title" id="step2-title">2. 所需材料</div>
+    <div class="desc" id="step2-desc">护照首页照片、身份证、申请表等</div>
+  </div>
+
+
+
+
+<h2>🏨 索菲特特房型展示</h2>
+
+<!-- Room 1 -->
+<div class="hotel-card">
+  <img src="images/高级.png" class="hotel-img" alt="高级双床间">
+  <div class="hotel-info">
+    <h3>大单间</h3>
+    <p>📐 面积：约40㎡ ｜ 🛋️ 一体化卧室+客厅 ｜ ☀️ 小阳台</p>
+    <p>🍳 厨房：基础厨具 ｜ 🛁 卫浴：独立卫浴</p>
+    <p>📶 网络可选 ｜ ❄️ 空调、冰箱、洗衣机</p>
+    <p>🛡️ 安保/门禁 ｜ 🏪 附近便利店/商场/地铁</p>
+    <div class="button-wrapper">
+      <button class="consult-button" onclick="openTelegramChat('TK-Star - ｜大单间｜')">咨询此房型</button>
+    </div>
+  </div>
+</div>
+
+<!-- Room 2 -->
+<div class="hotel-card">
+  <img src="images/豪华大号床.png" class="hotel-img" alt="豪华大号床间">
+  <div class="hotel-info">
+    <h3>一室一厅（小）</h3>
+    <p>📐 面积：约40㎡ ｜ 🛌 独立小卧室 ｜ 🛋️ 简约客厅</p>
+    <p>🍳 小厨房 ｜ ☀️ 小阳台（部分房型）</p>
+    <p>📶 Wi-Fi可选 ｜ ❄️ 空调、冰箱、热水器</p>
+    <p>🛡️ 24小时安保 ｜ 🛒 周边便利生活</p>
+    <div class="button-wrapper">
+      <button class="consult-button" onclick="openTelegramChat('TK-Star - ｜一室一厅（小）｜')">咨询此房型</button>
+    </div>
+  </div>
+</div>
+
+  <!-- Room 3 -->
+<div class="hotel-card">
+  <img src="images/高级.png" class="hotel-img" alt="高级双床间">
+  <div class="hotel-info">
+    <h3>一室一厅（大）</h3>
+        <p>📐 面积：50-70㎡ ｜ 🛌 宽敞卧室 ｜ 🛋️ 明亮客厅</p>
+        <p>🍽️ 厨房全套 ｜ ☀️ 大阳台 ｜ 🛁 独立卫浴</p>
+        <p>📶 Wi-Fi可选 ｜ ❄️ 客厅卧室独立空调</p>
+        <p>🛡️ 安保系统 ｜ 🅿️ 停车位（需申请）</p>
+
+    <div class="button-wrapper">
+      <button class="consult-button" onclick="openTelegramChat('TK-Star - ｜一室一厅（大）｜')">咨询此房型</button>
+    </div>
+  </div>
+</div>
+
+<
+
+<!-- You can continue adding more hotel-card blocks here -->
+
+<script>
+  function openTelegramChat(roomName) {
+    const message = `你好，我想咨询关于【${roomName}】的详情。`;
+    const adminUsername = "Mommom2090";
+    const link = `https://t.me/${adminUsername}?text=${encodeURIComponent(message)}`;
+    window.open(link, '_blank');
+  }
+</script>
+
+</body>
+</html>
