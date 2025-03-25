@@ -345,7 +345,7 @@ RESPONSE_DATA = {
 
                                                 ,
                                     "buttons": [
-                                                [InlineKeyboardButton(text="house",url="https://t.me/HWLDSWFW_bot/Myapp?startapp=house")
+                                                [InlineKeyboardButton(text="house",url="https://botdepoy.github.io/NewTelegrambot/form.html?startapp=house")
                                                 ,InlineKeyboardButton(text="💬 联系客服",url="https://t.me/LUODISWKF?start=Hi%20I%20need%20help")],
                                                 [InlineKeyboardButton("🔙 返回", callback_data="🏨 酒店与租凭")]
                                     ]            
@@ -370,7 +370,7 @@ RESPONSE_DATA = {
 
                                                 ,
                                     "buttons": [
-                                                [InlineKeyboardButton(text="visa办理流程",url="https://t.me/HWLDSWFW_bot/Myapp?startapp=visa"),
+                                                [InlineKeyboardButton(text="visa办理流程",url="https://botdepoy.github.io/NewTelegrambot/form.html?startapp=visa"),
                                                 InlineKeyboardButton(text="💬 联系客服",url="https://t.me/LUODISWKF?start=Hi%20I%20need%20help")],                    
                                                 [InlineKeyboardButton("🔙 返回", callback_data="✈️ 交通服务")]
                                     ]            
