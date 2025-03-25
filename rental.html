@@ -61,20 +61,23 @@
     }
 
     .hotel-card {
+      display: flex;
       background-color: #fffaf4;
       border-radius: 12px;
       margin: 20px;
       overflow: hidden;
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      flex-direction: row;
     }
 
     .hotel-img {
-      width: 100%;
-      display: block;
+      width: 45%;
+      object-fit: cover;
     }
 
     .hotel-info {
       padding: 15px;
+      flex: 1;
     }
 
     .hotel-info h3 {
@@ -103,6 +106,17 @@
     .consult-button:active {
       background-color: #e66e00;
     }
+
+    /* ✅ Mobile Responsive */
+    @media (max-width: 768px) {
+      .hotel-card {
+        flex-direction: column;
+      }
+
+      .hotel-img {
+        width: 100%;
+      }
+    }
   </style>
 </head>
 <body>
@@ -129,6 +143,7 @@
 
   <h2>🏨 索菲特房型展示</h2>
 
+  <!-- 示例房型卡片（可复制添加） -->
   <div class="hotel-card">
     <img src="images/高级.png" class="hotel-img">
     <div class="hotel-info">
@@ -149,53 +164,17 @@
     </div>
   </div>
 
-<div class="hotel-card">
-      <img src="images/豪华大号床.png" class="hotel-img">
-      <div class="hotel-info">
-        <h3>🛌 高级房（含Club权益）</h3>
-        <p>✨ Club早餐、快速入住</p>
-        <p>📐 40㎡</p>
-      </div>
+  <div class="hotel-card">
+    <img src="images/小型.png" class="hotel-img">
+    <div class="hotel-info">
+      <h3>👑 小型套房（含俱乐部）</h3>
+      <p>🛁 宽敞浴室、咖啡机、MP3座</p>
+      <p>📐 53㎡</p>
+      <button class="consult-button" onclick="openTelegramChat('小型套房')">咨询此房型</button>
     </div>
+  </div>
 
-    <div class="hotel-card">
-      <img src="images/小型.png" class="hotel-img">
-      <div class="hotel-info">
-        <h3>🏙️ 行政酒廊特大床</h3>
-        <p>🍷 免费茶点、延迟退房、会议室1小时/天</p>
-        <p>📐 53㎡</p>
-      </div>
-    </div>
-
-    <div class="hotel-card">
-      <img src="images/小型.png" class="hotel-img">
-      <div class="hotel-info">
-        <h3>👑 小型套房（含俱乐部）</h3>
-        <p>🛁 宽敞浴室、咖啡机、MP3座</p>
-        <p>📐 53㎡</p>
-      </div>
-    </div>
-
-    <div class="hotel-card">
-      <img src="images/歌剧大号床.png" class="hotel-img">
-      <div class="hotel-info">
-        <h3>🎩 尊贵套房</h3>
-        <p>👔 更衣区、大浴室、现代设施</p>
-        <p>📐 93㎡</p>
-      </div>
-    </div>
-
-    <div class="hotel-card">
-      <img src="images/歌剧大号床.png" class="hotel-img">
-      <div class="hotel-info">
-        <h3>🎼 歌剧套房</h3>
-        <p>🛀 热水浴缸、景观阳台、隔音墙</p>
-        <p>📐 149㎡</p>
-      </div>
-    </div>
-
-
-  <!-- 你可以继续添加更多房型卡片 -->
+  <!-- ✅ 添加更多房型卡片... -->
 
   <script>
     function openTelegramChat(roomName) {
