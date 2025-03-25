@@ -39,48 +39,46 @@
 <body>
   <h2 id="title">服务详情</h2>
 
-  <div class="section" id="content">
-    <p>加载中...</p>
-  </div>
+  <!-- Visa Services Section -->
+<div id="visa" class="content-section" style="display: none;">
+  <h2>Visa Services</h2>
+  <!-- form fields here -->
+</div>
+
+<!-- Rental Services Section -->
+<div id="rental" class="content-section" style="display: none;">
+  <h2>Rental Services</h2>
+  <!-- form fields here -->
+</div>
+
+<!-- Cleaning Services Section -->
+<div id="cleaning" class="content-section" style="display: none;">
+  <h2>Cleaning Services</h2>
+  <!-- form fields here -->
+</div>
  <button class="button" onclick="openTelegramChat()">咨询客服</button>
   <script>
-  const param = Telegram.WebApp.initDataUnsafe.start_param || "";
-  const urlParams = new URLSearchParams(param);
-  const type = urlParams.get("type");
-
-  const title = document.getElementById("title");
-  const content = document.getElementById("content");
-
-  if (type === "rental") {
-    title.innerText = "🏨 酒店服务详情";
-    content.innerHTML = `
-      <p>欢迎使用我们的酒店预订服务。流程如下：</p>
-      <ul>
-        <li>1. 在线填写资料</li>
-        <li>2. 客服确认</li>
-        <li>3. 支付订金</li>
-        <li>4. 成功入住</li>
-      </ul>
-      <img src="https://via.placeholder.com/300x180.png?text=Hotel+Image" class="img">
-      <p>🌟 提供双人间、大床房、豪华套房等多种房型。</p>
-    `;
-  } else if (type === "textonly" || type === "visa") {
-    title.innerText = "📄 签证办理流程（仅文字）";
-    content.innerHTML = `
-      <p>欢迎使用我们的签证办理服务。</p>
-      <ul>
-        <li>1. 提交护照首页</li>
-        <li>2. 填写申请表</li>
-        <li>3. 支付签证费用</li>
-        <li>4. 等待出签</li>
-      </ul>
-      <p>⚠️ 签证费用不退，请确保信息真实准确。</p>
-    `;
-  } else {
-    title.innerText = "❓ 未知类型";
-    content.innerHTML = "<p>请通过正确入口进入本页面。</p>";
+  function getQueryParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
   }
+
+  window.onload = function() {
+    const type = getQueryParam("type");
+
+    // Hide all sections
+    document.querySelectorAll('.content-section').forEach(el => el.style.display = 'none');
+
+    // Show the section that matches the 'type'
+    if (type) {
+      const target = document.getElementById(type);
+      if (target) {
+        target.style.display = 'block';
+      }
+    }
+  };
 </script>
+
 
 </body>
 </html>
