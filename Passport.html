@@ -1,167 +1,218 @@
+using this below logic code ti replace with the previous text 
+
+
 <!DOCTYPE html>
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
+  <title>一条龙办理流程</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>证件办理流程</title>
   <style>
     body {
-      font-family: "Helvetica Neue", sans-serif;
-      background-color: #f5f5f5;
+      font-family: 'Segoe UI', sans-serif;
+      background: #ffffff;
       margin: 0;
       padding: 0;
     }
 
-    .visa-wrapper {
-      padding: 16px;
-      max-width: 500px;
-      margin: auto;
-    }
-
     h2 {
-      font-size: 20px;
-      margin-bottom: 12px;
-      color: #222;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      margin: 40px 20px 30px 20px;
     }
 
     .section {
-      background: #ffffff;
-      padding: 16px;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-      margin-bottom: 20px;
+      background: #fff5ee;
+      margin: 30px 20px;
+      padding: 50px 20px 30px 20px;
+      border-radius: 16px;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
     }
 
     .icon-circle {
-      font-size: 24px;
-      margin-bottom: 8px;
+      width: 60px;
+      height: 60px;
+      background-color: #ff7e00;
+      border-radius: 50%;
+      color: white;
+      font-size: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      top: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
 
     .title {
       font-weight: bold;
-      font-size: 16px;
-      margin-bottom: 6px;
+      font-size: 18px;
+      margin-top: 5px;
+      margin-bottom: 15px;
     }
 
     .desc {
       font-size: 14px;
-      color: #555;
-    }
-
-    .visa-card {
-      background: #ffffff;
-      border-radius: 10px;
-      overflow: hidden;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    }
-
-    .visa-img {
-      width: 100%;
-      height: auto;
-      display: block;
-
-    }
-
-    .visa-info {
-      padding: 12px;
-    }
-
-    .visa-info h3 {
-      font-size: 16px;
-      margin-bottom: 8px;
-    }
-
-    .visa-info p {
-      margin: 4px 0;
-      font-size: 14px;
+      line-height: 1.6;
       color: #333;
+      padding: 0 10px;
     }
 
-    .consult-button {
-      margin-top: 12px;
-      width: 100%;
-      padding: 10px;
-      background-color: #0088cc;
-      color: #fff;
+    .button {
+      width: calc(100% - 40px);
+      max-width: 400px;
+      margin: 50px auto 60px auto;
+      padding: 15px;
       border: none;
-      border-radius: 6px;
-      font-size: 15px;
+      border-radius: 50px;
+      background-color: #ff7e00;
+      color: white;
+      font-size: 16px;
+      text-align: center;
+      display: block;
       cursor: pointer;
     }
 
-    .consult-button:hover {
-      background-color: #0075b3;
+    .button:active {
+      background-color: #e66e00;
+    }
+
+    #hotel-section {
+      display: none;
+      padding: 20px;
+    }
+
+    .hotel-card {
+      display: flex;
+      background-color: #fffaf4;
+      border-radius: 12px;
+      margin-bottom: 16px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .hotel-img {
+      width: 40%;
+      object-fit: cover;
+    }
+
+    .hotel-info {
+      padding: 10px 15px;
+      flex: 1;
+    }
+
+    .hotel-info h3 {
+      font-size: 16px;
+      margin: 0 0 8px;
+      font-weight: bold; 
+    }
+
+    .hotel-info p {
+      font-size: 14px;
+      color: #444;
+      margin: 0;
+    }
+
+    #type-image {
+      display: none;
+      text-align: center;
+      margin: 40px 20px;
+    }
+.consult-button {
+    background-color: #ff7e00;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  .consult-button:active {
+    background-color: #e66e00;
+  }
+
+  .button-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 12px;
+  }
+    #type-img {
+      max-width: 90%;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
   </style>
 </head>
 <body>
 
-  <div class="visa-wrapper">
+  <h2 id="page-title">文件办理流程</h2>
 
-    <h2 id="page-title">📋 证件办理流程</h2>
-
-    <div class="section">
-      <div class="icon-circle">📝</div>
-      <div class="title">1. 办理流程</div>
-      <div class="desc">线上下单 → 客服提交资料 → 办理签证 → 获取电子签</div>
-    </div>
-    <div class="section">
-      <div class="icon-circle">📝</div>
-      <div class="title">2. 所需资料</div>
-      <div class="desc">
-      <p>1. 护照首页清晰照片（4角全）</p>
-      <p>2. 白底2寸电子照</p>
-      <p>3. 入境机场名</p>
-      <p>4. 预计入境日期</p>
-      </div>
-    </div>
-
-
-    <h2>🛬 入境签证</h2>
-
-    <div class="visa-card">
-    <div class="visa-row">
-      <img src="images/passport.png" class="visa-img" alt="入境单次旅游签">
-      <div class="visa-info">
-        <h3>📒 入境单次旅游签</h3>
-        <p>🕒 时间：1个工作日</p>
-        <p>📌 可续签一次（再延30天）</p>
-        <p>⚠️ 到期不离境：罚款10$/天</p>
-        <p>💰 费用：85$</p>
-        <p>🚗 带关服务：+45$（需备注）</p>
-        <button class="consult-button" onclick="openTelegramChat('入境单次旅游签')">立即咨询</button>
-      </div>
-    </div>
+  <div class="section">
+    <div class="icon-circle" id="icon1">📝</div>
+    <div class="title" id="step1-title">1. 办理流程</div>
+    <div class="desc" id="step1-desc">线上下单 → 联系客服提交资料 → 签订合同 → 缴纳押金 → 获取服务</div>
   </div>
 
-  <div class="visa-card">
-    <div class="visa-row">
-      <img src="images/passport.png" class="visa-img" alt="入境单次旅游签">
-      <div class="visa-info">
-        <h3>📒 入境单次旅游签</h3>
-        <p>🕒 时间：1个工作日</p>
-        <p>📌 可续签一次（再延30天）</p>
-        <p>⚠️ 到期不离境：罚款10$/天</p>
-        <p>💰 费用：85$</p>
-        <p>🚗 带关服务：+45$（需备注）</p>
-        <button class="consult-button" onclick="openTelegramChat('入境单次旅游签')">立即咨询</button>
-      </div>
-    </div>
+  <div class="section">
+    <div class="icon-circle" id="icon2">📄</div>
+    <div class="title" id="step2-title">2. 所需材料</div>
+    <div class="desc" id="step2-desc">护照首页照片、身份证、申请表等</div>
   </div>
 
 
 
 
-  </div>
+<h2>入境签证</h2>
 
-  <script>
-    function openTelegramChat(serviceName) {
-    const message = encodeURIComponent(`您好，我想咨询：${serviceName}。`);
-    const url = `https://t.me/share/url?url=&text=${message}`;
-    window.open(url, "_blank");
+<!-- Room 1 -->
+<div class="hotel-card">
+  <img src="images/高级.png" class="hotel-img" alt="高级双床间">
+  <div class="hotel-info">
+    <h3>入境单次旅游签</h3>
+      <p>🕒 时间：1个工作日</p>
+      <p>📌 可续签一次（再延30天）</p>
+      <p>⚠️ 到期不离境：罚款10$/天</p>
+      <p>💰 费用：85$</p>
+      <p>🚗 带关服务：+45$（需备注）</p>
+    <div class="button-wrapper">
+      <button class="consult-button" onclick="openTelegramChat('入境单次旅游签')">咨询此房型</button>
+    </div>
+  </div>
+</div>
+
+<div class="hotel-card">
+  <img src="images/高级.png" class="hotel-img" alt="高级双床间">
+  <div class="hotel-info">
+    <h3>💼 入境单次商务签</h3>
+            <p>🕒 时间：1个工作日</p>
+            <p>📌 可续签一次（6个月内免劳工证）</p>
+            <p>⚠️ 到期不离境：罚款10$/天</p>
+            <p>💰 费用：105$</p>
+            <p>🚗 带关服务：+45$（需备注）</p>
+      <div class="button-wrapper">
+      <button class="consult-button" onclick="openTelegramChat('入境单次商务签')">咨询此房型</button>
+    </div>
+  </div>
+</div>
+
+
+
+  
+
+<!-- You can continue adding more hotel-card blocks here -->
+
+<script>
+  function openTelegramChat(service) {
+    const msg = encodeURIComponent(`您好，我想咨询：${service}`);
+    window.open(`https://t.me/share/url?url=&text=${msg}`, "_blank");
   }
-  </script>
+</script>
 
 </body>
 </html>
