@@ -128,7 +128,7 @@
             <p>⚠️ 到期不离境：罚款10$/天</p>
             <p>💰 费用：85$</p>
             <p>🚗 带关服务：+45$（需备注）</p>
-        <button class="consult-button" onclick="openTelegramChat('入境旅游签')">立即咨询</button>
+        <button class="consult-button" onclick="openTelegramChat('入境单次旅游签')">立即咨询</button>
       </div>
     </div>
 
@@ -141,17 +141,18 @@
             <p>⚠️ 到期不离境：罚款10$/天</p>
             <p>💰 费用：105$</p>
             <p>🚗 带关服务：+45$（需备注）</p>
-        <button class="consult-button" onclick="openTelegramChat('入境商务签')">立即咨询</button>
+        <button class="consult-button" onclick="openTelegramChat('入境单次商务签')">立即咨询</button>
       </div>
     </div>
 
   </div>
 
   <script>
-    function openTelegramChat(topic) {
-      // Replace with your actual Telegram username
-      window.open("https://t.me/LUODISWKF", "_blank");
-    }
+    function openTelegramChat(serviceName) {
+    const message = encodeURIComponent(`您好，我想咨询：${serviceName}。`);
+    const url = `https://t.me/share/url?url=&text=${message}`;
+    window.open(url, "_blank");
+  }
   </script>
 
 </body>
