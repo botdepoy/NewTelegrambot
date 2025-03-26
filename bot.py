@@ -372,7 +372,7 @@ RESPONSE_DATA = {
                                     "buttons": [
                                                 [InlineKeyboardButton(text="SKY-31 流程",url="https://t.me/HWLDSWFW_bot/Sky31"),
                                                  InlineKeyboardButton(text="TK-Star 流程",url="https://t.me/HWLDSWFW_bot/tkstar")],
-                                                InlineKeyboardButton(text="💬 联系客服",url="https://t.me/LUODISWKF")],                    
+                                                [InlineKeyboardButton(text="💬 联系客服",url="https://t.me/LUODISWKF")],                    
                                                 [InlineKeyboardButton("🔙 返回", callback_data="🏨 酒店|租凭")]
                                     ]            
                                 },
