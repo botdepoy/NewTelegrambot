@@ -1,215 +1,95 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <title>一条龙办理流程</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>服务信息</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #ffffff;
-      margin: 0;
-      padding: 0;
-    }
-
-    h2 {
-      text-align: center;
-      font-size: 24px;
-      font-weight: bold;
-      margin: 40px 20px 30px 20px;
-    }
-
-    .section {
-      background: #fff5ee;
-      margin: 30px 20px;
-      padding: 50px 20px 30px 20px;
-      border-radius: 16px;
-      text-align: center;
-      position: relative;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
-    }
-
-    .icon-circle {
-      width: 60px;
-      height: 60px;
-      background-color: #ff7e00;
-      border-radius: 50%;
-      color: white;
-      font-size: 28px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: absolute;
-      top: -30px;
-      left: 50%;
-      transform: translateX(-50%);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-
-    .title {
-      font-weight: bold;
-      font-size: 18px;
-      margin-top: 5px;
-      margin-bottom: 15px;
-    }
-
-    .desc {
-      font-size: 14px;
-      line-height: 1.6;
-      color: #333;
-      padding: 0 10px;
-    }
-
-    .button {
-      width: calc(100% - 40px);
-      max-width: 400px;
-      margin: 50px auto 60px auto;
-      padding: 15px;
-      border: none;
-      border-radius: 50px;
-      background-color: #ff7e00;
-      color: white;
-      font-size: 16px;
-      text-align: center;
-      display: block;
-      cursor: pointer;
-    }
-
-    .button:active {
-      background-color: #e66e00;
-    }
-
-    #hotel-section {
-      display: none;
-      padding: 20px;
-    }
-
-    .hotel-card {
-      display: flex;
-      background-color: #fffaf4;
-      border-radius: 12px;
-      margin-bottom: 16px;
-      overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    }
-
-    .hotel-img {
-      width: 40%;
-      object-fit: cover;
-    }
-
-    .hotel-info {
-      padding: 10px 15px;
-      flex: 1;
-    }
-
-    .hotel-info h3 {
-      font-size: 16px;
-      margin: 0 0 8px;
-      font-weight: bold; 
-    }
-
-    .hotel-info p {
-      font-size: 14px;
-      color: #444;
-      margin: 0;
-    }
-
-    #type-image {
-      display: none;
-      text-align: center;
-      margin: 40px 20px;
-    }
-.consult-button {
-    background-color: #ff7e00;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 20px;
-    font-size: 14px;
-    cursor: pointer;
-  }
-
-  .consult-button:active {
-    background-color: #e66e00;
-  }
-
-  .button-wrapper {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 12px;
-  }
-    #type-img {
-      max-width: 90%;
-      border-radius: 16px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
+    body { font-family: 'Noto Sans SC', sans-serif; }
   </style>
 </head>
-<body>
+<body class="bg-[#f9fafb] text-sm text-gray-800">
 
-  <h2 id="page-title">文件办理流程</h2>
+  <div class="max-w-md mx-auto p-4 space-y-6">
 
-  <div class="section">
-    <div class="icon-circle" id="icon1">📝</div>
-    <div class="title" id="step1-title">1. 办理流程</div>
-    <div class="desc" id="step1-desc">线上下单 → 联系客服提交资料 → 签订合同 → 缴纳押金 → 获取服务</div>
-  </div>
+    <!-- 文件流程卡片 -->
+    <div class="bg-white rounded-2xl shadow-lg px-5 py-6 space-y-5">
 
-  <div class="section">
-    <div class="icon-circle" id="icon2">📄</div>
-    <div class="title" id="step2-title">2. 所需材料</div>
-    <div class="desc" id="step2-desc">护照首页照片、身份证、申请表等</div>
-  </div>
+      <div class="text-center space-y-1">
+        <img src="https://cdn-icons-png.flaticon.com/512/2819/2819698.png" class="w-10 h-10 mx-auto" />
+        <h2 class="text-lg font-extrabold text-gray-900">文件办理流程</h2>
+      </div>
 
+      <!-- Step 1 -->
+      <div class="space-y-1">
+        <p class="text-base font-semibold">1️⃣ 办理流程</p>
+        <p class="text-gray-600 text-sm leading-relaxed">线上下单 → 联系客服提交资料 → 签订合同 → 缴纳押金 → 获取服务</p>
+      </div>
 
+      <!-- Step 2 -->
+      <div class="space-y-1">
+        <p class="text-base font-semibold">2️⃣ 所需材料</p>
+        <p class="text-gray-600 text-sm leading-relaxed">护照首页照片、身份证、申请表等</p>
+      </div>
+    </div>
 
+    <!-- 签证卡片 -->
+    <div class="w-24 h-24 flex-shrink-0">
+        <img src="https://cdn.pixabay.com/photo/2016/11/29/12/54/passport-1867195_1280.jpg" alt="Visa" class="w-full h-full object-cover rounded-xl">
+      </div>
+      
+      <!-- Right: Info -->
+      <div class="flex-1 space-y-2">
+        <h2 class="text-lg font-bold text-gray-800 flex items-center space-x-2">
+          <img src="https://cdn-icons-png.flaticon.com/512/8759/8759367.png" class="w-5 h-5" alt="visa icon">
+          <span>入境签证服务</span>
+        </h2>
 
-<h2>入境签证</h2>
+        <ul class="text-sm text-gray-700 space-y-1">
+          <li class="flex items-start space-x-2">
+            <img src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png" class="w-4 h-4 mt-0.5" alt="clock">
+            <span>时间：1个工作日</span>
+          </li>
+          <li class="flex items-start space-x-2">
+            <img src="https://cdn-icons-png.flaticon.com/512/4213/4213179.png" class="w-4 h-4 mt-0.5" alt="pin">
+            <span>可续签一次（再延30天）</span>
+          </li>
+          <li class="flex items-start space-x-2">
+            <img src="https://cdn-icons-png.flaticon.com/512/1159/1159633.png" class="w-4 h-4 mt-0.5" alt="alert">
+            <span>到期不离境：罚款 10$/天</span>
+          </li>
+          <li class="flex items-start space-x-2">
+            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135706.png" class="w-4 h-4 mt-0.5" alt="money">
+            <span>费用：85$</span>
+          </li>
+          <li class="flex items-start space-x-2">
+            <img src="https://cdn-icons-png.flaticon.com/512/744/744465.png" class="w-4 h-4 mt-0.5" alt="car">
+            <span>带关服务：+45$（需备注）</span>
+          </li>
+        </ul>
+      </div>
 
-<!-- Room 1 -->
-<div class="hotel-card">
-  <img src="images/passport.png" class="hotel-img" alt="高级双床间">
-  <div class="hotel-info">
-    <h3>入境单次旅游签</h3>
-      <p>🕒 时间：1个工作日</p>
-      <p>📌 可续签一次（再延30天）</p>
-      <p>⚠️ 到期不离境：罚款10$/天</p>
-      <p>💰 费用：85$</p>
-      <p>🚗 带关服务：+45$（需备注）</p>
-    <div class="button-wrapper">
-      <button class="consult-button" onclick="openTelegramChat('入境单次旅游签')">咨询此房型</button>
+      <!-- CTA Button -->
+      <div class="px-4 pb-4">
+        <button onclick="contactService()" class="w-full bg-orange-500 text-white py-2 rounded-full font-medium hover:bg-orange-600 transition">
+          立即咨询此服务
+        </button>
+      </div>
     </div>
   </div>
-</div>
 
-<div class="hotel-card">
-  <img src="images/passport.png" class="hotel-img" alt="高级双床间">
-  <div class="hotel-info">
-    <h3>💼 入境单次商务签</h3>
-            <p>🕒 时间：1个工作日</p>
-            <p>📌 可续签一次（6个月内免劳工证）</p>
-            <p>⚠️ 到期不离境：罚款10$/天</p>
-            <p>💰 费用：105$</p>
-            <p>🚗 带关服务：+45$（需备注）</p>
-      <div class="button-wrapper">
-      <button class="consult-button" onclick="openTelegramChat('入境单次商务签')">咨询此房型</button>
-    </div>
-  </div>
-</div>
-
-
-
-  
-
-<!-- You can continue adding more hotel-card blocks here -->
-
-<script>
-  function openTelegramChat(service) {
-    const msg = encodeURIComponent(`您好，我想咨询：${service}`);
-    window.open(`https://t.me/share/url?url=&text=${msg}`, "_blank");
-  }
-</script>
-
+  <!-- JS -->
+  <script>
+    function contactService() {
+      const msg = "我想了解入境签证服务，请问可以咨询一下吗？";
+      if (Telegram && Telegram.WebApp) {
+        Telegram.WebApp.sendData(msg);
+        Telegram.WebApp.close();
+      } else {
+        alert(msg);
+      }
+    }
+  </script>
 </body>
 </html>
