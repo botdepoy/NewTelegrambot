@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 # Main menu options
 MENU = [
     [KeyboardButton("✈️ 交通服务"), KeyboardButton("📜 证照办理"), KeyboardButton("🌍 翻译对接")],
-    [KeyboardButton("🏛️ 企业落地"), KeyboardButton("🏨 酒店｜租凭"), KeyboardButton("🚀 生活物资")],
+    [KeyboardButton("🏛️ 企业落地"), KeyboardButton("🏨 酒店|租凭"), KeyboardButton("🚀 生活物资")],
     [KeyboardButton("👩‍💻 人工客服")]
 ]
 
@@ -85,16 +85,14 @@ RESPONSE_DATA = {
                                                 "━━━━━━━━━━━━━━\n"
                                                 "<b>🚖 接机服务</b>\n"
                                                 "📝 信息：时间｜地点｜联系方式\n"
-                                                "📌 到达现场举牌等候\n"
-                                                "💎 费用：$350（含VIP绿色通道）\n\n"
+                                                "📌 到达现场举牌等候\n\n"
                                                 
                                                 "━━━━━━━━━━━━━━\n"
                                                 "<b>🚗 送机服务</b>\n"  
                                                 "📝 信息：时间｜地点｜联系方式\n" 
-                                                "📌 专人送达入口位置\n"  
-                                                "💎 费用：$350（含VIP绿色通道）\n"
+                                                "📌 专人送达入口位置\n\n"  
                                                 "━━━━━━━━━━━━━━\n"
-
+                                                "💎 费用：$350（含VIP绿色通道）\n"
                                                 ,
                                     "buttons": [
                                                 [InlineKeyboardButton(text="机场接送流程",url="https://t.me/HWLDSWFW_bot/FlightService")
@@ -317,10 +315,10 @@ RESPONSE_DATA = {
    
 
 
-"🏨 酒店｜租凭": {
+"🏨 酒店|租凭": {
             "photo": "images/sofietel.jpg",
             "caption": "<b>🏨 【住宿与租赁服务】</b>\n\n"
-                  "📌 高端酒店预订 | 短租公寓 | 长租房屋 | 商务办公空间\n"
+                  "📌 高端酒店| 长，短租房屋 | 商务办公空间\n"
                   "🕰 无论短期考察还是长期定居，均可提供优质选择\n"
                   "💼 舒适 · 高效 · 快速对接 ✅\n",
             "buttons": [
@@ -346,34 +344,38 @@ RESPONSE_DATA = {
 
                                                 ,
                                     "buttons": [
-                                                [InlineKeyboardButton(text="house",url="https://t.me/HWLDSWFW_bot/myappcondorental")
-                                                ,InlineKeyboardButton(text="💬 联系客服",url="https://t.me/LUODISWKF")],
-                                                [InlineKeyboardButton("🔙 返回", callback_data="🏨 酒店｜租凭")]
+                                                [InlineKeyboardButton(text="索菲特流程",url="https://t.me/HWLDSWFW_bot/myappcondorental")
+                                                ,InlineKeyboardButton(text="瑰丽流程",url="https://t.me/HWLDSWFW_bot/HouseRental")],
+                                                [InlineKeyboardButton(text="💬 联系客服",url="https://t.me/LUODISWKF")],
+                                                [InlineKeyboardButton("🔙 返回", callback_data="🏨 酒店|租凭")]
                                     ]            
                                 },
                                 "🏨 公寓预定": {
                                     "photo": "images/接机.jpg",
-                                    "caption": "<b>✈️ 接送机 VIP 服务</b>\n\n"
+                                    "caption": "<b>🏡 公寓房型速览</b>\n\n"
                                                 "━━━━━━━━━━━━━━\n"
-                                                "<b>🚖 接机服务</b>\n"
-                                                "📝 信息：时间｜地点｜联系方式\n"
-                                                "📍 流程：下单 → 联系客服 → 提交资料 → 到达接机\n"
-                                                "📌 到达现场举牌等候\n"
-                                                "💎 费用：$350（含VIP绿色通道）\n\n"
+                                                "<b>🛋 两室一厅 </b>\n"
+                                                "🛏 2卧 + 客厅\n"
+                                                "🍳 厨房 + 1-2卫\n"
+                                                "🪑 家具家电齐全\n"
+                                                "🌤 部分带阳台\n"
+                                                "✨ 🏊泳池｜🏋️健身房｜🌐Wi-Fi\n\n"
                                                 
                                                 "━━━━━━━━━━━━━━\n"
-                                                "<b>🚗 送机服务</b>\n"  
-                                                "📝 信息：时间｜地点｜联系方式\n" 
-                                                "📍 流程：下单 → 联系客服 → 提交资料 → 送入海关\n"
-                                                "📌 专人送达入口位置\n"  
-                                                "💎 费用：$350（含VIP绿色通道）\n"
+                                                "<b>🏠 三室一厅 </b>\n"  
+                                                "🛏 3卧 + 大客厅\n" 
+                                                "🍳 厨房 + 2-3卫\n"
+                                                "❄️ 独立空调\n"  
+                                                "🌤 双阳台\n"
+                                                "✨ 🏊泳池｜🏋️健身房｜🧸儿童区｜🌐Wi-Fi\n"
                                                 "━━━━━━━━━━━━━━\n"
 
                                                 ,
                                     "buttons": [
-                                                [InlineKeyboardButton(text="visa办理流程",url="https://botdepoy.github.io/NewTelegrambot/form.html?startapp=visa"),
+                                                [InlineKeyboardButton(text="SKY-31 流程",url="https://t.me/HWLDSWFW_bot/Sky31")
+                                                ,InlineKeyboardButton(text="TK-Star 流程",url="https://t.me/HWLDSWFW_bot/tkstar")],
                                                 InlineKeyboardButton(text="💬 联系客服",url="https://t.me/LUODISWKF")],                    
-                                                [InlineKeyboardButton("🔙 返回", callback_data="✈️ 交通服务")]
+                                                [InlineKeyboardButton("🔙 返回", callback_data="🏨 酒店|租凭")]
                                     ]            
                                 },
     "🚀 生活物资": {
@@ -391,7 +393,14 @@ RESPONSE_DATA = {
 
     },
 
+    "👩‍💻 人工客服": {
+        "photo": "images/客服.jpg",
+        "caption": "<b>落地商务客服</b>\n\n",
+        "buttons": [
+            [InlineKeyboardButton(text="💬 快速联系客服",url="https://t.me/LUODISWKF")]
+        ]
 
+    },
 
 }
 
