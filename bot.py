@@ -22,8 +22,8 @@ logger = logging.getLogger(__name__)
 
 # Main menu options
 MENU = [
-    [KeyboardButton("✈️ 交通服务"), KeyboardButton("📜 证照办理"), KeyboardButton("🌍 翻译与商务对接")],
-    [KeyboardButton("🏛️ 企业落地支持"), KeyboardButton("🏨 酒店与租凭"), KeyboardButton("🚀 综合增值服务")],
+    [KeyboardButton("✈️ 交通服务"), KeyboardButton("📜 证照办理"), KeyboardButton("🌍 翻译对接")],
+    [KeyboardButton("🏛️ 企业落地"), KeyboardButton("🏨 酒店｜租凭"), KeyboardButton("🚀 生活物资")],
     [KeyboardButton("👩‍💻 人工客服")]
 ]
 
@@ -31,13 +31,13 @@ MENU = [
 RESPONSE_DATA = {
     "✈️ 交通服务": {
         "photo": "images/IMG_0106.JPG",
-        "caption": "🚖 交通服务 | Transportation Services**\n\n"
-                   "✨ 提供专业出行方案，助您畅行无忧！ ✨\n"
-                   "🚗 机场接送 – 准时接送，轻松出行 🛫\n"
-                   "🚘 专车服务 – 商务用车 / 高端专车 / VIP接待 💼\n"
-                   "🧑‍✈️ 司机租赁 – 经验丰富，安全可靠 🏆\n"
+        "caption": "<b>🚖 交通服务 </b>\n\n"
+                   "✨ 提供专业出行方案，助您畅行无忧！\n"
+                   "🚗 机场准时接送，轻松出行 🛫\n"
+                   "🚘 商务用车 / 高端专车 / VIP接待 \n"
+                   "🧑‍✈️ 司机租赁 – 经验丰富，安全可靠 \n"
                    "✅ 安全 | 🚀 高效 | 💎 舒适\n\n"
-                   "无论是商务出行还是尊享专车，我们都为您提供最佳方案！ 🌍✨",
+                   "🌍 无论是商务出行还是尊享专车，我们都为您提供最佳方案！ ✨",
         "buttons": [
             [InlineKeyboardButton("🚗 专车服务", callback_data="🚗 专车服务"),
              InlineKeyboardButton("✈️ 机场接送", callback_data="✈️ 机场接送")]
@@ -45,20 +45,20 @@ RESPONSE_DATA = {
     },
                                 "🚗 专车服务": {
                                     "photo": "images/Web_Photo_Editor.jpg",
-                                    "caption": "🚘 高端商务车租赁服务\n\n"
+                                    "caption": "<b>🚘 高端商务车租赁服务</b>\n\n"
                                                 
                                                 "━━━━━━━━━━━━━━━\n"
-                                                "🚗 车型：丰田埃尔法 | 丰田 Granvia  \n"
+                                                "<b>🚗 车型：丰田埃尔法 | 丰田 Granvia </b> \n"
                                                 "⭐ 类型：高端商务 MPV \n "
                                                 "🛋️ 特点：空间大，舒适乘坐  \n"
                                                 "🎯 用途：接待｜出游｜婚礼｜接送机 \n\n"
                                                 
                                                 "💰 租金：\n"
                                                 "・自驾：$200/天  \n"
-                                                "・带司机：$300/天\n"
-                                                "━━━━━━━━━━━━━━━\n\n"
+                                                "・带司机：$300/天\n\n"
+                                                "━━━━━━━━━━━━━━━\n"
                                                 
-                                                "🚐 车型：大众 Multivan  \n"
+                                                "<b>🚐 车型：大众 Multivan</b>  \n"
                                                 "⭐ 类型：7座多功能商务车  \n"
                                                 "🛋️ 特点：空间灵活，乘坐舒适  \n"
                                                 "🎯 用途：商务｜家庭｜婚礼｜机场\n\n"
@@ -68,14 +68,14 @@ RESPONSE_DATA = {
                                                 "・带司机：$200/天\n"
                                                 "━━━━━━━━━━━━━━━\n\n"
 
-                                                "🔹司机（中-英-柬）: $100/天\n"
-                                                "🔹司机（英-柬）  : $60/天\n"
-                                                "🔹司机保镖带枪   : 120$/天\n"
+                                                "<b>🔹司机（中-英-柬）</b>: $100/天\n"
+                                                "<b>🔹司机（英-柬） </b> : $60/天\n"
+                                                "<b>🔹司机保镖带枪 </b>  : 120$/天\n"
 
                                                 ,
                                     "buttons": [
-                                                [InlineKeyboardButton(text="一条龙办理流程",url="https://t.me/HWLDSWFW_bot/Myapp")
-                                                ,InlineKeyboardButton(text="💬 联系客服",url="https://t.me/LUODISWKF?start=Hi%20I%20need%20help")],
+                                                [InlineKeyboardButton(text="交通服务流程",url="https://t.me/HWLDSWFW_bot/Myapp")
+                                                ,InlineKeyboardButton(text="💬 联系客服",url="https://t.me/LUODISWKF")],
                                                 [InlineKeyboardButton("🔙 返回", callback_data="✈️ 交通服务")]
                                     ]            
                                 },
@@ -85,21 +85,20 @@ RESPONSE_DATA = {
                                                 "━━━━━━━━━━━━━━\n"
                                                 "<b>🚖 接机服务</b>\n"
                                                 "📝 信息：时间｜地点｜联系方式\n"
-                                                "📍 流程：下单 → 联系客服 → 提交资料 → 到达接机\n"
                                                 "📌 到达现场举牌等候\n"
                                                 "💎 费用：$350（含VIP绿色通道）\n\n"
                                                 
                                                 "━━━━━━━━━━━━━━\n"
                                                 "<b>🚗 送机服务</b>\n"  
                                                 "📝 信息：时间｜地点｜联系方式\n" 
-                                                "📍 流程：下单 → 联系客服 → 提交资料 → 送入海关\n"
                                                 "📌 专人送达入口位置\n"  
                                                 "💎 费用：$350（含VIP绿色通道）\n"
                                                 "━━━━━━━━━━━━━━\n"
 
                                                 ,
                                     "buttons": [
-                                                [InlineKeyboardButton(text="💬 联系客服",url="https://t.me/LUODISWKF?start=Hi%20I%20need%20help")],
+                                                [InlineKeyboardButton(text="机场接送流程",url="https://t.me/HWLDSWFW_bot/FlightService")
+                                                ,InlineKeyboardButton(text="💬 联系客服",url="https://t.me/LUODISWKF")],
                                                 [InlineKeyboardButton("🔙 返回", callback_data="✈️ 交通服务")]
                                     ]            
                                 },
@@ -108,7 +107,7 @@ RESPONSE_DATA = {
     "📜 证照办理": {
             "photo": "images/visa.jpg",
             "caption": "<b>🛂【证件办理服务】</b>\n" 
-                        "快速办理签证、护照、劳工证、驾驶证等服务。\n\n"
+                        "快速办理签证、护照、劳工证、驾驶证等。\n\n"
                         
                         "<b>📌 入境签证</b>\n"  
                         "🔹 单次旅游签：85$\n"  
@@ -138,7 +137,9 @@ RESPONSE_DATA = {
                         
                         "<b>🚗 驾照服务</b>\n"  
                         "🔹 换证：中国→柬：350$\n  "
-                        "🔹 续签：柬→柬：70$（本人到场，当天出证）\n"
+                        "🔹 续签：柬→柬：70$\n"
+                        "⚠️本人到场，当天出证）\n"
+
                         
                         "━━━━━━━━━━━━━━"
                         ,
@@ -227,7 +228,7 @@ RESPONSE_DATA = {
     
 
 
- "🌍 翻译与商务对接": {
+ "🌍 翻译对接": {
         "photo": "images/翻译与商务.jpg",
         "caption": "🎙️ 语言翻译服务\n"
                     "🔹 现场翻译｜实时沟通\n\n"
@@ -282,7 +283,7 @@ RESPONSE_DATA = {
 
 
 
-"🏛️ 企业落地支持": {
+"🏛️ 企业落地": {
             "photo": "images/黄黑白蓝色商务企业招聘微信公众号封面 (1).png",
             "caption": "<b>🏢【企业落地支持】</b>\n"
                       "一站式服务，助力企业快速落地 🚀\n\n"
@@ -303,11 +304,11 @@ RESPONSE_DATA = {
                       "• 💰 税务咨询\n"
                       "• ⚖️ 法律咨询\n",
             "buttons": [
-                            [InlineKeyboardButton(text="✈️ 商务签证",url="https://t.me/LUODISWKF?text=你好，我想咨询关于【商务签证】的服务。"),
-                            InlineKeyboardButton(text="🌍 旅游签证",url="https://t.me/LUODISWKF?text=你好，我想咨询关于【旅游签证】的服务。"),
-                            InlineKeyboardButton(text="📄 护照服务",url="https://t.me/LUODISWKF?text=你好，我想咨询关于【护照服务】的服务。")],
-                            [InlineKeyboardButton(text="📅 续签服务",url="https://t.me/LUODISWKF?text=你好，我想咨询关于【续签服务】的服务。"),
-                            InlineKeyboardButton(text="🚗 驾驶证办理",url="https://t.me/LUODISWKF?text=你好，我想咨询关于【驾驶证办理】的服务。")
+                            [InlineKeyboardButton(text="✈️商务签",url="https://t.me/LUODISWKF?text=你好，我想咨询关于【商务签证】的服务。"),
+                            InlineKeyboardButton(text="🌍旅游签",url="https://t.me/LUODISWKF?text=你好，我想咨询关于【旅游签证】的服务。"),
+                            InlineKeyboardButton(text="📄护照服务",url="https://t.me/LUODISWKF?text=你好，我想咨询关于【护照服务】的服务。")],
+                            [InlineKeyboardButton(text="📅续签服务",url="https://t.me/LUODISWKF?text=你好，我想咨询关于【续签服务】的服务。"),
+                            InlineKeyboardButton(text="🚗驾驶证办理",url="https://t.me/LUODISWKF?text=你好，我想咨询关于【驾驶证办理】的服务。")
                         ]
             ]
 
@@ -316,7 +317,7 @@ RESPONSE_DATA = {
    
 
 
-"🏨 酒店与租凭": {
+"🏨 酒店｜租凭": {
             "photo": "images/sofietel.jpg",
             "caption": "<b>🏨 【住宿与租赁服务】</b>\n\n"
                   "📌 高端酒店预订 | 短租公寓 | 长租房屋 | 商务办公空间\n"
@@ -346,8 +347,8 @@ RESPONSE_DATA = {
                                                 ,
                                     "buttons": [
                                                 [InlineKeyboardButton(text="house",url="https://t.me/HWLDSWFW_bot/myappcondorental")
-                                                ,InlineKeyboardButton(text="💬 联系客服",url="https://t.me/LUODISWKF?start=Hi%20I%20need%20help")],
-                                                [InlineKeyboardButton("🔙 返回", callback_data="🏨 酒店与租凭")]
+                                                ,InlineKeyboardButton(text="💬 联系客服",url="https://t.me/LUODISWKF")],
+                                                [InlineKeyboardButton("🔙 返回", callback_data="🏨 酒店｜租凭")]
                                     ]            
                                 },
                                 "🏨 公寓预定": {
@@ -371,10 +372,23 @@ RESPONSE_DATA = {
                                                 ,
                                     "buttons": [
                                                 [InlineKeyboardButton(text="visa办理流程",url="https://botdepoy.github.io/NewTelegrambot/form.html?startapp=visa"),
-                                                InlineKeyboardButton(text="💬 联系客服",url="https://t.me/LUODISWKF?start=Hi%20I%20need%20help")],                    
+                                                InlineKeyboardButton(text="💬 联系客服",url="https://t.me/LUODISWKF")],                    
                                                 [InlineKeyboardButton("🔙 返回", callback_data="✈️ 交通服务")]
                                     ]            
                                 },
+    "🚀 生活物资": {
+        "photo": "images/生活.jpg",
+        "caption": "<b>🧺 新员工生活物品套装</b>\n\n"
+                   "🛒 一站配齐，不用东奔西跑！\n\n"
+                   "📦 套装内容:\n"
+                   "🛏 卧室用品：四件套、枕芯\n"
+                   "🚿 浴室用品：浴巾、毛巾、牙膏、牙刷、漱口杯\n"
+                   "🧼 个人清洁：沐浴露、洗发水、肥皂\n"
+                   "🏠 家庭必备：纸巾、蚊香液、蚊香器\n",
+        "buttons": [
+            [InlineKeyboardButton(text="💬 联系客服",url="https://t.me/LUODISWKF")]
+    },
+
 
 
 }
