@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>证件办理流程</title>
+  <style>
+    body {
+      font-family: "Helvetica Neue", sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+
+    .visa-wrapper {
+      padding: 16px;
+      max-width: 500px;
+      margin: auto;
+    }
+
+    h2 {
+      font-size: 20px;
+      margin-bottom: 12px;
+      color: #222;
+    }
+
+    .section {
+      background: #ffffff;
+      padding: 16px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+      margin-bottom: 20px;
+    }
+
+    .icon-circle {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    .title {
+      font-weight: bold;
+      font-size: 16px;
+      margin-bottom: 6px;
+    }
+
+    .desc {
+      font-size: 14px;
+      color: #555;
+    }
+
+    .visa-card {
+      background: #ffffff;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .visa-img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .visa-info {
+      padding: 12px;
+    }
+
+    .visa-info h3 {
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
+    .visa-info p {
+      margin: 4px 0;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .consult-button {
+      margin-top: 12px;
+      width: 100%;
+      padding: 10px;
+      background-color: #0088cc;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    .consult-button:hover {
+      background-color: #0075b3;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="visa-wrapper">
+
+    <h2 id="page-title">📋 证件办理流程</h2>
+
+    <div class="section">
+      <div class="icon-circle">📝</div>
+      <div class="title">1. 办理流程</div>
+      <div class="desc">线上下单 → 客服提交资料 → 办理签证 → 获取电子签</div>
+    </div>
+    <div class="section">
+      <div class="icon-circle">📝</div>
+      <div class="title">2. 所需资料</div>
+      <div class="desc">
+      <p>1. 护照首页清晰照片（4角全）</p>
+      <p>2. 白底2寸电子照</p>
+      <p>3. 入境机场名</p>
+      <p>4. 预计入境日期</p>
+      </div>
+    </div>
+
+
+    <h2>🛬 入境签证</h2>
+
+    <div class="visa-card">
+      <img src="images/passport.png" class="visa-img" alt="入境单次旅游签">
+      <div class="visa-info">
+        <h3>🎫 入境单次旅游签</h3>
+            <p>🕒 时间：1个工作日</p>
+            <p>📌 可续签一次（再延30天）</p>
+            <p>⚠️ 到期不离境：罚款10$/天</p>
+            <p>💰 费用：85$</p>
+            <p>🚗 带关服务：+45$（需备注）</p>
+        <button class="consult-button" onclick="openTelegramChat('入境旅游签')">立即咨询</button>
+      </div>
+    </div>
+
+    <div class="visa-card">
+      <img src="images/passport.png" class="visa-img" alt="入境单次商务签">
+      <div class="visa-info">
+        <h3>💼 入境单次商务签</h3>
+            <p>🕒 时间：1个工作日</p>
+            <p>📌 可续签一次（6个月内免劳工证）</p>
+            <p>⚠️ 到期不离境：罚款10$/天</p>
+            <p>💰 费用：105$</p>
+            <p>🚗 带关服务：+45$（需备注）</p>
+        <button class="consult-button" onclick="openTelegramChat('入境商务签')">立即咨询</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function openTelegramChat(topic) {
+      // Replace with your actual Telegram username
+      window.open("https://t.me/LUODISWKF", "_blank");
+    }
+  </script>
+
+</body>
+</html>
