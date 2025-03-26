@@ -370,7 +370,7 @@ RESPONSE_DATA = {
                                                 "✨ 🏊泳池｜🏋️健身房｜🧸儿童区｜🌐Wi-Fi\n"
                                                 "━━━━━━━━━━━━━━\n"
 
-                                                ,
+                                                },
                                     "buttons": [
                                                 [InlineKeyboardButton(text="SKY-31 流程",url="https://t.me/HWLDSWFW_bot/Sky31")
                                                 ,InlineKeyboardButton(text="TK-Star 流程",url="https://t.me/HWLDSWFW_bot/tkstar")],
