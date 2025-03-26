@@ -387,6 +387,8 @@ RESPONSE_DATA = {
                    "🏠 家庭必备：纸巾、蚊香液、蚊香器\n",
         "buttons": [
             [InlineKeyboardButton(text="💬 联系客服",url="https://t.me/LUODISWKF")]
+        ]
+
     },
 
 
