@@ -15,7 +15,6 @@
 
     <!-- 文件流程卡片 -->
     <div class="bg-white rounded-2xl shadow-lg px-5 py-6 space-y-5">
-
       <div class="text-center space-y-1">
         <img src="https://cdn-icons-png.flaticon.com/512/2819/2819698.png" class="w-10 h-10 mx-auto" />
         <h2 class="text-lg font-extrabold text-gray-900">文件办理流程</h2>
@@ -35,55 +34,61 @@
     </div>
 
     <!-- 签证卡片 -->
-    <div class="w-24 h-24 flex-shrink-0">
-        <img src="https://cdn.pixabay.com/photo/2016/11/29/12/54/passport-1867195_1280.jpg" alt="Visa" class="w-full h-full object-cover rounded-xl">
-      </div>
-      
-      <!-- Right: Info -->
-      <div class="flex-1 space-y-2">
-        <h2 class="text-lg font-bold text-gray-800 flex items-center space-x-2">
-          <img src="https://cdn-icons-png.flaticon.com/512/8759/8759367.png" class="w-5 h-5" alt="visa icon">
-          <span>入境签证服务</span>
-        </h2>
+    <div class="bg-white rounded-3xl shadow-xl p-4 w-full">
+      <div class="flex space-x-4 items-start">
+        
+        <!-- Left: Image -->
+        <div class="w-24 h-24 flex-shrink-0">
+          <img src="images/passport.png">
+        </div>
+        
+        <!-- Right: Info -->
+        <div class="flex-1 space-y-2">
+          <h2 class="text-lg font-bold text-gray-800 flex items-center space-x-2">
+            <img src="https://cdn-icons-png.flaticon.com/512/8759/8759367.png" class="w-5 h-5" alt="visa icon">
+            <span>入境签证服务</span>
+          </h2>
 
-        <ul class="text-sm text-gray-700 space-y-1">
-          <li class="flex items-start space-x-2">
-            <img src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png" class="w-4 h-4 mt-0.5" alt="clock">
-            <span>时间：1个工作日</span>
-          </li>
-          <li class="flex items-start space-x-2">
-            <img src="https://cdn-icons-png.flaticon.com/512/4213/4213179.png" class="w-4 h-4 mt-0.5" alt="pin">
-            <span>可续签一次（再延30天）</span>
-          </li>
-          <li class="flex items-start space-x-2">
-            <img src="https://cdn-icons-png.flaticon.com/512/1159/1159633.png" class="w-4 h-4 mt-0.5" alt="alert">
-            <span>到期不离境：罚款 10$/天</span>
-          </li>
-          <li class="flex items-start space-x-2">
-            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135706.png" class="w-4 h-4 mt-0.5" alt="money">
-            <span>费用：85$</span>
-          </li>
-          <li class="flex items-start space-x-2">
-            <img src="https://cdn-icons-png.flaticon.com/512/744/744465.png" class="w-4 h-4 mt-0.5" alt="car">
-            <span>带关服务：+45$（需备注）</span>
-          </li>
-        </ul>
+          <ul class="text-sm text-gray-700 space-y-1">
+            <li class="flex items-start space-x-2">
+              <img src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png" class="w-4 h-4 mt-0.5" alt="clock">
+              <span>时间：1个工作日</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <img src="https://cdn-icons-png.flaticon.com/512/4213/4213179.png" class="w-4 h-4 mt-0.5" alt="pin">
+              <span>可续签一次（再延30天）</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <img src="https://cdn-icons-png.flaticon.com/512/1159/1159633.png" class="w-4 h-4 mt-0.5" alt="alert">
+              <span>到期不离境：罚款 10$/天</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <img src="https://cdn-icons-png.flaticon.com/512/3135/3135706.png" class="w-4 h-4 mt-0.5" alt="money">
+              <span>费用：85$</span>
+            </li>
+            <li class="flex items-start space-x-2">
+              <img src="https://cdn-icons-png.flaticon.com/512/744/744465.png" class="w-4 h-4 mt-0.5" alt="car">
+              <span>带关服务：+45$（需备注）</span>
+            </li>
+          </ul>
+        </div>
       </div>
 
-      <!-- CTA Button -->
-      <div class="px-4 pb-4">
-        <button onclick="contactService()" class="w-full bg-orange-500 text-white py-2 rounded-full font-medium hover:bg-orange-600 transition">
-          立即咨询此服务
+      <!-- Button -->
+      <div class="pt-4">
+        <button onclick="contactService()" class="w-full bg-orange-500 text-white font-medium py-2 rounded-full hover:bg-orange-600 transition">
+          💬 咨询此服务
         </button>
       </div>
     </div>
+
   </div>
 
   <!-- JS -->
   <script>
     function contactService() {
-      const msg = "我想了解入境签证服务，请问可以咨询一下吗？";
-      if (Telegram && Telegram.WebApp) {
+      const msg = "你好，我想咨询一下入境签证服务。";
+      if (window.Telegram && Telegram.WebApp) {
         Telegram.WebApp.sendData(msg);
         Telegram.WebApp.close();
       } else {
