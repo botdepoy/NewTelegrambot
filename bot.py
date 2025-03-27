@@ -37,7 +37,7 @@ RESPONSE_DATA = {
                    "🚘 商务用车 / 高端专车 / VIP接待 \n"
                    "🧑‍✈️ 司机租赁 – 经验丰富，安全可靠 \n"
                    "✅ 安全 | 🚀 高效 | 💎 舒适\n\n"
-                   "🌍 无论是商务出行还是尊享专车，为您提供最佳方案！ ✨",
+                   "🌍无论是商务出行还是尊享专车,为您提供最佳方案!✨",
         "buttons": [
             [InlineKeyboardButton("🚗 专车服务", callback_data="🚗 专车服务"),
              InlineKeyboardButton("✈️ 机场接送", callback_data="✈️ 机场接送")]
