@@ -142,10 +142,10 @@ RESPONSE_DATA = {
                         "━━━━━━━━━━━━━━"
                         ,
             "buttons": [
-                [InlineKeyboardButton(text="入境签证",url="https://t.me/HWLDSWFW_bot/passport"),
-                InlineKeyboardButton(text="续签",url="https://t.me/HWLDSWFW_bot/xuqian")],
-                [InlineKeyboardButton(text="劳工证",url="https://t.me/HWLDSWFW_bot/FlightService"),
-                InlineKeyboardButton(text="驾驶证",url="https://t.me/HWLDSWFW_bot/FlightService")]
+                [InlineKeyboardButton(text="🛂 入境签证",url="https://t.me/HWLDSWFW_bot/passport"),
+                InlineKeyboardButton(text="🔁 续签",url="https://t.me/HWLDSWFW_bot/xuqian")],
+                [InlineKeyboardButton(text="🧾 劳工证",url="https://t.me/HWLDSWFW_bot/laogongzheng"),
+                InlineKeyboardButton(text="🚗 驾驶证",url="https://t.me/HWLDSWFW_bot/jiashizheng")]
                 ,[InlineKeyboardButton("💬人工客服", url="https://t.me/LUODISWKF")]
             ]
         },
