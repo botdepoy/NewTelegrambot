@@ -1,217 +1,102 @@
-b<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>服务信息</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>续签服务</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
   <style>
     body { font-family: 'Noto Sans SC', sans-serif; }
   </style>
 </head>
 <body class="bg-[#f9fafb] text-sm text-gray-800">
-
   <div class="max-w-md mx-auto p-4 space-y-6">
 
-    <!-- 文件流程卡片 -->
-<!-- 文件流程卡片 -->
-<div class="bg-blue rounded-2xl shadow-lg px-5 py-6 space-y-5 text-center">
+    <!-- 卡片组件（每一个签证） -->
+    <div class="bg-orange-100 rounded-3xl shadow-xl flex p-4 space-x-4">
+      <div class="w-2/5">
+        <img src="images/passport.png" class="w-full h-full object-cover rounded-xl" />
+      </div>
+      <div class="flex-1 flex flex-col justify-between space-y-2 text-left">
+        <h2 class="text-lg font-extrabold text-gray-900">续签1个月 (旅游/商务)</h2>
+        <ul class="text-sm text-gray-700 space-y-1">
+          <li><b>资料：</b>护照原件</li>
+          <li><b>停留时间：</b>30天</li>
+          <li><b>未办劳工证：</b>可续签1次</li>
+          <li><b>逾期罚款：</b>$10/天</li>
+          <li><b>办理时间：</b>7天（加急2天）</li>
+          <li>✅ 提前15~20天申请</li>
+          <li>✅ [商务签 + 劳工证]</li>
+        </ul>
+        <button onclick="contactService('续签1个月')" class="w-full bg-blue-600 text-white font-semibold py-2 rounded-full hover:bg-blue-700 shadow-md">
+          💬 立即咨询此服务
+        </button>
+      </div>
+    </div>
 
- <h2 class="text-lg font-extrabold text-gray-900">文件办理流程</h2>
+    <!-- 3个月卡片 -->
+    <div class="bg-blue-100 rounded-3xl shadow-xl flex p-4 space-x-4">
+      <div class="w-2/5">
+        <img src="images/passport.png" class="w-full h-full object-cover rounded-xl" />
+      </div>
+      <div class="flex-1 flex flex-col justify-between space-y-2 text-left">
+        <h2 class="text-lg font-extrabold text-orange-600">续签3个月商务签</h2>
+        <ul class="text-sm text-gray-700 space-y-1">
+          <li><b>资料：</b>护照原件</li>
+          <li><b>停留时间：</b>90天</li>
+          <li><b>未办劳工证：</b>可续签1次</li>
+          <li><b>办理时间：</b>7天（加急2天）</li>
+          <li><b>逾期罚款：</b>$10/天</li>
+          <li>✅ 提前20天办理劳工证</li>
+        </ul>
+        <button onclick="contactService('续签3个月')" class="w-full bg-orange-500 text-white font-semibold py-2 rounded-full hover:bg-orange-600 shadow-md">
+          💬 立即咨询此服务
+        </button>
+      </div>
+    </div>
 
-    <!-- 签证卡片 1 -->
-    <div class="bg-white rounded-3xl shadow-xl p-4 w-full flex space-x-4 items-start">
-  <!-- 左侧图片 -->
-  <div class="w-2/5">
-    <img src="images/passport.png" class="w-full h-full object-cover rounded-xl">
-  </div>
+    <!-- 6个月卡片 -->
+    <div class="bg-green-100 rounded-3xl shadow-xl flex p-4 space-x-4">
+      <div class="w-2/5">
+        <img src="images/passport.png" class="w-full h-full object-cover rounded-xl" />
+      </div>
+      <div class="flex-1 flex flex-col justify-between space-y-2 text-left">
+        <h2 class="text-lg font-extrabold text-green-600">续签6个月商务签</h2>
+        <ul class="text-sm text-gray-700 space-y-1">
+          <li><b>资料：</b>护照原件</li>
+          <li><b>停留时间：</b>180天</li>
+          <li><b>未办劳工证：</b>可续签1次</li>
+          <li><b>逾期罚款：</b>$10/天</li>
+          <li>✅ 提前20天申请劳工证</li>
+        </ul>
+        <button onclick="contactService('续签6个月')" class="w-full bg-green-500 text-white font-semibold py-2 rounded-full hover:bg-green-600 shadow-md">
+          💬 立即咨询此服务
+        </button>
+      </div>
+    </div>
 
-  <!-- 右侧信息 -->
-  <div class="flex-1 flex flex-col justify-between space-y-2">
-    <!-- 标题 -->
-    <h2 class="text-lg font-extrabold text-gray-900 flex items-center space-x-2">
-      <span>续签1个月(旅游|商务）</span>
-    </h2>
-
-    <!-- 详情信息 -->
-    <ul class="text-sm text-gray-700 space-y-1">
-      <li class="flex items-start space-x-2">
-        <span><b>资料:</b>护照原件</span>
-      </li>
-      <li class="flex items-start space-x-2">
-        <span><b>停留时间:</b>30天</span>
-      </li>
-      <li class="flex items-start space-x-2">
-        <span><b>未办劳工证:</b>可续签1次</span>
-      </li>
-      <li class="flex items-start space-x-2">
-        <span><b>逾期罚款：</b>$10/天</span>
-      </li>
-      <li class="flex items-start space-x-2">
-        <span><b>办理时间：</b>7天(加急2天）</span>
-      </li>
-      <li class="flex items-start space-x-2">
-        <span>✅提前15~20天申请</span>
-      </li>
-      <li class="flex items-start space-x-2">
-        <span>✅[商务签＋劳工证]</span>
-      </li>
-
-    </ul>
-    <!-- 按钮 -->
-    <div class="pt-2">
-      <button onclick="contactService('续签1个月(旅游签 & 商务签）')" 
-        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-full shadow-lg transition duration-300">
-        💬 立即咨询此服务
-      </button>
+    <!-- 1年卡片 -->
+    <div class="bg-pink-100 rounded-3xl shadow-xl flex p-4 space-x-4">
+      <div class="w-2/5">
+        <img src="images/passport.png" class="w-full h-full object-cover rounded-xl" />
+      </div>
+      <div class="flex-1 flex flex-col justify-between space-y-2 text-left">
+        <h2 class="text-lg font-extrabold text-pink-600">续签1年商务签</h2>
+        <ul class="text-sm text-gray-700 space-y-1">
+          <li><b>资料：</b></li>
+          <li>🧳 护照原件</li>
+          <li>📷 当年劳工证照片</li>
+          <li><b>停留时间：</b>365天</li>
+          <li><b>条件：</b>仅限已持劳工证者</li>
+          <li><b>办理时间：</b>7天（加急2天）</li>
+          <li><b>逾期罚款：</b>$10/天</li>
+        </ul>
+        <button onclick="contactService('续签1年')" class="w-full bg-pink-500 text-white font-semibold py-2 rounded-full hover:bg-pink-600 shadow-md">
+          💬 立即咨询此服务
+        </button>
+      </div>
     </div>
   </div>
-</div>
-
-
-
-   <!-- 签证卡片 1 -->
-    <div class="bg-orange rounded-3xl shadow-xl p-4 w-full flex space-x-4 items-start">
-  <!-- 左侧图片 -->
-  <div class="w-2/5">
-    <img src="images/passport.png" class="w-full h-full object-cover rounded-xl">
-  </div>
-
-  <!-- 右侧信息 -->
-  <div class="flex-1 flex flex-col justify-between space-y-2">
-    <!-- 标题 -->
-    <h2 class="text-lg font-extrabold text-gray-900 flex items-center space-x-2">
-      <span>续签3个月商务签</span>
-    </h2>
-
-    <!-- 详情信息 -->
-    <ul class="text-sm text-gray-700 space-y-1">
-      <li class="flex items-start space-x-2">
-        <span><b>资料：</b>护照原件</span>
-      </li>
-      <li class="flex items-start space-x-2">
-        <span><b>停留时间：</b>90天</span>
-      </li>
-      <li class="flex items-start space-x-2">
-        <span><b>未办劳工证：</b>可续签1次</span>
-      </li>
-      <li class="flex items-start space-x-2">
-        <span><b>办理时间：</b>7天加急2天）</span>
-      </li>
-      <li class="flex items-start space-x-2">
-        <span><b>逾期罚款：</b>$10/天</span>
-      </li>
-      <li class="flex items-start space-x-2">
-        <span>✅如需再续签，请提前 20 天内办理劳工证</span>
-      </li>
-    </ul>
-
-    <!-- 按钮 -->
-    <div class="pt-2">
-      <button onclick="contactService('续签3个月商务签')" 
-        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-full shadow-lg transition duration-300">
-        💬 立即咨询此服务
-      </button>
-    </div>
-  </div>
-</div>
-
-
-
-
-<div class="bg-green rounded-3xl shadow-xl p-4 w-full flex space-x-4 items-start">
-  <!-- 左侧图片 -->
-  <div class="w-2/5">
-    <img src="images/passport.png" class="w-full h-full object-cover rounded-xl">
-  </div>
-
-  <!-- 右侧信息 -->
-  <div class="flex-1 flex flex-col justify-between space-y-2">
-    <!-- 标题 -->
-    <h2 class="text-lg font-extrabold text-gray-900 flex items-center space-x-2">
-      <span>续签 6 个月商务签</span>
-    </h2>
-
-    <!-- 详情信息 -->
-    <ul class="text-sm text-gray-700 space-y-1">
-      <li class="flex items-start space-x-2">
-        <span><b>资料：</b>护照原件</span>
-      </li>
-      <li class="flex items-start space-x-2">
-        <span><b>停留时间：</b>180天</span>
-      </li>
-      <li class="flex items-start space-x-2">
-        <span><b>未办劳工证:</b>可续1次</span>
-      </li>
-      <li class="flex items-start space-x-2">
-        <span><b>逾期罚款：</b>$10/天</span>
-      </li>
-      <li class="flex items-start space-x-2">
-        <span>✅提前20天办理劳工证</span>
-      </li>
-    </ul>
-
-    <!-- 按钮 -->
-    <div class="pt-2">
-      <button onclick="contactService('续签 6 个月商务签')" 
-        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-full shadow-lg transition duration-300">
-        💬 立即咨询此服务
-      </button>
-    </div>
-  </div>
-</div>
-
-
-
-
-<div class="bg-pink rounded-3xl shadow-xl p-4 w-full flex space-x-4 items-start">
-  <!-- 左侧图片 -->
-  <div class="w-2/5">
-    <img src="images/passport.png" class="w-full h-full object-cover rounded-xl">
-  </div>
-
-  <!-- 右侧信息 -->
-  <div class="flex-1 flex flex-col justify-between space-y-2">
-    <!-- 标题 -->
-    <h2 class="text-lg font-extrabold text-gray-900 flex items-center space-x-2">
-      <span>续签 1年商务签</span>
-    </h2>
-
-    <!-- 详情信息 -->
-    <ul class="text-sm text-gray-700 space-y-1">
-      <li class="flex items-start space-x-2">
-        <span><b>资料：</b></span>
-      </li>
-      <li class="flex items-start space-x-2">
-        <span>&nbsp;&nbsp;🧳 护照原件</span>
-      </li>
-      <li class="flex items-start space-x-2">
-        <span>&nbsp;&nbsp;🧳 当年劳工证照片</span>
-      </li>
-      <li class="flex items-start space-x-2">
-        <span><b>停留时间：</b>365天</span>
-      </li>
-      <li class="flex items-start space-x-2">
-        <span><b>仅限已持有劳工证者可申请</b></span>
-      </li>
-      <li class="flex items-start space-x-2">
-        <span><b>办理时间：</b>7天(加急2天）</span>
-      </li>
-      <li class="flex items-start space-x-2">
-        <span><b>逾期罚款：</b>$10/天</span>
-      </li>
-    </ul>
-
-    <!-- 按钮 -->
-    <div class="pt-2">
-      <button onclick="contactService('续签 1年商务签')" 
-        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-full shadow-lg transition duration-300">
-        💬 立即咨询此服务
-      </button>
-    </div>
-  </div>
-</div>
-
 
   <script>
     function contactService(serviceName) {
@@ -224,6 +109,5 @@ b<!DOCTYPE html>
       }
     }
   </script>
-
 </body>
 </html>
