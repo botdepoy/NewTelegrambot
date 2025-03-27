@@ -348,8 +348,8 @@ RESPONSE_DATA = {
 
                                                 ,
                                     "buttons": [
-                                                [InlineKeyboardButton(text="索菲特流程",url="https://t.me/HWLDSWFW_bot/myappcondorental")
-                                                ,InlineKeyboardButton(text="瑰丽流程",url="https://t.me/HWLDSWFW_bot/HouseRental")],
+                                                [InlineKeyboardButton(text="索菲特",url="https://t.me/HWLDSWFW_bot/myappcondorental")
+                                                ,InlineKeyboardButton(text="瑰丽",url="https://t.me/HWLDSWFW_bot/HouseRental")],
                                                 [InlineKeyboardButton(text="💬 联系客服",url="https://t.me/LUODISWKF")],
                                                 [InlineKeyboardButton("🔙 返回", callback_data="🏨 酒店|租凭")]
                                     ]            
@@ -374,8 +374,8 @@ RESPONSE_DATA = {
                                                 "✨ 🏊泳池｜🏋️健身房｜🧸儿童区｜🌐Wi-Fi\n"
                                                 "━━━━━━━━━━━━━━\n" ,
                                     "buttons": [
-                                                [InlineKeyboardButton(text="SKY-31 流程",url="https://t.me/HWLDSWFW_bot/Sky31"),
-                                                 InlineKeyboardButton(text="TK-Star 流程",url="https://t.me/HWLDSWFW_bot/tkstar")],
+                                                [InlineKeyboardButton(text="SKY-31 ",url="https://t.me/HWLDSWFW_bot/Sky31"),
+                                                 InlineKeyboardButton(text="TK-Star ",url="https://t.me/HWLDSWFW_bot/tkstar")],
                                                 [InlineKeyboardButton(text="💬 联系客服",url="https://t.me/LUODISWKF")],                    
                                                 [InlineKeyboardButton("🔙 返回", callback_data="🏨 酒店|租凭")]
                                     ]            
@@ -386,7 +386,7 @@ RESPONSE_DATA = {
                    "🛒 一站配齐，不用东奔西跑！\n\n"
                    "📦 套装内容:\n"
                    "🛏 卧室用品：四件套、枕芯\n"
-                   "🚿 浴室用品：浴巾、毛巾、牙膏、牙刷、漱口杯\n"
+                   "🚿 浴室用品：浴巾|毛巾|牙膏|牙刷|漱口杯\n"
                    "🧼 个人清洁：沐浴露、洗发水、肥皂\n"
                    "🏠 家庭必备：纸巾、蚊香液、蚊香器\n",
         "buttons": [
