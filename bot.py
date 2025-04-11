@@ -439,7 +439,30 @@ async def button_click(update: Update, context: CallbackContext):
 async def start(update: Update, context: CallbackContext):
     menu_markup = ReplyKeyboardMarkup(MENU, resize_keyboard=True)
     await update.message.reply_text("📌 请选择服务:", reply_markup=menu_markup)
+   welcome_text = (
+        "欢迎使用智能服务机器人 🤖\n"
+        "请选择你需要的服务 👇\n\n"
+        "🚗 交通服务：接送机、包车\n"
+        "📜 证照办理：签证、驾照、劳工证\n"
+        "🌍 翻译对接：陪同翻译、口译服务\n"
+        "🏢 企业落地：注册公司、办公地址\n"
+        "🏨 酒店租赁：短租公寓、酒店预订\n"
+        "🚀 生活物资：送水、送气、清洁维修\n"
+        "🙋‍♀️ 客服帮助：联系人工客服"
+    )
 
+    # 👇 Inline button to open Mini Web App or any URL
+    keyboard = [
+        [InlineKeyboardButton("📲 打开服务平台", web_app={"url": "https://your-mini-webapp-url.com"})]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+
+    # Send message with inline button
+    await update.message.reply_photo(
+        photo="https://your-cdn.com/logo.png",  # Optional image
+        caption=welcome_text,
+        reply_markup=reply_markup
+    )
 
 # Handle Menu Selection
 async def handle_menu(update: Update, context: CallbackContext):
