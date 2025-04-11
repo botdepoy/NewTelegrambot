@@ -111,44 +111,79 @@
   <button class="button" onclick="openTelegramChat()">
     咨询客服
   </button>
+<div style="text-align:center; margin-top: 20px;">
+  <button onclick="switchLang('zh')">🇨🇳 中文</button> |
+  <button onclick="switchLang('en')">🇬🇧 English</button>
+</div>
 
   <script>
-    // ✅ keep the original button logic
-    function openTelegramChat() {
-      const message = ("你好，我想咨询关于【车辆租赁】服务。");
-      const adminUsername = "LUODISWKF";
-      const link = `https://t.me/${adminUsername}?text=${encodeURIComponent(message)}`;
-
-      if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
-        Telegram.WebApp.openTelegramLink(link);
-      } else {
-        window.open(link, '_blank');
-      }
+  function openTelegramChat() {
+    const message = ("你好，我想咨询关于【车辆租赁】服务。");
+    const adminUsername = "LUODISWKF";
+    const link = `https://t.me/${adminUsername}?text=${encodeURIComponent(message)}`;
+    if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
+      Telegram.WebApp.openTelegramLink(link);
+    } else {
+      window.open(link, '_blank');
     }
+  }
 
-    // ✅ new dynamic content logic
-    function loadContent() {
-      const params = new URLSearchParams(window.location.search);
-      const type = params.get('type'); // e.g. ?type=visa
+  function switchLang(lang) {
+    const url = new URL(window.location.href);
+    url.searchParams.set('lang', lang);
+    window.location.href = url;
+  }
 
-      if (type === 'visa') {
-        document.getElementById('page-title').innerText = "签证办理流程";
-        document.getElementById('step1-title').innerText = "1. 选择签证类型";
-        document.getElementById('step1-desc').innerText = "旅游签、商务签、学生签、工作签等";
-        document.getElementById('step2-title').innerText = "2. 所需材料";
-        document.getElementById('step2-desc').innerText = "护照复印件、照片、申请表、签证费等";
-        document.getElementById('step3-title').innerText = "3. 注意事项";
-        document.getElementById('step3-desc').innerText = "资料必须真实有效；不同国家材料略有不同";
-        document.getElementById('icon1').innerText = "🛂";
-        document.getElementById('icon2').innerText = "📑";
-        document.getElementById('icon3').innerText = "❗";
+  function loadContent() {
+    const params = new URLSearchParams(window.location.search);
+    const lang = params.get('lang') || 'zh';
+    const type = params.get('type') || 'car';
+
+    const translations = {
+      zh: {
+        title: "一条龙办理流程",
+        step1_title: "1. 办理流程",
+        step1_desc: "线上下单 → 联系客服提交资料 → 签订合同 → 缴纳押金 → 获取车辆",
+        step2_title: "2. 所需材料",
+        step2_desc: "护照首页照片、租赁人驾照、租赁合同、车辆押金",
+        step3_title: "3. 注意",
+        step3_desc: "租赁押金：$5000 USD（车归还后全额退还，若无损坏）",
+        icon1: "📝",
+        icon2: "📄",
+        icon3: "⚠️"
+      },
+      en: {
+        title: "All-in-One Service Process",
+        step1_title: "1. Application Process",
+        step1_desc: "Online order → Contact support → Sign contract → Pay deposit → Receive vehicle",
+        step2_title: "2. Required Documents",
+        step2_desc: "Passport main page, driver's license, rental contract, deposit",
+        step3_title: "3. Notice",
+        step3_desc: "Deposit: $5000 USD (fully refundable after return if no damage)",
+        icon1: "📝",
+        icon2: "📄",
+        icon3: "⚠️"
       }
-      // you can add more else if blocks like "hotel", "tour", etc.
-    }
+    };
 
-    Telegram.WebApp.ready();
-    loadContent(); // run this on page load
-  </script>
+    const t = translations[lang];
+
+    document.getElementById('page-title').innerText = t.title;
+    document.getElementById('step1-title').innerText = t.step1_title;
+    document.getElementById('step1-desc').innerText = t.step1_desc;
+    document.getElementById('step2-title').innerText = t.step2_title;
+    document.getElementById('step2-desc').innerText = t.step2_desc;
+    document.getElementById('step3-title').innerText = t.step3_title;
+    document.getElementById('step3-desc').innerText = t.step3_desc;
+    document.getElementById('icon1').innerText = t.icon1;
+    document.getElementById('icon2').innerText = t.icon2;
+    document.getElementById('icon3').innerText = t.icon3;
+  }
+
+  Telegram.WebApp.ready();
+  loadContent();
+</script>
+
 
 </body>
 </html>
