@@ -438,33 +438,7 @@ async def button_click(update: Update, context: CallbackContext):
 # Start Command
 async def start(update: Update, context: CallbackContext):
     menu_markup = ReplyKeyboardMarkup(MENU, resize_keyboard=True)
-
-    # 📝 Welcome text
-    welcome_text = (
-        "🌸 欢迎使用 <b>落地生花 · 智能服务机器人</b> 🤖\n\n"
-        "请选择你需要的服务 👇\n\n"
-        "✈️ 交通服务：接送机、包车\n"
-        "📜 证照办理：签证、驾照、劳工证\n"
-        "🌍 翻译对接：陪同翻译、口译服务\n"
-        "🏛️ 企业落地：注册公司、办公地址\n"
-        "🏨 酒店租赁：短租公寓、酒店预订\n"
-        "🚀 生活物资：送水、送气、清洁维修\n"
-        "👩‍💻 客服帮助：联系人工客服"
-    )
-
-    # 🔘 Inline button below welcome message
-    inline_button = InlineKeyboardMarkup([
-        [InlineKeyboardButton("📲 打开服务平台1", web_app={"url": WEB_APP_URL})],
-        [InlineKeyboardButton("📲 打开服务平台2", web_app={"url": WEB_APP_URL})]
-
-    ])
-
-    # ✅ Send welcome + inline button
-    await update.message.reply_text(welcome_text, parse_mode="HTML", reply_markup=inline_button)
-
-    # ✅ Then send menu as usual
     await update.message.reply_text("📌 请选择服务:", reply_markup=menu_markup)
-
    
 # Handle Menu Selection
 async def handle_menu(update: Update, context: CallbackContext):
