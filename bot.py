@@ -406,6 +406,20 @@ RESPONSE_DATA = {
 
 }
 
+async def kefu_handler(update: Update, context: CallbackContext):
+    data = RESPONSE_DATA["👩‍💻 人工客服"]
+    keyboard = InlineKeyboardMarkup(data["buttons"])
+
+    if os.path.exists(data["photo"]):
+        with open(data["photo"], "rb") as photo:
+            await update.message.reply_photo(
+                photo=photo,
+                caption=data["caption"],
+                reply_markup=keyboard,
+                parse_mode="HTML"
+            )
+    else:
+        await update.message.reply_text("客服图片未找到。", reply_markup=keyboard)
 
 # Handle button clicks and edit message instead of sending a new one
 async def button_click(update: Update, context: CallbackContext):
@@ -470,6 +484,7 @@ def main():
     # Command Handlers
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CallbackQueryHandler(button_click))
+    application.add_handler(CommandHandler("客服", kefu_handler))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_menu))
 
     # Start Polling
