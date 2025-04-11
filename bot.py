@@ -406,7 +406,7 @@ RESPONSE_DATA = {
 
 }
 
-async def kefu_handler(update: Update, context: CallbackContext):
+async def contact_handler(update: Update, context: CallbackContext):
     data = RESPONSE_DATA["👩‍💻 人工客服"]
     keyboard = InlineKeyboardMarkup(data["buttons"])
 
@@ -484,7 +484,7 @@ def main():
     # Command Handlers
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CallbackQueryHandler(button_click))
-    application.add_handler(CommandHandler("客服", kefu_handler))
+    application.add_handler(CommandHandler("客服", contact_handler))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_menu))
 
     # Start Polling
