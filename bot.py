@@ -12,8 +12,8 @@ from telegram.ext import (
 )
 
 # Replace with your actual bot token
-BOT_TOKEN = "7472767533:AAFDewMWR-lN1BMEPffa0AwjAvffUMUXHyg"
-ADMIN_ID = "1799744741"
+BOT_TOKEN = "7472767533:AAGRN2vXNDUL27-pljA_f30jzkbpMy_5_Ck"
+ADMIN_ID = "6665198361"
 WEB_APP_URL = "https://botdepoy.github.io/NewTelegrambot/form.html"
 
 # Logging setup
