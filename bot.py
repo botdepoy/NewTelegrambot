@@ -468,12 +468,12 @@ async def button_click(update: Update, context: CallbackContext):
 async def start(update: Update, context: CallbackContext):
     menu_markup = ReplyKeyboardMarkup(MENU, resize_keyboard=True)
     await update.message.reply_text("📌 请选择服务:", reply_markup=menu_markup)
-   save_user_id(update.message.chat_id)
+    save_user_id(update.message.chat_id)
 
    
 # Handle Menu Selection
 async def handle_menu(update: Update, context: CallbackContext):
-save_user_id(update.message.chat_id)
+    save_user_id(update.message.chat_id)
     text = update.message.text
     if text in RESPONSE_DATA:
         data = RESPONSE_DATA[text]
