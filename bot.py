@@ -545,7 +545,7 @@ async def update_broadcast(update: Update, context: CallbackContext):
 
     # New content for update
     new_text = "<b>🛠️ 更新通知</b>\n公告内容已更新，请查看最新版本。"
-    new_image_url = "https://yourdomain.com/updated_image.jpg"
+    new_image_url = "images/noimage.jpg"
     button_text = "👉 查看更新"
     button_url = "https://t.me/yourbot?start=update"
 
