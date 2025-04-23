@@ -496,6 +496,9 @@ async def handle_menu(update: Update, context: CallbackContext):
 
 
 async def broadcast(update: Update, context: CallbackContext):
+    global broadcast_cache
+    broadcast_cache = {}  # clear old cache
+
     if str(update.message.chat_id) != ADMIN_ID:
         return await update.message.reply_text("❌ 没有权限")
 
@@ -524,6 +527,7 @@ async def broadcast(update: Update, context: CallbackContext):
                 reply_markup=keyboard
             )
             user["last_message_id"] = msg.message_id
+            broadcast_cache[str(user["chat_id"])] = msg.message_id  # ✅ This line is KEY
         except Exception as e:
             print(f"Failed to send to {user['chat_id']}: {e}")
 
@@ -531,6 +535,7 @@ async def broadcast(update: Update, context: CallbackContext):
         json.dump(users, f)
 
     await update.message.reply_text("✅ 广播发送成功")
+
 
 async def update_broadcast(update: Update, context: CallbackContext):
     global broadcast_cache
