@@ -533,12 +533,15 @@ async def broadcast(update: Update, context: CallbackContext):
     await update.message.reply_text("✅ 广播发送成功")
 
 async def update_broadcast(update: Update, context: CallbackContext):
+    global broadcast_cache
+
     if str(update.message.chat_id) != ADMIN_ID:
         return await update.message.reply_text("❌ 没有权限")
 
-    new_text = "<b>🛠️ 更新通知</b>\n我们已对公告内容进行了调整。"
-    new_image = "https://yourdomain.com/updated_image.jpg"
-    button_text = "查看更新"
+    # New content for update
+    new_text = "<b>🛠️ 更新通知</b>\n公告内容已更新，请查看最新版本。"
+    new_image_url = "https://yourdomain.com/updated_image.jpg"
+    button_text = "👉 查看更新"
     button_url = "https://t.me/yourbot?start=update"
 
     keyboard = InlineKeyboardMarkup([
@@ -551,21 +554,36 @@ async def update_broadcast(update: Update, context: CallbackContext):
     except:
         return await update.message.reply_text("⚠️ 用户数据读取失败")
 
+    success = 0
+    fail = 0
+
     for user in users:
-        if user["last_message_id"]:
+        chat_id = user["chat_id"]
+        message_id = broadcast_cache.get(str(chat_id)) or user.get("last_message_id")
+
+        if message_id:
             try:
                 await context.bot.edit_message_media(
-                    chat_id=user["chat_id"],
-                    message_id=user["last_message_id"],
-                    media=InputMediaPhoto(media=new_image, caption=new_text, parse_mode=ParseMode.HTML),
+                    chat_id=chat_id,
+                    message_id=message_id,
+                    media=InputMediaPhoto(
+                        media=new_image_url,
+                        caption=new_text,
+                        parse_mode=ParseMode.HTML
+                    ),
                     reply_markup=keyboard
                 )
+                success += 1
             except Exception as e:
-                print(f"Failed to update for {user['chat_id']}: {e}")
+                print(f"Update failed for {chat_id}: {e}")
+                fail += 1
 
-    await update.message.reply_text("✅ 广播已更新")
+    await update.message.reply_text(f"✅ 更新完成：成功 {success}，失败 {fail}")
+
 
 async def delete_broadcast(update: Update, context: CallbackContext):
+    global broadcast_cache
+
     if str(update.message.chat_id) != ADMIN_ID:
         return await update.message.reply_text("❌ 没有权限")
 
@@ -575,19 +593,22 @@ async def delete_broadcast(update: Update, context: CallbackContext):
     except:
         return await update.message.reply_text("⚠️ 用户数据读取失败")
 
-    for user in users:
-        if user["last_message_id"]:
-            try:
-                await context.bot.edit_message_caption(
-                    chat_id=user["chat_id"],
-                    message_id=user["last_message_id"],
-                    caption="🚫 此公告已删除。",
-                    reply_markup=None
-                )
-            except Exception as e:
-                print(f"Delete failed for {user['chat_id']}: {e}")
+    success = 0
+    fail = 0
 
-    await update.message.reply_text("✅ 广播已删除")
+    for user in users:
+        chat_id = user["chat_id"]
+        message_id = broadcast_cache.get(str(chat_id)) or user.get("last_message_id")
+
+        if message_id:
+            try:
+                await context.bot.delete_message(chat_id=chat_id, message_id=message_id)
+                success += 1
+            except Exception as e:
+                print(f"Delete failed for {chat_id}: {e}")
+                fail += 1
+
+    await update.message.reply_text(f"✅ 删除成功 {success} 条消息，失败 {fail} 条。")
 
 
 # Main Function
