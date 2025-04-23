@@ -543,9 +543,8 @@ async def update_broadcast(update: Update, context: CallbackContext):
     if str(update.message.chat_id) != ADMIN_ID:
         return await update.message.reply_text("❌ 没有权限")
 
-    # New content for update
     new_text = "<b>🛠️ 更新通知</b>\n公告内容已更新，请查看最新版本。"
-    new_image_url = "images/noimage.jpg"
+    new_image_path = "images/noimage.jpg"  # Replace with your new image path
     button_text = "👉 查看更新"
     button_url = "https://t.me/yourbot?start=update"
 
@@ -567,23 +566,29 @@ async def update_broadcast(update: Update, context: CallbackContext):
         message_id = broadcast_cache.get(str(chat_id)) or user.get("last_message_id")
 
         if message_id:
-            try:
-                await context.bot.edit_message_media(
-                    chat_id=chat_id,
-                    message_id=message_id,
-                    media=InputMediaPhoto(
-                        media=new_image_url,
-                        caption=new_text,
-                        parse_mode=ParseMode.HTML
-                    ),
-                    reply_markup=keyboard
-                )
-                success += 1
-            except Exception as e:
-                print(f"Update failed for {chat_id}: {e}")
+            if os.path.exists(new_image_path):
+                with open(new_image_path, "rb") as photo:
+                    try:
+                        await context.bot.edit_message_media(
+                            chat_id=chat_id,
+                            message_id=message_id,
+                            media=InputMediaPhoto(
+                                media=photo,
+                                caption=new_text,
+                                parse_mode=ParseMode.HTML
+                            ),
+                            reply_markup=keyboard
+                        )
+                        success += 1
+                    except Exception as e:
+                        print(f"Update failed for {chat_id}: {e}")
+                        fail += 1
+            else:
+                print(f"❌ File not found: {new_image_path}")
                 fail += 1
 
     await update.message.reply_text(f"✅ 更新完成：成功 {success}，失败 {fail}")
+
 
 
 async def delete_broadcast(update: Update, context: CallbackContext):
