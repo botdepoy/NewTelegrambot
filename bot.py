@@ -10,6 +10,26 @@ from telegram.ext import (
     Application, CommandHandler, MessageHandler, filters,
     CallbackContext, CallbackQueryHandler
 )
+import json
+from telegram.constants import ParseMode
+
+def save_user_id(chat_id):
+    try:
+        with open("user_list.json", "r") as file:
+            users = json.load(file)
+    except:
+        users = []
+
+    found = False
+    for user in users:
+        if user["chat_id"] == chat_id:
+            found = True
+            break
+
+    if not found:
+        users.append({"chat_id": chat_id, "last_message_id": None})
+        with open("user_list.json", "w") as file:
+            json.dump(users, file)
 
 # Replace with your actual bot token
 BOT_TOKEN = "7896688608:AAGfcyafEuKiWWcMceHMjbVZp9oWB3666Yo"
@@ -448,9 +468,12 @@ async def button_click(update: Update, context: CallbackContext):
 async def start(update: Update, context: CallbackContext):
     menu_markup = ReplyKeyboardMarkup(MENU, resize_keyboard=True)
     await update.message.reply_text("📌 请选择服务:", reply_markup=menu_markup)
+   save_user_id(update.message.chat_id)
+
    
 # Handle Menu Selection
 async def handle_menu(update: Update, context: CallbackContext):
+save_user_id(update.message.chat_id)
     text = update.message.text
     if text in RESPONSE_DATA:
         data = RESPONSE_DATA[text]
@@ -472,6 +495,101 @@ async def handle_menu(update: Update, context: CallbackContext):
         await update.message.reply_text("❌ 无效的选项，请选择正确的菜单项。")
 
 
+async def broadcast(update: Update, context: CallbackContext):
+    if str(update.message.chat_id) != ADMIN_ID:
+        return await update.message.reply_text("❌ 没有权限")
+
+    text = "<b>📢 系统公告</b>\n\n欢迎体验我们的新服务！"
+    image_url = "https://yourdomain.com/image.jpg"
+    button_text = "点击查看"
+    button_url = "https://t.me/yourbot"
+
+    keyboard = InlineKeyboardMarkup([
+        [InlineKeyboardButton(button_text, url=button_url)]
+    ])
+
+    try:
+        with open("user_list.json", "r") as f:
+            users = json.load(f)
+    except:
+        return await update.message.reply_text("⚠️ 用户数据读取失败")
+
+    for user in users:
+        try:
+            msg = await context.bot.send_photo(
+                chat_id=user["chat_id"],
+                photo=image_url,
+                caption=text,
+                parse_mode=ParseMode.HTML,
+                reply_markup=keyboard
+            )
+            user["last_message_id"] = msg.message_id
+        except Exception as e:
+            print(f"Failed to send to {user['chat_id']}: {e}")
+
+    with open("user_list.json", "w") as f:
+        json.dump(users, f)
+
+    await update.message.reply_text("✅ 广播发送成功")
+
+async def update_broadcast(update: Update, context: CallbackContext):
+    if str(update.message.chat_id) != ADMIN_ID:
+        return await update.message.reply_text("❌ 没有权限")
+
+    new_text = "<b>🛠️ 更新通知</b>\n我们已对公告内容进行了调整。"
+    new_image = "https://yourdomain.com/updated_image.jpg"
+    button_text = "查看更新"
+    button_url = "https://t.me/yourbot?start=update"
+
+    keyboard = InlineKeyboardMarkup([
+        [InlineKeyboardButton(button_text, url=button_url)]
+    ])
+
+    try:
+        with open("user_list.json", "r") as f:
+            users = json.load(f)
+    except:
+        return await update.message.reply_text("⚠️ 用户数据读取失败")
+
+    for user in users:
+        if user["last_message_id"]:
+            try:
+                await context.bot.edit_message_media(
+                    chat_id=user["chat_id"],
+                    message_id=user["last_message_id"],
+                    media=InputMediaPhoto(media=new_image, caption=new_text, parse_mode=ParseMode.HTML),
+                    reply_markup=keyboard
+                )
+            except Exception as e:
+                print(f"Failed to update for {user['chat_id']}: {e}")
+
+    await update.message.reply_text("✅ 广播已更新")
+
+async def delete_broadcast(update: Update, context: CallbackContext):
+    if str(update.message.chat_id) != ADMIN_ID:
+        return await update.message.reply_text("❌ 没有权限")
+
+    try:
+        with open("user_list.json", "r") as f:
+            users = json.load(f)
+    except:
+        return await update.message.reply_text("⚠️ 用户数据读取失败")
+
+    for user in users:
+        if user["last_message_id"]:
+            try:
+                await context.bot.edit_message_caption(
+                    chat_id=user["chat_id"],
+                    message_id=user["last_message_id"],
+                    caption="🚫 此公告已删除。",
+                    reply_markup=None
+                )
+            except Exception as e:
+                print(f"Delete failed for {user['chat_id']}: {e}")
+
+    await update.message.reply_text("✅ 广播已删除")
+
+
 # Main Function
 def main():
     application = Application.builder().token(BOT_TOKEN).build()
@@ -481,6 +599,11 @@ def main():
     application.add_handler(CallbackQueryHandler(button_click))
     application.add_handler(CommandHandler("contact", contact_handler))  # fixed line
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_menu))
+    application.add_handler(CommandHandler("broadcast", broadcast))
+    application.add_handler(CommandHandler("update", update_broadcast))
+    application.add_handler(CommandHandler("delete", delete_broadcast))
+
+
 
     # Start Polling
     application.run_polling()
