@@ -544,7 +544,7 @@ async def update_broadcast(update: Update, context: CallbackContext):
         return await update.message.reply_text("❌ 没有权限")
 
     new_text = "<b>🛠️ 更新通知</b>\n公告内容已更新，请查看最新版本。"
-    new_image_path = "images/noimage.jpg"  # Replace with your new image path
+    new_image_path = "images/IMG_0103.JPG"  # Replace with your new image path
     button_text = "👉 查看更新"
     button_url = "https://t.me/yourbot?start=update"
 
