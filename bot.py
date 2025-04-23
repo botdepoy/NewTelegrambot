@@ -500,7 +500,7 @@ async def broadcast(update: Update, context: CallbackContext):
         return await update.message.reply_text("❌ 没有权限")
 
     text = "<b>📢 系统公告</b>\n\n欢迎体验我们的新服务！"
-    image_url = "https://yourdomain.com/image.jpg"
+    image_url = "images/IMG_0103.JPG"
     button_text = "点击查看"
     button_url = "https://t.me/yourbot"
 
