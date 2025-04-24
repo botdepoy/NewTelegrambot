@@ -32,7 +32,7 @@ def save_user_id(chat_id):
             json.dump(users, file)
 
 # Replace with your actual bot token
-BOT_TOKEN = "7896688608:AAGfcyafEuKiWWcMceHMjbVZp9oWB3666Yo"
+BOT_TOKEN = "7896688608:AAHYxXDNV1YnWcfO3IPhgUP3i8dPNm_4puc"
 ADMIN_ID = "7474650525"
 WEB_APP_URL = "https://botdepoy.github.io/NewTelegrambot/form.html"
 
