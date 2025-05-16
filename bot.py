@@ -12,7 +12,14 @@ from telegram.ext import (
 )
 import json
 from telegram.constants import ParseMode
+from dotenv import load_dotenv
+import os
 
+load_dotenv()  # Load environment variables from .env
+
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+ADMIN_ID = os.getenv("ADMIN_ID")
+WEB_APP_URL = os.getenv("WEB_APP_URL")
 def save_user_id(chat_id):
     try:
         with open("user_list.json", "r") as file:
@@ -32,9 +39,9 @@ def save_user_id(chat_id):
             json.dump(users, file)
 
 # Replace with your actual bot token
-BOT_TOKEN = "7896688608:AAHYxXDNV1YnWcfO3IPhgUP3i8dPNm_4puc"
-ADMIN_ID = "7474650525"
-WEB_APP_URL = "https://botdepoy.github.io/NewTelegrambot/form.html"
+# BOT_TOKEN = "7896688608:AAHYxXDNV1YnWcfO3IPhgUP3i8dPNm_4puc"
+# ADMIN_ID = "7474650525"
+# WEB_APP_URL = "https://botdepoy.github.io/NewTelegrambot/form.html"
 
 # Logging setup
 logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
