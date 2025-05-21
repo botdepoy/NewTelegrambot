@@ -50,7 +50,7 @@ logger = logging.getLogger(__name__)
 # Main menu options
 MENU = [
     [KeyboardButton("✈️ 交通服务"), KeyboardButton("📜 证照办理"), KeyboardButton("🌍 翻译对接")],
-    [KeyboardButton("🏛️ 企业落地"), KeyboardButton("🏨 酒店|租凭"), KeyboardButton("🚀 生活物资")],
+    [KeyboardButton("🏛️ 企业落地"), KeyboardButton("🏨 酒店|租赁"), KeyboardButton("🚀 生活物资")],
     [KeyboardButton("👩‍💻 人工客服")]
 ]
 
@@ -346,7 +346,7 @@ RESPONSE_DATA = {
    
 
 
-"🏨 酒店|租凭": {
+"🏨 酒店|租赁": {
             "photo": "images/sofietel.jpg",
             "caption": "<b>🏨 【住宿与租赁服务】</b>\n\n"
                   "📌 高端酒店| 长，短租房屋 | 商务办公空间\n"
@@ -410,7 +410,7 @@ RESPONSE_DATA = {
     "🚀 生活物资": {
         "photo": "images/生活.jpg",
         "caption": "<b>🧺 新员工生活物品套装</b>\n\n"
-                   "🛒 一站配齐，不用东奔西跑！\n\n"
+                   "🛒 一站配齐，只需 100$ (美金)！\n\n"
                    "📦 套装内容:\n"
                    "🛏 卧室用品：四件套、枕芯\n"
                    "🚿 浴室用品：浴巾|毛巾|牙膏|牙刷|漱口杯\n"
