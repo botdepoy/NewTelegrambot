@@ -3,195 +3,149 @@
 <head>
   <meta charset="UTF-8">
   <title>机场接送服务</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
+    * { box-sizing: border-box; }
     body {
       margin: 0;
-      font-family: "Helvetica Neue", "Segoe UI", sans-serif;
-      background-color: #f6f8fa;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f9f9f9;
       color: #333;
-      line-height: 1.6;
+      padding-bottom: 100px;
     }
 
     h2 {
       text-align: center;
-      font-size: 28px;
-      margin: 30px 10px;
+      font-size: 20px;
+      font-weight: 600;
+      margin: 20px 16px;
       color: #2d3748;
     }
 
-    .service-block {
-      background: #ffffff;
-      margin: 20px auto;
-      border-left: 8px solid;
-      border-radius: 16px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      overflow: hidden;
-      max-width: 720px;
+    .card {
+      background: #fff;
+      margin: 16px;
+      padding: 16px;
+      border-left: 5px solid;
+      border-radius: 12px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
     }
 
-    .arrival {
-      border-color: #3182ce;
-    }
+    .card.arrival { border-color: #4299e1; }
+    .card.departure { border-color: #ed8936; }
 
-    .departure {
-      border-color: #ed8936;
-    }
-
-    .header {
+    .icon-title {
       display: flex;
       align-items: center;
-      gap: 10px;
-      padding: 20px;
-      font-size: 18px;
+      font-size: 16px;
       font-weight: bold;
-      background: #f9fafb;
-      border-bottom: 1px solid #e2e8f0;
-    }
-
-    .header .icon {
-      font-size: 24px;
-    }
-
-    .image-preview {
-      text-align: center;
-      padding: 20px;
-    }
-
-    .image-preview img {
-      width: 90%;
-      max-width: 500px;
-      border-radius: 14px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-    }
-
-    .info-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-      padding: 20px;
-      justify-content: center;
-    }
-
-    .info-card {
-      background-color: #f1f5f9;
-      border-radius: 12px;
-      padding: 15px 18px;
-      flex: 1 1 calc(45% - 10px);
-      font-size: 15px;
-      text-align: center;
-      min-width: 260px;
-    }
-
-    .info-card strong {
-      display: block;
       margin-bottom: 8px;
-      font-weight: 600;
-      color: #2b3e55;
-      font-size: 16px;
     }
 
-    .button {
+    .icon-title span {
+      font-size: 20px;
+      margin-right: 8px;
+    }
+
+    .section {
+      font-size: 14px;
+      line-height: 1.5;
+      margin: 8px 0;
+    }
+
+    .section strong {
       display: block;
-      width: calc(100% - 60px);
-      max-width: 380px;
-      margin: 30px auto 40px;
+      margin-bottom: 4px;
+      font-weight: 600;
+      color: #1a202c;
+    }
+
+    .img-wrap {
+      text-align: center;
+      margin: 12px 0;
+    }
+
+    .img-wrap img {
+      max-width: 100%;
+      border-radius: 8px;
+    }
+
+    .cta-button {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 32px);
+      max-width: 480px;
+      background: #3182ce;
+      color: #fff;
       padding: 14px;
-      background-color: #3182ce;
-      color: white;
       border: none;
-      border-radius: 40px;
       font-size: 16px;
+      border-radius: 50px;
       text-align: center;
       cursor: pointer;
-      transition: background-color 0.2s;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
     }
-
-    .button.departure {
-      background-color: #ed8936;
-    }
-
-    .button:hover {
-      filter: brightness(1.05);
-    }
-
-    .button:active {
-      filter: brightness(0.95);
-    }
-
-    @media (max-width: 600px) {
-      .info-card {
-        flex: 1 1 100%;
-      }
+    .cta-button:active {
+      background: #2b6cb0;
     }
   </style>
 </head>
 <body>
 
-  <h2>机场接送服务</h2>
+<h2>机场接送服务</h2>
 
-  <!-- 接机服务块 -->
-  <div class="service-block arrival">
-    <div class="header"><span class="icon">🛬</span>接机服务（接关、带关）</div>
-    <div class="image-preview">
-      <img src="images/906.jpg!detail.v1.jpeg" alt="接机服务">
-    </div>
-    <div class="info-grid">
-      <div class="info-card">
-        <strong>📋 所需材料</strong>
-        护照原件<br>机票行程单
-      </div>
-      <div class="info-card">
-        <strong>📝 办理流程</strong>
-        下单 → 联系客服 → 提交资料 → 办理手续 → 送出海关
-      </div>
-      <div class="info-card">
-        <strong>💰 价格说明</strong>
-        基础服务：$50<br>
-        不录指纹：$75（市场 $150）<br>
-        超级VIP接机：$120（市场 $350）
-      </div>
-    </div>
-    <button class="button" onclick="openTelegram('接机服务（接关、带关）')">立即咨询接机服务</button>
+<!-- 接机卡片 -->
+<div class="card arrival">
+  <div class="icon-title"><span>🛬</span>接机服务（接关、带关）</div>
+  <div class="img-wrap">
+    <img src="images/arrival.jpg" alt="接机图">
   </div>
-
-  <!-- 送机服务块 -->
-  <div class="service-block departure">
-    <div class="header"><span class="icon">🛫</span>送机服务（送关）</div>
-    <div class="image-preview">
-      <img src="images/EaI¼Io_501358104_banner_CeAAu³¡³oDD±³O°¨·CAEoOµEIOA©.jpg" alt="送机服务">
-    </div>
-    <div class="info-grid">
-      <div class="info-card">
-        <strong>📋 所需材料</strong>
-        护照原件<br>机票行程单
-      </div>
-      <div class="info-card">
-        <strong>📝 办理流程</strong>
-        下单 → 联系客服 → 提交资料 → 办理手续 → 送进海关
-      </div>
-      <div class="info-card">
-        <strong>💰 价格说明</strong>
-        基础服务：$50<br>
-        超级VIP送机：$120<br>
-        绿色通道服务：$350
-      </div>
-    </div>
-    <button class="button departure" onclick="openTelegram('送机服务（送关）')">立即咨询送机服务</button>
+  <div class="section">
+    <strong>📋 所需材料：</strong>
+    护照原件、机票行程单
   </div>
+  <div class="section">
+    <strong>📝 流程：</strong>
+    下单 → 联系客服 → 提交资料 → 办理手续 → 出海关
+  </div>
+  <div class="section">
+    <strong>💰 价格：</strong>
+    基础 $50<br>不录指纹 $75（市价 $150）<br>超级VIP $120（市价 $350）
+  </div>
+</div>
 
-  <script>
-    function openTelegram(serviceType) {
-      const baseMsg = `你好，我想咨询 ${serviceType}，请问如何操作？`;
-      const username = "LUODISWKF";
-      const url = `https://t.me/${username}?text=${encodeURIComponent(baseMsg)}`;
-      window.open(url, '_blank');
-    }
-  </script>
+<!-- 送机卡片 -->
+<div class="card departure">
+  <div class="icon-title"><span>🛫</span>送机服务（送关）</div>
+  <div class="img-wrap">
+    <img src="images/departure.jpg" alt="送机图">
+  </div>
+  <div class="section">
+    <strong>📋 所需材料：</strong>
+    护照原件、机票行程单
+  </div>
+  <div class="section">
+    <strong>📝 流程：</strong>
+    下单 → 联系客服 → 提交资料 → 办理手续 → 进海关
+  </div>
+  <div class="section">
+    <strong>💰 价格：</strong>
+    基础 $50<br>超级VIP $120<br>绿色通道 $350
+  </div>
+</div>
+
+<!-- CTA按钮 -->
+<button class="cta-button" onclick="openTelegram()">立即联系客服</button>
+
+<script>
+  function openTelegram() {
+    const msg = "你好，我想了解机场接送服务，请提供详细操作流程。";
+    const username = "LUODISWKF";
+    window.open(`https://t.me/${username}?text=${encodeURIComponent(msg)}`, "_blank");
+  }
+</script>
 
 </body>
 </html>
