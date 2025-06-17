@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>一条龙办理流程</title>
+  <title>机场服务办理流程</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
@@ -82,40 +82,55 @@
 </head>
 <body>
 
-  <h2 id="page-title">一条龙办理流程</h2>
+  <h2 id="page-title">机场服务办理流程</h2>
 
   <div class="section">
-    <div class="icon-circle" id="icon1">📝</div>
-    <div class="title" id="step1-title">1. 办理流程</div>
+    <div class="icon-circle" id="icon1">🛬</div>
+    <div class="title" id="step1-title">1. 服务类型</div>
     <div class="desc" id="step1-desc">
-      线上下单 → 联系客服 → 提交资料 → 办理手续 → 送进海关
+      接关（海关内接机）或送关（机场入口送机）服务，专人举牌迎接/协助通关。
     </div>
   </div>
 
   <div class="section">
-    <div class="icon-circle" id="icon2">📄</div>
+    <div class="icon-circle" id="icon2">📋</div>
     <div class="title" id="step2-title">2. 所需材料</div>
     <div class="desc" id="step2-desc">
-      <p>1、时间</p>
-      <p>2、地点</p>
-      <p>3、联系方式</p>
+      <p>1、护照原件</p>
+      <p>2、机票行程单</p>
     </div>
   </div>
 
   <div class="section">
-    <div class="icon-circle" id="icon3">⚠️</div>
-    <div class="title" id="step3-title">3. 注意</div>
+    <div class="icon-circle" id="icon3">📌</div>
+    <div class="title" id="step3-title">3. 办理流程</div>
     <div class="desc" id="step3-desc">
-      超级VIP接机绿色通道350$
+      线上下单 → 联系客服 → 提交资料 → 办理手续 → 送进/出海关
     </div>
   </div>
 
-  <button class="button" onclick="openTelegramChat()">
-    咨询接机客服
-  </button>
+  <div class="section">
+    <div class="icon-circle">💬</div>
+    <div class="title">4. 服务说明</div>
+    <div class="desc">
+      我们将提供专人机场服务，接机人员会在抵达位置举牌等候，或送机人员协助通过值机、海关、安检等流程，全程快速无排队。
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="icon-circle">💰</div>
+    <div class="title">5. 价格说明</div>
+    <div class="desc">
+      普通服务：$40<br>
+      高峰期价格：$50<br><br>
+      超级VIP接机：$120（成本）<br>
+      市场价：$350（含绿色通道）
+    </div>
+  </div>
+
+  <button class="button" onclick="openTelegramChat()">咨询接机客服</button>
 
   <script>
-    // ✅ keep the original button logic
     function openTelegramChat() {
       const message = ("你好，我想咨询关于【机场接送】服务。");
       const adminUsername = "LUODISWKF";
@@ -128,10 +143,9 @@
       }
     }
 
-    // ✅ new dynamic content logic
     function loadContent() {
       const params = new URLSearchParams(window.location.search);
-      const type = params.get('type'); // e.g. ?type=visa
+      const type = params.get('type');
 
       if (type === 'visa') {
         document.getElementById('page-title').innerText = "签证办理流程";
@@ -145,11 +159,10 @@
         document.getElementById('icon2').innerText = "📑";
         document.getElementById('icon3').innerText = "❗";
       }
-      // you can add more else if blocks like "hotel", "tour", etc.
     }
 
-    Telegram.WebApp.ready();
-    loadContent(); // run this on page load
+    Telegram.WebApp.ready?.();
+    loadContent();
   </script>
 
 </body>
