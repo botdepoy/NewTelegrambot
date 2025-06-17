@@ -73,15 +73,16 @@
     .button {
       display: block;
       width: calc(100% - 40px);
-      max-width: 400px;
-      margin: 40px auto 60px;
-      padding: 15px;
+      max-width: 300px;
+      margin: 30px auto 0;
+      padding: 14px;
       background-color: #ff7e00;
       color: white;
       border-radius: 50px;
       text-align: center;
-      font-size: 16px;
+      font-size: 15px;
       cursor: pointer;
+      border: none;
     }
 
     .button:active {
@@ -101,7 +102,7 @@
       我们将提供专人机场海关内接机服务，接机人员会在乘客抵达位置等待，并举有乘客姓名的标牌，提供机场快速通关服务，协助乘客快速通过签证办理、海关检查，无需排队等待。
     </div>
     <div class="image-preview">
-      <img src="images/906.jpg!detail.v1.jpeg">
+      <img src="images/906.jpg!detail.v1.jpeg" alt="接机服务示意图">
     </div>
     <div class="desc"><strong>📋 所需材料：</strong><br>1. 护照原件<br>2. 机票行程单</div>
     <div class="desc"><strong>📝 办理流程：</strong><br>线上下单 → 联系客服 → 提交资料 → 办理手续 → 送出海关</div>
@@ -110,6 +111,7 @@
       不录指纹成本：$75（市场价 $150）<br>
       超级VIP接机：成本 $120，市场价 $350（含绿色通道）
     </div>
+    <button class="button" onclick="openTelegram('接机服务（接关、带关）')">咨询接机服务</button>
   </div>
 
   <!-- 送机服务 -->
@@ -120,7 +122,7 @@
       我们将提供专人机场送机服务，送机人员会在乘客抵达入口位置等待，并举有乘客姓名的标牌，提供机场内送机快速通关服务，协助乘客快速通过值机、取票、安检、过关，无需排队等待。
     </div>
     <div class="image-preview">
-      <img src="images/EaI¼Io_501358104_banner_CeAAu³¡³oDD±³O°¨·CAEoOµEIOA©.jpg">
+      <img src="images/906.jpg!detail.v1.jpeg" alt="送机服务示意图">
     </div>
     <div class="desc"><strong>📋 所需材料：</strong><br>1. 护照原件<br>2. 机票行程单</div>
     <div class="desc"><strong>📝 办理流程：</strong><br>线上下单 → 联系客服 → 提交资料 → 办理手续 → 送进海关</div>
@@ -129,16 +131,15 @@
       超级VIP送机：$120<br>
       绿色通道服务：$350
     </div>
+    <button class="button" onclick="openTelegram('送机服务（送关）')">咨询送机服务</button>
   </div>
 
-  <button class="button" onclick="openTelegramChat()">立即联系客服</button>
-
   <script>
-    function openTelegramChat() {
-      const msg = "你好，我想咨询机场接送服务。";
-      const username = "LUODISWKF";
-      const link = `https://t.me/${username}?text=${encodeURIComponent(msg)}`;
-      window.open(link, '_blank');
+    function openTelegram(serviceType) {
+      const baseMsg = `你好，我想咨询 ${serviceType}，请问具体资料与安排怎么操作？`;
+      const username = "LUODISWKF"; // 替换为你的 Telegram 用户名
+      const url = `https://t.me/${username}?text=${encodeURIComponent(baseMsg)}`;
+      window.open(url, '_blank');
     }
   </script>
 
