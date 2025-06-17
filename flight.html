@@ -10,86 +10,98 @@
     }
 
     body {
-      font-family: "Segoe UI", sans-serif;
       margin: 0;
-      background-color: #f9f9f9;
-      padding: 0;
+      font-family: "Helvetica Neue", "Segoe UI", sans-serif;
+      background-color: #f6f8fa;
       color: #333;
+      line-height: 1.6;
     }
 
     h2 {
       text-align: center;
       font-size: 28px;
-      margin: 40px 0 20px;
+      margin: 30px 10px;
+      color: #2d3748;
     }
 
     .service-block {
-      background-color: #fff;
-      margin: 20px;
-      border-radius: 16px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+      background: #ffffff;
+      margin: 20px auto;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
       overflow: hidden;
+      max-width: 720px;
     }
 
     .header {
-      background-color: #ff7e00;
+      background-color: #3a81e5;
       color: white;
-      padding: 18px;
+      padding: 20px;
       font-size: 18px;
       font-weight: bold;
+      text-align: center;
     }
 
     .image-preview {
       text-align: center;
-      margin: 15px 0;
+      padding: 20px;
     }
 
     .image-preview img {
-      width: 100%;
-      max-width: 360px;
-      border-radius: 12px;
+      width: 90%;
+      max-width: 500px;
+      border-radius: 14px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
     }
 
     .info-grid {
       display: flex;
       flex-wrap: wrap;
-      padding: 10px 20px 20px;
-      gap: 10px;
+      gap: 14px;
+      padding: 20px;
+      justify-content: center;
     }
 
     .info-card {
-      flex: 1 1 calc(50% - 10px);
-      background-color: #fff4e8;
-      border-radius: 10px;
-      padding: 12px 14px;
-      font-size: 14px;
+      background-color: #f0f4fa;
+      border-radius: 12px;
+      padding: 15px 18px;
+      flex: 1 1 calc(45% - 10px);
+      font-size: 15px;
+      text-align: center;
+      min-width: 260px;
     }
 
     .info-card strong {
       display: block;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
       font-weight: 600;
-    }
-
-    .full-width {
-      flex: 1 1 100%;
+      color: #2b3e55;
+      font-size: 16px;
     }
 
     .button {
-      margin: 25px 20px 30px;
+      display: block;
+      width: calc(100% - 60px);
+      max-width: 380px;
+      margin: 30px auto 40px;
       padding: 14px;
-      width: calc(100% - 40px);
-      background-color: #ff7e00;
+      background-color: #3a81e5;
       color: white;
       border: none;
-      border-radius: 50px;
+      border-radius: 40px;
       font-size: 16px;
       text-align: center;
       cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .button:hover {
+      background-color: #2c6fd6;
     }
 
     .button:active {
-      background-color: #e66e00;
+      background-color: #1f5fbe;
     }
 
     @media (max-width: 600px) {
@@ -103,11 +115,11 @@
 
   <h2>机场接送服务</h2>
 
-  <!-- 接机服务 -->
+  <!-- 接机服务块 -->
   <div class="service-block">
     <div class="header">🛬 接机服务（接关、带关）</div>
     <div class="image-preview">
-      <img src="images/906.jpg!detail.v1.jpeg" alt="接机服务图">
+      <img src="images/906.jpg!detail.v1.jpeg" alt="接机服务">
     </div>
     <div class="info-grid">
       <div class="info-card">
@@ -116,23 +128,23 @@
       </div>
       <div class="info-card">
         <strong>📝 办理流程</strong>
-        线上下单 → 联系客服 → 提交资料 → 办理手续 → 送出海关
+        下单 → 联系客服 → 提交资料 → 办理手续 → 送出海关
       </div>
-      <div class="info-card full-width">
+      <div class="info-card">
         <strong>💰 价格说明</strong>
         基础服务：$50<br>
-        不录指纹成本：$75（市场价 $150）<br>
-        超级VIP接机：成本 $120，市场价 $350（含绿色通道）
+        不录指纹：$75（市场 $150）<br>
+        超级VIP接机：$120（市场 $350）
       </div>
     </div>
-    <button class="button" onclick="openTelegram('接机服务（接关、带关）')">咨询接机服务</button>
+    <button class="button" onclick="openTelegram('接机服务（接关、带关）')">立即咨询接机服务</button>
   </div>
 
-  <!-- 送机服务 -->
+  <!-- 送机服务块 -->
   <div class="service-block">
     <div class="header">🛫 送机服务（送关）</div>
     <div class="image-preview">
-      <img src="images/906.jpg!detail.v1.jpeg" alt="送机服务图">
+      <img src="images/EaI¼Io_501358104_banner_CeAAu³¡³oDD±³O°¨·CAEoOµEIOA©.jpg" alt="送机服务">
     </div>
     <div class="info-grid">
       <div class="info-card">
@@ -141,21 +153,21 @@
       </div>
       <div class="info-card">
         <strong>📝 办理流程</strong>
-        线上下单 → 联系客服 → 提交资料 → 办理手续 → 送进海关
+        下单 → 联系客服 → 提交资料 → 办理手续 → 送进海关
       </div>
-      <div class="info-card full-width">
+      <div class="info-card">
         <strong>💰 价格说明</strong>
         基础服务：$50<br>
         超级VIP送机：$120<br>
         绿色通道服务：$350
       </div>
     </div>
-    <button class="button" onclick="openTelegram('送机服务（送关）')">咨询送机服务</button>
+    <button class="button" onclick="openTelegram('送机服务（送关）')">立即咨询送机服务</button>
   </div>
 
   <script>
     function openTelegram(serviceType) {
-      const baseMsg = `你好，我想咨询 ${serviceType}，请问需要提供哪些资料？`;
+      const baseMsg = `你好，我想咨询 ${serviceType}，请问如何操作？`;
       const username = "LUODISWKF";
       const url = `https://t.me/${username}?text=${encodeURIComponent(baseMsg)}`;
       window.open(url, '_blank');
