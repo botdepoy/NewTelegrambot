@@ -27,19 +27,34 @@
     .service-block {
       background: #ffffff;
       margin: 20px auto;
-      border-radius: 20px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      border-left: 8px solid;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
       overflow: hidden;
       max-width: 720px;
     }
 
+    .arrival {
+      border-color: #3182ce;
+    }
+
+    .departure {
+      border-color: #ed8936;
+    }
+
     .header {
-      background-color: #3a81e5;
-      color: white;
+      display: flex;
+      align-items: center;
+      gap: 10px;
       padding: 20px;
       font-size: 18px;
       font-weight: bold;
-      text-align: center;
+      background: #f9fafb;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .header .icon {
+      font-size: 24px;
     }
 
     .image-preview {
@@ -51,7 +66,7 @@
       width: 90%;
       max-width: 500px;
       border-radius: 14px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
     }
 
     .info-grid {
@@ -63,7 +78,7 @@
     }
 
     .info-card {
-      background-color: #f0f4fa;
+      background-color: #f1f5f9;
       border-radius: 12px;
       padding: 15px 18px;
       flex: 1 1 calc(45% - 10px);
@@ -86,7 +101,7 @@
       max-width: 380px;
       margin: 30px auto 40px;
       padding: 14px;
-      background-color: #3a81e5;
+      background-color: #3182ce;
       color: white;
       border: none;
       border-radius: 40px;
@@ -96,12 +111,16 @@
       transition: background-color 0.2s;
     }
 
+    .button.departure {
+      background-color: #ed8936;
+    }
+
     .button:hover {
-      background-color: #2c6fd6;
+      filter: brightness(1.05);
     }
 
     .button:active {
-      background-color: #1f5fbe;
+      filter: brightness(0.95);
     }
 
     @media (max-width: 600px) {
@@ -116,8 +135,8 @@
   <h2>机场接送服务</h2>
 
   <!-- 接机服务块 -->
-  <div class="service-block">
-    <div class="header">🛬 接机服务（接关、带关）</div>
+  <div class="service-block arrival">
+    <div class="header"><span class="icon">🛬</span>接机服务（接关、带关）</div>
     <div class="image-preview">
       <img src="images/906.jpg!detail.v1.jpeg" alt="接机服务">
     </div>
@@ -141,8 +160,8 @@
   </div>
 
   <!-- 送机服务块 -->
-  <div class="service-block">
-    <div class="header">🛫 送机服务（送关）</div>
+  <div class="service-block departure">
+    <div class="header"><span class="icon">🛫</span>送机服务（送关）</div>
     <div class="image-preview">
       <img src="images/EaI¼Io_501358104_banner_CeAAu³¡³oDD±³O°¨·CAEoOµEIOA©.jpg" alt="送机服务">
     </div>
@@ -162,7 +181,7 @@
         绿色通道服务：$350
       </div>
     </div>
-    <button class="button" onclick="openTelegram('送机服务（送关）')">立即咨询送机服务</button>
+    <button class="button departure" onclick="openTelegram('送机服务（送关）')">立即咨询送机服务</button>
   </div>
 
   <script>
