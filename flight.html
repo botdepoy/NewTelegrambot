@@ -2,31 +2,30 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>机场服务办理流程</title>
+  <title>机场接送服务</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: #ffffff;
       margin: 0;
+      background: #fefefe;
       padding: 0;
     }
 
     h2 {
       text-align: center;
-      font-size: 24px;
+      font-size: 26px;
       font-weight: bold;
-      margin: 40px 20px 30px 20px;
+      margin: 40px 20px 30px;
     }
 
     .section {
       background: #fff5ee;
       margin: 30px 20px;
-      padding: 50px 20px 30px 20px;
+      padding: 50px 20px 30px;
       border-radius: 16px;
-      text-align: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
       position: relative;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
     }
 
     .icon-circle {
@@ -43,14 +42,13 @@
       top: -30px;
       left: 50%;
       transform: translateX(-50%);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
 
     .title {
       font-weight: bold;
-      font-size: 18px;
+      font-size: 20px;
       margin-top: 40px;
-      margin-bottom: 15px;
+      text-align: center;
     }
 
     .desc {
@@ -58,33 +56,31 @@
       line-height: 1.6;
       color: #333;
       padding: 0 10px;
+      margin-top: 10px;
     }
 
     .image-preview {
+      text-align: center;
       margin-top: 20px;
-      border-radius: 12px;
-      overflow: hidden;
     }
 
     .image-preview img {
       width: 100%;
       max-width: 360px;
       border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     }
 
     .button {
+      display: block;
       width: calc(100% - 40px);
       max-width: 400px;
-      margin: 50px auto 60px auto;
+      margin: 40px auto 60px;
       padding: 15px;
-      border: none;
-      border-radius: 50px;
       background-color: #ff7e00;
       color: white;
-      font-size: 16px;
+      border-radius: 50px;
       text-align: center;
-      display: block;
+      font-size: 16px;
       cursor: pointer;
     }
 
@@ -95,86 +91,55 @@
 </head>
 <body>
 
-  <h2 id="page-title">机场服务办理流程</h2>
+  <h2>机场接送服务</h2>
 
+  <!-- 接机服务 -->
   <div class="section">
-    <div class="icon-circle" id="icon1">🛬</div>
-    <div class="title" id="step1-title">1. 接关服务</div>
-    <div class="desc" id="step1-desc">
-      专人海关内举牌接机，协助快速通关、签证办理，无需排队。
+    <div class="icon-circle">🛬</div>
+    <div class="title">接机服务（接关、带关）</div>
+    <div class="desc">
+      我们将提供专人机场海关内接机服务，接机人员会在乘客抵达位置等待，并举有乘客姓名的标牌，提供机场快速通关服务，协助乘客快速通过签证办理、海关检查，无需排队等待。
     </div>
     <div class="image-preview">
-      <img src="images/906.jpg!detail.v1.jpeg" alt="接关服务示意图">
+      <img src="接机图.jpg" alt="接机服务示意图">
+    </div>
+    <div class="desc"><strong>📋 所需材料：</strong><br>1. 护照原件<br>2. 机票行程单</div>
+    <div class="desc"><strong>📝 办理流程：</strong><br>线上下单 → 联系客服 → 提交资料 → 办理手续 → 送出海关</div>
+    <div class="desc"><strong>💰 价格说明：</strong><br>
+      基础服务：$50<br>
+      不录指纹成本：$75（市场价 $150）<br>
+      超级VIP接机：成本 $120，市场价 $350（含绿色通道）
     </div>
   </div>
 
+  <!-- 送机服务 -->
   <div class="section">
-    <div class="icon-circle" id="icon2">🛫</div>
-    <div class="title">2. 送关服务</div>
+    <div class="icon-circle">🛫</div>
+    <div class="title">送机服务（送关）</div>
     <div class="desc">
-      专人机场送机，协助值机、取票、安检、过关，快速通道服务。
+      我们将提供专人机场送机服务，送机人员会在乘客抵达入口位置等待，并举有乘客姓名的标牌，提供机场内送机快速通关服务，协助乘客快速通过值机、取票、安检、过关，无需排队等待。
     </div>
     <div class="image-preview">
-      <img src="images/EaI¼Io_501358104_banner_CeAAu³¡³oDD±³O°¨·CAEoOµEIOA©.jpg" alt="送关服务示意图">
+      <img src="送机图.jpg" alt="送机服务示意图">
+    </div>
+    <div class="desc"><strong>📋 所需材料：</strong><br>1. 护照原件<br>2. 机票行程单</div>
+    <div class="desc"><strong>📝 办理流程：</strong><br>线上下单 → 联系客服 → 提交资料 → 办理手续 → 送进海关</div>
+    <div class="desc"><strong>💰 价格说明：</strong><br>
+      基础服务：$50<br>
+      超级VIP送机：$120<br>
+      绿色通道服务：$350
     </div>
   </div>
 
-  <div class="section">
-    <div class="icon-circle">📋</div>
-    <div class="title">3. 所需材料</div>
-    <div class="desc">
-      <p>1、护照原件</p>
-      <p>2、机票行程单</p>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="icon-circle">📌</div>
-    <div class="title">4. 办理流程</div>
-    <div class="desc">
-      线上下单 → 联系客服 → 提交资料 → 办理手续 → 送进/出海关
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="icon-circle">💰</div>
-    <div class="title">5. 价格说明</div>
-    <div class="desc">
-      普通服务：$40<br>
-      高峰期价格：$50<br><br>
-      超级VIP接机：$120（成本）<br>
-      市场价：$350（含绿色通道）
-    </div>
-  </div>
-
-  <button class="button" onclick="openTelegramChat()">咨询接机客服</button>
+  <button class="button" onclick="openTelegramChat()">立即联系客服</button>
 
   <script>
     function openTelegramChat() {
-      const message = ("你好，我想咨询关于【机场接送】服务。");
-      const adminUsername = "LUODISWKF";
-      const link = `https://t.me/${adminUsername}?text=${encodeURIComponent(message)}`;
-
-      if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
-        Telegram.WebApp.openTelegramLink(link);
-      } else {
-        window.open(link, '_blank');
-      }
+      const msg = "你好，我想咨询机场接送服务。";
+      const username = "LUODISWKF";
+      const link = `https://t.me/${username}?text=${encodeURIComponent(msg)}`;
+      window.open(link, '_blank');
     }
-
-    function loadContent() {
-      const params = new URLSearchParams(window.location.search);
-      const type = params.get('type');
-      if (type === 'visa') {
-        document.getElementById('page-title').innerText = "签证办理流程";
-        document.getElementById('step1-title').innerText = "1. 选择签证类型";
-        document.getElementById('step1-desc').innerText = "旅游签、商务签、学生签、工作签等";
-        document.getElementById('icon1').innerText = "🛂";
-      }
-    }
-
-    Telegram.WebApp.ready?.();
-    loadContent();
   </script>
 
 </body>
