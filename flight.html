@@ -16,30 +16,31 @@
 
     h2 {
       text-align: center;
-      font-size: 20px;
+      font-size: 22px;
       font-weight: 600;
-      margin: 20px 16px 10px;
+      margin: 24px 16px 16px;
       color: #2d3748;
     }
 
     .service-container {
       background: #fff;
       margin: 16px;
-      padding: 16px;
+      padding: 20px 16px;
       border-left: 6px solid;
       border-radius: 14px;
       box-shadow: 0 1px 4px rgba(0,0,0,0.05);
     }
 
-    .arrival { border-color: #3182ce; }
+    .arrival { border-color: #4299e1; }
     .departure { border-color: #ed8936; }
 
     .header {
-      font-size: 16px;
+      font-size: 17px;
       font-weight: bold;
       display: flex;
       align-items: center;
-      margin-bottom: 10px;
+      margin-bottom: 16px;
+      color: #1a202c;
     }
 
     .header span {
@@ -49,7 +50,7 @@
 
     .image-block {
       text-align: center;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
     }
 
     .image-block img {
@@ -59,16 +60,16 @@
     }
 
     .info-block {
-      background: #f1f5f9;
+      background: #f7fafc;
       border-radius: 10px;
       padding: 12px 14px;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
 
     .info-block strong {
       display: block;
-      font-size: 14px;
-      color: #1a202c;
+      font-size: 15px;
+      color: #2d3748;
       margin-bottom: 6px;
     }
 
@@ -76,37 +77,52 @@
     .info-block ol {
       margin: 0;
       padding-left: 20px;
-      font-size: 13.5px;
+      font-size: 14px;
+      line-height: 1.6;
     }
 
     .price-block {
-      background: #e6f4ff;
-      border-left: 4px solid #3182ce;
-      padding: 10px 14px;
+      background: #ebf8ff;
+      border-left: 4px solid #4299e1;
+      padding: 12px 14px;
       border-radius: 10px;
       font-size: 14px;
+      color: #1a202c;
+      margin-bottom: 16px;
+    }
+
+    .departure .price-block {
+      background: #fff5eb;
+      border-color: #ed8936;
     }
 
     .cta-button {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: calc(100% - 32px);
+      width: 100%;
       max-width: 480px;
+      margin: 0 auto;
       background: #3182ce;
       color: #fff;
-      padding: 14px;
-      border: none;
+      padding: 12px 16px;
       font-size: 16px;
+      border: none;
       border-radius: 50px;
-      text-align: center;
       cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      display: block;
+      text-align: center;
+      margin-top: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
     .cta-button:active {
       background: #2b6cb0;
+    }
+
+    .cta-orange {
+      background: #ed8936;
+    }
+
+    .cta-orange:active {
+      background: #dd6b20;
     }
   </style>
 </head>
@@ -114,7 +130,7 @@
 
 <h2>机场接送服务</h2>
 
-<!-- 接机服务 -->
+<!-- 接机服务卡片 -->
 <div class="service-container arrival">
   <div class="header"><span>🛬</span>接机服务（接关、带关）</div>
 
@@ -143,13 +159,15 @@
 
   <div class="price-block">
     <strong>💰 价格说明：</strong>
-    基础 $50<br>
-    不录指纹 $75（市价 $150）<br>
-    超级VIP $120（市价 $350）
+    基础服务：$50<br>
+    不录指纹：$75（市价 $150）<br>
+    超级VIP接机：$120（市价 $350）
   </div>
+
+  <button class="cta-button" onclick="openTelegram('接机服务')">立即预约接机</button>
 </div>
 
-<!-- 送机服务 -->
+<!-- 送机服务卡片 -->
 <div class="service-container departure">
   <div class="header"><span>🛫</span>送机服务（送关）</div>
 
@@ -176,20 +194,19 @@
     </ol>
   </div>
 
-  <div class="price-block" style="border-color: #ed8936; background: #fff7eb;">
+  <div class="price-block">
     <strong>💰 价格说明：</strong>
-    基础 $50<br>
-    超级VIP $120<br>
-    绿色通道 $350
+    基础服务：$50<br>
+    超级VIP送机：$120<br>
+    绿色通道服务：$350
   </div>
+
+  <button class="cta-button cta-orange" onclick="openTelegram('送机服务')">立即预约送机</button>
 </div>
 
-<!-- 联系客服按钮 -->
-<button class="cta-button" onclick="openTelegram()">立即联系客服</button>
-
 <script>
-  function openTelegram() {
-    const msg = "你好，我想了解机场接送服务，请提供详细操作流程。";
+  function openTelegram(service) {
+    const msg = `你好，我想预约${service}，请问怎么操作？`;
     const username = "LUODISWKF";
     window.open(`https://t.me/${username}?text=${encodeURIComponent(msg)}`, "_blank");
   }
