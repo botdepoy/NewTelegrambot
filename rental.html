@@ -1,302 +1,586 @@
-
-
-
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-  <meta charset="UTF-8">
-  <title>一条龙办理流程</title>
-  <meta name="viewport" content="width=device-width, initial-scusing this below logic code ti replace with the previous text 
-
-
-<!DOCTYPE html>
-<html lang="zh">
-<head>
-  <meta charset="UTF-8">
-  <title>一条龙办理流程</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>房型展示 - 动画优化版</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #ffffff;
-      margin: 0;
-      padding: 0;
+    html {
+      scroll-behavior: smooth;
     }
 
-    h2 {
-      text-align: center;
-      font-size: 24px;
-      font-weight: bold;
-      margin: 40px 20px 30px 20px;
-    }
-
-    .section {
-      background: #fff5ee;
-      margin: 30px 20px;
-      padding: 50px 20px 30px 20px;
+    /* 卡片悬浮动画 */
+    .room-card {
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      cursor: pointer;
+      user-select: none;
+      display: flex;
+      flex-direction: column;
+      background: #fff;
       border-radius: 16px;
-      text-align: center;
-      position: relative;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+      box-shadow: 0 3px 8px rgb(0 0 0 / 0.1);
+      overflow: hidden;
+    }
+    .room-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 20px rgba(255, 126, 0, 0.35);
+      z-index: 10;
     }
 
-    .icon-circle {
-      width: 60px;
-      height: 60px;
-      background-color: #ff7e00;
-      border-radius: 50%;
+    /* 筛选按钮高亮切换动画 */
+    .filter-btn {
+      transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+      user-select: none;
+      border: 1.5px solid #ddd;
+      background: white;
+      padding: 6px 16px;
+      border-radius: 9999px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgb(0 0 0 / 0.05);
+    }
+    .filter-btn:hover {
+      background-color: #fb923c; /* Tailwind orange-400 */
       color: white;
-      font-size: 28px;
+      box-shadow: 0 0 10px rgba(251,146,60,0.7);
+    }
+    .category-active {
+      background-color: #fb923c;
+      color: white;
+      box-shadow: 0 0 14px rgba(251,146,60,0.8);
+      transform: scale(1.1);
+      border: none;
+      z-index: 20;
+    }
+
+    /* 弹窗淡入淡出 */
+    #modal {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
       display: flex;
       align-items: center;
       justify-content: center;
+      z-index: 9999;
+      padding: 12px;
+    }
+    #modal.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* 弹窗内容弹入动画 */
+    #modal > div {
+      transform: translateY(-20px);
+      opacity: 0;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      background: white;
+      border-radius: 16px;
+      max-width: 600px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 24px;
+      box-shadow: 0 15px 35px rgb(0 0 0 / 0.25);
+      position: relative;
+    }
+    #modal.show > div {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* 关闭按钮 */
+    #modal .btn-close {
       position: absolute;
-      top: -30px;
-      left: 50%;
-      transform: translateX(-50%);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-
-    .title {
-      font-weight: bold;
-      font-size: 18px;
-      margin-top: 5px;
-      margin-bottom: 15px;
-    }
-
-    .desc {
-      font-size: 14px;
-      line-height: 1.6;
-      color: #333;
-      padding: 0 10px;
-    }
-
-    .button {
-      width: calc(100% - 40px);
-      max-width: 400px;
-      margin: 50px auto 60px auto;
-      padding: 15px;
-      border: none;
-      border-radius: 50px;
-      background-color: #ff7e00;
-      color: white;
-      font-size: 16px;
-      text-align: center;
-      display: block;
+      top: 12px;
+      right: 18px;
+      font-size: 28px;
+      font-weight: 700;
+      color: #999;
       cursor: pointer;
+      user-select: none;
+      border: none;
+      background: none;
+      line-height: 1;
+      transition: color 0.3s ease;
+    }
+    #modal .btn-close:hover {
+      color: #f87171; /* Tailwind red-400 */
     }
 
-    .button:active {
-      background-color: #e66e00;
-    }
-
-    #hotel-section {
-      display: none;
-      padding: 20px;
-    }
-
-    .hotel-card {
-      display: flex;
-      background-color: #fffaf4;
+    /* 图片 */
+    #modal img {
+      width: 100%;
       border-radius: 12px;
       margin-bottom: 16px;
-      overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    }
-
-    .hotel-img {
-      width: 40%;
       object-fit: cover;
+      max-height: 280px;
+      user-select: none;
     }
 
-    .hotel-info {
-      padding: 10px 15px;
-      flex: 1;
+    /* 标题 */
+    #modal h2 {
+      margin-top: 0;
+      margin-bottom: 16px;
+      font-size: 24px;
+      font-weight: 700;
+      color: #222;
     }
 
-    .hotel-info h3 {
-      font-size: 16px;
-      margin: 0 0 8px;
-      font-weight: bold; 
-    }
-
-    .hotel-info p {
-      font-size: 14px;
+    /* 描述 */
+    #modal p, #modal ul, #modal ol {
       color: #444;
-      margin: 0;
+      line-height: 1.6;
+      margin-bottom: 12px;
+      font-size: 15px;
+      user-select: text;
+    }
+    #modal ul, #modal ol {
+      padding-left: 20px;
     }
 
-    #type-image {
-      display: none;
-      text-align: center;
-      margin: 40px 20px;
+    /* 价格 */
+    #modal #modal-price {
+      font-weight: 700;
+      color: #fb923c;
+      font-size: 18px;
+      margin-bottom: 20px;
     }
-.consult-button {
-    background-color: #ff7e00;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 20px;
-    font-size: 14px;
-    cursor: pointer;
-  }
 
-  .consult-button:active {
-    background-color: #e66e00;
-  }
+    /* 联系按钮 */
+    #modal .btn-contact {
+      width: 100%;
+      background-color: #fb923c;
+      border: none;
+      border-radius: 30px;
+      padding: 14px 0;
+      font-weight: 700;
+      font-size: 16px;
+      color: white;
+      cursor: pointer;
+      user-select: none;
+      transition: background-color 0.3s ease;
+    }
+    #modal .btn-contact:hover {
+      background-color: #f97316; /* Tailwind orange-600 */
+    }
 
-  .button-wrapper {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 12px;
-  }
-    #type-img {
-      max-width: 90%;
-      border-radius: 16px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    /* 响应式 */
+    @media (max-width: 640px) {
+      #modal > div {
+        max-height: 90vh;
+        padding: 16px;
+      }
+      #modal h2 {
+        font-size: 20px;
+      }
     }
   </style>
 </head>
-<body>
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
 
-  <h2 id="page-title">一条龙办理流程</h2>
+  <div class="max-w-6xl mx-auto p-4 flex-grow">
+    <h1 class="text-3xl font-bold text-center mb-8">🏨 索菲特酒店房型展示</h1>
 
-  <div class="section">
-    <div class="icon-circle" id="icon1">📝</div>
-    <div class="title" id="step1-title">1. 办理流程</div>
-    <div class="desc" id="step1-desc">线上下单 → 联系客服提交资料 → 签订合同 → 缴纳押金 → 获取服务</div>
-  </div>
+    <!-- 分类筛选 -->
+    <div class="flex flex-wrap justify-center gap-3 mb-8" role="group" aria-label="房型分类筛选">
+      <button type="button" onclick="filterRooms('all', event)" class="filter-btn category-active">全部</button>
+      <button type="button" onclick="filterRooms('superior', event)" class="filter-btn">高级双床间</button>
+      <button type="button" onclick="filterRooms('luxury', event)" class="filter-btn">豪华大号床间</button>
+      <button type="button" onclick="filterRooms('club', event)" class="filter-btn">高级房-特大号床</button>
+      <button type="button" onclick="filterRooms('luxury-club', event)" class="filter-btn">豪华特大号床间-行政酒廊</button>
+      <button type="button" onclick="filterRooms('junior-suite', event)" class="filter-btn">小型特大号床套房</button>
+      <button type="button" onclick="filterRooms('prestige-suite', event)" class="filter-btn">尊贵套房 - 酒廊</button>
+      <button type="button" onclick="filterRooms('opera-suite', event)" class="filter-btn">歌剧特大号床套房</button>
+    </div>
 
-  <div class="section">
-    <div class="icon-circle" id="icon2">📄</div>
-    <div class="title" id="step2-title">2. 所需材料</div>
-    <div class="desc" id="step2-desc">护照首页照片、身份证、申请表等</div>
-  </div>
+    <!-- 房型卡片列表 -->
+    <div id="room-list" class="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
 
-
-
-
-<h2>🏨 索菲特特房型展示</h2>
-
-<!-- Room 1 -->
-<div class="hotel-card">
-  <img src="images/高级.png" class="hotel-img" alt="高级双床间">
-  <div class="hotel-info">
-    <h3>高级双床间</h3>
-    <p>📺 平板电视、浴缸&淋浴、迷你吧</p>
-    <p>📐 40㎡</p>
-    <div class="button-wrapper">
-      <button class="consult-button" onclick="openTelegramChat('索菲特 - ｜高级双床间｜')">咨询此房型</button>
+      <!-- 示例卡片格式，js会动态生成内容，可用作模板参考 -->
     </div>
   </div>
-</div>
 
-<!-- Room 2 -->
-<div class="hotel-card">
-  <img src="images/豪华大号床.png" class="hotel-img" alt="豪华大号床间">
-  <div class="hotel-info">
-    <h3>豪华大号床间</h3>
-    <p>🌿 殖民地风格、私人阳台</p>
-    <p>📐 47㎡</p>
-    <div class="button-wrapper">
-      <button class="consult-button" onclick="openTelegramChat('索菲特 - ｜豪华大号床间｜')">咨询此房型</button>
+  <!-- 弹窗 -->
+  <div id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" tabindex="-1">
+    <div>
+      <button class="btn-close" aria-label="关闭弹窗" onclick="closeModal()">×</button>
+      <h2 id="modal-title"></h2>
+      <img id="modal-image" src="" alt="" />
+      <div id="modal-desc"></div>
+      <p id="modal-price"></p>
+      <button class="btn-contact" onclick="contactViaTelegram()">💬 联系客服咨询</button>
     </div>
   </div>
-</div>
-
-  <!-- Room 3 -->
-<div class="hotel-card">
-  <img src="images/高级.png" class="hotel-img" alt="高级双床间">
-  <div class="hotel-info">
-    <h3>高级房1张特大号床</h3>
-        <p>🔹木地板、独立浴缸</p>
-        <p>🔹可使用 Club Millésime<p>
-        <p>🔹面积：40㎡</p>
-        <p>🔹专属权益：</p>
-        <p>✨Club 早餐（06:00-12:00）</p>
-        <p>✨快速入住/退房</p>
-    <div class="button-wrapper">
-      <button class="consult-button" onclick="openTelegramChat('索菲特 - ｜高级房1张特大号床｜')">咨询此房型</button>
-    </div>
-  </div>
-</div>
-
-<!-- Room 4 -->
-<div class="hotel-card">
-  <img src="images/豪华大号床.png" class="hotel-img" alt="豪华大号床间">
-  <div class="hotel-info">
-    <h3>豪华特大号床间</h3>
-        <p>🔹浓缩咖啡机、MP3基座、阳台</p>
-        <p>🔹面积：53㎡</p>
-        <p>🔹专属权益：</p>
-        <p>✨早餐、下午茶、晚间鸡尾酒</p>
-        <p>✨会议室1小时/天</p>
-        <p>✨免费迷你吧 & 延迟退房</p>
-        <p>🔹设施：泳池景观、WiFi、茶/咖啡设备</p>
-    <div class="button-wrapper">
-      <button class="consult-button" onclick="openTelegramChat('索菲特 - ｜豪华特大号床间｜')">咨询此房型</button>
-    </div>
-  </div>
-</div>
-
-    <!-- Room 5 -->
-<div class="hotel-card">
-  <img src="images/高级.png" class="hotel-img" alt="高级双床间">
-  <div class="hotel-info">
-        <h3>小型特大号床套房</h3>
-        <p>🔹私人套房、宽敞浴室</p>
-        <p>🔹浓缩咖啡机、MP3基座</p>
-        <p>🔹面积：53㎡</p>
-        <p>🔹专属权益 同上</p>
-    <div class="button-wrapper">
-      <button class="consult-button" onclick="openTelegramChat('索菲特 - ｜小型特大号床套房｜')">咨询此房型</button>
-    </div>
-  </div>
-</div>
-
-<!-- Room 6 -->
-<div class="hotel-card">
-  <img src="images/豪华大号床.png" class="hotel-img" alt="豪华大号床间">
-  <div class="hotel-info">
-    <h3>尊贵套房</h3>
-        <p>🔹更衣区、大浴室、现代设施</p>
-        <p>🔹面积：93㎡</p>
-        <p>🔹专属权益 同上</p>
-        <p>🔹适合人群：商务/度假客人</p>
-    <div class="button-wrapper">
-      <button class="consult-button" onclick="openTelegramChat('索菲特 - ｜尊贵套房｜')">咨询此房型</button>
-    </div>
-  </div>
-</div>
-
-<!-- Room 7-->
-<div class="hotel-card">
-  <img src="images/豪华大号床.png" class="hotel-img" alt="豪华大号床间">
-  <div class="hotel-info">
-    <h3>歌剧特大号床套房</h3>
-        <p>🔹泳池景观、豪华浴缸、隔音墙</p>
-        <p>🔹面积：149㎡</p>
-        <p>🔹设施：浴缸 + 淋浴、吹风机、WiFi</p>
-        <p>🔹适合人群：追求奢华体验者</p>
-    <div class="button-wrapper">
-      <button class="consult-button" onclick="openTelegramChat('索菲特 - ｜歌剧特大号床套房｜')">咨询此房型</button>
-    </div>
-  </div>
-</div>
-
-<!-- You can continue adding more hotel-card blocks here --
-
-
-<!-- You can continue adding more hotel-card blocks here -->
 
 <script>
-  function openTelegramChat(roomName) {
-    const message = `你好，我想咨询关于【${roomName}】的详情。`;
-    const adminUsername = "LUODISWKF";
-    const link = `https://t.me/${adminUsername}?text=${encodeURIComponent(message)}`;
-    window.open(link, '_blank');
-  }
-</script>
+  const rooms = [
+    {
+      key: "superior",
+      name: "高级双床间（Superior Twin Room）",
+      img: "images/高级房.png",
+      price: 100, // 价格示例，实际根据业务设定
+      info: `
+      <p><strong>入住须知：</strong></p>
+      <ol>
+        <li>入-退房日期</li>
+        <li>入住天数</li>
+        <li>房型预订</li>
+        <li>房间数量</li>
+        <li>附上护照首页</li>
+        <li>备注</li>
+      </ol>
+      <p><strong>办理流程：</strong></p>
+      <ol>
+        <li>线上下单</li>
+        <li>联系客服提交资料</li>
+        <li>付款及押金</li>
+        <li>获取入住信息</li>
+        <li>领取房卡</li>
+      </ol>
+      <p><strong>房间概述：</strong></p>
+      <p>这间宽敞的双床房提供平板电视、DVD播放机以及带独立浴缸和私人淋浴的浴室。客房还提供免费迷你吧，让您的入住更加舒适与便捷。</p>
+      <p><strong>房间特色：</strong></p>
+      <ul>
+        <li>房间面积：40平方米</li>
+        <li>空调：清凉舒适</li>
+        <li>私人浴室：独享空间</li>
+        <li>平板电视：娱乐享不停</li>
+        <li>免费迷你吧：畅享饮品</li>
+      </ul>
+      `
+    },
+    {
+      key: "luxury",
+      name: "豪华大号床间（Luxury Room with Private balcony）",
+      img: "images/豪华大号床.png",
+      price: 140,
+      info: `
+      <p><strong>入住须知：</strong></p>
+      <ol>
+        <li>入-退房日期</li>
+        <li>入住天数</li>
+        <li>房型预订</li>
+        <li>房间数量</li>
+        <li>附上护照首页</li>
+        <li>备注</li>
+      </ol>
+      <p><strong>办理流程：</strong></p>
+      <ol>
+        <li>线上下单</li>
+        <li>联系客服提交资料</li>
+        <li>付款及押金</li>
+        <li>获取入住信息</li>
+        <li>领取房卡</li>
+      </ol>
+      <p><strong>房间概述：</strong></p>
+      <p>这间殖民地风格的客房提供额外的起居空间，设有私人阳台、平板电视和一间带独立浴缸的私人浴室。</p>
+      <p><strong>房间特色：</strong></p>
+      <ul>
+        <li>房间面积：47平方米</li>
+        <li>空调：清凉舒适</li>
+        <li>私人浴室：独享空间</li>
+        <li>私人淋浴：舒爽体验</li>
+        <li>阳台：俯瞰美景</li>
+        <li>电视：娱乐享不停</li>
+      </ul>
+      `
+    },
+    {
+      key: "club",
+      name: "高级房-带1张特大号床（Superior Room with Club Benefit）",
+      img: "images/高级房.png",
+      price: 160,
+      info: `
+      <p><strong>入住须知：</strong></p>
+      <ol>
+        <li>入-退房日期</li>
+        <li>入住天数</li>
+        <li>房型预订</li>
+        <li>房间数量</li>
+        <li>附上护照首页</li>
+        <li>备注</li>
+      </ol>
+      <p><strong>办理流程：</strong></p>
+      <ol>
+        <li>线上下单</li>
+        <li>联系客服提交资料</li>
+        <li>付款及押金</li>
+        <li>获取入住信息</li>
+        <li>领取房卡</li>
+      </ol>
+      <p><strong>房间概述：</strong></p>
+      <p>空调客房设有木地板、平板电视和带独立浴缸的私人浴室。客人可以进入Club Millésime俱乐部，并享受快速办理入住和退房手续、每日早餐等优待。</p>
+      <p><strong>房间特色：</strong></p>
+      <ul>
+        <li>房间面积：40平方米</li>
+        <li>空调：舒适宜人</li>
+        <li>私人浴室：独享空间</li>
+        <li>私人淋浴：清爽体验</li>
+        <li>平板电视：娱乐享不停</li>
+      </ul>
+      `
+    },
+    {
+      key: "luxury-club",
+      name: "豪华特大号床间-可使用行政酒廊（Luxury Room with Club Benefits）",
+      img: "images/豪华特大号床.png",
+      price: 220,
+      info: `
+      <p><strong>入住须知：</strong></p>
+      <ol>
+        <li>入-退房日期</li>
+        <li>入住天数</li>
+        <li>房型预订</li>
+        <li>房间数量</li>
+        <li>附上护照首页</li>
+        <li>备注</li>
+      </ol>
+      <p><strong>办理流程：</strong></p>
+      <ol>
+        <li>线上下单</li>
+        <li>联系客服提交资料</li>
+        <li>付款及押金</li>
+        <li>获取入住信息</li>
+        <li>领取房卡</li>
+      </ol>
+      <p><strong>房间概述：</strong></p>
+      <p>这间宽敞的套房提供平板电视、浓缩咖啡机和MP3基座。套房设有大型浴室和更衣区。客人可进入Club Millésime俱乐部，享受多种专属优待。</p>
+      <p><strong>房间特色：</strong></p>
+      <ul>
+        <li>房间面积：53平方米</li>
+        <li>空调：舒适宜人</li>
+        <li>阳台：俯瞰景观</li>
+        <li>私人浴室：宽敞豪华</li>
+        <li>私人淋浴：清爽体验</li>
+        <li>平板电视：娱乐享不停</li>
+        <li>免费WiFi：随时在线</li>
+      </ul>
+      `
+    },
+    {
+      key: "junior-suite",
+      name: "小型特大号床套房-客人可使用俱乐部（Junior Suite with Club Benefits）",
+      img: "images/小型.png",
+      price: 240,
+      info: `
+      <p><strong>入住须知：</strong></p>
+      <ol>
+        <li>入-退房日期</li>
+        <li>入住天数</li>
+        <li>房型预订</li>
+        <li>房间数量</li>
+        <li>附上护照首页</li>
+        <li>备注</li>
+      </ol>
+      <p><strong>办理流程：</strong></p>
+      <ol>
+        <li>线上下单</li>
+        <li>联系客服提交资料</li>
+        <li>付款及押金</li>
+        <li>获取入住信息</li>
+        <li>领取房卡</li>
+      </ol>
+      <p><strong>房间概述：</strong></p>
+      <p>这间大套房提供平板电视、浓缩咖啡机和MP3基座。客人可进入Club Millésime俱乐部，并享受快速办理入住、每日早餐、下午茶、晚间鸡尾酒等优待。</p>
+      <p><strong>房间特色：</strong></p>
+      <ul>
+        <li>房间面积：53平方米</li>
+        <li>私人套房：尊贵体验</li>
+        <li>空调：舒适宜人</li>
+        <li>私人浴室：豪华宽敞</li>
+        <li>私人淋浴：清爽体验</li>
+        <li>平板电视：娱乐享不停</li>
+        <li>免费WiFi：高速连接</li>
+      </ul>
+      `
+    },
+    {
+      key: "prestige-suite",
+      name: "尊贵套房 - 酒廊（Prestige Suite with Club Benefits）",
+      img: "images/豪华特大号床.png",
+      price: 280,
+      info: `
+      <p><strong>入住须知：</strong></p>
+      <ol>
+        <li>入-退房日期</li>
+        <li>入住天数</li>
+        <li>房型预订</li>
+        <li>房间数量</li>
+        <li>附上护照首页</li>
+        <li>备注</li>
+      </ol>
+      <p><strong>办理流程：</strong></p>
+      <ol>
+        <li>线上下单</li>
+        <li>联系客服提交资料</li>
+        <li>付款及押金</li>
+        <li>获取入住信息</li>
+        <li>领取房卡</li>
+      </ol>
+      <p><strong>房间概述：</strong></p>
+      <p>这间套房设计优雅，空间宽敞，提供现代化设施，满足高品质入住需求。套房提供平板电视、浓缩咖啡机和MP3基座，配有更衣区和宽敞浴室，尊享俱乐部专属优待。</p>
+      <p><strong>房间特色：</strong></p>
+      <ul>
+        <li>房间面积：93平方米</li>
+        <li>私人套房：独享尊贵体验</li>
+        <li>空调：清凉舒适</li>
+        <li>私人浴室：宽敞豪华</li>
+        <li>私人淋浴：尽享清爽</li>
+        <li>平板电视：休闲娱乐</li>
+        <li>免费WiFi：极速网络连接</li>
+      </ul>
+      `
+    },
+    {
+      key: "opera-suite",
+      name: "歌剧特大号床套房 - 俱乐部（Opera Suite with Club Benefits）",
+      img: "images/歌剧大号床.png",
+      price: 320,
+      info: `
+      <p><strong>入住须知：</strong></p>
+      <ol>
+        <li>入-退房日期</li>
+        <li>入住天数</li>
+        <li>房型预订</li>
+        <li>房间数量</li>
+        <li>附上护照首页</li>
+        <li>备注</li>
+      </ol>
+      <p><strong>办理流程：</strong></p>
+      <ol>
+        <li>线上下单</li>
+        <li>联系客服提交资料</li>
+        <li>付款及押金</li>
+        <li>获取入住信息</li>
+        <li>领取房卡</li>
+      </ol>
+      <p><strong>房间概述：</strong></p>
+      <p>这间套房特色是泳池景观和豪华热水浴缸，适合追求舒适与奢华的宾客。宽敞空间与高端设施结合，套房提供免费洗浴用品和浴袍，打造私密舒适的洗浴体验。</p>
+      <p><strong>房间特色：</strong></p>
+      <ul>
+        <li>房间面积：149平方米</li>
+        <li>私人套房：尊享奢华</li>
+        <li>空调：清凉舒适</li>
+        <li>私人浴室：配浴缸与淋浴</li>
+        <li>私人淋浴：畅享清爽</li>
+        <li>平板电视：高清娱乐</li>
+        <li>免费WiFi：极速连接</li>
+      </ul>
+      `
+    },
+  ];
 
+  const roomListEl = document.getElementById('room-list');
+
+  // 渲染卡片
+  function renderRooms(filter = 'all') {
+    roomListEl.innerHTML = '';
+    const filteredRooms = filter === 'all' ? rooms : rooms.filter(r => r.key === filter);
+    filteredRooms.forEach(room => {
+      const card = document.createElement('div');
+      card.className = 'room-card shadow cursor-pointer';
+      card.dataset.type = room.key;
+      card.dataset.price = room.price;
+
+      card.innerHTML = `
+        <img src="${room.img}" alt="${room.name}" class="w-full h-48 object-cover" />
+        <div class="p-4 flex flex-col flex-grow">
+          <h3 class="font-semibold text-lg mb-1">${room.name}</h3>
+          <p class="text-orange-600 font-bold mb-2">💰 价格：$${room.price}</p>
+          <button type="button" class="ripple mt-auto bg-orange-500 hover:bg-orange-600 text-white rounded-full py-2 font-semibold text-sm transition"
+            onclick="previewRoom('${room.key}', event)">快速预览</button>
+        </div>
+      `;
+      card.onclick = () => previewRoom(room.key);
+      roomListEl.appendChild(card);
+    });
+  }
+
+  // 筛选按钮功能
+  function filterRooms(type, event) {
+    if(event) event.stopPropagation();
+    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('category-active'));
+    if(event) event.currentTarget.classList.add('category-active');
+    renderRooms(type);
+  }
+
+  // 弹窗显示
+  function previewRoom(key, event) {
+    if(event) event.stopPropagation();
+    const room = rooms.find(r => r.key === key);
+    if (!room) {
+      alert('未找到该房型信息');
+      return;
+    }
+    const modal = document.getElementById('modal');
+    document.getElementById('modal-title').innerText = room.name;
+    const img = document.getElementById('modal-image');
+    img.src = room.img;
+    img.alt = room.name;
+    document.getElementById('modal-desc').innerHTML = room.info;
+    document.getElementById('modal-price').innerText = `💰 价格：$${room.price}`;
+
+    modal.classList.add('show');
+    setTimeout(() => {
+      modal.style.opacity = '1';
+      modal.style.pointerEvents = 'auto';
+      modal.querySelector('div').style.opacity = '1';
+      modal.querySelector('div').style.transform = 'translateY(0)';
+    }, 10);
+  }
+
+  // 关闭弹窗
+  function closeModal() {
+    const modal = document.getElementById('modal');
+    const modalContent = modal.querySelector('div');
+
+    modalContent.style.opacity = '0';
+    modalContent.style.transform = 'translateY(-20px)';
+    modal.style.opacity = '0';
+    modal.style.pointerEvents = 'none';
+
+    setTimeout(() => modal.classList.remove('show'), 300);
+  }
+
+  // 遮罩点击关闭
+  document.getElementById('modal').addEventListener('click', e => {
+    if(e.target.id === 'modal') closeModal();
+  });
+
+  // 排序
+  function sortRooms(order) {
+    const list = document.getElementById('room-list');
+    const items = Array.from(list.children);
+    if(order === 'low' || order === 'high') {
+      items.sort((a,b) => {
+        const aPrice = parseInt(a.dataset.price);
+        const bPrice = parseInt(b.dataset.price);
+        return order === 'low' ? aPrice - bPrice : bPrice - aPrice;
+      });
+      list.innerHTML = '';
+      items.forEach(item => list.appendChild(item));
+    }
+  }
+
+  // Telegram 咨询
+  function contactViaTelegram() {
+    const name = document.getElementById('modal-title').innerText;
+    const message = `你好，我想咨询关于【${name}】的详情。`;
+    if(window.Telegram && window.Telegram.WebApp) {
+      Telegram.WebApp.sendData(message);
+      Telegram.WebApp.close();
+    } else {
+      window.open(`https://t.me/LUODISWKF?text=${encodeURIComponent(message)}`, '_blank');
+    }
+  }
+
+  // 初始化
+  renderRooms('all');
+  </script>
 </body>
 </html>
