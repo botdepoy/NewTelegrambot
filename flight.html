@@ -5,13 +5,28 @@
   <title>机场接送服务</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
+    :root {
+      --primary-blue: #3182ce;
+      --primary-orange: #ed8936;
+      --bg-light: #f9f9f9;
+      --bg-dark: #1a202c;
+      --text-light: #edf2f7;
+      --text-dark: #2d3748;
+    }
+
     * { box-sizing: border-box; }
     body {
       margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: #f9f9f9;
-      color: #333;
+      background: var(--bg-light);
+      color: var(--text-dark);
+      transition: background 0.3s ease, color 0.3s ease;
       padding-bottom: 100px;
+    }
+
+    body.dark-mode {
+      background: var(--bg-dark);
+      color: var(--text-light);
     }
 
     h2 {
@@ -19,7 +34,59 @@
       font-size: 22px;
       font-weight: 600;
       margin: 24px 16px 16px;
-      color: #2d3748;
+    }
+
+    .language-switcher {
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .language-switcher button {
+      margin: 0 4px;
+      padding: 6px 12px;
+      font-size: 13px;
+      border-radius: 20px;
+      border: 1px solid #ccc;
+      background: white;
+      cursor: pointer;
+    }
+
+    .dark-toggle {
+      text-align: center;
+      margin: 8px 0 20px;
+    }
+
+    .dark-toggle button {
+      padding: 6px 14px;
+      font-size: 14px;
+      border: none;
+      border-radius: 20px;
+      background: #4a5568;
+      color: white;
+      cursor: pointer;
+    }
+
+    .form-container {
+      margin: 20px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    }
+
+    .form-container label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .form-container select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 16px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 14px;
     }
 
     .service-container {
@@ -29,6 +96,20 @@
       border-left: 6px solid;
       border-radius: 14px;
       box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeIn 0.6s ease forwards;
+    }
+
+    body.dark-mode .service-container {
+      background: #2d3748;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: none;
+      }
     }
 
     .arrival { border-color: #4299e1; }
@@ -40,7 +121,6 @@
       display: flex;
       align-items: center;
       margin-bottom: 16px;
-      color: #1a202c;
     }
 
     .header span {
@@ -66,17 +146,19 @@
       margin-bottom: 14px;
     }
 
+    body.dark-mode .info-block {
+      background: #4a5568;
+    }
+
     .info-block strong {
       display: block;
-      font-size: 15px;
-      color: #2d3748;
+      font-weight: 600;
       margin-bottom: 6px;
     }
 
-    .info-block ul,
-    .info-block ol {
+    .info-block ul, .info-block ol {
       margin: 0;
-      padding-left: 20px;
+      padding-left: 18px;
       font-size: 14px;
       line-height: 1.6;
     }
@@ -87,7 +169,6 @@
       padding: 12px 14px;
       border-radius: 10px;
       font-size: 14px;
-      color: #1a202c;
       margin-bottom: 16px;
     }
 
@@ -96,12 +177,15 @@
       border-color: #ed8936;
     }
 
+    body.dark-mode .price-block {
+      background: #4a5568;
+    }
+
     .cta-button {
       width: 100%;
       max-width: 480px;
-      margin: 0 auto;
-      background: #3182ce;
-      color: #fff;
+      background: var(--primary-blue);
+      color: white;
       padding: 12px 16px;
       font-size: 16px;
       border: none;
@@ -109,106 +193,112 @@
       cursor: pointer;
       display: block;
       text-align: center;
-      margin-top: 10px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .cta-button:active {
-      background: #2b6cb0;
+      margin: 12px auto 0;
     }
 
     .cta-orange {
-      background: #ed8936;
-    }
-
-    .cta-orange:active {
-      background: #dd6b20;
+      background: var(--primary-orange);
     }
   </style>
 </head>
 <body>
 
-<h2>机场接送服务</h2>
+<h2 id="page-title">机场接送服务</h2>
+<div class="language-switcher">
+  <button onclick="switchLang('zh')">中文</button>
+  <button onclick="switchLang('en')">English</button>
+</div>
+<div class="dark-toggle">
+  <button onclick="toggleDarkMode()">🌙 切换暗色模式</button>
+</div>
 
-<!-- 接机服务卡片 -->
-<div class="service-container arrival">
-  <div class="header"><span>🛬</span>接机服务（接关、带关）</div>
+<div class="form-container">
+  <label for="serviceType">选择服务类型</label>
+  <select id="serviceType" onchange="handleTypeChange(this.value)">
+    <option value="arrival">接机服务</option>
+    <option value="departure">送机服务</option>
+  </select>
+</div>
 
+<div id="arrivalBlock" class="service-container arrival">
+  <div class="header"><span>🛬</span><span data-en="Arrival Service">接机服务</span></div>
   <div class="image-block">
-    <img src="images/arrival.jpg" alt="接机服务图片">
+    <img src="images/906.jpg!detail.v1.jpeg" alt="arrival">
   </div>
-
   <div class="info-block">
-    <strong>📋 所需材料：</strong>
-    <ul>
-      <li>护照原件</li>
-      <li>机票行程单</li>
-    </ul>
+    <strong data-en="Required Documents">📋 所需材料：</strong>
+    <ul><li data-en="Original passport">护照原件</li><li data-en="Flight ticket">机票行程单</li></ul>
   </div>
-
   <div class="info-block">
-    <strong>📝 办理流程：</strong>
+    <strong data-en="Process">📝 流程：</strong>
     <ol>
-      <li>线上下单</li>
-      <li>联系客服</li>
-      <li>提交资料</li>
-      <li>办理手续</li>
-      <li>送出海关</li>
+      <li data-en="Order online">下单</li>
+      <li data-en="Contact support">联系客服</li>
+      <li data-en="Submit documents">提交资料</li>
+      <li data-en="Process application">办理手续</li>
+      <li data-en="Pass immigration">送出海关</li>
     </ol>
   </div>
-
   <div class="price-block">
-    <strong>💰 价格说明：</strong>
-    基础服务：$50<br>
-    不录指纹：$75（市价 $150）<br>
-    超级VIP接机：$120（市价 $350）
+    <strong data-en="Price">💰 价格说明：</strong>
+    基础 $50<br>不录指纹 $75（市价 $150）<br>超级VIP $120（市价 $350）
   </div>
-
   <button class="cta-button" onclick="openTelegram('接机服务')">立即预约接机</button>
 </div>
 
-<!-- 送机服务卡片 -->
-<div class="service-container departure">
-  <div class="header"><span>🛫</span>送机服务（送关）</div>
-
+<div id="departureBlock" class="service-container departure" style="display: none;">
+  <div class="header"><span>🛫</span><span data-en="Departure Service">送机服务</span></div>
   <div class="image-block">
-    <img src="images/departure.jpg" alt="送机服务图片">
+    <img src="images/EaI¼Io_501358104_banner_CeAAu³¡³oDD±³O°¨·CAEoOµEIOA©.jpg" alt="departure">
   </div>
-
   <div class="info-block">
-    <strong>📋 所需材料：</strong>
-    <ul>
-      <li>护照原件</li>
-      <li>机票行程单</li>
-    </ul>
+    <strong data-en="Required Documents">📋 所需材料：</strong>
+    <ul><li data-en="Original passport">护照原件</li><li data-en="Flight ticket">机票行程单</li></ul>
   </div>
-
   <div class="info-block">
-    <strong>📝 办理流程：</strong>
+    <strong data-en="Process">📝 流程：</strong>
     <ol>
-      <li>线上下单</li>
-      <li>联系客服</li>
-      <li>提交资料</li>
-      <li>办理手续</li>
-      <li>送进海关</li>
+      <li data-en="Order online">下单</li>
+      <li data-en="Contact support">联系客服</li>
+      <li data-en="Submit documents">提交资料</li>
+      <li data-en="Process application">办理手续</li>
+      <li data-en="Pass immigration">送进海关</li>
     </ol>
   </div>
-
   <div class="price-block">
-    <strong>💰 价格说明：</strong>
-    基础服务：$50<br>
-    超级VIP送机：$120<br>
-    绿色通道服务：$350
+    <strong data-en="Price">💰 价格说明：</strong>
+    基础 $50<br>超级VIP $120<br>绿色通道 $350
   </div>
-
   <button class="cta-button cta-orange" onclick="openTelegram('送机服务')">立即预约送机</button>
 </div>
 
 <script>
+  function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+  }
+
+  function handleTypeChange(value) {
+    document.getElementById('arrivalBlock').style.display = value === 'arrival' ? 'block' : 'none';
+    document.getElementById('departureBlock').style.display = value === 'departure' ? 'block' : 'none';
+  }
+
   function openTelegram(service) {
     const msg = `你好，我想预约${service}，请问怎么操作？`;
     const username = "LUODISWKF";
     window.open(`https://t.me/${username}?text=${encodeURIComponent(msg)}`, "_blank");
+  }
+
+  function switchLang(lang) {
+    const elms = document.querySelectorAll('[data-en]');
+    elms.forEach(el => {
+      if (lang === 'en') {
+        el.dataset.zh = el.innerText;
+        el.innerText = el.dataset.en;
+      } else {
+        if (el.dataset.zh) el.innerText = el.dataset.zh;
+      }
+    });
+    document.getElementById("page-title").innerText = lang === 'en' ? 'Airport Services' : '机场接送服务';
   }
 </script>
 
