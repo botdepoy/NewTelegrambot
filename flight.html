@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>机场接送服务</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root {
       --primary-blue: #3182ce;
@@ -14,10 +14,13 @@
       --text-dark: #2d3748;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
     body {
       margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        sans-serif;
       background: var(--bg-light);
       color: var(--text-dark);
       transition: background 0.3s ease, color 0.3s ease;
@@ -49,6 +52,14 @@
       border: 1px solid #ccc;
       background: white;
       cursor: pointer;
+      transition: background-color 0.3s ease, color 0.3s ease,
+        border-color 0.3s ease;
+    }
+    /* 激活状态的语言按钮 */
+    .language-switcher button.active {
+      background-color: var(--primary-blue);
+      color: white;
+      border-color: var(--primary-blue);
     }
 
     .dark-toggle {
@@ -71,7 +82,7 @@
       background: #fff;
       padding: 20px;
       border-radius: 12px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
     }
 
     .form-container label {
@@ -95,7 +106,7 @@
       padding: 20px 16px;
       border-left: 6px solid;
       border-radius: 14px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
       opacity: 0;
       transform: translateY(20px);
       animation: fadeIn 0.6s ease forwards;
@@ -112,8 +123,12 @@
       }
     }
 
-    .arrival { border-color: #4299e1; }
-    .departure { border-color: #ed8936; }
+    .arrival {
+      border-color: #4299e1;
+    }
+    .departure {
+      border-color: #ed8936;
+    }
 
     .header {
       font-size: 17px;
@@ -136,7 +151,7 @@
     .image-block img {
       max-width: 100%;
       border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
     }
 
     .info-block {
@@ -156,7 +171,8 @@
       margin-bottom: 6px;
     }
 
-    .info-block ul, .info-block ol {
+    .info-block ul,
+    .info-block ol {
       margin: 0;
       padding-left: 18px;
       font-size: 14px;
@@ -202,105 +218,143 @@
   </style>
 </head>
 <body>
-
-<h2 id="page-title">机场接送服务</h2>
-<div class="language-switcher">
-  <button onclick="switchLang('zh')">中文</button>
-  <button onclick="switchLang('en')">English</button>
-</div>
-<div class="dark-toggle">
-  <button onclick="toggleDarkMode()">🌙 切换暗色模式</button>
-</div>
-
-<div class="form-container">
-  <label for="serviceType">选择服务类型</label>
-  <select id="serviceType" onchange="handleTypeChange(this.value)">
-    <option value="arrival">接机服务</option>
-    <option value="departure">送机服务</option>
-  </select>
-</div>
-
-<div id="arrivalBlock" class="service-container arrival">
-  <div class="header"><span>🛬</span><span data-en="Arrival Service">接机服务</span></div>
-  <div class="image-block">
-    <img src="images/906.jpg!detail.v1.jpeg" alt="arrival">
+  <h2 id="page-title">机场接送服务</h2>
+  <div class="language-switcher">
+    <button onclick="switchLang('zh')" class="active">中文</button>
+    <button onclick="switchLang('en')">English</button>
   </div>
-  <div class="info-block">
-    <strong data-en="Required Documents">📋 所需材料：</strong>
-    <ul><li data-en="Original passport">护照原件</li><li data-en="Flight ticket">机票行程单</li></ul>
+  <div class="dark-toggle">
+    <button onclick="toggleDarkMode()">🌙 切换暗色模式</button>
   </div>
-  <div class="info-block">
-    <strong data-en="Process">📝 流程：</strong>
-    <ol>
-      <li data-en="Order online">下单</li>
-      <li data-en="Contact support">联系客服</li>
-      <li data-en="Submit documents">提交资料</li>
-      <li data-en="Process application">办理手续</li>
-      <li data-en="Pass immigration">送出海关</li>
-    </ol>
-  </div>
-  <div class="price-block">
-    <strong data-en="Price">💰 价格说明：</strong>
-    基础 $50<br>不录指纹 $75（市价 $150）<br>超级VIP $120（市价 $350）
-  </div>
-  <button class="cta-button" onclick="openTelegram('接机服务')">立即预约接机</button>
-</div>
 
-<div id="departureBlock" class="service-container departure" style="display: none;">
-  <div class="header"><span>🛫</span><span data-en="Departure Service">送机服务</span></div>
-  <div class="image-block">
-    <img src="images/EaI¼Io_501358104_banner_CeAAu³¡³oDD±³O°¨·CAEoOµEIOA©.jpg" alt="departure">
+  <div class="form-container">
+    <label for="serviceType">选择服务类型</label>
+    <select id="serviceType" onchange="handleTypeChange(this.value)">
+      <option value="arrival">接机服务</option>
+      <option value="departure">送机服务</option>
+    </select>
   </div>
-  <div class="info-block">
-    <strong data-en="Required Documents">📋 所需材料：</strong>
-    <ul><li data-en="Original passport">护照原件</li><li data-en="Flight ticket">机票行程单</li></ul>
+
+  <div id="arrivalBlock" class="service-container arrival">
+    <div class="header"><span>🛬</span><span data-en="Arrival Service">接机服务</span></div>
+    <div class="image-block">
+      <img src="images/906.jpg!detail.v1.jpeg" alt="arrival" />
+    </div>
+    <div class="info-block">
+      <strong data-en="Required Documents">📋 所需材料：</strong>
+      <ul>
+        <li data-en="Original passport">护照原件</li>
+        <li data-en="Flight ticket">机票行程单</li>
+      </ul>
+    </div>
+    <div class="info-block">
+      <strong data-en="Process">📝 流程：</strong>
+      <ol>
+        <li data-en="Order online">下单</li>
+        <li data-en="Contact support">联系客服</li>
+        <li data-en="Submit documents">提交资料</li>
+        <li data-en="Process application">办理手续</li>
+        <li data-en="Pass immigration">送出海关</li>
+      </ol>
+    </div>
+    <div class="price-block">
+      <strong data-en="Price">💰 价格说明：</strong>
+      基础 $50<br />
+      不录指纹 $75（市价 $150）<br />
+      超级VIP $120（市价 $350）
+    </div>
+    <button class="cta-button" onclick="openTelegram('接机服务')">
+      立即预约接机
+    </button>
   </div>
-  <div class="info-block">
-    <strong data-en="Process">📝 流程：</strong>
-    <ol>
-      <li data-en="Order online">下单</li>
-      <li data-en="Contact support">联系客服</li>
-      <li data-en="Submit documents">提交资料</li>
-      <li data-en="Process application">办理手续</li>
-      <li data-en="Pass immigration">送进海关</li>
-    </ol>
+
+  <div
+    id="departureBlock"
+    class="service-container departure"
+    style="display: none"
+  >
+    <div class="header">
+      <span>🛫</span><span data-en="Departure Service">送机服务</span>
+    </div>
+    <div class="image-block">
+      <img
+        src="images/EaI¼Io_501358104_banner_CeAAu³¡³oDD±³O°¨·CAEoOµEIOA©.jpg"
+        alt="departure"
+      />
+    </div>
+    <div class="info-block">
+      <strong data-en="Required Documents">📋 所需材料：</strong>
+      <ul>
+        <li data-en="Original passport">护照原件</li>
+        <li data-en="Flight ticket">机票行程单</li>
+      </ul>
+    </div>
+    <div class="info-block">
+      <strong data-en="Process">📝 流程：</strong>
+      <ol>
+        <li data-en="Order online">下单</li>
+        <li data-en="Contact support">联系客服</li>
+        <li data-en="Submit documents">提交资料</li>
+        <li data-en="Process application">办理手续</li>
+        <li data-en="Pass immigration">送进海关</li>
+      </ol>
+    </div>
+    <div class="price-block">
+      <strong data-en="Price">💰 价格说明：</strong>
+      基础 $50<br />
+      超级VIP $120<br />
+      绿色通道 $350
+    </div>
+    <button class="cta-button cta-orange" onclick="openTelegram('送机服务')">
+      立即预约送机
+    </button>
   </div>
-  <div class="price-block">
-    <strong data-en="Price">💰 价格说明：</strong>
-    基础 $50<br>超级VIP $120<br>绿色通道 $350
-  </div>
-  <button class="cta-button cta-orange" onclick="openTelegram('送机服务')">立即预约送机</button>
-</div>
 
-<script>
-  function toggleDarkMode() {
-    document.body.classList.toggle('dark-mode');
-  }
+  <script>
+    function toggleDarkMode() {
+      document.body.classList.toggle("dark-mode");
+    }
 
-  function handleTypeChange(value) {
-    document.getElementById('arrivalBlock').style.display = value === 'arrival' ? 'block' : 'none';
-    document.getElementById('departureBlock').style.display = value === 'departure' ? 'block' : 'none';
-  }
+    function handleTypeChange(value) {
+      document.getElementById("arrivalBlock").style.display =
+        value === "arrival" ? "block" : "none";
+      document.getElementById("departureBlock").style.display =
+        value === "departure" ? "block" : "none";
+    }
 
-  function openTelegram(service) {
-    const msg = `你好，我想预约${service}，请问怎么操作？`;
-    const username = "LUODISWKF";
-    window.open(`https://t.me/${username}?text=${encodeURIComponent(msg)}`, "_blank");
-  }
+    function openTelegram(service) {
+      const msg = `你好，我想预约${service}，请问怎么操作？`;
+      const username = "LUODISWKF";
+      window.open(`https://t.me/${username}?text=${encodeURIComponent(msg)}`, "_blank");
+    }
 
-  function switchLang(lang) {
-    const elms = document.querySelectorAll('[data-en]');
-    elms.forEach(el => {
-      if (lang === 'en') {
-        el.dataset.zh = el.innerText;
-        el.innerText = el.dataset.en;
+    function switchLang(lang) {
+      // 先移除所有按钮激活状态
+      const buttons = document.querySelectorAll(".language-switcher button");
+      buttons.forEach((btn) => btn.classList.remove("active"));
+
+      // 给当前语言按钮加激活类
+      if (lang === "zh") {
+        buttons[0].classList.add("active");
       } else {
-        if (el.dataset.zh) el.innerText = el.dataset.zh;
+        buttons[1].classList.add("active");
       }
-    });
-    document.getElementById("page-title").innerText = lang === 'en' ? 'Airport Services' : '机场接送服务';
-  }
-</script>
 
+      // 切换页面内容语言
+      const elms = document.querySelectorAll("[data-en]");
+      elms.forEach((el) => {
+        if (lang === "en") {
+          // 保存中文原文
+          if (!el.dataset.zh) el.dataset.zh = el.innerText;
+          el.innerText = el.dataset.en;
+        } else {
+          if (el.dataset.zh) el.innerText = el.dataset.zh;
+        }
+      });
+
+      document.getElementById("page-title").innerText =
+        lang === "en" ? "Airport Services" : "机场接送服务";
+    }
+  </script>
 </body>
 </html>
