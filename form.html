@@ -18,7 +18,7 @@
       text-align: center;
     }
 
-    .slider {
+   /* .slider {
       position: relative;
       width: 100%;
       max-width: 600px;
@@ -40,7 +40,28 @@
       height: 100%;
       object-fit: cover;
     }
+*/
+  .slider {
+    position: relative;
+    width: 100vw; /* full viewport width */
+    max-width: 100%; /* prevent overflow */
+    overflow: hidden;
+    border-radius: 12px;
+  }
+  
+  .slides {
+    display: flex;
+    width: 300%; /* 3 images */
+    animation: slide 24s infinite;
+  }
+  
+  .slides img {
+    width: 100vw; /* match viewport width */
+    height: 220px;
+    object-fit: cover;
+  }
 
+    
     @keyframes slide {
       0%   { transform: translateX(0%); }
       33%  { transform: translateX(0%); }
@@ -74,6 +95,7 @@
     .icon {
       font-size: 36px;
       margin-bottom: 15px;
+      
     }
 
     .card-title {
