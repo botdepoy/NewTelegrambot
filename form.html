@@ -21,21 +21,23 @@
     .slider {
       position: relative;
       width: 100%;
-      max-width: 800px;
-      margin: 0 auto;
+      max-width: 600px;
+      margin: 20px auto;
       overflow: hidden;
       border-radius: 12px;
+      height: 180px;
     }
 
     .slides {
       display: flex;
       width: 300%;
+      height: 100%;
       animation: slide 12s infinite;
     }
 
     .slides img {
       width: 100%;
-      height: auto;
+      height: 100%;
       object-fit: cover;
     }
 
@@ -116,7 +118,6 @@
       margin: 0 10px;
       cursor: pointer;
     }
-
   </style>
 </head>
 <body>
@@ -124,9 +125,9 @@
   <div class="header">
     <div class="slider">
       <div class="slides">
-        <img src="images/埃法.png">
-        <img src="images/丰田.png">
-        <img src="images/大众.png">
+        <img src="images/埃尔.png" alt="Toyota Alphard">
+        <img src="images/丰田.png" alt="Toyota Granvia">
+        <img src="images/大众.png" alt="Volkswagen Multivan">
       </div>
     </div>
     <div class="header-title" id="page-title">一条龙办理流程</div>
@@ -157,7 +158,7 @@
       </div>
     </div>
 
-    <button class="button" onclick="openTelegramChat()">咨询客服</button>
+    <button class="button" onclick="openTelegramChat()" id="contact-btn">咨询客服</button>
 
     <div class="lang-switch">
       <button onclick="switchLang('zh')">🇨🇳 中文</button> |
@@ -166,6 +167,35 @@
   </div>
 
   <script>
+    const translations = {
+      zh: {
+        title: "一条龙办理流程",
+        step1_title: "1. 办理流程",
+        step1_desc: "线上下单 → 联系客服提交资料 → 签订合同 → 缴纳押金 → 获取车辆",
+        step2_title: "2. 所需材料",
+        step2_desc: "护照首页照片、租赁人驾照、租赁合同、车辆押金",
+        step3_title: "3. 注意",
+        step3_desc: "租赁押金：$5000 USD（车归还后全额退还，若无损坏）",
+        contact: "咨询客服",
+        icon1: "📝",
+        icon2: "📄",
+        icon3: "⚠️"
+      },
+      en: {
+        title: "All-in-One Service Process",
+        step1_title: "1. Application Process",
+        step1_desc: "Online order → Contact support → Sign contract → Pay deposit → Receive vehicle",
+        step2_title: "2. Required Documents",
+        step2_desc: "Passport main page, driver's license, rental contract, deposit",
+        step3_title: "3. Notice",
+        step3_desc: "Deposit: $5000 USD (fully refundable after return if no damage)",
+        contact: "Contact Support",
+        icon1: "📝",
+        icon2: "📄",
+        icon3: "⚠️"
+      }
+    };
+
     function openTelegramChat() {
       const message = "你好，我想咨询关于【车辆租赁】服务。";
       const adminUsername = "LUODISWKF";
@@ -178,44 +208,12 @@
     }
 
     function switchLang(lang) {
-      const url = new URL(window.location.href);
-      url.searchParams.set('lang', lang);
-      window.location.href = url;
+      localStorage.setItem("lang", lang);
+      applyLang(lang);
     }
 
-    function loadContent() {
-      const params = new URLSearchParams(window.location.search);
-      const lang = params.get('lang') || 'zh';
-
-      const translations = {
-        zh: {
-          title: "一条龙办理流程",
-          step1_title: "1. 办理流程",
-          step1_desc: "线上下单 → 联系客服提交资料 → 签订合同 → 缴纳押金 → 获取车辆",
-          step2_title: "2. 所需材料",
-          step2_desc: "护照首页照片、租赁人驾照、租赁合同、车辆押金",
-          step3_title: "3. 注意",
-          step3_desc: "租赁押金：$5000 USD（车归还后全额退还，若无损坏）",
-          icon1: "📝",
-          icon2: "📄",
-          icon3: "⚠️"
-        },
-        en: {
-          title: "All-in-One Service Process",
-          step1_title: "1. Application Process",
-          step1_desc: "Online order → Contact support → Sign contract → Pay deposit → Receive vehicle",
-          step2_title: "2. Required Documents",
-          step2_desc: "Passport main page, driver's license, rental contract, deposit",
-          step3_title: "3. Notice",
-          step3_desc: "Deposit: $5000 USD (fully refundable after return if no damage)",
-          icon1: "📝",
-          icon2: "📄",
-          icon3: "⚠️"
-        }
-      };
-
-      const t = translations[lang];
-
+    function applyLang(lang) {
+      const t = translations[lang] || translations.zh;
       document.getElementById('page-title').innerText = t.title;
       document.getElementById('step1-title').innerText = t.step1_title;
       document.getElementById('step1-desc').innerText = t.step1_desc;
@@ -226,10 +224,15 @@
       document.getElementById('icon1').innerText = t.icon1;
       document.getElementById('icon2').innerText = t.icon2;
       document.getElementById('icon3').innerText = t.icon3;
+      document.getElementById('contact-btn').innerText = t.contact;
     }
 
-    Telegram.WebApp.ready?.();
-    loadContent();
+    window.addEventListener("load", () => {
+      const savedLang = localStorage.getItem("lang") || "zh";
+      applyLang(savedLang);
+    });
+
+    Telegram.WebApp?.ready?.();
   </script>
 
 </body>
