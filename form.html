@@ -5,185 +5,232 @@
   <title>一条龙办理流程</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
+    * { box-sizing: border-box; }
+
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #ffffff;
       margin: 0;
-      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
     }
 
-    h2 {
+    .header {
       text-align: center;
+    }
+
+    .slider {
+      position: relative;
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+      overflow: hidden;
+      border-radius: 12px;
+    }
+
+    .slides {
+      display: flex;
+      width: 300%;
+      animation: slide 12s infinite;
+    }
+
+    .slides img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+
+    @keyframes slide {
+      0%   { transform: translateX(0%); }
+      33%  { transform: translateX(0%); }
+      36%  { transform: translateX(-100%); }
+      66%  { transform: translateX(-100%); }
+      69%  { transform: translateX(-200%); }
+      99%  { transform: translateX(-200%); }
+      100% { transform: translateX(0%); }
+    }
+
+    .header-title {
       font-size: 24px;
       font-weight: bold;
-      margin: 40px 20px 30px 20px;
+      margin: 20px 0;
     }
 
-    .section {
-      background: #fff5ee;
-      margin: 30px 20px;
-      padding: 50px 20px 30px 20px;
+    .container {
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .card {
+      background: white;
       border-radius: 16px;
-      text-align: center;
-      position: relative;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+      padding: 30px 20px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     }
 
-    .icon-circle {
-      width: 60px;
-      height: 60px;
-      background-color: #ff7e00;
-      border-radius: 50%;
-      color: white;
-      font-size: 28px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: absolute;
-      top: -30px;
-      left: 50%;
-      transform: translateX(-50%);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-
-    .title {
-      font-weight: bold;
-      font-size: 18px;
-      margin-top: 40px;
+    .icon {
+      font-size: 36px;
       margin-bottom: 15px;
     }
 
-    .desc {
+    .card-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .card-desc {
       font-size: 14px;
       line-height: 1.6;
-      color: #333;
-      padding: 0 10px;
     }
 
     .button {
-      width: calc(100% - 40px);
+      width: 90%;
       max-width: 400px;
-      margin: 50px auto 60px auto;
+      display: block;
+      margin: 40px auto;
       padding: 15px;
-      border: none;
-      border-radius: 50px;
       background-color: #ff7e00;
       color: white;
       font-size: 16px;
-      text-align: center;
-      display: block;
+      border: none;
+      border-radius: 50px;
       cursor: pointer;
+      text-align: center;
     }
 
     .button:active {
       background-color: #e66e00;
     }
+
+    .lang-switch {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .lang-switch button {
+      background: none;
+      border: none;
+      font-size: 16px;
+      margin: 0 10px;
+      cursor: pointer;
+    }
+
   </style>
 </head>
 <body>
 
-  <h2 id="page-title">一条龙办理流程</h2>
-
-  <div class="section">
-    <div class="icon-circle" id="icon1">📝</div>
-    <div class="title" id="step1-title">1. 办理流程</div>
-    <div class="desc" id="step1-desc">
-      线上下单 → 联系客服提交资料 → 签订合同 → 缴纳押金 → 获取车辆
+  <div class="header">
+    <div class="slider">
+      <div class="slides">
+        <img src="images/埃法.png">
+        <img src="images/丰田.png">
+        <img src="images/大众.png">
+      </div>
     </div>
+    <div class="header-title" id="page-title">一条龙办理流程</div>
   </div>
 
-  <div class="section">
-    <div class="icon-circle" id="icon2">📄</div>
-    <div class="title" id="step2-title">2. 所需材料</div>
-    <div class="desc" id="step2-desc">
-      护照首页照片、租赁人驾照、租赁合同、车辆押金
+  <div class="container">
+    <div class="card">
+      <div class="icon" id="icon1">📝</div>
+      <div class="card-title" id="step1-title">1. 办理流程</div>
+      <div class="card-desc" id="step1-desc">
+        线上下单 → 联系客服提交资料 → 签订合同 → 缴纳押金 → 获取车辆
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="icon" id="icon2">📄</div>
+      <div class="card-title" id="step2-title">2. 所需材料</div>
+      <div class="card-desc" id="step2-desc">
+        护照首页照片、租赁人驾照、租赁合同、车辆押金
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="icon" id="icon3">⚠️</div>
+      <div class="card-title" id="step3-title">3. 注意</div>
+      <div class="card-desc" id="step3-desc">
+        租赁押金：$5000 USD（车归还后全额退还，若无损坏）
+      </div>
+    </div>
+
+    <button class="button" onclick="openTelegramChat()">咨询客服</button>
+
+    <div class="lang-switch">
+      <button onclick="switchLang('zh')">🇨🇳 中文</button> |
+      <button onclick="switchLang('en')">🇬🇧 English</button>
     </div>
   </div>
-
-  <div class="section">
-    <div class="icon-circle" id="icon3">⚠️</div>
-    <div class="title" id="step3-title">3. 注意</div>
-    <div class="desc" id="step3-desc">
-      租赁押金：$5000 USD（车归还后全额退还，若无损坏）
-    </div>
-  </div>
-
-  <button class="button" onclick="openTelegramChat()">
-    咨询客服
-  </button>
-<div style="text-align:center; margin-top: 20px;">
-  <button onclick="switchLang('zh')">🇨🇳 中文</button> |
-  <button onclick="switchLang('en')">🇬🇧 English</button>
-</div>
 
   <script>
-  function openTelegramChat() {
-    const message = ("你好，我想咨询关于【车辆租赁】服务。");
-    const adminUsername = "LUODISWKF";
-    const link = `https://t.me/${adminUsername}?text=${encodeURIComponent(message)}`;
-    if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
-      Telegram.WebApp.openTelegramLink(link);
-    } else {
-      window.open(link, '_blank');
-    }
-  }
-
-  function switchLang(lang) {
-    const url = new URL(window.location.href);
-    url.searchParams.set('lang', lang);
-    window.location.href = url;
-  }
-
-  function loadContent() {
-    const params = new URLSearchParams(window.location.search);
-    const lang = params.get('lang') || 'zh';
-    const type = params.get('type') || 'car';
-
-    const translations = {
-      zh: {
-        title: "一条龙办理流程",
-        step1_title: "1. 办理流程",
-        step1_desc: "线上下单 → 联系客服提交资料 → 签订合同 → 缴纳押金 → 获取车辆",
-        step2_title: "2. 所需材料",
-        step2_desc: "护照首页照片、租赁人驾照、租赁合同、车辆押金",
-        step3_title: "3. 注意",
-        step3_desc: "租赁押金：$5000 USD（车归还后全额退还，若无损坏）",
-        icon1: "📝",
-        icon2: "📄",
-        icon3: "⚠️"
-      },
-      en: {
-        title: "All-in-One Service Process",
-        step1_title: "1. Application Process",
-        step1_desc: "Online order → Contact support → Sign contract → Pay deposit → Receive vehicle",
-        step2_title: "2. Required Documents",
-        step2_desc: "Passport main page, driver's license, rental contract, deposit",
-        step3_title: "3. Notice",
-        step3_desc: "Deposit: $5000 USD (fully refundable after return if no damage)",
-        icon1: "📝",
-        icon2: "📄",
-        icon3: "⚠️"
+    function openTelegramChat() {
+      const message = "你好，我想咨询关于【车辆租赁】服务。";
+      const adminUsername = "LUODISWKF";
+      const link = `https://t.me/${adminUsername}?text=${encodeURIComponent(message)}`;
+      if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
+        Telegram.WebApp.openTelegramLink(link);
+      } else {
+        window.open(link, '_blank');
       }
-    };
+    }
 
-    const t = translations[lang];
+    function switchLang(lang) {
+      const url = new URL(window.location.href);
+      url.searchParams.set('lang', lang);
+      window.location.href = url;
+    }
 
-    document.getElementById('page-title').innerText = t.title;
-    document.getElementById('step1-title').innerText = t.step1_title;
-    document.getElementById('step1-desc').innerText = t.step1_desc;
-    document.getElementById('step2-title').innerText = t.step2_title;
-    document.getElementById('step2-desc').innerText = t.step2_desc;
-    document.getElementById('step3-title').innerText = t.step3_title;
-    document.getElementById('step3-desc').innerText = t.step3_desc;
-    document.getElementById('icon1').innerText = t.icon1;
-    document.getElementById('icon2').innerText = t.icon2;
-    document.getElementById('icon3').innerText = t.icon3;
-  }
+    function loadContent() {
+      const params = new URLSearchParams(window.location.search);
+      const lang = params.get('lang') || 'zh';
 
-  Telegram.WebApp.ready();
-  loadContent();
-</script>
+      const translations = {
+        zh: {
+          title: "一条龙办理流程",
+          step1_title: "1. 办理流程",
+          step1_desc: "线上下单 → 联系客服提交资料 → 签订合同 → 缴纳押金 → 获取车辆",
+          step2_title: "2. 所需材料",
+          step2_desc: "护照首页照片、租赁人驾照、租赁合同、车辆押金",
+          step3_title: "3. 注意",
+          step3_desc: "租赁押金：$5000 USD（车归还后全额退还，若无损坏）",
+          icon1: "📝",
+          icon2: "📄",
+          icon3: "⚠️"
+        },
+        en: {
+          title: "All-in-One Service Process",
+          step1_title: "1. Application Process",
+          step1_desc: "Online order → Contact support → Sign contract → Pay deposit → Receive vehicle",
+          step2_title: "2. Required Documents",
+          step2_desc: "Passport main page, driver's license, rental contract, deposit",
+          step3_title: "3. Notice",
+          step3_desc: "Deposit: $5000 USD (fully refundable after return if no damage)",
+          icon1: "📝",
+          icon2: "📄",
+          icon3: "⚠️"
+        }
+      };
 
+      const t = translations[lang];
+
+      document.getElementById('page-title').innerText = t.title;
+      document.getElementById('step1-title').innerText = t.step1_title;
+      document.getElementById('step1-desc').innerText = t.step1_desc;
+      document.getElementById('step2-title').innerText = t.step2_title;
+      document.getElementById('step2-desc').innerText = t.step2_desc;
+      document.getElementById('step3-title').innerText = t.step3_title;
+      document.getElementById('step3-desc').innerText = t.step3_desc;
+      document.getElementById('icon1').innerText = t.icon1;
+      document.getElementById('icon2').innerText = t.icon2;
+      document.getElementById('icon3').innerText = t.icon3;
+    }
+
+    Telegram.WebApp.ready?.();
+    loadContent();
+  </script>
 
 </body>
 </html>
