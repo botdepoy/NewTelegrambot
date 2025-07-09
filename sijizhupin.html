@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>司机租赁服务</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0; padding: 20px;
+      background: #f8f8f8; color: #333;
+    }
+    h2 {
+      text-align: center;
+    }
+    .lang-switch {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      margin-bottom: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      overflow: hidden;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: border-color 0.3s;
+    }
+    .card img {
+      width: 100%; height: 150px; object-fit: cover;
+    }
+    .card-content { padding: 12px 16px; }
+    .card h3 { margin: 0 0 5px; font-size: 17px; }
+    .card p { margin: 2px 0; font-size: 14px; color: #555; }
+    .card .price { color: #ff6600; font-weight: bold; }
+    .card .button {
+      margin-top: 12px;
+      padding: 10px;
+      text-align: center;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 15px;
+    }
+  </style>
+</head>
+<body>
+<h2 id="title">司机租赁服务</h2>
+<div class="lang-switch">
+  <button onclick="switchLang('zh')">中文</button> |
+  <button onclick="switchLang('en')">English</button>
+</div>
+<div id="services"></div>
+<script>
+const telegramUsername = 'LUODISWKF';
+let currentLang = 'zh';
+
+const servicesData = {
+  zh: [
+    {
+      name: '中英柬司机', price: 100, desc: '多语言沟通，熟悉路线，安全可靠', steps: '1、线上下单\n2、联系客服提交资料\n3、提供行程安排\n4、签订租赁协议\n5、接顾客', img: 'images/Untitled 9.png'
+    },
+    {
+      name: '英柬司机', price: 60, desc: '英文+柬文司机，日常接送', steps: '1、线上下单\n2、联系客服提交资料\n3、提供行程安排\n4、签订租赁协议\n5、接顾客', img: 'images/Untitled 9.png'
+    },
+    {
+      name: '司机保镖带枪', price: 120, desc: '合法持枪，专业安保', steps: '1、线上下单\n2、联系客服提交资料\n3、提供行程安排\n4、签订租赁协议\n5、接顾客', img: 'images/司机保镖.png'
+    }
+  ],
+  en: [
+    {
+      name: 'Driver (CN-EN-KH)', price: 100, desc: 'Multilingual, safe & efficient', steps: '1. Online order\n2. Contact support\n3. Provide trip plan\n4. Sign agreement\n5. Pick-up service', img: 'images/Untitled 9.png'
+    },
+    {
+      name: 'Driver (EN-KH)', price: 60, desc: 'English + Khmer, daily ride', steps: '1. Online order\n2. Contact support\n3. Provide trip plan\n4. Sign agreement\n5. Pick-up service', img: 'images/Untitled 9.png'
+    },
+    {
+      name: 'Bodyguard Driver (Armed)', price: 120, desc: 'Armed protection, trained', steps: '1. Online order\n2. Contact support\n3. Provide trip plan\n4. Sign agreement\n5. Pick-up service', img: 'images/司机保镖.png'
+    }
+  ]
+};
+
+function renderServices() {
+  const wrapper = document.getElementById('services');
+  wrapper.innerHTML = '';
+  servicesData[currentLang].forEach((s, i) => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <img src="${s.img}" alt="${s.name}">
+      <div class="card-content">
+        <h3>${s.name}</h3>
+        <p>${s.desc}</p>
+        <p>${currentLang === 'zh' ? '费用：' : 'Price: '}<span class="price">$${s.price} / 天</span></p>
+        <p>${currentLang === 'zh' ? '流程：' : 'Steps:'}<br>${s.steps.replaceAll('\n', '<br>')}</p>
+        <button class="button" onclick="callService('${s.name}', ${s.price}, \`${s.steps}\`)">${currentLang === 'zh' ? '呼叫服务' : 'Call Service'}</button>
+      </div>
+    `;
+    wrapper.appendChild(card);
+  });
+}
+
+function callService(name, price, steps) {
+  const msg = `🚘 ${currentLang === 'zh' ? '司机服务请求' : 'Driver Service Request'}\n服务: ${name}\n价格: $${price}/天\n${currentLang === 'zh' ? '流程' : 'Steps'}:\n${steps}`;
+  const link = `https://t.me/${telegramUsername}?text=${encodeURIComponent(msg)}`;
+  if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
+    Telegram.WebApp.openTelegramLink(link);
+  } else {
+    window.open(link, '_blank');
+  }
+}
+
+function switchLang(lang) {
+  currentLang = lang;
+  document.getElementById('title').innerText = lang === 'zh' ? '司机租赁服务' : 'Driver Rental Service';
+  renderServices();
+}
+
+switchLang('zh');
+</script>
+</body>
+</html>
