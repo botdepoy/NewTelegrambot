@@ -113,6 +113,21 @@
       margin: 0 10px;
       cursor: pointer;
     }
+
+  /* ... your existing styles ... */
+
+    @keyframes slide {
+      0% { transform: translateX(0); }
+      33.33% { transform: translateX(0); }
+  
+      33.34% { transform: translateX(-100%); }
+      66.66% { transform: translateX(-100%); }
+  
+      66.67% { transform: translateX(-200%); }
+      100% { transform: translateX(-200%); }
+    }
+
+
   </style>
 </head>
 <body>
