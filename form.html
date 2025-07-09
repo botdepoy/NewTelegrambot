@@ -25,33 +25,44 @@
       margin: 20px auto;
       overflow: hidden;
       border-radius: 12px;
-      height: 200px; /* ✅ increased height for full image */
-      background-color: #fff;
+      height: 180px;
     }
 
     .slides {
       display: flex;
       width: 300%;
       height: 100%;
-      animation: slide 50s infinite;
+      transition: transform 0.4s ease-in-out;
     }
 
     .slides img {
       width: 100%;
       height: 100%;
-      object-fit: contain; /* ✅ show full image without cropping */
-      background-color: #f0f0f0; /* ✅ fills space behind image */
-      display: block;
+      object-fit: cover;
+      flex-shrink: 0;
     }
 
-    @keyframes slide {
-      0%   { transform: translateX(0%); }
-      33%  { transform: translateX(0%); }
-      36%  { transform: translateX(-100%); }
-      66%  { transform: translateX(-100%); }
-      69%  { transform: translateX(-200%); }
-      99%  { transform: translateX(-200%); }
-      100% { transform: translateX(0%); }
+    .dots {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+      z-index: 10;
+    }
+
+    .dots button {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: none;
+      background-color: rgba(255, 255, 255, 0.6);
+      cursor: pointer;
+    }
+
+    .dots button.active {
+      background-color: #ff7e00;
     }
 
     .header-title {
@@ -130,11 +141,12 @@
 
   <div class="header">
     <div class="slider">
-      <div class="slides">
+      <div class="slides" id="slides">
         <img src="images/埃法.png" alt="Toyota Alphard">
         <img src="images/丰田.png" alt="Toyota Granvia">
         <img src="images/大众.png" alt="Volkswagen Multivan">
       </div>
+      <div class="dots" id="dots"></div>
     </div>
     <div class="header-title" id="page-title">一条龙办理流程</div>
   </div>
@@ -236,10 +248,57 @@
     window.addEventListener("load", () => {
       const savedLang = localStorage.getItem("lang") || "zh";
       applyLang(savedLang);
+
+      // Slider logic
+      const slides = document.getElementById('slides');
+      const dotsContainer = document.getElementById('dots');
+      const totalSlides = slides.children.length;
+      let currentIndex = 0;
+      let startX = 0;
+      let isSwiping = false;
+
+      // Create dots
+      for (let i = 0; i < totalSlides; i++) {
+        const dot = document.createElement('button');
+        dot.addEventListener('click', () => updateSlider(i));
+        dotsContainer.appendChild(dot);
+      }
+
+      function updateSlider(index) {
+        slides.style.transform = `translateX(-${index * 100}%)`;
+        [...dotsContainer.children].forEach((dot, i) => {
+          dot.classList.toggle('active', i === index);
+        });
+        currentIndex = index;
+      }
+
+      // Swipe gesture
+      slides.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        isSwiping = true;
+      });
+
+      slides.addEventListener('touchmove', (e) => {
+        if (!isSwiping) return;
+        const deltaX = e.touches[0].clientX - startX;
+        if (Math.abs(deltaX) > 50) {
+          if (deltaX < 0 && currentIndex < totalSlides - 1) {
+            updateSlider(currentIndex + 1);
+          } else if (deltaX > 0 && currentIndex > 0) {
+            updateSlider(currentIndex - 1);
+          }
+          isSwiping = false;
+        }
+      });
+
+      slides.addEventListener('touchend', () => {
+        isSwiping = false;
+      });
+
+      updateSlider(0);
     });
 
     Telegram.WebApp?.ready?.();
   </script>
-
 </body>
 </html>
