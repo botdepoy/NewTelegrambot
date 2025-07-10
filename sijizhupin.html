@@ -9,41 +9,83 @@
     body {
       font-family: 'Segoe UI', sans-serif;
       margin: 0; padding: 20px;
-      background: #f8f8f8; color: #333;
+      background: #f4f6f8; color: #333;
     }
     h2 {
       text-align: center;
+      font-size: 22px;
+      margin-bottom: 16px;
     }
     .lang-switch {
       text-align: center;
-      margin-bottom: 10px;
+      margin-bottom: 14px;
+    }
+    .lang-switch button {
+      background: none;
+      border: none;
+      font-size: 16px;
+      margin: 0 8px;
+      color: #007bff;
+      cursor: pointer;
     }
     .card {
       background: #fff;
-      border-radius: 12px;
-      margin-bottom: 15px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-      overflow: hidden;
-      cursor: pointer;
-      border: 2px solid transparent;
-      transition: border-color 0.3s;
+      border-radius: 14px;
+      margin-bottom: 18px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+      padding: 14px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-    .card img {
-      width: 100%; height: 150px; object-fit: cover;
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 22px rgba(0,0,0,0.1);
     }
-    .card-content { padding: 12px 16px; }
-    .card h3 { margin: 0 0 5px; font-size: 17px; }
-    .card p { margin: 2px 0; font-size: 14px; color: #555; }
-    .card .price { color: #ff6600; font-weight: bold; }
-    .card .button {
-      margin-top: 12px;
-      padding: 10px;
-      text-align: center;
-      background-color: #007bff;
-      color: white;
+    .card-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .card-row img {
+      width: 120px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      flex-shrink: 0;
+    }
+    .card-text {
+      flex: 1;
+      min-width: 150px;
+    }
+    .card-text h3 {
+      margin: 0;
+      font-size: 17px;
+      color: #222;
+    }
+    .card-text p {
+      margin: 6px 0;
+      font-size: 14px;
+      color: #555;
+      line-height: 1.5;
+    }
+    .card-text .price {
+      color: #ff6600;
+      font-weight: bold;
+    }
+    .card-text .button {
+      margin-top: 10px;
+      padding: 8px 14px;
+      background: linear-gradient(to right, #007bff, #0056d2);
+      color: #fff;
       border: none;
       border-radius: 6px;
-      font-size: 15px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .card-text .button:hover {
+      background: linear-gradient(to right, #0056d2, #003c9e);
     }
   </style>
 </head>
@@ -86,17 +128,19 @@ const servicesData = {
 function renderServices() {
   const wrapper = document.getElementById('services');
   wrapper.innerHTML = '';
-  servicesData[currentLang].forEach((s, i) => {
+  servicesData[currentLang].forEach((s) => {
     const card = document.createElement('div');
     card.className = 'card';
     card.innerHTML = `
-      <img src="${s.img}" alt="${s.name}">
-      <div class="card-content">
-        <h3>${s.name}</h3>
-        <p>${s.desc}</p>
-        <p>${currentLang === 'zh' ? '费用：' : 'Price: '}<span class="price">$${s.price} / 天</span></p>
-        <p>${currentLang === 'zh' ? '流程：' : 'Steps:'}<br>${s.steps.replaceAll('\n', '<br>')}</p>
-        <button class="button" onclick="callService('${s.name}', ${s.price}, \`${s.steps}\`)">${currentLang === 'zh' ? '呼叫服务' : 'Call Service'}</button>
+      <div class="card-row">
+        <img src="${s.img}" alt="${s.name}">
+        <div class="card-text">
+          <h3>${s.name}</h3>
+          <p>${s.desc}</p>
+          <p class="price">${currentLang === 'zh' ? '费用：' : 'Price: '} $${s.price}/天</p>
+          <p>${currentLang === 'zh' ? '流程：' : 'Steps:'}<br>${s.steps.replaceAll('\n', '<br>')}</p>
+          <button class="button" onclick="callService('${s.name}', ${s.price}, \`${s.steps}\`)">${currentLang === 'zh' ? '呼叫服务' : 'Call Service'}</button>
+        </div>
       </div>
     `;
     wrapper.appendChild(card);
