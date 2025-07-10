@@ -40,40 +40,49 @@
       transform: translateY(-4px);
       box-shadow: 0 10px 22px rgba(0,0,0,0.1);
     }
-    .card-row {
+    .card-two-column {
       display: flex;
-      align-items: center;
-      gap: 14px;
       flex-wrap: wrap;
+      gap: 16px;
+      align-items: flex-start;
     }
-    .card-row img {
-      width: 120px;
-      height: 100px;
-      object-fit: cover;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      flex-shrink: 0;
+    .card-left, .card-right {
+      flex: 1 1 280px;
     }
-    .card-text {
-      flex: 1;
-      min-width: 150px;
-    }
-    .card-text h3 {
+    .card-left h3 {
       margin: 0;
       font-size: 17px;
       color: #222;
     }
-    .card-text p {
+    .badge {
+      background: #ff6600;
+      color: white;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 14px;
+      margin-left: 6px;
+    }
+    .card-left p {
       margin: 6px 0;
       font-size: 14px;
       color: #555;
       line-height: 1.5;
     }
-    .card-text .price {
-      color: #ff6600;
+    .card-left .price-label {
       font-weight: bold;
     }
-    .card-text .button {
+    .card-left .total-price {
+      font-weight: bold;
+      color: #ff6600;
+    }
+    .card-left input[type=number] {
+      width: 80px;
+      padding: 5px;
+      margin: 4px 0 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    .card-left .button {
       margin-top: 10px;
       padding: 8px 14px;
       background: linear-gradient(to right, #007bff, #0056d2);
@@ -84,8 +93,20 @@
       cursor: pointer;
       transition: background 0.3s ease;
     }
-    .card-text .button:hover {
+    .card-left .button:hover {
       background: linear-gradient(to right, #0056d2, #003c9e);
+    }
+    .card-right img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      object-fit: cover;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    @media (max-width: 600px) {
+      .card-two-column {
+        flex-direction: column-reverse;
+      }
     }
   </style>
 </head>
@@ -103,24 +124,24 @@ let currentLang = 'zh';
 const servicesData = {
   zh: [
     {
-      name: '中英柬司机', price: 100, desc: '多语言沟通，熟悉路线，安全可靠', steps: '1、线上下单\n2、联系客服提交资料\n3、提供行程安排\n4、签订租赁协议\n5、接顾客', img: 'images/Untitled 9.png'
+      name: '中英柬司机', price: 100, desc: '多语言沟通，熟悉路线，安全可靠', steps: '🛒 下单 → 📞 联系客服 → 📋 签约 → 💵 押金 → 🚗 出发', img: 'images/Untitled 9.png'
     },
     {
-      name: '英柬司机', price: 60, desc: '英文+柬文司机，日常接送', steps: '1、线上下单\n2、联系客服提交资料\n3、提供行程安排\n4、签订租赁协议\n5、接顾客', img: 'images/Untitled 9.png'
+      name: '英柬司机', price: 60, desc: '英文+柬文司机，日常接送', steps: '🛒 下单 → 📞 联系客服 → 📋 签约 → 💵 押金 → 🚗 出发', img: 'images/Untitled 9.png'
     },
     {
-      name: '司机保镖带枪', price: 120, desc: '合法持枪，专业安保', steps: '1、线上下单\n2、联系客服提交资料\n3、提供行程安排\n4、签订租赁协议\n5、接顾客', img: 'images/司机保镖.png'
+      name: '司机保镖带枪', price: 120, desc: '合法持枪，专业安保', steps: '🛒 下单 → 📞 联系客服 → 📋 签约 → 💵 押金 → 🚗 出发', img: 'images/Untitled 9.png'
     }
   ],
   en: [
     {
-      name: 'Driver (CN-EN-KH)', price: 100, desc: 'Multilingual, safe & efficient', steps: '1. Online order\n2. Contact support\n3. Provide trip plan\n4. Sign agreement\n5. Pick-up service', img: 'images/Untitled 9.png'
+      name: 'Driver (CN-EN-KH)', price: 100, desc: 'Multilingual, safe & efficient', steps: '🛒 Order → 📞 Contact → 📋 Agreement → 💵 Deposit → 🚗 Go', img: 'images/Untitled 9.png'
     },
     {
-      name: 'Driver (EN-KH)', price: 60, desc: 'English + Khmer, daily ride', steps: '1. Online order\n2. Contact support\n3. Provide trip plan\n4. Sign agreement\n5. Pick-up service', img: 'images/Untitled 9.png'
+      name: 'Driver (EN-KH)', price: 60, desc: 'English + Khmer, daily ride', steps: '🛒 Order → 📞 Contact → 📋 Agreement → 💵 Deposit → 🚗 Go', img: 'images/Untitled 9.png'
     },
     {
-      name: 'Bodyguard Driver (Armed)', price: 120, desc: 'Armed protection, trained', steps: '1. Online order\n2. Contact support\n3. Provide trip plan\n4. Sign agreement\n5. Pick-up service', img: 'images/司机保镖.png'
+      name: 'Bodyguard Driver (Armed)', price: 120, desc: 'Armed protection, trained', steps: '🛒 Order → 📞 Contact → 📋 Agreement → 💵 Deposit → 🚗 Go', img: 'images/Untitled 9.png'
     }
   ]
 };
@@ -128,18 +149,22 @@ const servicesData = {
 function renderServices() {
   const wrapper = document.getElementById('services');
   wrapper.innerHTML = '';
-  servicesData[currentLang].forEach((s) => {
+  servicesData[currentLang].forEach((s, index) => {
     const card = document.createElement('div');
     card.className = 'card';
     card.innerHTML = `
-      <div class="card-row">
-        <img src="${s.img}" alt="${s.name}">
-        <div class="card-text">
-          <h3>${s.name}</h3>
-          <p>${s.desc}</p>
-          <p class="price">${currentLang === 'zh' ? '费用：' : 'Price: '} $${s.price}/天</p>
-          <p>${currentLang === 'zh' ? '流程：' : 'Steps:'}<br>${s.steps.replaceAll('\n', '<br>')}</p>
-          <button class="button" onclick="callService('${s.name}', ${s.price}, \`${s.steps}\`)">${currentLang === 'zh' ? '呼叫服务' : 'Call Service'}</button>
+      <div class="card-two-column">
+        <div class="card-left">
+          <h3>🚘 ${s.name} <span class="badge">$${s.price}/天</span></h3>
+          <p><strong>${s.desc}</strong></p>
+          <label>${currentLang === 'zh' ? '租赁天数：' : 'Days:'}</label><br>
+          <input type="number" min="1" value="1" onchange="updateTotal(this, ${index}, ${s.price})">
+          <p class="total-price" id="total-${index}">${currentLang === 'zh' ? '总价：' : 'Total:'} $${s.price}</p>
+          <p class="flow">${s.steps}</p>
+          <button class="button" onclick="callService('${s.name}', ${s.price}, '${s.steps}', ${index})">${currentLang === 'zh' ? '联系司机租赁顾问' : 'Request This Driver'}</button>
+        </div>
+        <div class="card-right">
+          <img src="${s.img}" alt="${s.name}">
         </div>
       </div>
     `;
@@ -147,8 +172,15 @@ function renderServices() {
   });
 }
 
-function callService(name, price, steps) {
-  const msg = `🚘 ${currentLang === 'zh' ? '司机服务请求' : 'Driver Service Request'}\n服务: ${name}\n价格: $${price}/天\n${currentLang === 'zh' ? '流程' : 'Steps'}:\n${steps}`;
+function updateTotal(input, index, price) {
+  const days = Math.max(1, parseInt(input.value || '1'));
+  document.getElementById(`total-${index}`).innerText = `${currentLang === 'zh' ? '总价：' : 'Total:'} $${days * price}`;
+}
+
+function callService(name, price, steps, index) {
+  const days = parseInt(document.querySelectorAll('input[type=number]')[index].value || '1');
+  const total = days * price;
+  const msg = `🚘 ${currentLang === 'zh' ? '司机服务请求' : 'Driver Service Request'}\n服务: ${name}\n${currentLang === 'zh' ? '租赁天数' : 'Days'}: ${days}\n总价: $${total}\n${currentLang === 'zh' ? '流程' : 'Steps'}: ${steps}`;
   const link = `https://t.me/${telegramUsername}?text=${encodeURIComponent(msg)}`;
   if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
     Telegram.WebApp.openTelegramLink(link);
