@@ -3,128 +3,175 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>续签服务</title>
+  <title>一条龙签证与续签服务</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
   <style>
     body { font-family: 'Noto Sans SC', sans-serif; }
+    .icon { font-size: 1.2rem; vertical-align: middle; margin-right: 0.25rem; }
   </style>
 </head>
 <body class="bg-[#f9fafb] text-sm text-gray-800">
-<div class="bg-white rounded-2xl shadow-lg px-5 py-6 space-y-5 text-center">
-    <!-- 文件流程卡片 -->
-    <h2 class="text-lg font-extrabold text-black-900 flex items-center justify-center space-x-2">一条龙续签办理流程</h2>
+<div class="max-w-xl mx-auto bg-white rounded-2xl shadow-lg px-4 py-6 space-y-8">
 
-<div class="bg-orange-50 border border-blue-200 rounded-xl p-4 shadow-sm text-center">
-        <h3 class="text-base font-semibold text-gray-800 flex items-center justify-center space-x-2 mb-2">
-          <span>📌</span><span>办理流程：</span>
-        </h3>
-        <ol class="list-decimal list-inside pl-5 space-y-1 text-gray-700">
-          <li>线上下单</li>
-          <li>联系客服</li>
-          <li>提交材料</li>
-          <li>办理签证</li>
-          <li>送还护照</li>
-        </ol>
-      </div>
+  <!-- 入境服务模块 -->
+  <section>
+    <h2 class="text-xl font-extrabold text-blue-900 text-center border-b pb-2 mb-4">
+      <i class="ph ph-globe-hemisphere-west icon text-blue-500"></i> 入境签证服务
+    </h2>
 
-    <!-- 卡片组件（每一个签证） -->
-    <div class="bg-yellow-100 rounded-3xl shadow-xl flex p-4 space-x-4">
-      <div class="w-2/5">
-  <img src="images/passport.png" class="w-full h-full object-cover rounded-xl" />
-      </div>
-      <div class="flex-1 flex flex-col justify-between space-y-2 text-left">
-        <h2 class="text-lg font-extrabold text-yellow-900">续签1个月 (旅游/商务)</h2>
-        <ul class="text-sm text-yellow-700 space-y-1">
-          <li><b>资料：</b>护照原件</li>
-          <li><b>停留时间：</b>30天</li>
-          <li><b>未办劳工证：</b>可续签1次</li>
-          <li><b>逾期罚款：</b>$10/天</li>
-          <li><b>办理时间：</b>7天（加急2天）</li>
-          <li>✅ 提前15~20天申请</li>
-          <li>✅ [商务签 + 劳工证]</li>
-        </ul>
-        <button onclick="contactService('续签1个月')" class="w-full bg-yellow-600 text-white font-semibold py-2 rounded-full hover:bg-yellow-700 shadow-md">
-          💬 立即咨询此服务
-        </button>
-      </div>
+    <div class="bg-blue-100 rounded-xl shadow px-4 py-4 space-y-2">
+      <p class="text-base font-semibold text-blue-800">
+        <i class="ph ph-map-trifold icon"></i> 办理流程：
+      </p>
+      <p class="text-gray-700 text-sm">线上下单 → 联系客服提交资料 → 签订合同 → 缴纳押金 → 获取服务</p>
     </div>
 
-    <!-- 3个月卡片 -->
-    <div class="bg-blue-100 rounded-3xl shadow-xl flex p-4 space-x-4">
-      <div class="w-2/5">
-  <img src="images/passport.png" class="w-full h-full object-cover rounded-xl" />
-      </div>
-      <div class="flex-1 flex flex-col justify-between space-y-2 text-left">
-        <h2 class="text-lg font-extrabold text-blue-600">续签3个月商务签</h2>
-        <ul class="text-sm text-gray-700 space-y-1">
-          <li><b>资料：</b>护照原件</li>
-          <li><b>停留时间：</b>90天</li>
-          <li><b>未办劳工证：</b>可续签1次</li>
-          <li><b>办理时间：</b>7天（加急2天）</li>
-          <li><b>逾期罚款：</b>$10/天</li>
-          <li>✅ 提前20天办理劳工证</li>
-        </ul>
-        <button onclick="contactService('续签3个月')" class="w-full bg-blue-500 text-white font-semibold py-2 rounded-full hover:bg-blue-600 shadow-md">
-          💬 立即咨询此服务
-        </button>
-      </div>
+    <div class="bg-green-100 p-4 rounded-xl shadow-sm">
+      <p class="text-base font-semibold text-green-800">
+        <i class="ph ph-identification-card icon"></i> 所需材料：
+      </p>
+      <p class="text-gray-700 text-sm">护照首页照片、身份证、申请表等</p>
     </div>
 
-    <!-- 6个月卡片 -->
-    <div class="bg-green-100 rounded-3xl shadow-xl flex p-4 space-x-4">
-      <div class="w-2/5">
-  <img src="images/passport.png" class="w-full h-full object-cover rounded-xl" />
+    <div class="space-y-5 pt-2">
+      <div class="bg-yellow-100 rounded-2xl p-4 flex gap-4 shadow">
+        <img src="images/passport.png" class="w-20 h-20 object-cover rounded-xl">
+        <div class="flex-1 space-y-2">
+          <h3 class="text-lg font-bold text-yellow-700">
+            <i class="ph ph-suitcase-simple icon"></i> 入境单次旅游签
+          </h3>
+          <ul class="text-sm text-yellow-700 space-y-1">
+            <li><i class="ph ph-clock icon"></i>时间：1个工作日</li>
+            <li><i class="ph ph-arrow-clockwise icon"></i>可续签一次（延30天）</li>
+            <li><i class="ph ph-warning-circle icon"></i>逾期罚款：10$/天</li>
+            <li><i class="ph ph-currency-dollar icon"></i>费用：85$ + 带关45$</li>
+          </ul>
+          <button onclick="contactService('入境 - 单次旅游签')" class="w-full bg-yellow-600 text-white py-2 rounded-full font-semibold hover:bg-yellow-700">
+            💬 咨询此服务
+          </button>
+        </div>
       </div>
-      <div class="flex-1 flex flex-col justify-between space-y-2 text-left">
-        <h2 class="text-lg font-extrabold text-green-600">续签6个月商务签</h2>
-        <ul class="text-sm text-gray-700 space-y-1">
-          <li><b>资料：</b>护照原件</li>
-          <li><b>停留时间：</b>180天</li>
-          <li><b>未办劳工证：</b>可续签1次</li>
-          <li><b>逾期罚款：</b>$10/天</li>
-          <li>✅ 提前20天申请劳工证</li>
-        </ul>
-        <button onclick="contactService('续签6个月')" class="w-full bg-green-500 text-white font-semibold py-2 rounded-full hover:bg-green-600 shadow-md">
-          💬 立即咨询此服务
-        </button>
+
+      <div class="bg-yellow-100 rounded-2xl p-4 flex gap-4 shadow">
+        <img src="images/passport.png" class="w-20 h-20 object-cover rounded-xl">
+        <div class="flex-1 space-y-2">
+          <h3 class="text-lg font-bold text-yellow-700">
+            <i class="ph ph-briefcase icon"></i> 入境单次商务签
+          </h3>
+          <ul class="text-sm text-yellow-700 space-y-1">
+            <li><i class="ph ph-clock icon"></i>时间：1个工作日</li>
+            <li><i class="ph ph-arrow-clockwise icon"></i>可续签一次（6个月内免劳工证）</li>
+            <li><i class="ph ph-warning-circle icon"></i>逾期罚款：10$/天</li>
+            <li><i class="ph ph-currency-dollar icon"></i>费用：105$ + 带关45$</li>
+          </ul>
+          <button onclick="contactService('入境 - 单次商务签')" class="w-full bg-yellow-600 text-white py-2 rounded-full font-semibold hover:bg-yellow-700">
+            💬 咨询此服务
+          </button>
+        </div>
       </div>
     </div>
+  </section>
 
-    <!-- 1年卡片 -->
-    <div class="bg-pink-100 rounded-3xl shadow-xl flex p-4 space-x-4">
-      <div class="w-2/5">
-  <img src="images/passport.png" class="w-full h-full object-cover rounded-xl" />
+  <div class="border-t border-gray-300 my-6"></div>
+
+  <!-- 续签服务模块 -->
+  <section>
+    <h2 class="text-xl font-extrabold text-pink-900 text-center border-b pb-2 mb-4">
+      <i class="ph ph-repeat icon text-pink-500"></i> 续签服务
+    </h2>
+
+    <div class="bg-orange-50 border border-blue-200 rounded-xl p-4 shadow-sm text-left">
+      <h3 class="text-base font-semibold text-gray-800 mb-2">
+        <i class="ph ph-clipboard-text icon"></i> 办理流程：
+      </h3>
+      <ol class="list-decimal list-inside text-sm text-gray-700 space-y-1">
+        <li>线上下单</li>
+        <li>联系客服</li>
+        <li>提交材料</li>
+        <li>办理签证</li>
+        <li>送还护照</li>
+      </ol>
+    </div>
+
+    <div class="space-y-5 pt-2">
+      <div class="bg-yellow-100 rounded-xl shadow p-4 flex gap-4">
+        <img src="images/passport.png" class="w-20 h-20 object-cover rounded-xl">
+        <div class="flex-1 space-y-1">
+          <h3 class="text-lg font-bold text-yellow-900">
+            <i class="ph ph-calendar icon"></i> 续签1个月 (旅游/商务)
+          </h3>
+          <ul class="text-sm text-yellow-700 space-y-1">
+            <li><i class="ph ph-passport icon"></i>资料：护照原件</li>
+            <li><i class="ph ph-timer icon"></i>停留时间：30天</li>
+            <li><i class="ph ph-truck icon"></i>办理时间：7天（加急2天）</li>
+            <li><i class="ph ph-check-circle icon"></i>提前15~20天申请</li>
+          </ul>
+          <button onclick="contactService('续签1个月')" class="w-full bg-yellow-600 text-white py-2 rounded-full font-semibold hover:bg-yellow-700">💬 咨询</button>
+        </div>
       </div>
-      <div class="flex-1 flex flex-col justify-between space-y-2 text-left">
-        <h2 class="text-lg font-extrabold text-pink-600">续签1年商务签</h2>
-        <ul class="text-sm text-gray-700 space-y-1">
-          <li><b>资料：</b></li>
-          <li>🧳 护照原件</li>
-          <li>📷 当年劳工证照片</li>
-          <li><b>停留时间：</b>365天</li>
-          <li><b>条件：</b>仅限已持劳工证者</li>
-          <li><b>办理时间：</b>7天（加急2天）</li>
-          <li><b>逾期罚款：</b>$10/天</li>
-        </ul>
-        <button onclick="contactService('续签1年')" class="w-full bg-pink-500 text-white font-semibold py-2 rounded-full hover:bg-pink-600 shadow-md">
-          💬 立即咨询此服务
-        </button>
+
+      <div class="bg-blue-100 rounded-xl shadow p-4 flex gap-4">
+        <img src="images/passport.png" class="w-20 h-20 object-cover rounded-xl">
+        <div class="flex-1 space-y-1">
+          <h3 class="text-lg font-bold text-blue-600">
+            <i class="ph ph-calendar-check icon"></i> 续签3个月商务签
+          </h3>
+          <ul class="text-sm text-gray-700 space-y-1">
+            <li><i class="ph ph-passport icon"></i>资料：护照原件</li>
+            <li><i class="ph ph-timer icon"></i>停留时间：90天</li>
+            <li><i class="ph ph-truck icon"></i>办理时间：7天（加急2天）</li>
+            <li><i class="ph ph-check-circle icon"></i>提前20天办理劳工证</li>
+          </ul>
+          <button onclick="contactService('续签3个月')" class="w-full bg-blue-500 text-white py-2 rounded-full font-semibold hover:bg-blue-600">💬 咨询</button>
+        </div>
+      </div>
+
+      <div class="bg-green-100 rounded-xl shadow p-4 flex gap-4">
+        <img src="images/passport.png" class="w-20 h-20 object-cover rounded-xl">
+        <div class="flex-1 space-y-1">
+          <h3 class="text-lg font-bold text-green-600">
+            <i class="ph ph-calendar-x icon"></i> 续签6个月商务签
+          </h3>
+          <ul class="text-sm text-gray-700 space-y-1">
+            <li><i class="ph ph-passport icon"></i>资料：护照原件</li>
+            <li><i class="ph ph-timer icon"></i>停留时间：180天</li>
+            <li><i class="ph ph-truck icon"></i>办理时间：7天（加急2天）</li>
+            <li><i class="ph ph-check-circle icon"></i>提前20天申请劳工证</li>
+          </ul>
+          <button onclick="contactService('续签6个月')" class="w-full bg-green-500 text-white py-2 rounded-full font-semibold hover:bg-green-600">💬 咨询</button>
+        </div>
+      </div>
+
+      <div class="bg-pink-100 rounded-xl shadow p-4 flex gap-4">
+        <img src="images/passport.png" class="w-20 h-20 object-cover rounded-xl">
+        <div class="flex-1 space-y-1">
+          <h3 class="text-lg font-bold text-pink-600">
+            <i class="ph ph-calendar-blank icon"></i> 续签1年（需劳工证）
+          </h3>
+          <ul class="text-sm text-gray-700 space-y-1">
+            <li><i class="ph ph-passport icon"></i>资料：护照 + 劳工证照片</li>
+            <li><i class="ph ph-timer icon"></i>停留时间：365天</li>
+            <li><i class="ph ph-user-check icon"></i>条件：已持劳工证</li>
+            <li><i class="ph ph-truck icon"></i>办理时间：7天（加急2天）</li>
+          </ul>
+          <button onclick="contactService('续签1年')" class="w-full bg-pink-500 text-white py-2 rounded-full font-semibold hover:bg-pink-600">💬 咨询</button>
+        </div>
       </div>
     </div>
-  </div>
-  </div>
+  </section>
+</div>
 
-
-  <script>
-    function contactService(serviceName) {
-      const msg = `你好，我想咨询一下【${serviceName}】服务。`;
-      if (window.Telegram && Telegram.WebApp) {
-        Telegram.WebApp.sendData(msg);
-        Telegram.WebApp.close();
-      } else {
-        window.open(`https://t.me/LUODISWKF?text=${encodeURIComponent(msg)}`, '_blank');
-      }
+<script>
+  function contactService(serviceName) {
+    const msg = `你好，我想咨询一下【${serviceName}】服务。`;
+    if (window.Telegram && Telegram.WebApp) {
+      Telegram.WebApp.sendData(msg);
+      Telegram.WebApp.close();
+    } else {
+      window.open(`https://t.me/LUODISWKF?text=${encodeURIComponent(msg)}`, '_blank');
     }
-  </script>
+  }
+</script>
 </body>
 </html>
